@@ -1,5 +1,7 @@
-el auxiliar de laboratorio {{ $horarios[0]->asignado->nombre }} <br>
-en el dia {{ $horarios[0]->dia }} <br>
+@if(!$horarios->isEmpty())
+    el auxiliar de laboratorio {{ $horarios[0]->asignado->nombre }} <br>
+    en el dia {{ $horarios[0]->dia }} <br>
+@endif
 en la fecha {{ $fecha }} <br>
 
 @forelse ($horarios as $horario)
