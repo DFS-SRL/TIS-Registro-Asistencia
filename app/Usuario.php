@@ -12,4 +12,11 @@ class Usuario extends Model
      * @var string
      */
     protected $table = 'public.Usuario';
+
+    protected $primaryKey = 'codSis';
+    
+    public function getRouteKeyName()
+    {
+        return 'codSis';
+    }
 }

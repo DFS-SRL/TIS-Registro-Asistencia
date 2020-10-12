@@ -11,5 +11,21 @@ class HorarioClase extends Model
      *
      * @var string
      */
-    protected $table = 'public.publicHorario_clase';
+    protected $table = 'public.Horario_clase';
+
+    
+    public function materia()
+    {
+        return $this->belongsTo('App\Materia');
+    }
+
+    public function grupo()
+    {
+        return $this->belongsTo('App\grupo');
+    }
+    
+    public function asignado()
+    {
+        return $this->belongsTo('App\Usuario', 'asignado_codSis');
+    }
 }
