@@ -11,6 +11,11 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/auxiliar_docencia/formulario', 'FormularioAuxiliarDocenciaController')
+        -> name('auxiliar_docencia');
