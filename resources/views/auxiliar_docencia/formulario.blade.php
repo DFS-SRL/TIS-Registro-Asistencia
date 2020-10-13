@@ -30,6 +30,7 @@
                     <td>
                       <textarea name="observaciones" id="auxDocForm" cols="30" rows="10" placeholder="Observaciones"></textarea>
                     </td>
+                    
                     <td>Aqui va el permiso</td>
               </tr>
 
