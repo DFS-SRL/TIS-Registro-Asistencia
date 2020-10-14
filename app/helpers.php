@@ -24,3 +24,21 @@ function traducirDia($dia) {
     if ($dia == "Friday") return "VIERNES";
     throw new Exception("Se esperaba un dia de la semana en ingles");
 }
+
+// devuelve un arreglo con la fecha de cada dia de la semana actual
+function getFechasDeSemanaActual() {
+    $d;
+    if (date("l", strtotime("yesterday")) != "Sunday") {
+        $d = strtotime("last Monday");
+    }
+    else {
+        $d = strtotime("now");
+    }
+    return [
+        "LUNES" =>      date("d/m/Y", $d),
+        "MARTES" =>     date("d/m/Y", strtotime("+1 day", $d)),
+        "MIERCOLES" =>  date("d/m/Y", strtotime("+2 days", $d)),
+        "JUEVES" =>     date("d/m/Y", strtotime("+3 days", $d)),
+        "VIERNES" =>    date("d/m/Y", strtotime("+4 days", $d)),
+    ];
+}

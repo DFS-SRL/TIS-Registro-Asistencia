@@ -10,15 +10,18 @@ class PlanillaSemanalDocenteController extends Controller
 {
     public function obtenerPlanillaSemana(Usuario $user)
     {
-        // obteniendo horarios asignados en el dia actual
+        // obteniendo horarios asignados al docente actual
         $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
                                     ->where('rol_id', '=', 3)
                                     ->orderBy('dia', 'ASC') -> get();
 
-        // devolver vista de planillas diarias
+
+        $fechasDeSemana = getFechasDeSemanaActual();
+
+        // devolver vista de planillas semanales
         return view('planillas.semanalDocentePrueba', [
-            'fechaInicio' => getFecha(), // hard codeado
-            'fechaFinal' => getFecha(), // hard codeado
+            'fechaInicio' => $fechasDeSemana["LUNES"],
+            'fechaFinal' => $fechasDeSemana["VIERNES"],
             'horarios' => $horarios
         ]);
     }
