@@ -22,6 +22,7 @@ class PlanillaSemanalDocenteController extends Controller
         return view('planillas.semanalDocentePrueba', [
             'fechaInicio' => $fechasDeSemana["LUNES"],
             'fechaFinal' => $fechasDeSemana["VIERNES"],
+            'fechasDeSemana' => $fechasDeSemana,
             'horarios' => $horarios
         ]);
     }
