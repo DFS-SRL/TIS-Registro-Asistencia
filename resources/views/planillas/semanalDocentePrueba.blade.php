@@ -3,6 +3,7 @@
     codigo sis {{ $horarios[0]->asignado->codSis }}
 @endif
 Desde {{ $fechaInicio }} hasta {{$fechaFinal}} <br>
+Hoy es {{ getDia() }} <br>
 
 @forelse ($horarios as $horario)
     ----------------------<br>
