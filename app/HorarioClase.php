@@ -28,4 +28,9 @@ class HorarioClase extends Model
     {
         return $this->belongsTo('App\Usuario', 'asignado_codSis');
     }
+        
+    public function unidad()
+    {
+        return $this->belongsTo('App\Unidad');
+    }
 }

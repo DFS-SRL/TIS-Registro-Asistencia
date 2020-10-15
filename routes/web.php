@@ -17,4 +17,6 @@ Route::get('/', function () {
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia');
 
+Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@obtenerPlanillaSemana');
+
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteController@obtenerPlanillaSemana');
