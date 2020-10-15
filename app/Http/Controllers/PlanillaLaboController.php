@@ -26,19 +26,14 @@ class PlanillaLaboController extends Controller
 
     public function obtenerInformeSemanal(Unidad $unidad, $fecha)
     {
+        // obteniendo las fechas de la semana
         $fechas = getFechasDeSemanaEnFecha($fecha);
-        $resultado = [];
-        //echo $unidad->id . "    ";
-        foreach ($fechas as $key => $fecha) {
-            //echo $fecha . "   ";
-            $resultado = [
-                $resultado,
-                Asistencia::where('unidad_id', '=', $unidad->id)
-                            ->where('fecha', '=', $fecha)->get()
-            ];
-        }
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = Asistencia::where('fecha', '>=', $fechas[0])
+                                ->where('fecha', '<=', $fechas[5])->get();
+        
+        //devolver la vista de informe semanal de laboratorio
         return $resultado;
-        return call_user_func_array('array_merge', $resultado);
-        return getFechasDeSemanaEnFecha($fecha);
     }
 }

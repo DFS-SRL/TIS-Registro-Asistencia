@@ -37,6 +37,7 @@ function getFechasDeSemanaActual() {
         "MIERCOLES" =>  date("d/m/Y", strtotime("+2 days", $d)),
         "JUEVES" =>     date("d/m/Y", strtotime("+3 days", $d)),
         "VIERNES" =>    date("d/m/Y", strtotime("+4 days", $d)),
+        "SABADO" =>     date("d/m/Y", strtotime("+5 days", $d)),
     ];
 }
 
@@ -51,5 +52,6 @@ function getFechasDeSemanaEnFecha($fecha)
         date("Y-m-d", strtotime("+2 days", $d)),
         date("Y-m-d", strtotime("+3 days", $d)),
         date("Y-m-d", strtotime("+4 days", $d)),
+        date("Y-m-d", strtotime("+5 days", $d)),
     ];
 }
