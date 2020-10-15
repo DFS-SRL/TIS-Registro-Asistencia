@@ -12,4 +12,8 @@ class Asistencia extends Model
      * @var string
      */
     protected $table = 'public.Asistencia';
+    // desactivar solo si no usamos request()->all() y validado en los controllers
+    protected $guarded = [];
+    // quitar timestamps
+    public $timestamps = false;
 }

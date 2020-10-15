@@ -30,18 +30,26 @@ function traducirDia($dia) {
 // devuelve un arreglo con la fecha de cada dia de la semana actual
 function getFechasDeSemanaActual() {
     date_default_timezone_set('America/La_Paz');    
-    $d;
-    if (date("l", strtotime("yesterday")) != "Sunday") {
-        $d = strtotime("last Monday");
-    }
-    else {
-        $d = strtotime("now");
-    }
+    $d = strtotime("last monday", strtotime("tomorrow"));
     return [
         "LUNES" =>      date("d/m/Y", $d),
         "MARTES" =>     date("d/m/Y", strtotime("+1 day", $d)),
         "MIERCOLES" =>  date("d/m/Y", strtotime("+2 days", $d)),
         "JUEVES" =>     date("d/m/Y", strtotime("+3 days", $d)),
         "VIERNES" =>    date("d/m/Y", strtotime("+4 days", $d)),
+    ];
+}
+
+// fecha en formato Y-m-d amigable con URL y DB
+function getFechasDeSemanaEnFecha($fecha)
+{
+    date_default_timezone_set('America/La_Paz'); 
+    $d = strtotime("last monday", strtotime("+1 day", strtotime($fecha)));
+    return [
+        date("Y-m-d", $d),
+        date("Y-m-d", strtotime("+1 day", $d)),
+        date("Y-m-d", strtotime("+2 days", $d)),
+        date("Y-m-d", strtotime("+3 days", $d)),
+        date("Y-m-d", strtotime("+4 days", $d)),
     ];
 }
