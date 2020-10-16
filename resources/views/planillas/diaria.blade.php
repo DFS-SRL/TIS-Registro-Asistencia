@@ -11,9 +11,6 @@
         table, th, td {
          border: 1px solid black;
         }
-        #observacion, #actividad{
-            border:0;
-        }
     </style>
 </head>
 
@@ -51,8 +48,8 @@
                     @forelse ($horarios as $key => $horario)
                         <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                         <td>{{ $horario->materia->nombre }}</td>                    
-                        <td><input type="text" name="asistencias[{{ $key }}][tarea realizada]" id="actividad"></td>                    
-                        <td><input type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"></td>                    
+                        <td><textarea  name="asistencias[{{ $key }}][tarea realizada]" id="actividad"></textarea>
+                        <td><textarea name="asistencias[{{ $key }}][observaciones]" id="observacion"></textarea>                    
                         <td><div class="custom-control custom-switch">
                             <input type="checkbox" name="asistencias[{{ $key }}][asistencia]" class="custom-control-input" id="customSwitches"checked>
                             <label class="custom-control-label" for="customSwitches"></label>
