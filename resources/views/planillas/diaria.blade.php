@@ -11,6 +11,9 @@
         table, th, td {
          border: 1px solid black;
         }
+        input{
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -56,9 +59,9 @@
                         </div> </td>  
                         <td >
                             <select id="columnaPermiso" name="asistencias[{{ $key }}][horario_id]" value="{{ $horario->id }}" disabled>
-                                <option value="licencia">Licencia</option>
-                                <option value="licencia">Licencia</option>
-                                <option value="licencia">Licencia</option>
+                                <option value="LICENCIA">Licencia</option>
+                                <option value="BAJA_MEDICA">Baja medica</option>
+                                <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                             </select>
                         </td>  
                     </tr>
