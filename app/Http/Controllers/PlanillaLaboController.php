@@ -7,6 +7,7 @@ use App\Usuario;
 use App\Asistencia;
 use App\HorarioClase;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegistrarAsistenciaLaboRequest;
 
 class PlanillaLaboController extends Controller
 {
@@ -55,6 +56,25 @@ class PlanillaLaboController extends Controller
             'fechaFinal' => formatoFecha($fechas[5]),
             'unidad' => $unidad
         ]);
+    }
+
+    public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
+    {
+        $asistencias = $request->validated()['asistencias'];
+        //return $asistencias;
+        foreach ($asistencias as $key => $asistencia) {
+            error_log(implode("|", $asistencia));
+            $horario = HorarioClase::find($asistencia['horario_clase_id']);
+            $asistencia['fecha'] = getFechaF("Y-m-d");
+            $asistencia['nivel'] = 2;
+            $asistencia['usuario_codSis'] = $horario->asignado_codSis;
+            $asistencia['materia_id'] = $horario->materia_id;
+            $asistencia['grupo_id'] = $horario->grupo_id;
+            $asistencia['unidad_id'] = $horario->unidad_id;
+            error_log(implode("|", $asistencia));
+            Asistencia::create($asistencia);
+        }
+        return "listo!!!";
     }
 
 }

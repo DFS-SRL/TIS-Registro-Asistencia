@@ -16,6 +16,13 @@ function getFecha()
     //return "12/10/2020";
 }
 
+//devuelve la fecha actual con formato
+function getFechaF($formato)
+{
+    date_default_timezone_set('America/La_Paz');
+    return date("Y-m-d");
+}
+
 // formatea fecha de Y-m-d a d/m/Y
 function formatoFecha($fecha)
 {
