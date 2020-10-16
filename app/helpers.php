@@ -16,6 +16,12 @@ function getFecha()
     //return "12/10/2020";
 }
 
+// formatea fecha de Y-m-d a d/m/Y
+function formatoFecha($fecha)
+{
+    return date('d/m/Y', strtotime($fecha));
+}
+
 // traduce el dia de semana de ingles a español en mayusculas
 // si se puede, cambiar a __()
 function traducirDia($dia) {

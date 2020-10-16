@@ -16,4 +16,19 @@ class Asistencia extends Model
     protected $guarded = [];
     // quitar timestamps
     public $timestamps = false;
+
+    public function materia()
+    {
+        return $this->belongsTo('App\Materia');
+    }
+    
+    public function usuario()
+    {
+        return $this->belongsTo('App\Usuario');
+    }
+
+    public function horarioClase()
+    {
+        return $this->belongsTo('App\HorarioClase');
+    }
 }
