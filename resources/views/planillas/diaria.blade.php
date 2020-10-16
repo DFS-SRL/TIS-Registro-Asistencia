@@ -33,35 +33,40 @@
                 <p>FECHA: {{ $fecha }} </p>
             </div>
         </div>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col">HORARIO</th>
-                <th scope="col">CARGO</th>
-                <th scope="col">ACTIVIDAD REALIZADA</th>
-                <th scope="col">OBSERVACIONES</th>
-                <th scope="col">ASISTENCIA</th>
-                {{-- <th scope="col">PERMISO</th> --}}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                @forelse ($horarios as $horario)
-                    <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
-                    <td>{{ $horario->materia->nombre }}</td>                    
-                    <td><input type="text" name="" id="actividad"></td>                    
-                    <td><input type="text" name="" id="observacion"></td>                    
-                    <td><div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitches"checked>
-                        <label class="custom-control-label" for="customSwitches"></label>
-                      </div></label>
-                    </td>    
-                </tr>
-                @empty
-                    <p>NO HAY HORARIOS</p>
-                @endforelse
-            </tbody>
-            </table>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col">HORARIO</th>
+                    <th scope="col">CARGO</th>
+                    <th scope="col">ACTIVIDAD REALIZADA</th>
+                    <th scope="col">OBSERVACIONES</th>
+                    <th scope="col">ASISTENCIA</th>
+                    {{-- <th scope="col">PERMISO</th> --}}
+                    </tr>
+                </thead>
+                <form method="POST"  {{--action="{{ route('planillas.diaria') }}--}}">
+                @csrf
+                <tbody>
+                    <tr>
+                    @forelse ($horarios as $key => $horario)
+                        <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
+                        <td>{{ $horario->materia->nombre }}</td>                    
+                        <td><input type="text" name="asistencias[{{ $key }}][tarea realizada]" id="actividad"></td>                    
+                        <td><input type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"></td>                    
+                        <td><div class="custom-control custom-switch">
+                            <input type="checkbox" name="asistencias[{{ $key }}][asistencia]" class="custom-control-input" id="customSwitches"checked>
+                            <label class="custom-control-label" for="customSwitches"></label>
+                        </div></label>
+                        </td>    
+                    </tr>
+                    @empty
+                        <p>NO HAY HORARIOS</p>
+                    @endforelse
+                </tbody>
+                </table>  
+                <button type="button"  class="btn btn-success">Enviar</button>        
+                </form>
+
     </div>
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
