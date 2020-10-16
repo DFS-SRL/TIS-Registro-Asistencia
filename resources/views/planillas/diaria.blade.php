@@ -38,7 +38,7 @@
                     <th scope="col">ACTIVIDAD REALIZADA</th>
                     <th scope="col">OBSERVACIONES</th>
                     <th scope="col">ASISTENCIA</th>
-                    {{-- <th scope="col">PERMISO</th> --}}
+                    <th scope="col">PERMISO</th>
                     </tr>
                 </thead>
                 <form method="POST"  {{--action="{{ route('planillas.diaria') }}--}}">
@@ -48,25 +48,43 @@
                     @forelse ($horarios as $key => $horario)
                         <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                         <td>{{ $horario->materia->nombre }}</td>                    
-                        <td><textarea  name="asistencias[{{ $key }}][tarea realizada]" id="actividad"></textarea>
-                        <td><textarea name="asistencias[{{ $key }}][observaciones]" id="observacion"></textarea>                    
+                        <td><input  class="form-control"  type="text"name="asistencias[{{ $key }}][tarea realizada]" id="actividad"></input></td> 
+                        <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"></input></td>                     
                         <td><div class="custom-control custom-switch">
-                            <input type="checkbox" name="asistencias[{{ $key }}][asistencia]" class="custom-control-input" id="customSwitches"checked>
-                            <label class="custom-control-label" for="customSwitches"></label>
-                        </div></label>
-                        </td>    
+                            <input onchange="habilitarPermiso()" type="checkbox" name="asistencias[{{ $key }}][asistencia]" class="custom-control-input" id="asistencia"checked>
+                            <label class="custom-control-label" for="asistencia"></label>
+                        </div> </td>  
+                        <td >
+                            <select id="columnaPermiso" name="asistencias[{{ $key }}][horario_id]" value="{{ $horario->id }}" disabled>
+                                <option value="licencia">Licencia</option>
+                                <option value="licencia">Licencia</option>
+                                <option value="licencia">Licencia</option>
+                            </select>
+                        </td>  
                     </tr>
                     @empty
                         <p>NO HAY HORARIOS</p>
                     @endforelse
                 </tbody>
                 </table>  
-                <button type="button"  class="btn btn-success">Enviar</button>        
+                <button type="button"  class="btn btn-success">SUBIR</button>        
                 </form>
 
     </div>
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
+<script>
+    function habilitarPermiso() {
+      var checkBox = document.getElementById("asistencia");
+      var columna = document.getElementById("columnaPermiso");
+      if (checkBox.checked == false){
+        columna.disabled = false;
+      } else {
+        columna.disabled = true;
+      }
+    }
+</script>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 </html>
