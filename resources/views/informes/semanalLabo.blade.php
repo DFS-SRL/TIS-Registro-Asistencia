@@ -1,3 +1,8 @@
+asdf <br>
+
+Informe semanal de asistencia <br>
+{{ $unidad->facultad }} / {{ $unidad->nombre }} <br>
+
 Desde {{ $fechaInicio }} hasta {{$fechaFinal}} <br>
 
 @forelse ($asistencias as $asistencia)
