@@ -33,4 +33,5 @@ class HorarioClase extends Model
     {
         return $this->belongsTo('App\Unidad');
     }
+    
 }

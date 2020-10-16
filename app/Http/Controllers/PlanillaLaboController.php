@@ -60,10 +60,11 @@ class PlanillaLaboController extends Controller
 
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
+        // validar
         $asistencias = $request->validated()['asistencias'];
-        //return $asistencias;
+
+        // recorrer asistencias colocando datos extra y almacenando en bd
         foreach ($asistencias as $key => $asistencia) {
-            error_log(implode("|", $asistencia));
             $horario = HorarioClase::find($asistencia['horario_clase_id']);
             $asistencia['fecha'] = getFechaF("Y-m-d");
             $asistencia['nivel'] = 2;
@@ -71,10 +72,10 @@ class PlanillaLaboController extends Controller
             $asistencia['materia_id'] = $horario->materia_id;
             $asistencia['grupo_id'] = $horario->grupo_id;
             $asistencia['unidad_id'] = $horario->unidad_id;
-            error_log(implode("|", $asistencia));
             Asistencia::create($asistencia);
         }
-        return "listo!!!";
+        
+        return "asistencias registradas!!!";
     }
 
 }
