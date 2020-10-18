@@ -36,7 +36,7 @@ class PlanillaLaboController extends Controller
                                 
         // ordenar asistencias segun los criterios establecidos
         $asistencias = $asistencias->sort(function(Asistencia $a, Asistencia $b) {
-            $res;
+            $res = null;
             if($a->materia->nombre == $b->materia->nombre)
             {
                 if($a->usuario->nombre == $b->usuario->nombre)

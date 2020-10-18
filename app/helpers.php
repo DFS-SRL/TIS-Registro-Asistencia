@@ -3,8 +3,8 @@
 // devuelve el dia actual
 function getDia()
 {
-    return traducirDia( date("l") );
-    //return 'MARTES';
+    //return traducirDia( date("l") );
+    return 'MARTES';
 }
 
 // devuelve la fecha actual
