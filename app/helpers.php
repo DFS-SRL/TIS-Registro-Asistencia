@@ -3,7 +3,6 @@
 // devuelve el dia actual
 function getDia()
 {
-    date_default_timezone_set('America/La_Paz');
     return traducirDia( date("l") );
     //return 'MARTES';
 }
@@ -11,7 +10,6 @@ function getDia()
 // devuelve la fecha actual
 function getFecha()
 {
-    date_default_timezone_set('America/La_Paz');
     return date("d/m/Y");
     //return "12/10/2020";
 }
@@ -19,7 +17,6 @@ function getFecha()
 //devuelve la fecha actual con formato
 function getFechaF($formato)
 {
-    date_default_timezone_set('America/La_Paz');
     return date("Y-m-d");
 }
 
@@ -41,8 +38,7 @@ function traducirDia($dia) {
 }
 
 // devuelve un arreglo con la fecha de cada dia de la semana actual
-function getFechasDeSemanaActual() {
-    date_default_timezone_set('America/La_Paz');    
+function getFechasDeSemanaActual() {  
     $d = strtotime("last monday", strtotime("tomorrow"));
     return [
         "LUNES" =>      date("d/m/Y", $d),
@@ -57,7 +53,6 @@ function getFechasDeSemanaActual() {
 // fecha en formato Y-m-d amigable con URL y DB
 function getFechasDeSemanaEnFecha($fecha)
 {
-    date_default_timezone_set('America/La_Paz'); 
     $d = strtotime("last monday", strtotime("+1 day", strtotime($fecha)));
     return [
         date("Y-m-d", $d),
