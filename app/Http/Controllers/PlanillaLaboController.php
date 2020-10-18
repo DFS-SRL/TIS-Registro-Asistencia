@@ -7,6 +7,7 @@ use App\Usuario;
 use App\Asistencia;
 use App\HorarioClase;
 use Illuminate\Http\Request;
+use App\helpers\AsistenciaHelper;
 use App\Http\Requests\RegistrarAsistenciaLaboRequest;
 
 class PlanillaLaboController extends Controller
@@ -31,11 +32,10 @@ class PlanillaLaboController extends Controller
         $fechas = getFechasDeSemanaEnFecha($fecha);
 
         // obteniendo asistencias correspondientes a fechas
-        $asistencias = Asistencia::where('fecha', '>=', $fechas[0])
-                                ->where('fecha', '<=', $fechas[5])->get();
+        $asistencias = AsistenciaHelper::obtenerAsistencias($unidad, 1, $fechas[0], $fechas[5]);
                                 
         // ordenar asistencias segun los criterios establecidos
-        $asistencias = $asistencias->sort(function($a, $b) {
+        $asistencias = $asistencias->sort(function(Asistencia $a, Asistencia $b) {
             $res;
             if($a->materia->nombre == $b->materia->nombre)
             {
