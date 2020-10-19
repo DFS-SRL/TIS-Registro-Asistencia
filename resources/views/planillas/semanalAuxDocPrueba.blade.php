@@ -1,22 +1,3 @@
-{{-- @if(!$horarios->isEmpty())
-    el auxiliar {{ $horarios[0]->asignado->nombre }} <br>
-    codigo sis {{ $horarios[0]->asignado->codSis }}
-@endif
-Desde {{ $fechaInicio }} hasta {{$fechaFinal}} <br>
-
-@forelse ($horarios as $horario)
-    ----------------------<br>
-    fecha: {{ $fechasDeSemana[$horario->dia] }} <br>
-    dia: {{ $horario->dia }} <br>
-    a las: {{ $horario->hora_inicio }} <br>    
-    hasta las: {{ $horario->hora_fin }} <br>
-    grupo:   {{ $horario->grupo->nombre }} <br>
-    materia: {{ $horario->materia->nombre }} <br>
-    unidad: {{ $horario->unidad->nombre }} <br>
-@empty
-    no hay horarios :v
-@endforelse --}}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -74,20 +55,26 @@ Desde {{ $fechaInicio }} hasta {{$fechaFinal}} <br>
                                 <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                                 <td>{{ $horario->grupo->nombre }}</td>
                                 <td>{{ $horario->materia->nombre }}</td>                    
-                                <td><input  class="form-control"  type="text"name="asistencias[{{ $key }}][actividad_realizada]" id="actividad"/></td> 
+                                <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][actividad_realizada]" id="actividad"/></td> 
                                 <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"/></td>                     
-                                <td><div class="custom-control custom-switch">
-                                    <input onchange="habilitarPermiso()" type="checkbox" name="asistencias[{{ $key }}][asistencia]" class="custom-control-input" id="asistencia"checked/>
-                                    <label class="custom-control-label" for="asistencia"></label>
-                                </div> </td>  
+                                <td>
+                                    <div class="custom-control custom-switch">
+                                        <input onchange="habilitarPermiso('{!! $horario->materia->nombre !!}','{!! $horario->grupo->nombre !!}')" type="checkbox" name="asistencias[{{ $key }}][asistencia]" 
+                                        class="custom-control-input" id="asistencia-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}"checked/>
+
+                                        <label class="custom-control-label" for="asistencia-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}"></label>
+                                    </div> 
+                                </td>  
                                 <td >
-                                    <select id="columnaPermiso" name="asistencias[{{ $key }}][permiso]" disabled>
+                                    <select id="columnaPermiso-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}" name="asistencias[{{ $key }}][permiso]" disabled>
                                         <option value="LICENCIA">Licencia</option>
                                         <option value="BAJA_MEDICA">Baja medica</option>
                                         <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                     </select>
                                 </td>  
                             </tr>
+                            <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
+                            
                             <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
                         @empty
                             <p>NO HAY HORARIOS</p>
@@ -100,18 +87,19 @@ Desde {{ $fechaInicio }} hasta {{$fechaFinal}} <br>
     </div>
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 <script>
-    function habilitarPermiso() {
-        var checkBox = document.getElementById("asistencia");
-        var columna = document.getElementById("columnaPermiso");
+    function habilitarPermiso(a, b) {
+        var checkBox = document.getElementById("asistencia-"+a+"-"+b);
+        var columna = document.getElementById("columnaPermiso-"+a+"-"+b);
         if (checkBox.checked == false){
             columna.disabled = false;
         } else {
             columna.disabled = true;
+            // columna.value = "LICENCIA";
         }
     }
 </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 </html>
