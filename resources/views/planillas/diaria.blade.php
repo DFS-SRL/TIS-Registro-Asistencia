@@ -11,27 +11,24 @@
         table, th, td {
          border: 1px solid black;
         }
-        input{
-            text-align: center;
-        }
     </style>
 </head>
 
 
 <body>
+    @if(!$horarios->isEmpty())
     <div class="container">
-        <div class="row">
-            <div class="col-8">
-                <h5>PLANILLA DIARIA DE ASISTENCIA</h5>
-                @if(!$horarios->isEmpty())
+        <div class="row">            
+            <div class="col-8"> 
+               <h5>PLANILLA DIARIA DE ASISTENCIA</h5>
                     <p>NOMBRE AUXILIAR LABORATORIO: {{ $horarios[0]->asignado->nombre }}</p>
                     <p>CODSIS: {{ $horarios[0]->asignado_codSis }} </p>                
-                @endif              
+                          
             </div>
             <div class="col-4">
                 <p>DIA: {{ $horarios[0]->dia }} </p>
                 <p>FECHA: {{ $fecha }} </p>
-            </div>
+            </div> 
         </div>
             <table class="table">
                 <thead class="thead-dark">
@@ -73,8 +70,10 @@
                     </table>  
                     <button class="btn btn-success">SUBIR</button>        
                 </form>
-
     </div>
+    @else
+        USTED NO ES AUXILIAR DE LABORATORIO
+    @endif
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
 <script>
