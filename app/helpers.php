@@ -3,8 +3,8 @@
 // devuelve el dia actual
 function getDia()
 {
-    //return traducirDia( date("l") );
-    return 'MARTES';
+    return traducirDia( date("l") );
+    //return 'MARTES';
 }
 
 // devuelve la fecha actual
@@ -34,6 +34,8 @@ function traducirDia($dia) {
     if ($dia == "Wednesday") return "MIERCOLES";
     if ($dia == "Thursday") return "JUEVES";
     if ($dia == "Friday") return "VIERNES";
+    if ($dia == "Saturday") return "SABADO";
+    if ($dia == "Sunday") return "DOMINGO";
     throw new Exception("Se esperaba un dia de la semana en ingles");
 }
 
