@@ -51,7 +51,7 @@
                                 <td><input  class="form-control"  type="text"name="asistencias[{{ $key }}][actividad_realizada]" id="actividad"/></td> 
                                 <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"/></td>                     
                                 <td><div class="custom-control custom-switch">
-                                    <input onchange="habilitarPermiso()" type="checkbox" name="asistencias[{{ $key }}][asistencia]" class="custom-control-input" id="asistencia"checked/>
+                                    <input onchange="habilitarPermiso()" type="checkbox" class="custom-control-input" id="asistencia"checked/>
                                     <label class="custom-control-label" for="asistencia"></label>
                                 </div> </td>  
                                 <td >
@@ -62,9 +62,9 @@
                                     </select>
                                 </td>  
                             </tr>   
-                            <input id='asistenciaFalse' type='hidden' value='false' name="asistencias[{{ $key }}][asistencia]">
+                            <input id='asistenciaFalse' type='hidden' name="asistencias[{{ $key }}][asistencia]">
                             <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
-                            
+                        @empty    
                             <p>NO HAY HORARIOS</p>
                         @endforelse
                     </tbody>
@@ -78,14 +78,17 @@
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
 <script>
+    let asistencia = document.getElementById('asistenciaFalse');
+    asistencia.value = true;
     function habilitarPermiso() {
         var checkBox = document.getElementById("asistencia");
         var columna = document.getElementById("columnaPermiso");
         if (checkBox.checked == false){
             columna.disabled = false;
+            asistencia.value= false;
         } else {
             columna.disabled = true;
-            document.getElementById('asistenciaFalse').disabled = true;
+            asistencia.value= true;
         }
     }
 </script>
