@@ -51,18 +51,18 @@
                                 <td><input  class="form-control"  type="text"name="asistencias[{{ $key }}][actividad_realizada]" id="actividad"/></td> 
                                 <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"/></td>                     
                                 <td><div class="custom-control custom-switch">
-                                    <input onchange="habilitarPermiso()" type="checkbox" class="custom-control-input" id="asistencia"checked/>
-                                    <label class="custom-control-label" for="asistencia"></label>
+                                    <input onchange="habilitarPermiso({!!$key!!})" type="checkbox" class="custom-control-input" id="asistencia{{$key}}"checked/>
+                                <label class="custom-control-label" for="asistencia{{$key}}"></label>
                                 </div> </td>  
                                 <td >
-                                    <select id="columnaPermiso" name="asistencias[{{ $key }}][permiso]" disabled>
+                                <select id="columnaPermiso{{$key}}" name="asistencias[{{ $key }}][permiso]" disabled>
                                         <option value="LICENCIA">Licencia</option>
                                         <option value="BAJA_MEDICA">Baja medica</option>
                                         <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                     </select>
                                 </td>  
                             </tr>   
-                            <input id='asistenciaFalse' type='hidden' name="asistencias[{{ $key }}][asistencia]">
+                            <input id='asistenciaFalse{{$key}}' type='hidden' name="asistencias[{{ $key }}][asistencia]">
                             <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
                         @empty    
                             <p>NO HAY HORARIOS</p>
@@ -78,17 +78,13 @@
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
 <script>
-    let asistencia = document.getElementById('asistenciaFalse');
-    asistencia.value = true;
-    function habilitarPermiso() {
-        var checkBox = document.getElementById("asistencia");
-        var columna = document.getElementById("columnaPermiso");
-        if (checkBox.checked == false){
-            columna.disabled = false;
-            asistencia.value= false;
+    function habilitarPermiso(id) {
+        if (document.getElementById("asistencia"+id).checked == false){
+            document.getElementById("columnaPermiso"+id).disabled = false;
+            document.getElementById("asistenciaFalse"+id).value= false;
         } else {
-            columna.disabled = true;
-            asistencia.value= true;
+            document.getElementById("columnaPermiso"+id).disabled = true;
+            document.getElementById("asistenciaFalse"+id).value= true;
         }
     }
 </script>
