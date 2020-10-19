@@ -73,10 +73,6 @@
                                     </select>
                                 </td>  
                             </tr>
-                            
-                            <input id='asistenciaFalse' type='hidden' value='false' name="asistencias[{{ $key }}][asistencia]">
-                            <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
-                            
                             <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
                         @empty
                             <p>NO HAY HORARIOS</p>
@@ -100,10 +96,7 @@
             columna.disabled = false;
         } else {
             columna.disabled = true;
-            document.getElementById('asistenciaFalse').disabled = true;
         }
-    }
-    if(!document.getElementById("asistencia").checked) {
     }
 </script>
 </html>
