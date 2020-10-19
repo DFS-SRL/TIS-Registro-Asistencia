@@ -1,0 +1,16 @@
+body {
+  background-color: #404a44;
+}
+.textoBlanco{
+  color: white;
+}
+th{
+  background-color: #8e928e;
+}
+td{
+  background-color: white;
+}
+textarea{
+  width:200px; 
+  height:100px;
+}
