@@ -39,20 +39,6 @@ class GrupoController extends Controller
                             -> select('Usuario.codSis', 'Usuario.nombre')
                             -> get() -> first();
 
-        return [$horarios, $docente, $auxiliar];
-
-        /* // Obtener auxiliar asignado a la materia
-        $auxiliar = Usuario::with('horarioclase') 
-                                ->where('grupo_id', '=', $grupo->id)
-                                ->where('rol_id', '=', 3)
-                                ->get();
-
-        return "asdfas";
-        $datos = [
-            "horarios" => $horarios,
-            "docente" => $docente,
-            "auxiliar" => $auxiliar
-        ];
-        return $datos; */
+        return [$grupo, $horarios, $docente, $auxiliar];
     }
 }
