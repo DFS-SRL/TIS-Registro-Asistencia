@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('/provicional/menu');
 });
 
-Route::get('/parteMensual/{unidad}', 'ParteMensualController@obtenerParteAuxiliares');
+Route::get('/parteMensual/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia');
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
