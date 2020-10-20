@@ -28,6 +28,7 @@ Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@
 Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteController@obtenerPlanillaSemana');
+Route::post('/planillas/semanal/docente', 'PlanillaSemanalDocenteController@registrarAsistencia')->name('planillas.semanalDoc');
 
 Route::get('/docentes','ProvController\Menu@docentes');
 Route::get('/auxiliares','ProvController\Menu@auxiliares');
