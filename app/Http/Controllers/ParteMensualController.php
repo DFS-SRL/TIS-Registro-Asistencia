@@ -16,7 +16,7 @@ class ParteMensualController extends Controller
     public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
     {
         // obtener fechas inicio y fin del mes
-        $t = Carbon::now();
+        $t = $this->tiempoFecha($fecha);
         if($t->day <= 15)
             $t->subMonth();
         $t->day = 15;
@@ -29,19 +29,16 @@ class ParteMensualController extends Controller
         $auxLabo = $this->usuariosRolUnidad(1, $unidad);
         $auxDoc = $this->usuariosRolUnidad(2, $unidad);
 
-        // inicializar tiempos para horas pagables
-        $tiempoInicio = $this->tiempoCero();
-        $totPagables = $this->tiempoCero();
-        $totNoPagables = $this->tiempoCero();
+        // inicializar horas pagables en 0
+        $totPagables = 0;
+        $totNoPagables = 0;
 
         // obtener partes 
         $parteLabo = $this->parteMensual($auxLabo, $unidad, 1, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
-        $parteDoc = $this->parteMensual($auxDoc, $unidad, 1, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
-        
-        // calcular horas pagables y no pagables totales
-        $totPagables = $totPagables->floatDiffInHours($tiempoInicio);
-        $totNoPagables = $totNoPagables->floatDiffInHours($tiempoInicio);
-        
+        $parteDoc = $this->parteMensual($auxDoc, $unidad, 2, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
+
+        $parteCombinado = $this->combinar($parteLabo, $parteDoc);
+
         // devolver la vista de parte mensual de auxiliares
         return view('parteMensual.auxiliares', [
             'unidad' => $unidad,
@@ -50,35 +47,74 @@ class ParteMensualController extends Controller
             'gestion' => $t->year,
             'parteLabo' => $parteLabo,
             'parteDoc' => $parteDoc,
+            'parteCombinado' => $parteCombinado,
             'totPagables' => $totPagables,
             'totNoPagables' => $totNoPagables
         ]);
     }
 
     // obtiene parte mensual (pagable y no pagable se van sumando y se recupera pase por referencia)
-    private function parteMensual($usuarios, $unidad, $rol, $fechaInicio, $fechaFin, Carbon $pagable, Carbon $noPagable)
+    private function parteMensual($usuarios, $unidad, $rol, $fechaInicio, $fechaFin, &$pagable, &$noPagable)
     {
         $parte = [];
+        $periodo = $rol == 1 ? 60 : 45;
         foreach ($usuarios as $key => $usuario) {
-            $asistencias = AsistenciaHelper::obtenerAsistenciasUsuario($unidad, 1, $fechaInicio, $fechaFin, $usuario);
+            $asistencias = AsistenciaHelper::obtenerAsistenciasUsuario($unidad, $rol, $fechaInicio, $fechaFin, $usuario);
             $reporte = [
                 'codSis' => $usuario->codSis,
                 'nombre' => $usuario->nombre,
-                'cargaHoria' => 0.0,
+                'cargaHoraria' => 0.0,
                 'asistidas' => 0.0,
                 'falta' => 0.0,
-                'licencia' => 0.0,
-                'baja' => 0.0,
-                'declaratoria' => 0.0,
-                'pagables' => 0.0,
+                'LICENCIA' => 0.0,
+                'BAJA_MEDICA' => 0.0,
+                'DECLARATORIA_EN_COMISION' => 0.0,
+                'pagable' => 0.0,
                 'noPagable' => 0.0
             ];
             foreach ($asistencias as $key => $asistencia) {
-                
+                $inicio = $asistencia->horarioClase->hora_inicio;
+                $fin = $asistencia->horarioClase->hora_fin;
+                $horas = $this->tiempoHora($inicio)->diffInMinutes($this->tiempoHora($fin)) / $periodo;
+                $reporte['cargaHoraria'] += $horas;
+                if($asistencia->asistencia)
+                {
+                    $reporte['pagable'] += $horas;
+                    $reporte['asistidas'] += $horas;
+                }
+                else
+                {
+                    if($asistencia->permiso && $asistencia->permiso == 'DECLARATORIA_EN_COMISION')
+                        $reporte['pagable'] += $horas;
+                    else
+                        $reporte['noPagable'] += $horas;
+                    if($asistencia->permiso)
+                        $reporte[$asistencia->permiso] += $horas;
+                    else
+                        $reporte['falta'] += $horas;
+                }
             }
-            array_push($parte, $reporte);
+            $pagable += $reporte['pagable'];
+            $noPagable += $reporte['noPagable'];
+            $parte[$usuario->codSis] = $reporte;
         }
         return $parte;
+    }
+
+    private function combinar($parte1, $parte2)
+    {
+        foreach ($parte2 as $key => $reporte) {
+            if(array_key_exists($key, $parte1))
+            {
+                foreach ($reporte as $key1 => $value)
+                    if($key1 != 'codSis' && $key1 != 'nombre')
+                        $parte1[$key][$key1] += $value;
+            }
+            else
+                $parte1[$key] = $reporte;
+        }
+        usort($parte1, function ($a, $b) { return $a['nombre'] < $b['nombre'] ? -1 : 1; });
+        return $parte1;
     }
 
     // da usuarios de cierto rol que pertenecen a cierta unidad
@@ -89,6 +125,7 @@ class ParteMensualController extends Controller
                         ->join('Usuario_pertenece_unidad', 'Usuario.codSis', '=', 'Usuario_pertenece_unidad.usuario_codSis')
                         ->where('Usuario_pertenece_unidad.unidad_id', '=', $unidad->id)
                         ->select('Usuario.codSis', 'Usuario.nombre')
+                        ->orderBy('Usuario.nombre')
                         ->get();
     }
 
@@ -98,4 +135,15 @@ class ParteMensualController extends Controller
         return Carbon::createFromFormat('d/m/Y H:i:s',  '01/01/2000 00:00:00');
     }
 
+    // tiempo dado una hora
+    private function tiempoHora($hora)
+    {
+        return Carbon::createFromFormat('d/m/Y H:i:s',  '01/01/2000 ' . $hora);
+    }
+
+    // tiempo dado una fecha
+    private function tiempoHora($fecha)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
+    }    
 }

@@ -22,5 +22,14 @@ auxiliares de docencia <br>
 @endforeach
 
 <br><br>
+combinado <br>
+@foreach ($parteCombinado as $reporte)
+    @foreach ($reporte as $key => $value)
+        {{ $key . " => " . $value . " || "}}
+    @endforeach
+    <br>
+@endforeach
+
+<br><br>
 tot pagables: {{ $totPagables }} <br>
 tot no pagables: {{ $totNoPagables }} <br>
