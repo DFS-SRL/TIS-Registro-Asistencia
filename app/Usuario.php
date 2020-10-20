@@ -19,4 +19,14 @@ class Usuario extends Model
     {
         return 'codSis';
     }
+
+    public function rol()
+    {
+        return $this->belongsTo('App\Rol');
+    }
+
+    public function unidad()
+    {
+        return $this->belongsTo('App\Unidad');
+    }
 }
