@@ -142,7 +142,7 @@ class ParteMensualController extends Controller
     }
 
     // tiempo dado una fecha
-    private function tiempoHora($fecha)
+    private function tiempoFecha($fecha)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
     }    
