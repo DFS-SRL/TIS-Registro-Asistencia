@@ -13,14 +13,14 @@ class PlanillaSemanalAuxDocController extends Controller
         // obteniendo horarios asignados al auxiliar actual
         $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
                                     ->where('rol_id', '=', 2)
-                                    ->orderBy('dia', 'ASC')
-                                    ->orderBy('hora_inicio', 'ASC')
+                                    ->orderBy('dia', 'DESC')
+                                    ->orderBy('hora_inicio', 'DESC')
                                     -> get();
 
 
+        $horarios =$horarios->groupBy('unidad_id');
         $fechasDeSemana = getFechasDeSemanaActual();
 
-        // echo($horarios);
         // devolver vista de planillas semanales
         return view('planillas.semanalAuxDoc', [
             'fechaInicio' => $fechasDeSemana["LUNES"],
