@@ -16,16 +16,35 @@ class PlanillaSemanalDocenteController extends Controller
         // los horarios que tiene el docente en cada departamento
         
         // El resultado sera un arreglo de arreglos de HorarioClase
-        $horariosPorDpto = [];
-        $departamentos = Unidad::all();
+        // $horariosPorDpto = [];
+        // $departamentos = Unidad::all();
 
-        foreach ($departamentos as $dpto) {
-            $horarios = HorarioClase::where('asignado_codSis', '=', $user->codSis)-> where('rol_id', '=', 3)-> where('unidad_id', '=', $dpto->id)-> orderBy('dia', 'ASC')-> get();
-            if (!$horarios->isEmpty())
-                array_push($horariosPorDpto, $horarios);
-        }
+        // foreach ($departamentos as $dpto) {
+        //     $horarios = HorarioClase::where('asignado_codSis', '=', $user->codSis)-> where('rol_id', '=', 3)-> where('unidad_id', '=', $dpto->id)-> orderBy('dia', 'ASC')-> get();
+        //     if (!$horarios->isEmpty())
+        //         array_push($horariosPorDpto, $horarios);
+        // }
 
-        //return $horariosPorDpto;
+        // //return $horariosPorDpto;
+        // $fechasDeSemana = getFechasDeSemanaActual();
+
+        // // devolver vista de planillas semanales
+        // return view('planillas.semanalDocente', [
+        //     'fechaInicio' => $fechasDeSemana["LUNES"],
+        //     'fechaFinal' => $fechasDeSemana["VIERNES"],
+        //     'fechasDeSemana' => $fechasDeSemana,
+        //     'horarios' => $horariosPorDpto
+        // ]);
+        $codigoSis = $user->codSis;
+        $nombre = Usuario::where('codSis','=',$codigoSis)->value('nombre');
+
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
+                                    ->where('rol_id', '=', 3)
+                                    ->orderBy('dia', 'ASC')
+                                    ->get();
+
+
+        $horarios =$horarios->groupBy('unidad_id');
         $fechasDeSemana = getFechasDeSemanaActual();
 
         // devolver vista de planillas semanales
@@ -33,7 +52,9 @@ class PlanillaSemanalDocenteController extends Controller
             'fechaInicio' => $fechasDeSemana["LUNES"],
             'fechaFinal' => $fechasDeSemana["VIERNES"],
             'fechasDeSemana' => $fechasDeSemana,
-            'horarios' => $horariosPorDpto
+            'horarios' => $horarios,
+            'nombre' => $nombre,
+            'codSis' => $codigoSis
         ]);
     }
 }
