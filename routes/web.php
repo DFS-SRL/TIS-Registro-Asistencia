@@ -17,10 +17,12 @@ Route::get('/', function () {
     return view('/provicional/menu');
 });
 
-Route::get('/parteMensual/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
+Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
+Route::get('/parteMensual/docentes/{unidad}/{fecha}', 'ParteMensualController@obtenerParteDocentes');
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia');
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
+
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
 Route::get('/informe/labo/{unidad}/{fecha}', 'PlanillaLaboController@obtenerInformeSemanal');
 
