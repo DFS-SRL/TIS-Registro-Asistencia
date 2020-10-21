@@ -11,10 +11,10 @@ class PlanillaSemanalAuxDocController extends Controller
     public function obtenerPlanillaSemana(Usuario $user)
     {
         // obteniendo horarios asignados al auxiliar actual
-        $nombre = Usuario::where('codSis','=',$user->codSis)->value('nombre');
+        $codigoSis = $user->codSis;
+        $nombre = Usuario::where('codSis','=',$codigoSis)->value('nombre');
 
-        $horarios =  HorarioClase::select('dia','hora_inicio','hora_fin','grupo_id','materia_id','unidad_id')
-                                    ->where('asignado_codSis', '=', $user->codSis)
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
                                     ->where('rol_id', '=', 2)
                                     ->orderBy('dia', 'DESC')
                                     ->orderBy('hora_inicio', 'DESC')
@@ -31,7 +31,7 @@ class PlanillaSemanalAuxDocController extends Controller
             'fechasDeSemana' => $fechasDeSemana,
             'horarios' => $horarios,
             'nombre' => $nombre,
-            'codSis' => $user
+            'codSis' => $codigoSis
         ]);
     }
 }

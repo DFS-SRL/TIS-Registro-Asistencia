@@ -19,76 +19,75 @@
 
 
 <body>
-    {{$horarios}}
-    {{$nombre}}
-    {{-- <div class="container">
+    @if(!$horarios->isEmpty())
+    <div class="container">
         <div class="row">
             <div class="col-8">
                 <h5>PLANILLA SEMANAL DE ASISTENCIA</h5>
-                @if(!$horarios->isEmpty())
-                    <p>NOMBRE AUXILIAR DOCENCIA: {{ $horarios[0]->asignado->nombre }}</p>
-                    <p>CODSIS: {{ $horarios[0]->asignado->codSis }} </p>                
-                @endif              
+                    <p>NOMBRE AUXILIAR DOCENCIA: {{ $nombre }}</p>
+                    <p>CODSIS: {{ $codSis }} </p>         
             </div>
             <div class="col-4">
                 <p>DESDE: {{ $fechaInicio }} </p>
                 <p>HASTA: {{ $fechaFinal }} </p>
             </div>
         </div>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                    <th scope="col">FECHA</th>
-                    <th scope="col">HORARIO</th>
-                    <th scope="col">GRUPO</th>
-                    <th scope="col">MATERIA</th>
-                    <th scope="col">ACTIVIDAD REALIZADA</th>
-                    <th scope="col">OBSERVACIONES</th>
-                    <th scope="col">ASISTENCIA</th>
-                    <th scope="col">PERMISO</th>
-                    </tr>
-                </thead>
-                <form method="POST"  action="{{ route('planillas.semanal') }}">
-                    @csrf
-                    <tbody>
-                        @forelse ($horarios as $key => $horario)
-                            <tr>
-                                <td>{{ $horario->dia }}<br>{{ $fechasDeSemana[$horario->dia]}}</td>
-                                <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
-                                <td>{{ $horario->grupo->nombre }}</td>
-                                <td>{{ $horario->materia->nombre }}</td>                    
-                                <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][actividad_realizada]" id="actividad"/></td> 
-                                <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"/></td>                     
-                                <td>
-                                    <div class="custom-control custom-switch">
-                                        <input onchange="habilitarPermiso('{!! $horario->materia->nombre !!}','{!! $horario->grupo->nombre !!}')" type="checkbox" name="asistencias[{{ $key }}][asistencia]" 
-                                        class="custom-control-input" id="asistencia-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}"checked/>
-
-                                        <label class="custom-control-label" for="asistencia-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}"></label>
-                                    </div> 
-                                </td>  
-                                <td >
-                                    <select id="columnaPermiso-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}" name="asistencias[{{ $key }}][permiso]" disabled>
-                                        <option value="LICENCIA">Licencia</option>
-                                        <option value="BAJA_MEDICA">Baja medica</option>
-                                        <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
-                                    </select>
-                                </td>  
-                            </tr>
-                            
-                            <input id='asistenciaFalse' type='hidden' value='false' name="asistencias[{{ $key }}][asistencia]">
-                            <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
-                            
-                            <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
-                        @empty
-                            <p>NO HAY HORARIOS</p>
-                        @endforelse
-                    </tbody>
-                    </table>  
-                    <button class="btn btn-success">SUBIR</button>        
-                </form>
-
-    </div> --}}
+        @forelse ($horarios as $key1 => $unidad)
+            <br>
+            <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
+            <form>
+                @csrf
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">FECHA</th>
+                        <th scope="col">HORARIO</th>
+                        <th scope="col">GRUPO</th>
+                        <th scope="col">MATERIA</th>
+                        <th scope="col">ACTIVIDAD REALIZADA</th>
+                        <th scope="col">OBSERVACIONES</th>
+                        <th scope="col">ASISTENCIA</th>
+                        <th scope="col">PERMISO</th>
+                        </tr>
+                    </thead>
+                    @foreach ($unidad as $key2 => $horario)
+                        <tr>
+                            <td class="border border-dark">{{ $fechasDeSemana[$horario->dia] }}</td>
+                            <td class="border border-dark">{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
+                            <td class="border border-dark">{{ $horario->grupo->nombre }}</td>
+                            <td class="border border-dark">{{ $horario->materia->nombre }}</td>
+                            <td class="border border-dark"><textarea name="actividad" class ="{{$key1}}{{$key2}}" maxlength="150" disabled></textarea></td>
+                            <td class="border border-dark"><textarea name="observaciones" class = "{{$key1}}{{$key2}}" maxlength="200" disabled></textarea></td>
+                            <td class="border border-dark">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar(this)'/>
+                                    <label class="custom-control-label" for="asistencia{{$key1}}{{$key2}}"></label>
+                                </div>
+                            </td>
+                            <td class="border border-dark">
+                                <select id="columnaPermiso-{{ $horario->materia->nombre }}-{{ $horario->grupo->nombre }}" name="asistencias[{{ $key2 }}][permiso]" disabled>
+                                    <option value="LICENCIA">Licencia</option>
+                                    <option value="BAJA_MEDICA">Baja medica</option>
+                                    <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+                                </select>
+                            </td>
+                            <input id='asistenciaFalse' type='hidden' value='false' name="asistencias[{{ $key2 }}][asistencia]">
+                            <input type="text" name="asistencias[{{ $key2 }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
+ 
+                        </tr>
+                    @endforeach
+                </table>
+                {{-- <button class="btn btn-success">SUBIR</button>      --}}
+            </form>
+        @empty
+            <p>usted no tiene clases asignadas</p>
+        @endforelse
+        
+        <button class="btn btn-success">SUBIR</button>     
+    </div>
+    @else
+    USTED NO ES AUXILIAR DE DOCENCIA 
+    @endif              
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
 
