@@ -22,8 +22,8 @@
         </div>
     </div>
     @if(!empty($horarios))
-        <h4 class = "textoBlanco">Docente: {{$horarios[0][0]->asignado->nombre}}</h4>
-        <h4 class = "textoBlanco">Codigo SIS: {{$horarios[0][0]->asignado->codSis}}</h4>
+        <h4 class = "textoBlanco">Docente: {{$nombre}}</h4>
+        <h4 class = "textoBlanco">Codigo SIS: {{$codSis}}</h4>
     @endif
     @forelse ($horarios as $key1 => $unidad)
         <br>

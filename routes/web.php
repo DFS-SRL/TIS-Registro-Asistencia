@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('/provicional/menu');
 });
 
-Route::get('/parteMensual/{unidad}', 'ParteMensualController@obtenerParteAuxiliares');
+Route::get('/parteMensual/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia');
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
@@ -28,6 +28,7 @@ Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@
 Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteController@obtenerPlanillaSemana');
+Route::post('/planillas/semanal/docente', 'PlanillaSemanalDocenteController@registrarAsistencia')->name('planillas.semanalDoc');
 
 Route::get('/docentes','ProvController\Menu@docentes');
 Route::get('/auxiliares','ProvController\Menu@auxiliares');
