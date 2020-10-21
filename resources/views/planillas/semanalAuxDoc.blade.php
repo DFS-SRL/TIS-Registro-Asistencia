@@ -19,7 +19,9 @@
 
 
 <body>
-    <div class="container">
+    {{$horarios}}
+    {{$nombre}}
+    {{-- <div class="container">
         <div class="row">
             <div class="col-8">
                 <h5>PLANILLA SEMANAL DE ASISTENCIA</h5>
@@ -86,7 +88,7 @@
                     <button class="btn btn-success">SUBIR</button>        
                 </form>
 
-    </div>
+    </div> --}}
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
 
