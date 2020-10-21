@@ -53,12 +53,12 @@
                         <td class="border border-dark"><textarea name="observaciones" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
                         <td class="border border-dark">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar(this)'/>
+                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar(this)' checked/>
                                 <label class="custom-control-label" for="asistencia{{$key1}}{{$key2}}"></label>
                             </div>
                         </td>
                         <td class="border border-dark">
-                            <select name="permiso" id="select{{$key1}}{{$key2}}">
+                            <select name="permiso" id="select{{$key1}}{{$key2}}" disabled>
                                 <option value="licencia">licencia</option>
                                 <option value="baja">baja médica</option>
                                 <option value="declaratoria">declaratoria en comisión</option>
