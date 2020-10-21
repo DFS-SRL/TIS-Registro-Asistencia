@@ -29,6 +29,7 @@ class RegistrarAsistenciaDocenteRequest extends FormRequest
             $reglas['asistencias.'.$key.'.actividad_realizada'] = 'required';
             $reglas['asistencias.'.$key.'.observaciones'] = 'required';
             $reglas['asistencias.'.$key.'.asistencia'] = 'required';
+            $reglas['asistencias.'.$key.'.fecha'] = 'required';
             if($val['asistencia'] == "false")
                 $reglas['asistencias.'.$key.'.permiso'] = 'required';
         }       

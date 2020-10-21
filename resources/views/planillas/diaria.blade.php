@@ -63,7 +63,7 @@
                                 </td>  
                             </tr>   
                             <input id='asistenciaFalse{{$key}}' type='hidden' name="asistencias[{{ $key }}][asistencia]" value="true">
-                            <input type="text" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}" style="display: none;">
+                            <input type="hidden" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}">
                         @empty    
                             <p>NO HAY HORARIOS</p>
                         @endforelse

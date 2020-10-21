@@ -15,3 +15,10 @@ function habilitarDeshabilitar(obj){
         }
     }
 }
+
+function enviarPlanillas(){
+    let botonesEnviar = document.getElementsByClassName('enviar');
+    for (let boton of botonesEnviar) {
+        boton.click();
+    }
+}
