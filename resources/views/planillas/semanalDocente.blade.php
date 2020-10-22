@@ -21,6 +21,7 @@
             <b class = "textoBlanco ml-4">hasta: </b><span class = "textoBlanco"> {{$fechaFinal}}</span>
         </div>
     </div>
+    <form  method="POST"  action="{{ route('planillas.semanalDoc') }}">
     @if(!empty($horarios))
         <h4 class = "textoBlanco">Docente: {{$nombre}}</h4>
         <h4 class = "textoBlanco">Codigo SIS: {{$codSis}}</h4>
@@ -28,7 +29,6 @@
     @forelse ($horarios as $key1 => $unidad)
         <br>
         <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
-        <form  method="POST"  action="{{ route('planillas.semanalDoc') }}">
             @csrf
             <table class = "table table-bordered">
                 <tr>
@@ -48,7 +48,7 @@
                         <td class="border border-dark">{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                         <td class="border border-dark">{{ $horario->grupo->nombre }}</td>
                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
-                        <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}}" maxlength="150"></textarea></td>
+                        <td class="border border-dark"><textarea class ="{{$key1}}{{$key2}}" maxlength="150"></textarea></td>
                         <td class="border border-dark"><textarea name="indicador" class = "{{$key1}}{{$key2}}"></textarea></td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
                         <td class="border border-dark">
@@ -59,23 +59,25 @@
                         </td>
                         <td class="border border-dark">
                             <select name="asistencias[{{ $key1.$key2 }}][permiso]" id="select{{$key1}}{{$key2}}" disabled>
-                                <option value="licencia">licencia</option>
-                                <option value="baja">baja médica</option>
-                                <option value="declaratoria">declaratoria en comisión</option>
+                                <option value="LICENCIA">Licencia</option>
+                                <option value="BAJA_MEDICA">Baja medica</option>
+                                <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>  
                             </select>
                         </td>
+                        {{-- <input id="actividadFalse" type="hidden" name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" >
+                        <input id="indicadorFalse" type="hidden" name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" >
+                        <input id="observacionesFalse" type="hidden" name="asistencias[{{ $key1.$key2 }}][observaciones]" > --}}
                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
                         <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">
                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][horario_clase_id]" value="{{ $horario->id }}">
                      </tr>
                 @endforeach
             </table>
-            <button class='enviar'style="display: none;"></button>   
-        </form>     
     @empty
         <p>usted no tiene clases asignadas</p>
     @endforelse
-    <button class="btn btn-success" onclick="enviarPlanillas()">SUBIR</button>  
+    <button class="btn btn-success" >SUBIR</button>    
+    </form>      
     </div>
     <script src="/js/main.js"></script>
 </body>
