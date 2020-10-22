@@ -12,4 +12,12 @@ class Grupo extends Model
      * @var string
      */
     protected $table = 'public.Grupo';
+
+    public function materia() {
+        return $this->belongsTo('App\Materia');
+    }
+
+    public function unidad() {
+        return $this->belongsTo('App\Unidad');
+    }
 }
