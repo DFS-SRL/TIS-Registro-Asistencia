@@ -53,6 +53,5 @@ class GrupoController extends Controller
             'docente' => $docente,
             'auxiliar' => $auxiliar
         ]);
-        return [$grupo, $horarios, $docente, $auxiliar];
     }
 }
