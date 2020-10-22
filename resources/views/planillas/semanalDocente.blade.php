@@ -48,7 +48,7 @@
                         <td class="border border-dark">{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                         <td class="border border-dark">{{ $horario->grupo->nombre }}</td>
                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
-                        <td class="border border-dark"><textarea class ="{{$key1}}{{$key2}}" maxlength="150"></textarea></td>
+                        <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}}" maxlength="150"></textarea></td>
                         <td class="border border-dark"><textarea name="indicador" class = "{{$key1}}{{$key2}}"></textarea></td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
                         <td class="border border-dark">
@@ -64,9 +64,10 @@
                                 <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>  
                             </select>
                         </td>
-                        {{-- <input id="actividadFalse" type="hidden" name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" >
-                        <input id="indicadorFalse" type="hidden" name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" >
-                        <input id="observacionesFalse" type="hidden" name="asistencias[{{ $key1.$key2 }}][observaciones]" > --}}
+                        {{-- <input id="actividadFalse{{$key1.$key2}}" type="hidden" name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" >
+                        <input id="indicadorFalse{{$key1.$key2}}" type="hidden" name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" >
+                        <input id="observacionesFalse{{$key1.$key2}}" type="hidden" name="asistencias[{{ $key1.$key2 }}][observaciones]" >
+                        --}}
                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
                         <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">
                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][horario_clase_id]" value="{{ $horario->id }}">
@@ -76,7 +77,7 @@
     @empty
         <p>usted no tiene clases asignadas</p>
     @endforelse
-    <button class="btn btn-success" >SUBIR</button>    
+    <button class="btn btn-success" onclick="llenarHiddens()">SUBIR</button>    
     </form>      
     </div>
     <script src="/js/main.js"></script>
