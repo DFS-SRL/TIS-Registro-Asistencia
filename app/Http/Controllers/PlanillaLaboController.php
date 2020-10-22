@@ -32,22 +32,7 @@ class PlanillaLaboController extends Controller
         $fechas = getFechasDeSemanaEnFecha($fecha);
 
         // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistencias($unidad, 1, $fechas[0], $fechas[5]);
-                                
-        // ordenar asistencias segun los criterios establecidos
-        $asistencias = $asistencias->sort(function(Asistencia $a, Asistencia $b) {
-            $res = null;
-            if($a->materia->nombre == $b->materia->nombre)
-            {
-                if($a->usuario->nombre == $b->usuario->nombre)
-                    $res = strtotime($a->fecha) < strtotime($b->fecha) ? -1 : 1;
-                else
-                    $res = $a->usuario->nombre < $b->usuario->nombre ? -1 : 1;
-            }
-            else
-                $res = $a->materia->nombre < $b->materia->nombre ? -1 : 1;
-            return $res;
-        })->values();
+        $asistencias = AsistenciaHelper::obtenerAsistencias($unidad, 1, $fechas[0], $fechas[5]);;
         
         //devolver la vista de informe semanal de laboratorio
         return view('informes.semanalLabo', [
