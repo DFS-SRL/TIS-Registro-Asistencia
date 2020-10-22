@@ -20,8 +20,6 @@
 
 
 <body>
-    {{-- $grupo->unidad->facultad --}}
-    {{-- @if(!$horarios->isEmpty()) --}}
     <div class="container">
         <div class="row">
             <div class="col-8">
@@ -65,28 +63,13 @@
                 <p>Docente: {{$docente->nombre}}</p>
                 
                 <p>Carga horaria docente: {{$horarios->where('asignado_codSis', '=', $docente->codSis)->count()}}</p>
-                <p>Auxiliar: </p>
+                <p>Auxiliar: {{$auxiliar->nombre}}</p>
                 <p>Carga horaria auxilliar: {{$horarios->where('asignado_codSis', '=', $auxiliar->codSis)->count()}}</p>
             </div>
         </div>
     </div>
-    {{-- @else
-        USTED NO ES AUXILIAR DE LABORATORIO
-@endif--}}
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
-<script>
-    function habilitarPermiso(id) {
-        if (document.getElementById("asistencia"+id).checked == false){
-            document.getElementById("columnaPermiso"+id).disabled = false;
-            document.getElementById("asistenciaFalse"+id).value= false;
-        } else {
-            document.getElementById("columnaPermiso"+id).disabled = true;
-            document.getElementById("asistenciaFalse"+id).value= true;
-        }
-    }
-</script>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 </html>
