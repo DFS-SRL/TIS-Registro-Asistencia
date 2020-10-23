@@ -26,6 +26,9 @@ Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
 Route::get('/informe/labo/{unidad}/{fecha}', 'PlanillaLaboController@obtenerInformeSemanal');
 
+Route::get('/informes/{unidad}', 'InformesController@index');
+Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
+
 Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@obtenerPlanillaSemana');
 // Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
 
