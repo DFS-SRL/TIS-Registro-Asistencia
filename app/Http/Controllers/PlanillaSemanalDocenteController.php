@@ -67,7 +67,6 @@ class PlanillaSemanalDocenteController extends Controller
         // validar
         $asistencias = $request->validated()['asistencias'];
         
-        return $asistencias;
         // recorrer asistencias colocando datos extra y almacenando en bd
         foreach ($asistencias as $key => $asistencia) {
             $horario = HorarioClase::find($asistencia['horario_clase_id']);

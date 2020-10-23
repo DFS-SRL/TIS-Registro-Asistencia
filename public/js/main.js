@@ -8,23 +8,14 @@ function habilitarDeshabilitar(obj){
     if(elementos[0].disabled){
         for(elemento of elementos){
             elemento.removeAttribute("disabled");
-            // select.setAttribute("disabled", "");
+            select.setAttribute("disabled", "");
         }
         document.getElementById("asistenciaFalse"+codigo).value= true;
     }else{
         for(elemento of elementos){
-            // elemento.setAttribute("disabled", "");
+            elemento.setAttribute("disabled", "");
             select.removeAttribute("disabled");
-            elemento.value = "Ninguno";
         }
         document.getElementById("asistenciaFalse"+codigo).value= false;
     }
 }
-// function llenarHiddens() {
-//     let textsAreas = document.getElementsByTagName('textarea');
-//     for (let textArea of textsAreas){
-//         if(textArea.disabled || textArea.value == ""){
-//             textArea.value = "Ninguno";
-//         }
-//     }
-// }

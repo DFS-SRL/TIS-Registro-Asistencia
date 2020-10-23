@@ -49,7 +49,7 @@
                         <td class="border border-dark">{{ $horario->grupo->nombre }}</td>
                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}}" maxlength="150"></textarea></td>
-                        <td class="border border-dark"><textarea name="indicador" class = "{{$key1}}{{$key2}}"></textarea></td>
+                        <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}"></textarea></td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
                         <td class="border border-dark">
                             <div class="custom-control custom-switch">
