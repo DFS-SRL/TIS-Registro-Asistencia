@@ -37,3 +37,5 @@ Route::get('/jefesDept','ProvController\Menu@jefesDept');
 
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
+
+route::get('/materias/{unidadId}','ListaMateriasController@mostrarMaterias');

@@ -32,15 +32,15 @@
             @csrf
             <table class = "table table-bordered">
                 <tr>
-                    <th class = "textoBlanco border border-dark">fecha</th>
-                    <th class = "textoBlanco border border-dark">horario</th>
-                    <th class = "textoBlanco border border-dark">grupo</th>
-                    <th class = "textoBlanco border border-dark">materia</th>
-                    <th class = "textoBlanco border border-dark">actividad realizada</th>
-                    <th class = "textoBlanco border border-dark">indicador verificable</th>
-                    <th class = "textoBlanco border border-dark">observaciones</th>
-                    <th class = "textoBlanco border border-dark">asistencia</th>
-                    <th class = "textoBlanco border border-dark">permiso</th>
+                    <th class = "textoBlanco border border-dark ">fecha</th>
+                    <th class = "textoBlanco border border-dark ">horario</th>
+                    <th class = "textoBlanco border border-dark ">grupo</th>
+                    <th class = "textoBlanco border border-dark ">materia</th>
+                    <th class = "textoBlanco border border-dark ">actividad realizada</th>
+                    <th class = "textoBlanco border border-dark ">indicador verificable</th>
+                    <th class = "textoBlanco border border-dark ">observaciones</th>
+                    <th class = "textoBlanco border border-dark ">asistencia</th>
+                    <th class = "textoBlanco border border-dark ">permiso</th>
                 </tr>
                 @foreach ($unidad as $key2 => $horario)
                     <tr>
