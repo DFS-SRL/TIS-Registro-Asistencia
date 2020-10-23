@@ -14,12 +14,8 @@ class PlanillaLaboController extends Controller
 {
     public function obtenerPlanillaDia(Usuario $user)
     {
-        // ver si no se lleno la planilla hoy
-        $asistencias = Asistencia::where('fecha', '=', date('Y-m-d'))
-                                ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
-                                ->where('rol_id', '=', 1)
-                                ->get();
-        $llenado = !$asistencias->isEmpty();
+        // ver si no se lleno la planilla de hoy
+        $llenado = $this->hayAsistencias();
         
         // obteniendo horarios asignados en el dia actual
         if(!$llenado)
@@ -56,6 +52,10 @@ class PlanillaLaboController extends Controller
 
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
+        // ver si no se lleno la planilla de hoy
+        $llenado = $this->hayAsistencias();
+        if($llenado) return "ya fueron registradas antes";
+
         // validar
         $asistencias = $request->validated()['asistencias'];
 
@@ -72,6 +72,15 @@ class PlanillaLaboController extends Controller
         }
         
         return "asistencias registradas!!!";
+    }
+
+    private function hayAsistencias()
+    {
+        $asistencias = Asistencia::where('fecha', '=', date('Y-m-d'))
+                                ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
+                                ->where('rol_id', '=', 1)
+                                ->get();
+        return !$asistencias->isEmpty();
     }
 
 }
