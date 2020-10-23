@@ -27,10 +27,12 @@ Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->
 Route::get('/informe/labo/{unidad}/{fecha}', 'PlanillaLaboController@obtenerInformeSemanal');
 
 Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@obtenerPlanillaSemana');
-Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
+// Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteController@obtenerPlanillaSemana');
-Route::post('/planillas/semanal/docente', 'PlanillaSemanalDocenteController@registrarAsistencia')->name('planillas.semanalDoc');
+// Route::post('/planillas/semanal/docente', 'PlanillaSemanalDocenteController@registrarAsistencia')->name('planillas.semanalDoc');
+
+Route::post('/planillas/semanal/docente', 'RegistrarAsistenciaSemanal@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/docentes','ProvController\Menu@docentes');
 Route::get('/auxiliares','ProvController\Menu@auxiliares');

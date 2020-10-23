@@ -48,8 +48,8 @@
                                 <tr>
                                     <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                                     <td>{{ $horario->materia->nombre }}</td>                    
-                                    <td><input  class="form-control"  type="text"name="asistencias[{{ $key }}][actividad_realizada]" id="actividad"/></td> 
-                                    <td><input  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"/></td>                     
+                                    <td><textarea  class="form-control"  type="text"name="asistencias[{{ $key }}][actividad_realizada]" id="actividad" ></textarea></td> 
+                                    <td><textarea  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"></textarea></td>                     
                                     <td><div class="custom-control custom-switch">
                                         <input onchange="habilitarPermiso({!!$key!!})" type="checkbox" class="custom-control-input" id="asistencia{{$key}}"checked/>
                                     <label class="custom-control-label" for="asistencia{{$key}}"></label>
