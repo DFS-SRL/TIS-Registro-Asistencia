@@ -12,4 +12,8 @@ class Materia extends Model
      * @var string
      */
     protected $table = 'public.Materia';
+
+    public function unidad() {
+        return $this->belongsTo('App\Unidad');
+    }
 }

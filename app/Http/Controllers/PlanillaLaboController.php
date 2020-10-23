@@ -14,15 +14,22 @@ class PlanillaLaboController extends Controller
 {
     public function obtenerPlanillaDia(Usuario $user)
     {
-        // obteniendo horarios asignados en el dia actual
-        $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
-                                    ->where('rol_id', '=', 1)
-                                    ->where('dia', '=', getDia())->get();
+        // ver si no se lleno la planilla de hoy
+        $llenado = $this->hayAsistencias();
         
+        // obteniendo horarios asignados en el dia actual
+        if(!$llenado)
+            $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
+                                        ->where('rol_id', '=', 1)
+                                        ->where('dia', '=', getDia())->get();
+        else
+            $horarios = collect(new HorarioClase);
         // devolver vista de planillas diarias
         return view('planillas.diaria', [
+            'usuario' => $user,
             'fecha' => getFecha(),
-            'horarios' => $horarios
+            'horarios' => $horarios,
+            'llenado' => $llenado
         ]);
     }
 
@@ -32,22 +39,7 @@ class PlanillaLaboController extends Controller
         $fechas = getFechasDeSemanaEnFecha($fecha);
 
         // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistencias($unidad, 1, $fechas[0], $fechas[5]);
-                                
-        // ordenar asistencias segun los criterios establecidos
-        $asistencias = $asistencias->sort(function(Asistencia $a, Asistencia $b) {
-            $res = null;
-            if($a->materia->nombre == $b->materia->nombre)
-            {
-                if($a->usuario->nombre == $b->usuario->nombre)
-                    $res = strtotime($a->fecha) < strtotime($b->fecha) ? -1 : 1;
-                else
-                    $res = $a->usuario->nombre < $b->usuario->nombre ? -1 : 1;
-            }
-            else
-                $res = $a->materia->nombre < $b->materia->nombre ? -1 : 1;
-            return $res;
-        })->values();
+        $asistencias = AsistenciaHelper::obtenerAsistencias($unidad, 1, $fechas[0], $fechas[5]);;
         
         //devolver la vista de informe semanal de laboratorio
         return view('informes.semanalLabo', [
@@ -60,6 +52,10 @@ class PlanillaLaboController extends Controller
 
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
+        // ver si no se lleno la planilla de hoy
+        $llenado = $this->hayAsistencias();
+        if($llenado) return "ya fueron registradas antes";
+
         // validar
         $asistencias = $request->validated()['asistencias'];
 
@@ -76,6 +72,15 @@ class PlanillaLaboController extends Controller
         }
         
         return "asistencias registradas!!!";
+    }
+
+    private function hayAsistencias()
+    {
+        $asistencias = Asistencia::where('fecha', '=', date('Y-m-d'))
+                                ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
+                                ->where('rol_id', '=', 1)
+                                ->get();
+        return !$asistencias->isEmpty();
     }
 
 }

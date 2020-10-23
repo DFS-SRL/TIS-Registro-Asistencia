@@ -65,3 +65,17 @@ function getFechasDeSemanaEnFecha($fecha)
         date("Y-m-d", strtotime("+5 days", $d)),
     ];
 }
+
+// compara dos dias de semana tomando LUNES como el primer dia
+function compararDias($diaA, $diaB) {
+    $posicion = [
+        "LUNES" =>      0,
+        "MARTES" =>     1,
+        "MIERCOLES" =>  2,
+        "JUEVES" =>     3,
+        "VIERNES" =>    4,
+        "SABADO" =>     5,
+        "DOMINGO" =>    6,
+    ];
+    return $posicion[$diaA] - $posicion[$diaB];
+}
