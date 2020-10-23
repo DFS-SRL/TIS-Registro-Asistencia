@@ -60,11 +60,18 @@
         </table>
         <div class="row">
             <div class="col-12">
-                <p>Docente: {{$docente->nombre}}</p>
-                
-                <p>Carga horaria docente: {{$horarios->where('asignado_codSis', '=', $docente->codSis)->count()}}</p>
-                <p>Auxiliar: {{$auxiliar->nombre}}</p>
-                <p>Carga horaria auxilliar: {{$horarios->where('asignado_codSis', '=', $auxiliar->codSis)->count()}}</p>
+                @if ($docente != null)
+                    <p>Docente: {{$docente->nombre}}</p>                    
+                    <p>Carga horaria docente: {{$horarios->where('asignado_codSis', '=', $docente->codSis)->count()}}</p>
+                @else
+                    <p>Docente no asignado</p>
+                @endif
+                @if ($auxiliar != null)
+                    <p>Auxiliar: {{$auxiliar->nombre}}</p>
+                    <p>Carga horaria auxilliar: {{$horarios->where('asignado_codSis', '=', $auxiliar->codSis)->count()}}</p>
+                @else
+                    <p>Auxiliar no asignado</p>
+                @endif
             </div>
         </div>
     </div>
