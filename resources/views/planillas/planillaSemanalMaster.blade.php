@@ -53,7 +53,7 @@
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
                         <td class="border border-dark">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar(this)' checked/>
+                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar({{$key1.$key2}})' checked/>
                                 <label class="custom-control-label" for="asistencia{{$key1}}{{$key2}}"></label>
                             </div>
                         </td>

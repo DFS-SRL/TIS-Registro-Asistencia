@@ -1,7 +1,6 @@
 
 /* habilita y deshabilita los textarea y el combobox de la planilla semanal de docente dependiendo del switch del formulario*/
-function habilitarDeshabilitar(obj){
-    codigo = obj.id.substr(obj.id.length-2, 2);
+function habilitarDeshabilitar(codigo){
     elementos = document.getElementsByClassName(codigo);
     select = document.getElementById("select"+codigo);
     
