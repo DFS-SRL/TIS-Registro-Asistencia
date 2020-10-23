@@ -14,15 +14,26 @@ class PlanillaLaboController extends Controller
 {
     public function obtenerPlanillaDia(Usuario $user)
     {
-        // obteniendo horarios asignados en el dia actual
-        $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
-                                    ->where('rol_id', '=', 1)
-                                    ->where('dia', '=', getDia())->get();
+        // ver si no se lleno la planilla hoy
+        $asistencias = Asistencia::where('fecha', '=', date('Y-m-d'))
+                                ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
+                                ->where('rol_id', '=', 1)
+                                ->get();
+        $llenado = !$asistencias->isEmpty();
         
+        // obteniendo horarios asignados en el dia actual
+        if(!$llenado)
+            $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
+                                        ->where('rol_id', '=', 1)
+                                        ->where('dia', '=', getDia())->get();
+        else
+            $horarios = collect(new HorarioClase);
         // devolver vista de planillas diarias
         return view('planillas.diaria', [
+            'usuario' => $user,
             'fecha' => getFecha(),
-            'horarios' => $horarios
+            'horarios' => $horarios,
+            'llenado' => $llenado
         ]);
     }
 
