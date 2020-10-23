@@ -39,6 +39,19 @@ function traducirDia($dia) {
     throw new Exception("Se esperaba un dia de la semana en ingles");
 }
 
+// lo mismo pero la entrada son numeros
+function traducirDia1($dia) {
+    $dias = [
+        '0' => "DOMINGO",
+        '1' => "LUNES",
+        '2'=> "MARTES",
+        '3' => "MIERCOLES",
+        '4' => "JUEVES",
+        '5' => "VIERNES",
+        '6' => "SABADO"];
+    return $dias[$dia];
+}
+
 // devuelve un arreglo con la fecha de cada dia de la semana actual
 function getFechasDeSemanaActual() {  
     $d = strtotime("last monday", strtotime("tomorrow"));
