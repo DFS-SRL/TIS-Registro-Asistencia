@@ -50,11 +50,15 @@
                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                         <td class="border border-dark">
                             <textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}} actividad" 
-                             maxlength="150" id="actividad{{$key1.$key2 }}"></textarea>                             
+                             maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLimAct({{$key1.$key2 }})" onkeyup="valLimAct({{$key1.$key2 }})"  ></textarea>                             
                              <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                             </td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}"></textarea></td>
-                        <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
+                        <td class="border border-dark">
+                            <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" 
+                            maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLimObs({{$key1.$key2 }})" onkeyup="valLimObs({{$key1.$key2 }})" ></textarea>                            
+                            <label class ="text-danger" id="msgObs{{$key1.$key2 }}" for="observaciones"></label>
+                            </td>
                         <td class="border border-dark">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar({{$key1.$key2}})' checked/>
