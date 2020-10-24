@@ -21,7 +21,7 @@
             <b class = "textoBlanco ml-4">hasta: </b><span class = "textoBlanco"> {{$fechaFinal}}</span>
         </div>
     </div>
-    <form  method="POST"  @yield('action')>
+    <form  method="POST"  @yield('action') onsubmit= "return valMinAct()">
     @if(!empty($horarios))
         <h4 class = "textoBlanco">@yield('tipoUsuario') {{$nombre}}</h4>
         <h4 class = "textoBlanco">Codigo SIS: {{$codSis}}</h4>
@@ -48,7 +48,11 @@
                         <td class="border border-dark">{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                         <td class="border border-dark">{{ $horario->grupo->nombre }}</td>
                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
-                        <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}}" maxlength="150"></textarea></td>
+                        <td class="border border-dark">
+                            <textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}} actividad" 
+                             maxlength="150" id="actividad{{$key1.$key2 }}"></textarea>                             
+                             <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
+                            </td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}"></textarea></td>
                         <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}}" maxlength="200"></textarea></td>
                         <td class="border border-dark">
@@ -77,7 +81,7 @@
     @empty
         <p>usted no tiene clases asignadas</p>
     @endforelse
-    <button class="btn btn-success" onclick="llenarHiddens()">SUBIR</button>    
+    <button class="btn btn-success" >SUBIR</button>    
     </form>      
     </div>
     <script src="/js/main.js"></script>
