@@ -14,9 +14,17 @@ class GrupoController extends Controller
     public function mostrarInformacion(Grupo $grupo) {
         // Obtener los horarios correspondientes a la materia
         $horarios = HorarioClase::where('grupo_id', '=', $grupo->id)
-                                    ->orderBy('dia', 'ASC')
-                                    ->orderBy('hora_inicio', 'ASC')
                                     ->get();
+
+        $horarios = $horarios->sort( function(HorarioClase $a, HorarioClase $b) {
+            $diffDias = compararDias($a->dia, $b->dia);
+            if ($diffDias === 0) {
+                return ( $a->hora_inicio < $b->hora_inicio ? -1 : 1 );
+            }
+            else {
+                return $diffDias;
+            }
+        } )->values();
 
         // IMPORTANTE
         // Se asume que cada grupo tiene asignado maximo un docente y un auxiliar
@@ -39,6 +47,11 @@ class GrupoController extends Controller
                             -> select('Usuario.codSis', 'Usuario.nombre')
                             -> get() -> first();
 
-        return [$grupo, $horarios, $docente, $auxiliar];
+        return view('informacion.grupo', [
+            'grupo' => $grupo,
+            'horarios' => $horarios,
+            'docente' => $docente,
+            'auxiliar' => $auxiliar
+        ]);
     }
 }

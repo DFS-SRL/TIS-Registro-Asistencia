@@ -12,4 +12,12 @@ class Materia extends Model
      * @var string
      */
     protected $table = 'public.Materia';
+    // desactivar solo si no usamos request()->all() y validado en los controllers
+    protected $guarded = [];
+    // quitar timestamps
+    public $timestamps = false;
+
+    public function unidad() {
+        return $this->belongsTo('App\Unidad');
+    }
 }

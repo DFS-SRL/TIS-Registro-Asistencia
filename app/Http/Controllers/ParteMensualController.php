@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class ParteMensualController extends Controller
 {
+    // dada unidad y fecha devuelve vista de parte de auxiliares
     public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
     {
         // obtener fechas inicio y fin del mes
-        $t = $this->tiempoFecha($fecha);
-        if($t->day <= 15)
-            $t->subMonth();
-        $t->day = 15;
-        $fechaFin = $t->toDateString();
-        $t->subMonth();
-        $t->addDay();
-        $fechaInicio = $t->toDateString();
+        $this->calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
         
         // obtener usuarios con rol
         $auxLabo = $this->usuariosRolUnidad(1, $unidad);
@@ -52,6 +46,35 @@ class ParteMensualController extends Controller
             'totNoPagables' => $totNoPagables
         ]);
     }
+
+    // dada unidad y fecha devuelve vista de parte de docentes
+    public function obtenerParteDocentes(Unidad $unidad, $fecha)
+    {
+        // obtener fechas inicio y fin del mes
+        $this->calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
+        
+        // obtener usuarios con rol docente
+        $docentes = $this->usuariosRolUnidad(3, $unidad);
+
+        // inicializar horas pagables en 0
+        $totPagables = 0;
+        $totNoPagables = 0;
+
+        // obtener parte
+        $parteDoc = $this->parteMensual($docentes, $unidad, 3, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
+
+        // devolver la vista de parte mensual de auxiliares
+        return view('parteMensual.docentes', [
+            'unidad' => $unidad,
+            'fechaInicio' => $fechaInicio,
+            'fechaFin' => $fechaFin,
+            'gestion' => $t->year,
+            'parteDoc' => $parteDoc,
+            'totPagables' => $totPagables,
+            'totNoPagables' => $totNoPagables
+        ]);
+    }
+
 
     // obtiene parte mensual (pagable y no pagable se van sumando y se recupera pase por referencia)
     private function parteMensual($usuarios, $unidad, $rol, $fechaInicio, $fechaFin, &$pagable, &$noPagable)
@@ -101,6 +124,7 @@ class ParteMensualController extends Controller
         return $parte;
     }
 
+    // combina las horas de 2 partes
     private function combinar($parte1, $parte2)
     {
         foreach ($parte2 as $key => $reporte) {
@@ -146,4 +170,17 @@ class ParteMensualController extends Controller
     {
         return Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
     }    
+
+    // parametro por referencia, devuelve fecha 16 a 15 del ultimo mes e instancia Carbon de la inicial
+    private function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
+    {
+        $t = $this->tiempoFecha($fecha);
+        if($t->day <= 15)
+            $t->subMonth();
+        $t->day = 15;
+        $fechaFin = $t->toDateString();
+        $t->subMonth();
+        $t->addDay();
+        $fechaInicio = $t->toDateString();
+    }
 }

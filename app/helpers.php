@@ -39,6 +39,19 @@ function traducirDia($dia) {
     throw new Exception("Se esperaba un dia de la semana en ingles");
 }
 
+// lo mismo pero la entrada son numeros
+function traducirDia1($dia) {
+    $dias = [
+        '0' => "DOMINGO",
+        '1' => "LUNES",
+        '2'=> "MARTES",
+        '3' => "MIERCOLES",
+        '4' => "JUEVES",
+        '5' => "VIERNES",
+        '6' => "SABADO"];
+    return $dias[$dia];
+}
+
 // devuelve un arreglo con la fecha de cada dia de la semana actual
 function getFechasDeSemanaActual() {  
     $d = strtotime("last monday", strtotime("tomorrow"));
@@ -64,4 +77,18 @@ function getFechasDeSemanaEnFecha($fecha)
         date("Y-m-d", strtotime("+4 days", $d)),
         date("Y-m-d", strtotime("+5 days", $d)),
     ];
+}
+
+// compara dos dias de semana tomando LUNES como el primer dia
+function compararDias($diaA, $diaB) {
+    $posicion = [
+        "LUNES" =>      0,
+        "MARTES" =>     1,
+        "MIERCOLES" =>  2,
+        "JUEVES" =>     3,
+        "VIERNES" =>    4,
+        "SABADO" =>     5,
+        "DOMINGO" =>    6,
+    ];
+    return $posicion[$diaA] - $posicion[$diaB];
 }
