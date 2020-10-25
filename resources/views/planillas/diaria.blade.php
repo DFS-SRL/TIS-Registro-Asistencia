@@ -41,21 +41,29 @@
                         <th scope="col">PERMISO</th>
                         </tr>
                     </thead>
-                    <form method="POST"  action="{{ route('planillas.diaria') }}">
+                    <form method="POST"  action="{{ route('planillas.diaria') }}" onsubmit= "return valMinAct()">
                         @csrf
                         <tbody>
                             @foreach ($horarios as $key => $horario)
                                 <tr>
                                     <td>{{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                                     <td>{{ $horario->materia->nombre }}</td>                    
-                                    <td><textarea  class="form-control"  type="text"name="asistencias[{{ $key }}][actividad_realizada]" id="actividad" ></textarea></td> 
-                                    <td><textarea  class="form-control"  type="text" name="asistencias[{{ $key }}][observaciones]" id="observacion"></textarea></td>                     
+                                    <td>
+                                        <textarea class ="{{$key}} actividad" name="asistencias[{{ $key }}][actividad_realizada]" id="actividad{{$key}}" 
+                                                  onkeypress="valLimAct({{$key}})" onkeyup="valLimAct({{$key}})"  maxlength="150"></textarea>
+                                    <label class ="text-danger" id="msgAct{{$key}}" for="actividad{{$key}}"></label>
+                                    </td> 
+                                    <td>
+                                        <textarea class ="{{$key}}" name="asistencias[{{ $key }}][observaciones]" id="observacion{{$key}}"
+                                                  onkeypress="valLimObs({{$key}})" onkeyup="valLimObs({{$key}})" maxlength="200"></textarea>
+                                        <label class ="text-danger" id="msgObs{{$key}}" for="observaciones"></label>
+                                    </td>                     
                                     <td><div class="custom-control custom-switch">
-                                        <input onchange="habilitarPermiso({!!$key!!})" type="checkbox" class="custom-control-input" id="asistencia{{$key}}"checked/>
+                                        <input onchange="habilitarDeshabilitar({{$key}})" type="checkbox" class="custom-control-input" id="asistencia{{$key}}"checked/>
                                     <label class="custom-control-label" for="asistencia{{$key}}"></label>
                                     </div> </td>  
                                     <td >
-                                    <select id="columnaPermiso{{$key}}" name="asistencias[{{ $key }}][permiso]" disabled>
+                                    <select id="select{{$key}}" name="asistencias[{{ $key }}][permiso]" disabled>
                                             <option value="LICENCIA">Licencia</option>
                                             <option value="BAJA_MEDICA">Baja medica</option>
                                             <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
@@ -67,7 +75,7 @@
                             @endforeach
                         </tbody>
                         </table>  
-                        <button class="btn btn-success">SUBIR</button>        
+                        <button class="btn btn-success" id="subir">SUBIR</button>        
                     </form>
                 @else
                     @if ($llenado)
@@ -79,19 +87,9 @@
     </div>
 </body>
 <!-- jQuery and JS bundle w/ Popper.js -->
-<script>
-    function habilitarPermiso(id) {
-        if (document.getElementById("asistencia"+id).checked == false){
-            document.getElementById("columnaPermiso"+id).disabled = false;
-            document.getElementById("asistenciaFalse"+id).value= false;
-        } else {
-            document.getElementById("columnaPermiso"+id).disabled = true;
-            document.getElementById("asistenciaFalse"+id).value= true;
-        }
-    }
-</script>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
+<script src="/js/main.js"></script>
+
 </html>
 

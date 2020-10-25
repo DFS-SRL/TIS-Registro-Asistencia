@@ -17,7 +17,7 @@ class ParteMensualController extends Controller
     public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
     {
         // obtener fechas inicio y fin del mes
-        $this->calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
+        calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
         
         // obtener usuarios con rol
         $auxLabo = $this->usuariosRolUnidad(1, $unidad);
@@ -51,7 +51,7 @@ class ParteMensualController extends Controller
     public function obtenerParteDocentes(Unidad $unidad, $fecha)
     {
         // obtener fechas inicio y fin del mes
-        $this->calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
+        calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
         
         // obtener usuarios con rol docente
         $docentes = $this->usuariosRolUnidad(3, $unidad);
@@ -98,7 +98,7 @@ class ParteMensualController extends Controller
             foreach ($asistencias as $key => $asistencia) {
                 $inicio = $asistencia->horarioClase->hora_inicio;
                 $fin = $asistencia->horarioClase->hora_fin;
-                $horas = $this->tiempoHora($inicio)->diffInMinutes($this->tiempoHora($fin)) / $periodo;
+                $horas = tiempoHora($inicio)->diffInMinutes(tiempoHora($fin)) / $periodo;
                 $reporte['cargaHoraria'] += $horas;
                 if($asistencia->asistencia)
                 {
@@ -151,36 +151,5 @@ class ParteMensualController extends Controller
                         ->select('Usuario.codSis', 'Usuario.nombre')
                         ->orderBy('Usuario.nombre')
                         ->get();
-    }
-
-    // tiempo inicial para hacer calculos
-    private function tiempoCero()
-    {
-        return Carbon::createFromFormat('d/m/Y H:i:s',  '01/01/2000 00:00:00');
-    }
-
-    // tiempo dado una hora
-    private function tiempoHora($hora)
-    {
-        return Carbon::createFromFormat('d/m/Y H:i:s',  '01/01/2000 ' . $hora);
-    }
-
-    // tiempo dado una fecha
-    private function tiempoFecha($fecha)
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
-    }    
-
-    // parametro por referencia, devuelve fecha 16 a 15 del ultimo mes e instancia Carbon de la inicial
-    private function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
-    {
-        $t = $this->tiempoFecha($fecha);
-        if($t->day <= 15)
-            $t->subMonth();
-        $t->day = 15;
-        $fechaFin = $t->toDateString();
-        $t->subMonth();
-        $t->addDay();
-        $fechaInicio = $t->toDateString();
     }
 }

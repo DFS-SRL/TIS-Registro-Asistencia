@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
+//http://localhost:8000/parteMensual/docentes/1/2020-10-19 
 Route::get('/parteMensual/docentes/{unidad}/{fecha}', 'ParteMensualController@obtenerParteDocentes');
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia');
@@ -26,13 +27,16 @@ Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
 Route::get('/informe/labo/{unidad}/{fecha}', 'PlanillaLaboController@obtenerInformeSemanal');
 
+Route::get('/informes/{unidad}', 'InformesController@index');
+Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
+
 Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@obtenerPlanillaSemana');
 // Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteController@obtenerPlanillaSemana');
 // Route::post('/planillas/semanal/docente', 'PlanillaSemanalDocenteController@registrarAsistencia')->name('planillas.semanalDoc');
 
-Route::post('/planillas/semanal/docente', 'RegistrarAsistenciaSemanal@registrarAsistencia')->name('planillas.semanal');
+Route::post('/planillas/semanal/', 'RegistrarAsistenciaSemanal@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/docentes','ProvController\Menu@docentes');
 Route::get('/auxiliares','ProvController\Menu@auxiliares');

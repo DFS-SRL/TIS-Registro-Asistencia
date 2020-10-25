@@ -28,7 +28,7 @@ class RegistrarAsistenciaLaboRequest extends FormRequest
         foreach ($this->request->get('asistencias') as $key => $val) {
             $reglas['asistencias.'.$key.'.horario_clase_id'] = 'required';
             $reglas['asistencias.'.$key.'.actividad_realizada'] = 'required';
-            $reglas['asistencias.'.$key.'.observaciones'] = 'required';
+            $reglas['asistencias.'.$key.'.observaciones'] = 'nullable';
             $reglas['asistencias.'.$key.'.asistencia'] = 'required';
             if($val['asistencia'] == "false")
                 $reglas['asistencias.'.$key.'.permiso'] = 'required';

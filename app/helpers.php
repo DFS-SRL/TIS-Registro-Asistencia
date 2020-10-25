@@ -1,4 +1,7 @@
 <?php
+
+use Carbon\Carbon;
+
 // si no da para activar correr comando composer dumpautoload
 // devuelve el dia actual
 function getDia()
@@ -91,4 +94,29 @@ function compararDias($diaA, $diaB) {
         "DOMINGO" =>    6,
     ];
     return $posicion[$diaA] - $posicion[$diaB];
+}
+
+// tiempo dado una hora
+function tiempoHora($hora)
+{
+    return Carbon::createFromFormat('d/m/Y H:i:s',  '01/01/2000 ' . $hora);
+}
+
+// tiempo dado una fecha
+function tiempoFecha($fecha)
+{
+    return Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
+} 
+
+// parametro por referencia, devuelve fecha 16 a 15 del ultimo mes e instancia Carbon de la inicial
+function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
+{
+    $t = tiempoFecha($fecha);
+    if($t->day <= 15)
+        $t->subMonth();
+    $t->day = 15;
+    $fechaFin = $t->toDateString();
+    $t->subMonth();
+    $t->addDay();
+    $fechaInicio = $t->toDateString();
 }
