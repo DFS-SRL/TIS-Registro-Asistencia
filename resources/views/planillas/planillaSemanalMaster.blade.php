@@ -61,7 +61,7 @@
                             </td>
                         <td class="border border-dark">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar({{$key1.$key2}})' checked/>
+                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar({{$key1.$key2}})' autocomplete="off" checked/>
                                 <label class="custom-control-label" for="asistencia{{$key1}}{{$key2}}"></label>
                             </div>
                         </td>

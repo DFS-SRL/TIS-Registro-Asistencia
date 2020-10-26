@@ -7,7 +7,7 @@
     <title>Auxiliares laboratorios</title>
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/planillaSemanalEstilo.css">
+    <link rel="stylesheet" href="/css/estiloGeneral.css">
     <style>
         table, th, td {
          border: 1px solid black;
