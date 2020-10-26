@@ -82,7 +82,7 @@ class ParteMensualController extends Controller
         $parte = [];
         $periodo = $rol == 1 ? 60 : 45;
         foreach ($usuarios as $key => $usuario) {
-            $asistencias = AsistenciaHelper::obtenerAsistenciasUsuario($unidad, $rol, $fechaInicio, $fechaFin, $usuario);
+            $asistencias = AsistenciaHelper::obtenerAsistenciasUsuarioRol($unidad, $rol, 3, $fechaInicio, $fechaFin, $usuario);
             $reporte = [
                 'codSis' => $usuario->codSis,
                 'nombre' => $usuario->nombre,
