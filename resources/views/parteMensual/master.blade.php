@@ -32,7 +32,7 @@
             
         <strong class = "textoBlanco">Total horas pagables: {{$totPagables }}</strong> <br>
         <strong class = "textoBlanco">Total horas no pagables: {{$totNoPagables }}</strong> <br>
-        <button class="btn btn-success" >Registrar</button>    
+        <button class="btn boton float-right" >REGISTRAR</button>    
         {{-- </form>       --}}
     </div>
     <script src="/js/main.js"></script>

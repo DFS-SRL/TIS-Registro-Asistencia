@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/estiloGeneral.css">
     
 </head>
-<body>
+<body onload="habilitarBotonRegistrar({{sizeof($horarios)}})">
     <div class="m-3">
     <div class="row">
         <div class="col-6">
@@ -72,20 +72,21 @@
                                 <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>  
                             </select>
                         </td>
-                        {{-- <input id="actividadFalse{{$key1.$key2}}" type="hidden" name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" >
-                        <input id="indicadorFalse{{$key1.$key2}}" type="hidden" name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" >
-                        <input id="observacionesFalse{{$key1.$key2}}" type="hidden" name="asistencias[{{ $key1.$key2 }}][observaciones]" >
-                        --}}
                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
                         <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">
                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][horario_clase_id]" value="{{ $horario->id }}">
                      </tr>
                 @endforeach
             </table>
-    @empty
-        <p>usted no tiene clases asignadas</p>
-    @endforelse
-    <button class="btn btn-success" >SUBIR</button>    
+    @empty 
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>    
+        <h4 class="text-center textoBlanco">USTED NO TIENE CLASES ASIGNADAS</h4>
+    @endforelse  
+    <button class="btn boton float-right" id="registrar" style="display:none;">REGISTRAR</button>  
     </form>      
     </div>
     <script src="/js/main.js"></script>

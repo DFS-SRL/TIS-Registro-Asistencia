@@ -65,13 +65,18 @@
                             <input type="hidden" name="asistencias[{{ $key }}][horario_clase_id]" value="{{ $horario->id }}">
                         @endforeach
                         </table>  
-                        <button class="btn btn-success" id="subir">SUBIR</button>        
+                        <button class="btn boton float-right" id="subir">SUBIR</button>        
                     </form>
                 @else
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>    
                     @if ($llenado)
-                        <p class = "textoBlanco">LA PLANILLA YA FUE LLENADA</p>
+                        <h4 class = "text-center  textoBlanco">LA PLANILLA YA FUE LLENADA</h4>
                     @else
-                        <p class = "textoBlanco">NO HAY HORARIOS</p>
+                        <h4 class="text-center textoBlanco">NO HAY HORARIOS</h4>
                     @endif
                 @endif
     </div>

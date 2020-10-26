@@ -42,7 +42,7 @@
                     <th class = "textoBlanco border border-dark" scope="col">ASISTENCIA</th>
                     <th class = "textoBlanco border border-dark" scope="col">PERMISO</th>
                 </tr>
-                @forelse ($asistencias as $asistencia)
+                @foreach ($asistencias as $asistencia)
                     <tr>
                         <td class = "border border-dark">{{ $asistencia->materia->nombre }} </td>
                         <td class = "border border-dark">{{ $asistencia->usuario->nombre }}</td>
@@ -54,13 +54,15 @@
                         <td class = "border border-dark">{{ $asistencia->asistencia ? 'SI' : 'NO' }}</td>
                         <td class = "border border-dark">{{ $asistencia->permiso ? $asistencia->permiso : 'sin permiso' }}</td>   
                     </tr>
-
-                @empty
-                    <p>NO HAY HORARIOS</p>
-                @endforelse
+                @endforeach 
             </table>  
         @else
-            <p>NO HAY ASISTENCIAS REGISTRADAS</p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>    
+            <h4 class="text-center textoBlanco">NO HAY ASISTENCIAS REGISTRADAS</h4>
         @endif
     </div>
 </body>

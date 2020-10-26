@@ -1,6 +1,4 @@
-
-/* habilita y deshabilita los textarea y el combobox de la planilla semanal de docente dependiendo del switch del formulario*/
-
+/*Valida el limite de letras en actividadRealizada */
 function valLimAct(codigo){
     let textAreaAct = document.getElementById("actividad"+codigo);
     let limite = 150;
@@ -11,6 +9,7 @@ function valLimAct(codigo){
         document.getElementById("msgAct"+codigo).innerHTML = "";
     }
 }
+/*Valida el limite de caracteres en Observaciones*/
 function valLimObs(codigo){
     let textAreaAct = document.getElementById("observacion"+codigo);
     let limite = 200;
@@ -21,7 +20,7 @@ function valLimObs(codigo){
         document.getElementById("msgObs"+codigo).innerHTML = "";
     }
 }
-
+/*Valida numero minimo de caracteres para actividad realizada */
 function valMinAct(){
     let res = true;
     let actividades = document.getElementsByClassName("actividad");
@@ -46,6 +45,8 @@ function valMinAct(){
     return res;
 }
 
+/* habilita y deshabilita los textarea y el combobox de la planilla semanal de docente dependiendo del switch del formulario*/
+
 function habilitarDeshabilitar(codigo){
     elementos = document.getElementsByClassName(codigo);
     select = document.getElementById("select"+codigo);
@@ -65,5 +66,13 @@ function habilitarDeshabilitar(codigo){
         document.getElementById("msgAct"+codigo).innerHTML = "";
         document.getElementById("msgObs"+codigo).innerHTML = "";
         document.getElementById("asistenciaFalse"+codigo).value= false;
+    }
+}
+/*deshabilita el boton de horarios si existen horarios */
+function habilitarBotonRegistrar(horarios){
+    console.log(horarios);
+    if(horarios > 0 ){
+        document.getElementById("registrar").style.display = "block";
+        console.log("es vacio");
     }
 }
