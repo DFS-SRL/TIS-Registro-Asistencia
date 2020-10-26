@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Unidad;
 use App\Asistencia;
 use Illuminate\Http\Request;
+use App\helpers\AsistenciaHelper;
+use Illuminate\Validation\ValidationException;
 
 class InformesController extends Controller
 {
@@ -20,16 +22,57 @@ class InformesController extends Controller
     public function subirInformes()
     {
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
-        $asistencias = Asistencia::where('fecha', '>=', $fechaInicio)->where('fecha', '<=', $fechaFin)->where('unidad_id', '=', request()['unidad_id'])->select('Asistencia.*')->get();
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidad(
+            Unidad::find(request()['unidad_id']),
+            $fechaInicio,
+            $fechaFin
+        );
+        
         foreach ($asistencias as $key => $asistencia) {
-            if($asistencia->nivel != 2)
-                return 'no se pueden enviar :\'v';
+            if($asistencia->nivel == 1)
+                {$error = ValidationException::withMessages([
+                    'nivel1' => ['algun docente se encuentra editando su informe semanal']
+                ]);
+                throw $error;
+            }
+            if($asistencia->nivel == 3)
+                {$error = ValidationException::withMessages([
+                    'nivel3' => ['los informes ya fueron enviados a facultativo']
+                ]);
+                throw $error;
+            }
         }
+        $this->subirNivel($asistencias);
+        return 'enviado correctamente :)';
+    }
+
+    public function subirInformesFuerza()
+    {
+        calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidad(
+            Unidad::find(request()['unidad_id']),
+            $fechaInicio,
+            $fechaFin
+        );
+        
+        foreach ($asistencias as $key => $asistencia) {
+            if($asistencia->nivel == 3)
+                {$error = ValidationException::withMessages([
+                    'nivel3' => ['los informes ya fueron enviados a facultativo']
+                ]);
+                throw $error;
+            }
+        }
+        $this->subirNivel($asistencias);
+        return 'enviado correctamente :)';
+    }
+
+    private function subirNivel($asistencias)
+    {
         foreach ($asistencias as $key => $asistencia) {
             $asistencia -> update([
                 'nivel' => 3,
             ]);
         }
-        return 'enviado correctamente :)';
     }
 }

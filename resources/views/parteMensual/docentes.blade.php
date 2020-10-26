@@ -3,7 +3,6 @@
 DOCENTES    
 @endsection
 @section('reporte')
-<h4 class = "textoBlanco" >COMBINADO</h4>
 <table class = "table table-bordered">
     <tr>
         <th class = "textoBlanco border border-dark">CODIGO SIS</th>

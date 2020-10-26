@@ -25,14 +25,15 @@ function valLimObs(codigo){
 function valMinAct(){
     let res = true;
     let actividades = document.getElementsByClassName("actividad");
-    if(actividades[0].disabled){
-        res = true;
-    }else{
-        for(actividad of actividades){
+    for(actividad of actividades){
+        if(actividad.disabled){
+            res = res && true;
+        }
+        else{
             if(actividad.value.length < 5){
                 console.log("Llenar campo actividad");
                 id = actividad.id.replace('actividad','');
-                document.getElementById("msgAct"+id).innerHTML = "Numero de caracteres insuficiente";
+                document.getElementById("msgAct"+id).innerHTML = "N&uacutemero de caracteres insuficiente";
                 console.log(id);
                 res = res && false;
 

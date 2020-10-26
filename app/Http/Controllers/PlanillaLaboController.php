@@ -39,7 +39,7 @@ class PlanillaLaboController extends Controller
         $fechas = getFechasDeSemanaEnFecha($fecha);
 
         // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistencias($unidad, 1, $fechas[0], $fechas[5]);;
+        $asistencias = AsistenciaHelper::obtenerAsistenciasRol($unidad, 1, $fechas[0], $fechas[5]);;
         
         //devolver la vista de informe semanal de laboratorio
         return view('informes.semanalLabo', [

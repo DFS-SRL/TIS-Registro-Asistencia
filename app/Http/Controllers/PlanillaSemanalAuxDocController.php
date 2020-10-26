@@ -27,7 +27,7 @@ class PlanillaSemanalAuxDocController extends Controller
         // devolver vista de planillas semanales
         return view('planillas.semanalAuxDoc', [
             'fechaInicio' => $fechasDeSemana["LUNES"],
-            'fechaFinal' => $fechasDeSemana["VIERNES"],
+            'fechaFinal' => $fechasDeSemana["SABADO"],
             'fechasDeSemana' => $fechasDeSemana,
             'horarios' => $horarios,
             'nombre' => $nombre,
