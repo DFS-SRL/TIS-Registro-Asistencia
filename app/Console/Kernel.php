@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\RegistroFaltasDiario;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\RegistroFaltasSemanalDocente;
+use App\Console\Commands\RegistroFaltasSemanalAuxiliar;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,7 +16,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        RegistroFaltasDiario::class
+        RegistroFaltasDiario::class,
+        RegistroFaltasSemanalDocente::class,
+        RegistroFaltasSemanalAuxiliar::class
     ];
 
     /**
@@ -27,6 +31,16 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('faltas:diario')
                     ->dailyAt('00:01')
+                    ->timezone('America/La_Paz');
+
+        $schedule->command('faltas:semanaldocente')
+                    ->sundays()
+                    ->at('00:01')
+                    ->timezone('America/La_Paz');
+
+        $schedule->command('faltas:semanalauxiliar')
+                    ->sundays()
+                    ->at('00:01')
                     ->timezone('America/La_Paz');
     }
 

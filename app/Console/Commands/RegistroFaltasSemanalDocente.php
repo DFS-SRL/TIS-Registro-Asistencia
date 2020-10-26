@@ -44,7 +44,7 @@ class RegistroFaltasSemanalDocente extends Command
                             ->get()->groupBy('dia');
         
         // fecha por dias de la semana
-        $fechaPorDia = getFechasDeSemanaEnFecha("yesterday");      
+        $fechaPorDia = getFechasDeSemanaEnFecha("today");      
 
         // buscar horarios que no fueron registrados
         foreach ($horarios as $horariosEnDia) {
