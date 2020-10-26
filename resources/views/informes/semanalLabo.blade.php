@@ -20,16 +20,14 @@
     <div class="container">
         <div class="row">            
             <div class="col-8"> 
-               <h5 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA</h5>
-               <p class = "textoBlanco">FACULTAD/DPTO: {{ $unidad->facultad }} / {{ $unidad->nombre }}  </p>                
+               <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA</h2>
+               <h4 class = "textoBlanco">FACULTAD/DPTO: {{ $unidad->facultad }} / {{ $unidad->nombre }}  </h4>                
                           
             </div>
-            <div class="col-2">
-                <p class = "textoBlanco">DESDE: {{ $fechaInicio }}</p>
+            <div class = "col-4">
+                <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
+                <b class = "textoBlanco ml-4">AL: </b><span class = "textoBlanco"> {{$fechaFinal}}</span>
             </div>
-            <div class="col-2">                
-                <p class = "textoBlanco">HASTA: {{ $fechaFinal }} </p>    
-            </div> 
         </div>
         @if (!$asistencias->isEmpty())
             <table class="table">

@@ -14,17 +14,17 @@
     <div class="m-3">
     <div class="row">
         <div class="col-6">
-            <h2 class = "textoBlanco">planilla semanal de asistencia</h2>
+            <h2 class = "textoBlanco">PLANILLA SEMANAL DE ASISTENCIA</h2>
         </div>
         <div class = "col-6">
-            <b class = "textoBlanco">desde: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
-            <b class = "textoBlanco ml-4">hasta: </b><span class = "textoBlanco"> {{$fechaFinal}}</span>
+            <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
+            <b class = "textoBlanco ml-4">AL: </b><span class = "textoBlanco"> {{$fechaFinal}}</span>
         </div>
     </div>
     <form  method="POST"  @yield('action') onsubmit= "return valMinAct()">
     @if(!empty($horarios))
         <h4 class = "textoBlanco">@yield('tipoUsuario') {{$nombre}}</h4>
-        <h4 class = "textoBlanco">Codigo SIS: {{$codSis}}</h4>
+        <h4 class = "textoBlanco">CODIGO SIS: {{$codSis}}</h4>
     @endif
     @forelse ($horarios as $key1 => $unidad)
         <br>
@@ -32,15 +32,15 @@
             @csrf
             <table class = "table table-bordered">
                 <tr>
-                    <th class = "textoBlanco border border-dark">fecha</th>
-                    <th class = "textoBlanco border border-dark">horario</th>
-                    <th class = "textoBlanco border border-dark">grupo</th>
-                    <th class = "textoBlanco border border-dark">materia</th>
-                    <th class = "textoBlanco border border-dark">actividad realizada</th>
-                    <th class = "textoBlanco border border-dark">indicador verificable</th>
-                    <th class = "textoBlanco border border-dark">observaciones</th>
-                    <th class = "textoBlanco border border-dark">asistencia</th>
-                    <th class = "textoBlanco border border-dark">permiso</th>
+                    <th class = "textoBlanco border border-dark">FECHA</th>
+                    <th class = "textoBlanco border border-dark">HORARIO</th>
+                    <th class = "textoBlanco border border-dark">GRUPO</th>
+                    <th class = "textoBlanco border border-dark">MATERIA</th>
+                    <th class = "textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
+                    <th class = "textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
+                    <th class = "textoBlanco border border-dark">OBSERVACIONES</th>
+                    <th class = "textoBlanco border border-dark">ASISTENCIA</th>
+                    <th class = "textoBlanco border border-dark">PERMISO</th>
                 </tr>
                 @foreach ($unidad as $key2 => $horario)
                     <tr>

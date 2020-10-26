@@ -13,14 +13,14 @@
     <div class="container">
         <div class="row">            
             <div class="col-8"> 
-                <h5  class = "textoBlanco">PLANILLA DIARIA DE ASISTENCIA</h5>
-                    <p class = "textoBlanco">NOMBRE AUXILIAR LABORATORIO: {{ $usuario->nombre }}</p>
-                    <p class = "textoBlanco">CODSIS: {{ $usuario->codSis }} </p>                
+                <h2  class = "textoBlanco">PLANILLA DIARIA DE ASISTENCIA</h2>
+                <h4 class = "textoBlanco">NOMBRE AUXILIAR LABORATORIO: {{ $usuario->nombre }}</h4>
+                <h4 class = "textoBlanco">CODSIS: {{ $usuario->codSis }} </h4>                
                         
             </div>
-            <div class="col-4">
-                <p class = "textoBlanco">DIA: {{ getDia() }} </p>
-                <p class = "textoBlanco">FECHA: {{ $fecha }} </p>
+            <div class="col-4">                
+                <b class = "textoBlanco">DIA: </b><span class = "textoBlanco"> {{ getDia() }}</span>
+                <b class = "textoBlanco ml-4">FECHA: </b><span class = "textoBlanco"> {{$fecha}}</span>
             </div> 
         </div>
             @if (!$horarios->isEmpty())
@@ -69,9 +69,9 @@
                     </form>
                 @else
                     @if ($llenado)
-                        <p>LA PLANILLA YA FUE LLENADA</p>
+                        <p class = "textoBlanco">LA PLANILLA YA FUE LLENADA</p>
                     @else
-                        <p>NO HAY HORARIOS</p>
+                        <p class = "textoBlanco">NO HAY HORARIOS</p>
                     @endif
                 @endif
     </div>

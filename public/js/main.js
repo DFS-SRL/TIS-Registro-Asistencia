@@ -33,7 +33,7 @@ function valMinAct(){
             if(actividad.value.length < 5){
                 console.log("Llenar campo actividad");
                 id = actividad.id.replace('actividad','');
-                document.getElementById("msgAct"+id).innerHTML = "Numero de caracteres insuficiente";
+                document.getElementById("msgAct"+id).innerHTML = "N&uacutemero de caracteres insuficiente";
                 console.log(id);
                 res = res && false;
 
