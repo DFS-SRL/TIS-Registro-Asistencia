@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/semanalDocenteEstilo.css">
+    <link rel="stylesheet" href="/css/planillaSemanalEstilo.css">
     
     <title>Planilla mensual</title>
 </head>
@@ -30,8 +30,8 @@
     <form  method="POST"  @yield('action') onsubmit= "return valMinAct()"> --}}
             @yield('reporte')
             
-        <strong>Total horas pagables: {{$totPagables }}</strong> <br>
-        <strong>Total horas no pagables: {{$totNoPagables }}</strong> <br>
+        <strong class = "textoBlanco">Total horas pagables: {{$totPagables }}</strong> <br>
+        <strong class = "textoBlanco">Total horas no pagables: {{$totNoPagables }}</strong> <br>
         <button class="btn btn-success" >Registrar</button>    
         {{-- </form>       --}}
     </div>
