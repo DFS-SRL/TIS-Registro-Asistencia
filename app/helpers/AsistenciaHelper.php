@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class AsistenciaHelper {
      // devuelve asistencias de la unidad dado rol y fechas con el orden establecido
-    public static function obtenerAsistencias(Unidad $unidad, $rol, $fechaInicio, $fechaFin)
+    public static function obtenerAsistenciasRol(Unidad $unidad, $rol, $fechaInicio, $fechaFin)
     {
         return self::aux($unidad, $rol, $fechaInicio, $fechaFin)
                     ->join('Usuario', 'usuario_codSis', '=', 'codSis')
@@ -22,9 +22,10 @@ class AsistenciaHelper {
     }
 
     // devuelve asistencias de la unidad dado rol, fechas de un determinado usuario
-    public static function obtenerAsistenciasUsuario(Unidad $unidad, $rol, $fechaInicio, $fechaFin, Usuario $usuario)
+    public static function obtenerAsistenciasUsuarioRol(Unidad $unidad, $rol, $nivel, $fechaInicio, $fechaFin, Usuario $usuario)
     {
         return self::aux($unidad, $rol, $fechaInicio, $fechaFin)
+                    ->where('nivel', '=', $nivel)
                     ->where('usuario_codSis', '=', $usuario->codSis)->get();
     }
 
@@ -37,5 +38,13 @@ class AsistenciaHelper {
                 ->join('Horario_clase', 'horario_clase_id', '=', 'Horario_clase.id')
                 ->where('Horario_clase.rol_id', '=', $rol)
                 ->select('Asistencia.*');
+    }
+    
+    public static function obtenerAsistenciasUnidad(Unidad $unidad, $fechaInicio, $fechaFin)
+    {
+        return Asistencia::where('Asistencia.unidad_id', '=', $unidad->id)
+                ->where('fecha', '>=', $fechaInicio)
+                ->where('fecha', '<=', $fechaFin)
+                ->get();
     }
 }

@@ -29,6 +29,7 @@ Route::get('/informe/labo/{unidad}/{fecha}', 'PlanillaLaboController@obtenerInfo
 
 Route::get('/informes/{unidad}', 'InformesController@index');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
+Route::post('/informes/subirFuerza', 'InformesController@subirInformesFuerza')->name('informes.subirFuerza');
 
 Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@obtenerPlanillaSemana');
 // Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
