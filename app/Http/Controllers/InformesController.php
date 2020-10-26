@@ -20,17 +20,15 @@ class InformesController extends Controller
     public function subirInformes()
     {
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
-        $asistencias = Asistencia::where('fecha', '>=', $fechaInicio)
-                                ->where('fecha', '<=', $fechaFin)
-                                ->where('unidad_id', '=', request()['unidad'])
-                                ->select('Asistencia.*')
-                                ->get();
+        $asistencias = Asistencia::where('fecha', '>=', $fechaInicio)->where('fecha', '<=', $fechaFin)->where('unidad_id', '=', request()['unidad_id'])->select('Asistencia.*')->get();
         foreach ($asistencias as $key => $asistencia) {
             if($asistencia->nivel != 2)
                 return 'no se pueden enviar :\'v';
         }
         foreach ($asistencias as $key => $asistencia) {
-            
+            $asistencia -> update([
+                'nivel' => 3,
+            ]);
         }
         return 'enviado correctamente :)';
     }

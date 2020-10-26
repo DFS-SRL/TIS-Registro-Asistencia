@@ -8,6 +8,7 @@
     <title>Auxiliar laboratorio</title>
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/estiloGeneral.css">
     <style>
         table,
         th,
@@ -33,7 +34,7 @@
         </div>
         <ul class="list-group">
             @forelse ($grupos as $grupo)
-                <li class="list-group-item"><a href={{"/grupo/".$grupo->id}}>{{$grupo->nombre}}</a></li>
+                <li class="list-group-item"><a href="/grupo/{{$grupo->id}}">{{$grupo->nombre}}</a></li>
             @empty
                 <p>No hay grupos</p>
             @endforelse

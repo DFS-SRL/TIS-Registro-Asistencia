@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/planillaSemanalEstilo.css">
+    <link rel="stylesheet" href="/css/estiloGeneral.css">
     <link rel="stylesheet" href="/css/listaMateriasEstilo.css">
     <title>lista de materias</title>
 </head>
@@ -35,7 +35,7 @@
         <div class="container mt-4">
             <ul class="list-group">
                 @forelse ($materias as $materia)
-                    <li class="list-group-item linkMateria lista"><a href="">{{$materia->nombre}}</a></li>
+                    <li class="list-group-item linkMateria lista"><a href="/materia/{{$materia->id}}">{{$materia->nombre}}</a></li>
                 @empty
                     <h3 class="textoBlanco">Este unidad no tiene materias asignadas</h3>
                 @endforelse
