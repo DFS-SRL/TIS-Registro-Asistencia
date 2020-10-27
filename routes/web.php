@@ -40,9 +40,11 @@ Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteControlle
 Route::post('/planillas/semanal/', 'RegistrarAsistenciaSemanal@registrarAsistencia')->name('planillas.semanal');
 
 Route::get('/docentes','ProvController\Menu@docentes');
-Route::get('/auxiliares','ProvController\Menu@auxiliares');
+Route::get('/auxiliaresDoc','ProvController\Menu@auxiliaresDoc');
+Route::get('/auxiliaresLabo','ProvController\Menu@auxiliaresLabo');
 Route::get('/encargadosAsist','ProvController\Menu@encargadosAsist');
 Route::get('/jefesDept','ProvController\Menu@jefesDept');
+Route::get('/departamentos','ProvController\Menu@departamentos');
 
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
