@@ -62,13 +62,13 @@
             <div class="col-12">
                 @if ($docente != null)
                     <p>Docente: {{$docente->nombre}}</p>                    
-                    <p>Carga horaria docente: {{$horarios->where('asignado_codSis', '=', $docente->codSis)->count()}}</p>
+                    <p>Carga horaria docente: {{$cargaHorariaDocente}}</p>
                 @else
                     <p>Docente no asignado</p>
                 @endif
                 @if ($auxiliar != null)
                     <p>Auxiliar: {{$auxiliar->nombre}}</p>
-                    <p>Carga horaria auxilliar: {{$horarios->where('asignado_codSis', '=', $auxiliar->codSis)->count()}}</p>
+                    <p>Carga horaria auxilliar: {{$cargaHorariaAuxiliar}}</p>
                 @else
                     <p>Auxiliar no asignado</p>
                 @endif

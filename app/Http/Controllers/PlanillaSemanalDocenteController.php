@@ -16,13 +16,14 @@ class PlanillaSemanalDocenteController extends Controller
         $codigoSis = $user->codSis;
         $nombre = Usuario::where('codSis','=',$codigoSis)->value('nombre');
 
+        // se obtienen los horarios del usuario con rol 3 (docente)
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
                                     ->where('rol_id', '=', 3)
                                     ->orderBy('dia', 'ASC')
                                     ->get();
 
+        $horarios = $horarios->groupBy('unidad_id');
 
-        $horarios =$horarios->groupBy('unidad_id');
         $fechasDeSemana = getFechasDeSemanaActual();
 
         // devolver vista de planillas semanales
