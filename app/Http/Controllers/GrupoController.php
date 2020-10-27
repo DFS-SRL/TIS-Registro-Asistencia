@@ -48,6 +48,7 @@ class GrupoController extends Controller
                             -> get() -> first();
 
         // Se calcula la carga horaria
+        // 45 minutos por hora pagable para docencia y 60 minutos para laboratorios
         $cargaHorariaDocente = 0;
         $cargaHorariaAuxiliar = 0;
         foreach ($horarios as $horario) {
