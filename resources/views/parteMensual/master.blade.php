@@ -29,9 +29,6 @@
     {{-- @csrf
     <form  method="POST"  @yield('action') onsubmit= "return valMinAct()"> --}}
             @yield('reporte')
-            
-        <strong class = "textoBlanco">Total horas pagables: {{$totPagables }}</strong> <br>
-        <strong class = "textoBlanco">Total horas no pagables: {{$totNoPagables }}</strong> <br>
         {{-- </form>       --}}
     </div>
     <script src="/js/main.js"></script>

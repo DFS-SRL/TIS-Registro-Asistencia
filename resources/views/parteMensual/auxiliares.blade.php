@@ -62,7 +62,7 @@ AUXILIARES
             @endforeach
         </table>    
         @else
-            <h4 class="textoBlanco">NO ASISTENCIAS REGISTRADAS</h4> 
+            <h4 class="textoBlanco">NO HAY ASISTENCIAS REGISTRADAS</h4> 
         @endif
         
     <h4 class = "textoBlanco">AUXILIARES DE DOCENCIA</h4>
@@ -91,12 +91,15 @@ AUXILIARES
 
         </table>    
         @else            
-            <h4 class="textoBlanco">NO ASISTENCIAS REGISTRADAS</h4> 
+            <h4 class="textoBlanco">NO HAY ASISTENCIAS REGISTRADAS</h4> 
         @endif
         
-    </div>    
+    </div>
+            
+<strong class = "textoBlanco">Total horas pagables: {{$totPagables }}</strong> <br>
+<strong class = "textoBlanco">Total horas no pagables: {{$totNoPagables }}</strong> <br>    
 @else
-    <h4 class="textoBlanco">NO ASISTENCIAS REGISTRADAS</h4>
+    <h4 class="textoBlanco">NO HAY ASISTENCIAS REGISTRADAS</h4>
 @endif
 
 @endsection

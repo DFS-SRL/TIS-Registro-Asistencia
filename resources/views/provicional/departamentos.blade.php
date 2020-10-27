@@ -7,12 +7,18 @@
 <table>
     @forelse ($departamentos as $departamento)
     <tr>
-        <td class="col-6">{{$departamento->facultad}} - {{$departamento->nombre}}</td>
-        <td class="col-3">
-        <a href="parteMensual/docentes/{{$departamento->id}}/2020-10-19">Reporte Docentes</a>
+        <td class="col-4">{{$departamento->facultad}} - {{$departamento->nombre}}</td>
+        <td class="col-2">
+        <a href="parteMensual/docentes/{{$departamento->id}}/2020-10-27">Reporte Docentes</a>
         </td>
-        <td class="col-3">
-            <a href="parteMensual/auxiliares/{{$departamento->id}}/2020-10-19">Reporte Auxiliares</a>
+        <td class="col-2">
+            <a href="parteMensual/auxiliares/{{$departamento->id}}/2020-10-27">Reporte Auxiliares</a>
+        </td>
+        <td class="col-2">
+            <a href="/materias/{{$departamento->id}}">Ver materias</a>
+        </td>        
+        <td class="col-2">
+            <a href="/informe/labo/{{$departamento->id}}/2020-10-27">Informe semanal labo</a>
         </td>
     </tr>
     @empty

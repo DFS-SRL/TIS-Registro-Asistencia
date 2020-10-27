@@ -26,8 +26,11 @@ DOCENTES
                 </tr>
             @endforeach
         </table>
+    <strong class = "textoBlanco">Total horas pagables: {{$totPagables }}</strong> <br>
+    <strong class = "textoBlanco">Total horas no pagables: {{$totNoPagables }}</strong> <br>
     @else
         <h4 class="textoBlanco">NO HAY ASISTENCIAS REGISTRADAS</h4>
     @endif
 
+            
 @endsection

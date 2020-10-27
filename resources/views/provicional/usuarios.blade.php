@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/listaMateriasEstilo.css">
 </head>
 <body>
-    <h1>@yield('tipoUsuario')</h1>
+    <h1 class="textoBlanco">@yield('tipoUsuario')</h1>
     <div class="container mt-4">
             @yield('usuarios')
     </div>
