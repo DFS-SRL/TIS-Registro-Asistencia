@@ -17,12 +17,12 @@
 
 
 <body>
-    <div class="container">
+    <div class="container my-3">
         <div class="row">            
             <div class="col-8"> 
                <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA</h2>
                <h4 class = "textoBlanco">FACULTAD/DPTO: {{ $unidad->facultad }} / {{ $unidad->nombre }}  </h4>                
-                          
+                <br>
             </div>
             <div class = "col-4">
                 <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
