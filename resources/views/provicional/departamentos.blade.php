@@ -7,7 +7,7 @@
 <table>
     @forelse ($departamentos as $departamento)
     <tr>
-        <td class="col-4">{{$departamento->facultad}} - {{$departamento->nombre}}</td>
+        <td class="col-3">{{$departamento->facultad}} - {{$departamento->nombre}}</td>
         <td class="col-2">
         <a href="parteMensual/docentes/{{$departamento->id}}/2020-10-27">Reporte Docentes</a>
         </td>
@@ -19,6 +19,9 @@
         </td>        
         <td class="col-2">
             <a href="/informe/labo/{{$departamento->id}}/2020-10-27">Informe semanal labo</a>
+        </td>
+        <td class="col-1">
+            <a href="/informes/{{$departamento->id}}">Enviar asistencias</a>
         </td>
     </tr>
     @empty
