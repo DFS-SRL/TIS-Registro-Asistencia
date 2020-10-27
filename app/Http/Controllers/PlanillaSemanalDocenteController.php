@@ -14,26 +14,44 @@ class PlanillaSemanalDocenteController extends Controller
     public function obtenerPlanillaSemana(Usuario $user)
     {
         $codigoSis = $user->codSis;
-        $nombre = Usuario::where('codSis','=',$codigoSis)->value('nombre');
 
-        // se obtienen los horarios del usuario con rol 3 (docente)
-        $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
-                                    ->where('rol_id', '=', 3)
-                                    ->orderBy('dia', 'ASC')
-                                    ->get();
+        // ver si no se lleno la planilla de esta semana
+        $llenado = $this->hayAsistencias($user);
 
-        $horarios = $horarios->groupBy('unidad_id');
+        if (!$llenado) {
+            // obteniendo horarios asignados al auxiliar actual
+            $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
+                ->where('rol_id', '=', 3)
+                ->orderBy('dia', 'ASC')
+                ->orderBy('hora_inicio', 'ASC')
+                ->get();
+            $horarios = $horarios->groupBy('unidad_id');
+        } else
+            $horarios = collect(new HorarioClase);
 
         $fechasDeSemana = getFechasDeSemanaActual();
 
         // devolver vista de planillas semanales
-        return view('planillas.semanalDocente', [
+        return view('planillas.semanalAuxDoc', [
             'fechaInicio' => $fechasDeSemana["LUNES"],
             'fechaFinal' => $fechasDeSemana["SABADO"],
             'fechasDeSemana' => $fechasDeSemana,
             'horarios' => $horarios,
-            'nombre' => $nombre,
-            'codSis' => $codigoSis
+            'nombre' => $user->nombre,
+            'codSis' => $codigoSis,
+            'llenado' => $llenado
         ]);
+    }
+
+    private function hayAsistencias($usuario)
+    {
+        $fechas = getFechasDeSemanaEnFecha(date('Y-m-d'));
+        $asistencias = Asistencia::where('fecha', '>=', $fechas[0])
+            ->where('fecha', '<=', $fechas[5])
+            ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
+            ->where('rol_id', '=', 3)
+            ->where('Horario_clase.asignado_codSis', '=', $usuario->codSis)
+            ->get();
+        return !$asistencias->isEmpty();
     }
 }
