@@ -60,17 +60,21 @@
         </table>
         <div class="row">
             <div class="col-12">
-                @if ($docente != null)
-                    <p>Docente: {{$docente->nombre}}</p>                    
-                    <p>Carga horaria docente: {{$cargaHorariaDocente}}</p>
-                @else
-                    <p>Docente no asignado</p>
+                @if ($horarios != null && $horarios->where('rol_id', '=', 3)->count() > 0)
+                    @if ($docente != null)
+                        <p>Docente: {{$docente->nombre}}</p>                    
+                        <p>Carga horaria docente: {{$cargaHorariaDocente}}</p>
+                    @else
+                        <p>Docente no asignado</p>
+                    @endif
                 @endif
-                @if ($auxiliar != null)
-                    <p>Auxiliar: {{$auxiliar->nombre}}</p>
-                    <p>Carga horaria auxilliar: {{$cargaHorariaAuxiliar}}</p>
-                @else
-                    <p>Auxiliar no asignado</p>
+                @if ($horarios != null && $horarios->where('rol_id', '<=', 2)->count() > 0)
+                    @if ($auxiliar != null)
+                        <p>Auxiliar: {{$auxiliar->nombre}}</p>
+                        <p>Carga horaria auxilliar: {{$cargaHorariaAuxiliar}}</p>
+                    @else
+                        <p>Auxiliar no asignado</p>
+                    @endif
                 @endif
             </div>
         </div>
