@@ -76,3 +76,4 @@ function habilitarBotonRegistrar(horarios){
         console.log("es vacio");
     }
 }
+/* */

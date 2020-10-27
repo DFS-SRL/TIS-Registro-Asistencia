@@ -6,8 +6,8 @@ AUXILIARES
 <br>
 <br>
 <br>
-<label  class = "radio-inline textoBlanco "><input type="radio" name="optradio" onclick="combinado()" checked>Combinado</label>
-<label  class = "radio-inline textoBlanco "><input type="radio" name="optradio" onclick="separado()">Separado</label>
+<label  class = "radio-inline textoBlanco "><input type="radio" name="optradio" onclick="combinado()" autocomplete="off" checked>Combinado</label>
+<label  class = "radio-inline textoBlanco "><input type="radio" name="optradio" onclick="separado()" autocomplete="off">Separado</label>
 @endsection
 @section('reporte')
 <div id="combinado">

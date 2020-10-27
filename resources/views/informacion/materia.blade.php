@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Auxiliar laboratorio</title>
+    <title>Materia</title>
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/estiloGeneral.css">
@@ -13,18 +13,19 @@
 
 
 <body>
-    <div class="container my-4">
-        <div class="row">
-            <div class="col-8">
-                <h4 class="textoBlanco">{{ $materia->unidad->facultad }}</h4>
-                <h1 class="textoBlanco">{{ $materia->unidad->nombre }}</h1>
-                <br>
-                <h5 class="textoBlanco">{{ $materia->nombre }}</h5>
+    <div class="mx-3 my-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    <h4 class="textoBlanco">{{ $materia->unidad->facultad }}</h4>
+                    <h1 class="textoBlanco">{{ $materia->unidad->nombre }}</h1>
+                    <br>
+                    <h5 class="textoBlanco">{{ $materia->nombre }}</h5>
+                </div>
+                <div class="col-4">
+                    <h4 class="textoBlanco">Codigo de la materia: {{$materia->id}}</h4>
+                </div>
             </div>
-            <div class="col-4">
-                <p class="textoBlanco">Codigo de la materia: {{$materia->id}}</p>
-            </div>
-        </div>
         <ul class="list-group">
             @forelse ($grupos as $grupo)
                 <li class="list-group-item"><a href="/grupo/{{$grupo->id}}">{{$grupo->nombre}}</a></li>

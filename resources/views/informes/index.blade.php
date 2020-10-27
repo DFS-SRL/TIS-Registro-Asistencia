@@ -10,7 +10,7 @@
             @if ($key == 'nivel1')
                 <INPUT class="btn btn-success" 
                     TYPE='submit' 
-                    value='SUBIR DE TODOS MODOS' 
+                    value='ENVIAR DE TODOS MODOS' 
                     name='delete' 
                     onClick='return confirmSubmit(true)'>
             @endif
@@ -18,18 +18,23 @@
     @else
         <INPUT class="btn btn-success" 
             TYPE='submit' 
-            value='SUBIR' 
+            value='ENVIAR' 
             name='delete' 
             onClick='return confirmSubmit(false)'>
     @endif
-    {{-- <button class="btn btn-success">SUBIR</button>  --}}
 </form>
 
 <script LANGUAGE="JavaScript">
     <!--
     function confirmSubmit(fuerza)
     {
-        var agree=confirm("Estas seguro de subir los informes? no habrá marcha atras");
+        var agree = confirm("¿Estás seguro de subir los informes?, no habrá marcha atras",
+            function() {
+                alertify.success('Si');
+            },
+            function() {
+                alertify.error('No');
+            });
         if (agree)
         {
             if(fuerza)

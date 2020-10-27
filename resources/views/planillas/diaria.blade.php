@@ -50,7 +50,7 @@
                                     <label class ="text-danger" id="msgObs{{$key}}" for="observaciones"></label>
                                 </td>                     
                                 <td class="border border-dark"  ><div class="custom-control custom-switch">
-                                    <input onchange="habilitarDeshabilitar({{$key}})" type="checkbox" class="custom-control-input" id="asistencia{{$key}}"checked/>
+                                    <input onchange="habilitarDeshabilitar({{$key}})" type="checkbox" class="custom-control-input" id="asistencia{{$key}}" autocomplete="off" checked/>
                                 <label class="custom-control-label" for="asistencia{{$key}}"></label>
                                 </div> </td>  
                                 <td  class="border border-dark" >
