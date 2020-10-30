@@ -21,7 +21,12 @@ class Asistencia extends Model
     {
         return $this->belongsTo('App\Materia');
     }
-    
+
+    public function grupo()
+    {
+        return $this->belongsTo('App\Grupo');
+    }
+
     public function usuario()
     {
         return $this->belongsTo('App\Usuario');

@@ -34,23 +34,6 @@ class PlanillaLaboController extends Controller
         ]);
     }
 
-    public function obtenerInformeSemanal(Unidad $unidad, $fecha)
-    {
-        // obteniendo las fechas de la semana
-        $fechas = getFechasDeSemanaEnFecha($fecha);
-
-        // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistenciasRol($unidad, 1, $fechas[0], $fechas[5]);;
-
-        //devolver la vista de informe semanal de laboratorio
-        return view('informes.semanalLabo', [
-            'asistencias' => $asistencias,
-            'fechaInicio' => formatoFecha($fechas[0]),
-            'fechaFinal' => formatoFecha($fechas[5]),
-            'unidad' => $unidad
-        ]);
-    }
-
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
         // validar

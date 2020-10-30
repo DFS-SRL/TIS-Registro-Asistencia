@@ -11,7 +11,17 @@ use Illuminate\Http\Request;
 
 class GrupoController extends Controller
 {
+    /**
+    * Las clases de docencia y auxiliatura son Materia en la BD
+    * Tanto los grupos como los items son Grupo en la BD
+    
+    * Para diferenciarlos, vemos los horarios asignados al grupo/item
+    * si todos los horarios tienen rol_id = 1, es auxiliatura de laboratorio
+    * si todos los horarios tienen rol_id = [2,3], es clase de docencia
+    */
     private function informacionGrupo(Grupo $grupo){
+        //* Obtener horarios y personal es igual para docencia y laboratorio
+        
         // Obtener los horarios correspondientes a la materia
         $horarios = HorarioClase::where('grupo_id', '=', $grupo->id)
                                     ->get();
@@ -26,8 +36,8 @@ class GrupoController extends Controller
             }
         } )->values();
 
-        // IMPORTANTE
-        // Se asume que cada grupo tiene asignado maximo un docente y un auxiliar
+        //* IMPORTANTE
+        //* Se asume que cada grupo tiene asignado maximo un docente y un auxiliar
 
         // Obtiene el docente asignado al grupo
         $docente = Usuario::join('Usuario_tiene_rol', 'Usuario_tiene_rol.usuario_codSis', '=', 'codSis')
@@ -64,19 +74,34 @@ class GrupoController extends Controller
             }
         }
 
-        return [
-            'grupo' => $grupo,
-            'horarios' => $horarios,
-            'docente' => $docente,
-            'auxiliar' => $auxiliar,
-            'cargaHorariaDocente' => $cargaHorariaDocente,
-            'cargaHorariaAuxiliar' => $cargaHorariaAuxiliar
-        ];
+        //* Ahora diferenciamos entre docencia y auxiliaruta
+        $esGrupoDeDocencia = ( $horarios->where('rol_id', '=', 1)->count() == 0 );
+
+        if ($esGrupoDeDocencia) {
+            return [
+                'grupo' => $grupo,
+                'horarios' => $horarios,
+                'docente' => $docente,
+                'auxiliar' => $auxiliar,
+                'cargaHorariaDocente' => $cargaHorariaDocente,
+                'cargaHorariaAuxiliar' => $cargaHorariaAuxiliar
+            ];
+        }
+        else {
+            return [
+                $grupo,
+                $horarios,
+                $auxiliar,
+                $cargaHorariaDocente
+            ];
+        }
     }
+    //Esta funcion se usa al momento de entrar a la vista de grupo
     public function mostrarInformacion(Grupo $grupo) {
         $informacion = $this->informacionGrupo($grupo);
         return view('informacion.grupo',$informacion);
     }
+    //Esta funcion se usa al momento de entrar a la vista de editar grupo
     public function editarInformacion(Grupo $grupo){
         $informacion = $this->informacionGrupo($grupo);
         return view('informacion.editar.editarGrupo',$informacion);

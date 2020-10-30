@@ -25,7 +25,9 @@ Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDi
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
 
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
-Route::get('/informe/labo/{unidad}/{fecha}', 'PlanillaLaboController@obtenerInformeSemanal');
+Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalLabo');
+Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalAuxDoc');
+Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalDoc');
 
 Route::get('/informes/{unidad}', 'InformesController@index');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
@@ -39,15 +41,15 @@ Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteControlle
 
 Route::post('/planillas/semanal/', 'RegistrarAsistenciaSemanal@registrarAsistencia')->name('planillas.semanal');
 
-Route::get('/docentes','ProvController\Menu@docentes');
-Route::get('/auxiliaresDoc','ProvController\Menu@auxiliaresDoc');
-Route::get('/auxiliaresLabo','ProvController\Menu@auxiliaresLabo');
-Route::get('/encargadosAsist','ProvController\Menu@encargadosAsist');
-Route::get('/jefesDept','ProvController\Menu@jefesDept');
-Route::get('/departamentos','ProvController\Menu@departamentos');
+Route::get('/docentes', 'ProvController\Menu@docentes');
+Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc');
+Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo');
+Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
+Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
+Route::get('/departamentos', 'ProvController\Menu@departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 
-route::get('/materias/{unidadId}','ListaMateriasController@mostrarMaterias');
+route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
