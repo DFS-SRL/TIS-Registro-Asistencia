@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class GrupoController extends Controller
 {
-    public function mostrarInformacion(Grupo $grupo) {
+    private function informacionGrupo(Grupo $grupo){
         // Obtener los horarios correspondientes a la materia
         $horarios = HorarioClase::where('grupo_id', '=', $grupo->id)
                                     ->get();
@@ -64,13 +64,21 @@ class GrupoController extends Controller
             }
         }
 
-        return view('informacion.grupo', [
+        return [
             'grupo' => $grupo,
             'horarios' => $horarios,
             'docente' => $docente,
             'auxiliar' => $auxiliar,
             'cargaHorariaDocente' => $cargaHorariaDocente,
             'cargaHorariaAuxiliar' => $cargaHorariaAuxiliar
-        ]);
+        ];
+    }
+    public function mostrarInformacion(Grupo $grupo) {
+        $informacion = $this->informacionGrupo($grupo);
+        return view('informacion.grupo',$informacion);
+    }
+    public function editarInformacion(Grupo $grupo){
+        $informacion = $this->informacionGrupo($grupo);
+        return view('informacion.editar.editarGrupo',$informacion);
     }
 }

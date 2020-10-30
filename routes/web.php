@@ -46,6 +46,7 @@ Route::get('/encargadosAsist','ProvController\Menu@encargadosAsist');
 Route::get('/jefesDept','ProvController\Menu@jefesDept');
 Route::get('/departamentos','ProvController\Menu@departamentos');
 
+Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 

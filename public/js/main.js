@@ -76,4 +76,8 @@ function habilitarBotonRegistrar(horarios){
         console.log("es vacio");
     }
 }
+
+/*al hacer click en boton editar de grupo materia se redirige a la vista editar */
+
+
 /* */
