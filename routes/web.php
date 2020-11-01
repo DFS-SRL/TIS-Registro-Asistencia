@@ -50,6 +50,8 @@ Route::get('/departamentos', 'ProvController\Menu@departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
+Route::post('/grupo/asignar/docente', 'GrupoController@asignarDocente')->name('grupo.asignar.docente');
+
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
