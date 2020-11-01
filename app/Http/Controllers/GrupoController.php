@@ -121,8 +121,7 @@ class GrupoController extends Controller
             ]);
             throw $error;
         }
-        $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 3);
-        return "el docente fue asignado!!";
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 3);
     }
 
     // asignar docente a un grupo
@@ -135,8 +134,7 @@ class GrupoController extends Controller
             ]);
             throw $error;
         }
-        $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);
-        return "el auxiliar fue asignado!!";
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);;
     }
 
     // funcion auxiliar para aignar personal con codSis y rol a los horarios de un grupo
@@ -150,5 +148,6 @@ class GrupoController extends Controller
                 'asignado_codSis' => $codSis
             ]);
         }
+        return back()->with('status', 'Registro exitoso');
     }
 }
