@@ -52,12 +52,10 @@
                         <tr>
                             <td class="border border-dark">{{ $horario->dia }} {{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
                             <td class="border border-dark">
-                                @if ($docente != null && $horario->asignado_codSis === $docente->codSis)
+                                @if ($horario->rol_id === 3)
                                     DOCENCIA
-                                @elseif ($auxiliar != null && $horario->asignado_codSis === $auxiliar->codSis)
-                                    AUXILIATURA
                                 @else
-                                    HORARIO NO ASIGNADO
+                                    AUXILIATURA
                                 @endif
                             </td>
                             <td class="border border-dark">

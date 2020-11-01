@@ -9,6 +9,8 @@ use App\HorarioClase;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsuarioGrupoRequest;
+use App\Http\Controllers\UsuarioController;
+use Illuminate\Validation\ValidationException;
 
 class GrupoController extends Controller
 {
@@ -109,14 +111,44 @@ class GrupoController extends Controller
         return view('informacion.editar.editarGrupo', $informacion);
     }
 
-
+    // asignar docente a un grupo
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
         $datos = $request->validated();
-        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 3);
+        if (!UsuarioController::esDocente($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
+            ]);
+            throw $error;
+        }
+        $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 3);
+        return "el docente fue asignado!!";
     }
+
+    // asignar docente a un grupo
+    public function asignarAuxDoc(UsuarioGrupoRequest $request)
+    {
+        $datos = $request->validated();
+        if (!UsuarioController::esAuxDoc($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
+            ]);
+            throw $error;
+        }
+        $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);
+        return "el auxiliar fue asignado!!";
+    }
+
+    // funcion auxiliar para aignar personal con codSis y rol a los horarios de un grupo
     private function asignarUsuarioRol($codSis, $grupo_id, $rol_id)
     {
-        return "asignacion valida | esto es harcode :v " . $codSis . "  " . $grupo_id;
+        $horarios = HorarioClase::where('grupo_id', '=', $grupo_id)
+            ->where('rol_id', '=', $rol_id)
+            ->get();
+        foreach ($horarios as $key => $horario) {
+            $horario->update([
+                'asignado_codSis' => $codSis
+            ]);
+        }
     }
 }
