@@ -75,4 +75,15 @@ class InformesController extends Controller
             ]);
         }
     }
+
+    public function formulario(){
+        $unidad = [
+            'facultad' => 'Ciencias y Tecnología',
+            'nombre' => 'Informática y Sistemas',
+            'semanas' => '5',
+            'fechaIni' => '2/11',
+            'fechaFin' => '7/11'
+        ];
+        return view('informes.semanales', compact('unidad'));
+    }
 }

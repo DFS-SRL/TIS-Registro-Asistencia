@@ -53,3 +53,5 @@ Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
+
+Route::get('/informesSemanales', 'InformesController@formulario')->name('informes.semanales');
