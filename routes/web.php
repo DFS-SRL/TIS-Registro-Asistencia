@@ -53,6 +53,8 @@ Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::post('/grupo/asignar/docente', 'GrupoController@asignarDocente')->name('grupo.asignar.docente');
 Route::post('/grupo/asignar/auxDoc', 'GrupoController@asignarAuxDoc')->name('grupo.asignar.auxDoc');
 
+Route::delete('/horarioClase/{horario}', 'HorarioClaseController@eliminar')->name('horarioClase.eliminar');
+
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
