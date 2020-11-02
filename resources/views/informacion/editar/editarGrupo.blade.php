@@ -50,11 +50,12 @@
                                     width="30rem" height="30rem" 
                                     type="image" name="botonEliminar" 
                                     src="/icons/eliminar.png" alt="Eliminar"
-                                    onclick="document.getElementById('eliminar-horario{{ $horario->id }}').submit()"
+                                    onclick="confirmarEliminarHorario({{ $horario->id }})"
                                 >
                                 <form id="eliminar-horario{{ $horario->id }}"
                                     class="d-none"
-                                    method="POST" action="{{ route('horarioClase.eliminar', $horario) }}">
+                                    method="POST" action="{{ route('horarioClase.eliminar', $horario) }}"
+                                >
                                     @csrf @method('DELETE')
                                 </form>
                             </td>

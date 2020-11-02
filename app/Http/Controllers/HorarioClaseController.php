@@ -9,7 +9,7 @@ class HorarioClaseController extends Controller
 {
     public function eliminar(HorarioClase $horario)
     {
-        return "Clase " . $horario->id . " eliminada, es hardcode en realidad no :v";
+        $horario->delete();
         return back()->with('status', 'Clase eliminada');
     }
 }
