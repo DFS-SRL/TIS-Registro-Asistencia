@@ -79,14 +79,24 @@ function habilitarBotonRegistrar(horarios){
 /*al hacer click en boton editar de grupo materia se redirige a la vista editar */
 
 /*habilita el campo de busqueda al precionar el boton "asignar ..." en la vista de edicion de informacion de un grupo*/
-function botonAsignar(botonId, botonBuscadorId, buscadorId){
-    $('#'+botonId).hide() ;
-    $('#'+botonBuscadorId).show();
-    $('#'+buscadorId).addClass("form-control");
+function botonAsignar(botonId, botonBuscadorId, buscadorId, cancelarId, msgObsId, ocultar){
+    if(ocultar){
+        $('#'+botonId).hide() ;
+        $('#'+botonBuscadorId).show();
+        $('#'+buscadorId).addClass("form-control");
+        $('#'+cancelarId).show();
+    }else{
+        $('#'+botonId).show();
+        $('#'+botonBuscadorId).hide();
+        $('#'+buscadorId).removeClass("form-control");
+        $('#'+cancelarId).hide();
+        $('#'+msgObsId).empty();
+    }
 }
 
 /*valida que el campo de busqueda de docentes o auxiliares   para asignar a un grupo, no este vacio y que solo contenga numeros*/
 function validarBusquedaAsignar(buscadorId, msgObsId){
+    console.log('entra a validar');
     campoBusqueda = document.getElementById(buscadorId);
     let res;
     if(campoBusqueda.value.length == 0){
