@@ -32,7 +32,7 @@ class PlanillaSemanalDocenteController extends Controller
         $fechasDeSemana = getFechasDeSemanaActual();
 
         // devolver vista de planillas semanales
-        return view('planillas.semanalAuxDoc', [
+        return view('planillas.semanalDocente', [
             'fechaInicio' => $fechasDeSemana["LUNES"],
             'fechaFinal' => $fechasDeSemana["SABADO"],
             'fechasDeSemana' => $fechasDeSemana,
