@@ -140,10 +140,10 @@ class GrupoController extends Controller
             ]);
             throw $error;
         }
-        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);;
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);
     }
 
-    // funcion auxiliar para aignar personal con codSis y rol a los horarios de un grupo
+    // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
     private function asignarUsuarioRol($codSis, $grupo_id, $rol_id)
     {
         $horarios = HorarioClase::where('grupo_id', '=', $grupo_id)
@@ -155,5 +155,18 @@ class GrupoController extends Controller
             ]);
         }
         return back()->with('status', 'Registro exitoso');
+    }
+
+    // designar docente a un grupo
+    public function desasignarDocente(Grupo $grupo)
+    {
+        return $this->desasignarUsuarioRol($grupo->id, 3);
+    }
+
+    // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
+    private function desasignarUsuarioRol($grupo_id, $rol_id)
+    {
+        $this->asignarUsuarioRol(null, $grupo_id, $rol_id);
+        return back()->with('status', 'Personal desasignado');
     }
 }

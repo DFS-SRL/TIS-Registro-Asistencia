@@ -71,7 +71,21 @@
                 <div class="col-12" >
                     @if ($horarios != null && $horarios->where('rol_id', '=', 3)->count() > 0)
                         @if ($docente != null)
-                            <h4 >Docente: {{$docente->nombre}}<input width="30rem" height="30rem" type="image" name="botonEliminar" src="/icons/eliminar.png" alt="Eliminar"></h4> 
+                            <h4 >
+                                Docente: {{$docente->nombre}}
+                                <input 
+                                    width="30rem" height="30rem" 
+                                    type="image" name="botonDesasignar" 
+                                    src="/icons/eliminar.png" alt="Desasignar"
+                                    onclick="confirmarDesasignarDocente('{{ $docente->nombre }}')"
+                                >
+                                <form id="desasignar-docente"
+                                    class="d-none"
+                                    method="POST" action="{{ route('grupo.desasignar.docente', $grupo) }}"
+                                >
+                                    @csrf  @method('PATCH')
+                                </form>
+                            </h4> 
                             <h4>Carga horaria docente: {{$cargaHorariaDocente}}</h4>
                             
                         @else
