@@ -25,16 +25,10 @@
 </form>
 
 <script LANGUAGE="JavaScript">
-    <!--
+    // funcion de confirm box
     function confirmSubmit(fuerza)
     {
-        var agree = confirm("¿Estás seguro de subir los informes?, no habrá marcha atras",
-            function() {
-                alertify.success('Si');
-            },
-            function() {
-                alertify.error('No');
-            });
+        var agree = confirm("¿Estás seguro de subir los informes?, no habrá marcha atras");
         if (agree)
         {
             if(fuerza)

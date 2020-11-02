@@ -82,6 +82,7 @@ class GrupoController extends Controller
 
         if ($esGrupoDeDocencia) {
             return [
+                'esGrupoDeDocencia' => $esGrupoDeDocencia,
                 'grupo' => $grupo,
                 'horarios' => $horarios,
                 'docente' => $docente,
@@ -91,10 +92,11 @@ class GrupoController extends Controller
             ];
         } else {
             return [
-                $grupo,
-                $horarios,
-                $auxiliar,
-                $cargaHorariaDocente
+                'esGrupoDeDocencia' => $esGrupoDeDocencia,
+                'item' => $grupo,
+                'horarios' => $horarios,
+                'auxiliar' => $auxiliar,
+                'cargaHorariaAuxiliar' => $cargaHorariaAuxiliar
             ];
         }
     }
@@ -102,7 +104,11 @@ class GrupoController extends Controller
     public function mostrarInformacion(Grupo $grupo)
     {
         $informacion = $this->informacionGrupo($grupo);
-        return view('informacion.grupo', $informacion);
+        if ($informacion['esGrupoDeDocencia']) {
+            return view('informacion.grupo', $informacion);
+        } else {
+            return view('informacion.item', $informacion);
+        }
     }
     //Esta funcion se usa al momento de entrar a la vista de editar grupo
     public function editarInformacion(Grupo $grupo)

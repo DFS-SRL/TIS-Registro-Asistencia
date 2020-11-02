@@ -46,7 +46,18 @@
                             </td>
                             <td class="border border-dark">
                                 <input width="30rem" height="30rem" type="image" name="botonEditar" src="/icons/editar.png" alt="Editar">
-                                <input width="30rem" height="30rem" type="image" name="botonEliminar" src="/icons/eliminar.png" alt="Eliminar">
+                                <input 
+                                    width="30rem" height="30rem" 
+                                    type="image" name="botonEliminar" 
+                                    src="/icons/eliminar.png" alt="Eliminar"
+                                    onclick="confirmarEliminarHorario({{ $horario->id }})"
+                                >
+                                <form id="eliminar-horario{{ $horario->id }}"
+                                    class="d-none"
+                                    method="POST" action="{{ route('horarioClase.eliminar', $horario) }}"
+                                >
+                                    @csrf @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                     @empty
