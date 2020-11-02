@@ -9,21 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/estiloGeneral.css">
-    <style>
-        #personalAcademico{
-            border-style: solid;
-            border-color: black;
-            background-color: white;
-            /*padding: 1.5rem;*/
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            padding-left: 1.5rem;
-            margin-left: 5rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            margin-right: 5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/estiloEditarGrupo.css">
 </head>
 
 
@@ -88,7 +74,16 @@
                             <h4>Carga horaria docente: {{$cargaHorariaDocente}}</h4>
                             
                         @else
-                            <h4 >Docente: <button class="btn boton" id="asignarDocente">ASIGNAR DOCENTE</button></h4> 
+                            <h4 >Docente: <button class="btn boton" id="asignarDocente" onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1')">ASIGNAR DOCENTE</button>
+                            <form class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')">
+                                <input id = "buscador1" class="oculto" type="search" placeholder="codSis docente" aria-label="Search">
+                                <button id = "botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                                  </svg></button>
+                            </form>
+                            <label class ="text-danger" id="msgObsDocente" for="buscador1"></label>
+                            </h4>
                         @endif
                     @endif
                     @if ($horarios != null && $horarios->where('rol_id', '<=', 2)->count() > 0)
@@ -97,7 +92,16 @@
                             <h4>Carga horaria auxilliar: {{$cargaHorariaAuxiliar}}</h4>
                             
                         @else
-                            <h4 >Auxiliar: <button class="btn boton" id="asignarAuxiliar">ASIGNAR AUXILIAR</button></h4> 
+                            <h4 >Auxiliar: <button class="btn boton" id="asignarAuxiliar" onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2')">ASIGNAR AUXILIAR</button>
+                                <form class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador2','msgObsAuxiliar')">
+                                    <input id = "buscador2" class="oculto" type="search" placeholder="codSis auxiliar" aria-label="Search">
+                                    <button id = "botonBuscador2" class="btn boton my-2 my-sm-0 oculto" type="submit"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                        <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                                      </svg></button>
+                                </form>
+                                <label class ="text-danger" id="msgObsAuxiliar" for="buscador2"></label>
+                            </h4> 
                         @endif
                     @endif
                 </div>
@@ -114,4 +118,5 @@
 <!-- jQuery and JS bundle w/ Popper.js -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
+<script src="/js/main.js"></script>
 </html>

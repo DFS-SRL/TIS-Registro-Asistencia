@@ -76,8 +76,35 @@ function habilitarBotonRegistrar(horarios){
         console.log("es vacio");
     }
 }
-
 /*al hacer click en boton editar de grupo materia se redirige a la vista editar */
 
+/*habilita el campo de busqueda al precionar el boton "asignar ..." en la vista de edicion de informacion de un grupo*/
+function botonAsignar(botonId, botonBuscadorId, buscadorId){
+    $('#'+botonId).hide() ;
+    $('#'+botonBuscadorId).show();
+    $('#'+buscadorId).addClass("form-control");
+}
 
-/* */
+/*valida que el campo de busqueda de docentes o auxiliares   para asignar a un grupo, no este vacio y que solo contenga numeros*/
+function validarBusquedaAsignar(buscadorId, msgObsId){
+    campoBusqueda = document.getElementById(buscadorId);
+    let res;
+    if(campoBusqueda.value.length == 0){
+        document.getElementById(msgObsId).innerHTML = "debe especificar el codSis del docente que desea asignar a este grupo";
+        res = false;
+    }else if(!contieneSoloNumeros(campoBusqueda.value)){
+        document.getElementById(msgObsId).innerHTML = "solo se permiten caracteres numéricos";
+        res = false;
+    }else{
+        res = true;
+    }
+    return res;
+}
+
+function contieneSoloNumeros(texto){
+    let res = true;
+    for(pos = 0; pos < texto.length && res; pos++){
+        res = texto.charCodeAt(pos) >= 48 && texto.charCodeAt(pos) <= 57;
+    }
+    return res;
+}
