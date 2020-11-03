@@ -56,4 +56,6 @@ Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 
-Route::get('/informesSemanales', 'InformesController@formulario')->name('informes.semanales');
+Route::get('/informes/semanales/{unidad}', 'InformesController@formulario');
+// Route::get('/informes/semanales')->name('informes.semanales');
+Route::get('/informesSemanales', 'InformesController@verPrueba');

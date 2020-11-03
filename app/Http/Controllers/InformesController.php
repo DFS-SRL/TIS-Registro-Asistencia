@@ -76,14 +76,22 @@ class InformesController extends Controller
         }
     }
 
-    public function formulario(){
+    public function formulario(Unidad $unidad){
+        // $res = Unidad::where('id','=',$unidadId) -> select('nombre','facultad')->get();
+        // $unidad = [
+        //     'facultad' => ($res[0] -> facultad),
+        //     'nombre' => $res[0] -> nombre
+        // ];
+        return view('informes.semanales', ['unidad'=>$unidad]);
+        // return $unidad;
+        // return $this->verPrueba();
+    }
+
+    public function verPrueba(){
         $unidad = [
             'facultad' => 'Ciencias y Tecnología',
-            'nombre' => 'Informática y Sistemas',
-            'semanas' => '5',
-            'fechaIni' => '2/11',
-            'fechaFin' => '7/11'
+            'nombre' => 'Informática y Sistemas'
         ];
-        return view('informes.semanales', compact('unidad'));
+        return view('informes.semanales', ['unidad'=>$unidad]);
     }
 }

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/estiloGeneral.css">
 
+    <link rel="stylesheet" href="/css/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -17,9 +19,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="text/javascript" src='js/bootstrap-input-spinner.js'></script>
+    <script type="text/javascript" src='js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.min.js'></script>
+    <script type="text/javascript" src='js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.es.min.js'></script>
+
 
     <style>
-        .esquina-redondeada{
+        .esquina-redondeada {
             border-style: solid;
             border-radius: 25px;
             padding: 20px;
@@ -31,34 +36,36 @@
             color: black;
         }
 
-        .espaciado{
+        .espaciado {
             margin-bottom: 30px;
             margin-top: 30px;
         }
 
-        .ui-datepicker-calendar {
-            display: none;
+        .datepicker-switch,
+        .prev,
+        .next,
+        .clear {
+            color: white;
         }
 
-        .ui-widget {
-            font-size: .7em;
-        }
-
-        .input-group-prepend, .input-group-append{
+        .input-group-prepend,
+        .input-group-append {
             color: black;
             background: white;
         }
-        
 
     </style>
 </head>
 
 <body>
+
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <h2 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h2>
                 <h2 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h2>
+                {{-- <h2 class="textoBlanco">FACULTAD: {{ $unidad->facultad }}</h2>
+                <h2 class="textoBlanco">DEPARTAMENTO: {{ $unidad->nombre }} </h2> --}}
                 <br>
             </div>
         </div>
@@ -72,7 +79,7 @@
         </div>
 
         <div class="row textoBlanco justify-content-center esquina-redondeada" style="background:#7C7365;">
-            <form method="POST" action="{{ route('informes.semanales') }}">
+            <form>
                 <div class="col-12 opciones espaciado esquina-redondeada">
                     <input type="radio" id="docente" name="informe" value="docente">
                     <label for="docente">Docente</label><br>
@@ -83,8 +90,13 @@
                 </div>
 
                 <div class="col-12 espaciado">
-                    <label class="col-2" for="startDate">Date: </label>
-                    <input class="col-9" name="startDate" id="startDate" class="date-picker" data-date="" />
+                    {{-- <input class="col-9" name="startDate" id="startDate"
+                        class="date-picker" data-date="" /> --}}
+                    <div class="input-group">
+                        <label class="col-3 align-self-center" for="startDate">Mes/Año: </label>
+                        <input id="sandbox-container" type="text" class="form-control col-8 ml-3"
+                            data-date-end-date="0d" name="startDate">
+                    </div>
                 </div>
 
                 <div class="col-12 espaciado">
@@ -92,28 +104,28 @@
                     <input class="form-control" name="semana" step="1" type="number" id="inputLoop" value="1"
                         data-decimals="0" min="0" max="5" /> --}}
 
-                    <div class="input-group  ">
-                        <label for="semana">Semana: </label>
+                    <div class="input-group">
+                        <label for="semana" class="align-self-center">Semana: </label>
 
-                        <div class="input-group-prepend">
-                            <button onclick="step(-1, {{ $unidad['semanas'] }})" style="min-width: 2.5rem" 
-                            class="btn btn-decrement btn-outline-secondary btn-minus" type="button">
+                        <div class="input-group-prepend ml-3">
+                            <button onclick="step(-1)" style="min-width: 2.5rem"
+                                class="btn btn-decrement btn-outline-secondary btn-minus boton" type="button">
                                 <strong>−</strong>
                             </button>
                         </div>
 
                         <input type="text" inputmode="decimal" style="text-align: center" name="semana"
-                        class="form-control " placeholder="" id="inputLoop" value="1" disabled>
-                        
+                            class="form-control " placeholder="" id="inputLoop" value="" disabled>
+
                         <div class="input-group-append">
-                            <button onclick="step(1, {{ $unidad['semanas'] }})" style="min-width: 2.5rem" 
-                            class="btn btn-increment btn-outline-secondary btn-plus" type="button">
+                            <button onclick="step(1)" style="min-width: 2.5rem"
+                                class="btn btn-increment btn-outline-secondary btn-plus boton" type="button">
                                 <strong>+</strong>
                             </button>
                         </div>
                     </div>
                     <div class="text-center">
-                        <p>Del {{ $unidad['fechaIni'] }} al {{ $unidad['fechaFin'] }}</p>
+                        <p id="rangoSemana">Del __/__ al __/__</p>
                     </div>
 
                 </div>
@@ -121,48 +133,133 @@
         </div>
 
         <div class="espaciado float-right">
-            <button class="boton btn btn-success">Ver Informe</button>
+            <button class="boton btn btn-success textoNegro">Ver Informe</button>
         </div>
+
     </div>
 
 </body>
 
 <script>
-    var $inputLoop = $("#inputLoop");
-    function step (s, max) {
-        var value = $inputLoop.val();
-        value = parseInt(value, 10) + parseInt(s, 10);
-        if(value > max){
-            value = value % max;
-        }else if(value < 1){
-            value = max + parseInt(value, 10) % max;
-        }
-        $inputLoop.val(value)
-    }
-</script>
-
-<script>
-
-    $(function() {
-        var myDate = $("#startDate").attr('data-date');
-
-
-        $('#startDate').datepicker({
-            yearRange: "-20:+0",
-            maxDate: '-1M',
-            changeMonth: true,
-            changeYear: true,
-            setDate: myDate,
-            showButtonPanel: false,
-            dateFormat: 'MM yy',
-            onClose: function(dateText, inst) {
-                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                $(this).datepicker('setDate', new Date(year, month, 1));
-            }
-        });
-        $('#startDate').datepicker('setDate', myDate);
+    $(window).on('unload', function() {
+        $("#inputLoop").val("");
+        $('#rangoSemana')[0].innerHTML = ("Del __/__ al __/__");
+        $('#sandbox-container').val("");
     });
+
+    Date.prototype.addDays = function(d) {
+        return new Date(this.valueOf() + 864E5 * d);
+    };
+
+    var primerDiaMes;
+
+    $('#sandbox-container').datepicker({
+        enddate: 2020,
+        minViewMode: 1,
+        language: "es",
+        format: "mm/yyyy",
+        clearBtn: true
+    });
+
+    $("#sandbox-container").on("change", function() {
+        var x = $(this).val();
+        if (x) {
+            $("#inputLoop").val("1");
+            var data = $("#sandbox-container").val().split("/");
+            data.splice(1, 0, "01");
+            primerDiaMes = new Date(data[0] + "/" + data[1] + "/" + data[2]);
+            setRangoSemana(1);
+        } else {
+            $("#inputLoop").val("");
+            primerDiaMes = null;
+            actualizarMesAnio();
+        }
+    });
+
+    function step(s) {
+        var max = nroSemanas();
+
+        var $inputLoop = $("#inputLoop");
+        var date = $('#sandbox-container');
+
+        if (date[0].value !== "") {
+            var value = $inputLoop.val();
+            if (value === "")
+                value = 1;
+            value = parseInt(value, 10) + parseInt(s, 10);
+            if (value > max) {
+                value = value % max;
+                primerDiaMes.setMonth(primerDiaMes.getMonth() + 1);
+                actualizarMesAnio();
+            } else if (value < 1) {
+                value = max + parseInt(value, 10) % max;
+                primerDiaMes.setMonth(primerDiaMes.getMonth() - 1);
+                actualizarMesAnio();
+            }
+            if (esFechaValida(value)) {
+                $inputLoop.val(value)
+
+                setRangoSemana(value)
+            }
+        } else {
+            primerDiaMes = null;
+            actualizarMesAnio();
+        }
+    }
+
+    
+    function nroSemanas(){
+        var semanas = 0;
+        var ini, fin;
+        
+        do{
+            ini = primerDiaMes.addDays(-(primerDiaMes.getDay() - 1) + (semanas) * 7);
+            fin = ini.addDays(5);
+            semanas++;
+        }while(ini.getMonth() === primerDiaMes.getMonth() || fin.getMonth() === primerDiaMes.getMonth());
+
+        return semanas-1;
+    }
+
+    function weekCount(year, month_number, startDayOfWeek) {
+        // month_number is in the range 1..12
+
+        // Get the first day of week week day (0: Sunday, 1: Monday, ...)
+        var firstDayOfWeek = startDayOfWeek || 0;
+
+        var firstOfMonth = new Date(year, month_number - 1, 1);
+        var lastOfMonth = new Date(year, month_number, 0);
+        var numberOfDaysInMonth = lastOfMonth.getDate();
+        var firstWeekDay = (firstOfMonth.getDay() - firstDayOfWeek + 7) % 7;
+
+        var used = firstWeekDay + numberOfDaysInMonth;
+
+        return Math.ceil(used / 7);
+    }
+
+    function esFechaValida(semana) {
+        var ini = primerDiaMes.addDays(-(primerDiaMes.getDay() - 1) + (semana - 1) * 7);
+        var hoy = new Date();
+        return ini < hoy;
+    }
+
+    function setRangoSemana(semana) {
+        var ini = primerDiaMes.addDays(-(primerDiaMes.getDay() - 1) + (semana - 1) * 7);
+        var fin = ini.addDays(5);
+
+        var $p = $('#rangoSemana');
+        $p[0].innerHTML = "Del " + ini.getDate() + "/" + (ini.getMonth() + 1) +
+            " al " + fin.getDate() + "/" + (fin.getMonth() + 1);
+    }
+
+    function actualizarMesAnio() {
+        if (primerDiaMes)
+            $('#sandbox-container').val((primerDiaMes.getMonth() + 1) + "/" + primerDiaMes.getFullYear())
+        else{
+            $('#sandbox-container').val("");
+            $('#rangoSemana')[0].innerHTML = ("Del __/__ al __/__");
+        }
+    }
 
 </script>
 
