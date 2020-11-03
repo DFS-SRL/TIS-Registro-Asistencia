@@ -1,0 +1,22 @@
+.buscador{
+    display: inline;
+}
+#personalAcademico{
+    border-style: solid;
+    border-color: black;
+    background-color: white;
+    /*padding: 1.5rem;*/
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
+    margin-left: 5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-right: 5rem;
+}
+.oculto{
+    display: none;
+}
+.text-danger{
+    font-size: medium;
+}

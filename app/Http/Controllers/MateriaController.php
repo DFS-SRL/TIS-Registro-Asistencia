@@ -13,9 +13,16 @@ class MateriaController extends Controller
         $grupos = Grupo::where('materia_id', '=', $materia->id)
                             ->get();
         
-        return view('informacion.materia', [
-            "materia" => $materia,
-            "grupos" => $grupos
-        ]);
+        if ($materia->es_materia) {
+            return view('informacion.materia', [
+                "materia" => $materia,
+                "grupos" => $grupos
+            ]);
+        } else {
+            return view('informacion.cargo', [
+                "cargo" => $materia,
+                "items" => $grupos
+            ]);
+        }
     }
 }

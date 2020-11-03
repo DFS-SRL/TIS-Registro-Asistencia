@@ -9,6 +9,8 @@ use App\HorarioClase;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsuarioGrupoRequest;
+use App\Http\Controllers\UsuarioController;
+use Illuminate\Validation\ValidationException;
 
 class GrupoController extends Controller
 {
@@ -80,6 +82,7 @@ class GrupoController extends Controller
 
         if ($esGrupoDeDocencia) {
             return [
+                'esGrupoDeDocencia' => $esGrupoDeDocencia,
                 'grupo' => $grupo,
                 'horarios' => $horarios,
                 'docente' => $docente,
@@ -89,10 +92,11 @@ class GrupoController extends Controller
             ];
         } else {
             return [
-                $grupo,
-                $horarios,
-                $auxiliar,
-                $cargaHorariaDocente
+                'esGrupoDeDocencia' => $esGrupoDeDocencia,
+                'item' => $grupo,
+                'horarios' => $horarios,
+                'auxiliar' => $auxiliar,
+                'cargaHorariaAuxiliar' => $cargaHorariaAuxiliar
             ];
         }
     }
@@ -100,7 +104,11 @@ class GrupoController extends Controller
     public function mostrarInformacion(Grupo $grupo)
     {
         $informacion = $this->informacionGrupo($grupo);
-        return view('informacion.grupo', $informacion);
+        if ($informacion['esGrupoDeDocencia']) {
+            return view('informacion.grupo', $informacion);
+        } else {
+            return view('informacion.item', $informacion);
+        }
     }
     //Esta funcion se usa al momento de entrar a la vista de editar grupo
     public function editarInformacion(Grupo $grupo)
@@ -109,14 +117,56 @@ class GrupoController extends Controller
         return view('informacion.editar.editarGrupo', $informacion);
     }
 
-
+    // asignar docente a un grupo
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
         $datos = $request->validated();
+        if (!UsuarioController::esDocente($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
+            ]);
+            throw $error;
+        }
         return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 3);
     }
+
+    // asignar docente a un grupo
+    public function asignarAuxDoc(UsuarioGrupoRequest $request)
+    {
+        $datos = $request->validated();
+        if (!UsuarioController::esAuxDoc($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
+            ]);
+            throw $error;
+        }
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);
+    }
+
+    // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
     private function asignarUsuarioRol($codSis, $grupo_id, $rol_id)
     {
-        return "asignacion valida | esto es harcode :v " . $codSis . "  " . $grupo_id;
+        $horarios = HorarioClase::where('grupo_id', '=', $grupo_id)
+            ->where('rol_id', '=', $rol_id)
+            ->get();
+        foreach ($horarios as $key => $horario) {
+            $horario->update([
+                'asignado_codSis' => $codSis
+            ]);
+        }
+        return back()->with('status', 'Registro exitoso');
+    }
+
+    // designar docente a un grupo
+    public function desasignarDocente(Grupo $grupo)
+    {
+        return $this->desasignarUsuarioRol($grupo->id, 3);
+    }
+
+    // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
+    private function desasignarUsuarioRol($grupo_id, $rol_id)
+    {
+        $this->asignarUsuarioRol(null, $grupo_id, $rol_id);
+        return back()->with('status', 'Personal desasignado');
     }
 }
