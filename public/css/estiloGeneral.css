@@ -1,20 +1,29 @@
 body {
-  background-color: #404a44;
+    background-color: #404a44;
 }
-.textoBlanco{
-  color: white;
+
+.textoBlanco {
+    color: white;
 }
-th{
-  background-color: #000000;
+
+.textoNegro{
+    color: black;
 }
-td{
-  background-color: white;
+
+th {
+    background-color: #000000;
 }
-textarea{
-  width:200px; 
-  height:100px;
+
+td {
+    background-color: white;
 }
-.boton{
-  background-color: #D2B272;
-  font-weight: bold;
+
+textarea {
+    width: 200px;
+    height: 100px;
+}
+
+.boton {
+    background-color: #D2B272;
+    font-weight: bold;
 }
