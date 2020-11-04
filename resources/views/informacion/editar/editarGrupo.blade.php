@@ -8,6 +8,8 @@
     <title>Editar grupo</title>
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <link rel="stylesheet" href="/css/estiloGeneral.css">
     <link rel="stylesheet" href="/css/estiloEditarGrupo.css">
 </head>
@@ -153,9 +155,9 @@
                                             <option value="VIERNES">VIERNES</option>
                                             <option value="SABADO">SABADO</option>
                                         </select>
-                                        <input type="time" name="" id="">
-                                        <input type="time" name="" id="" disabled>
-                                        <input type="number" name="" id="" min="1" max="12" value="1">
+                                        <input type="time" name="" id="horaInicio" onchange="setHoraFin()">
+                                        <input type="time" name="" id="horaFin" disabled>
+                                        <input type="number" name="" id="periodo" min="1" max="12" value="1" onchange="setHoraFin()">
                                     </td>
                                     <td class="border border-dark">
                                         <select>
@@ -164,8 +166,8 @@
                                         </select>
                                     </td>
                                     <td class="border border-dark">
-                                        <input width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar" onclick="aceptarFila();">
-                                        <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar" onclick = "cancelarFila();">
+                                        <input width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar" onclick="aceptarFila()">
+                                        <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar" onclick = "cancelarFila()">
                                     </td>
                                 </tr>`);
         // let cuerpoTabla = document.getElementById("cuerpo-tabla");
@@ -204,9 +206,42 @@
         padre = fila.parentNode;
         padre.removeChild(fila);
     }
+    function setHoraFin(){
+        var timeInicio = document.getElementById("horaInicio").value;
+        var periodo = 45;
+        var numPeriodos = parseInt(document.getElementById("periodo").value);
+        var splitTimeInicio = timeInicio.split(":");
+        var horaInicio = parseInt(splitTimeInicio[0]);
+        var minutosInicio = parseInt(splitTimeInicio[1]);
+        var horaFin = horaInicio;
+        var minutosFin = minutosInicio;
+
+        if( timeInicio != ""){
+            for(var i = numPeriodos; i > 0; i--){
+                console.log("saasdasd");
+                if(minutosFin+periodo>=60){
+                    minutosFin = minutosFin+periodo-60;
+                    horaFin = horaFin+1;
+                }
+                else{                    
+                    minutosFin = minutosFin+periodo;
+                }
+                console.log(horaFin + ":" +minutosFin);
+            }
+            if(horaFin<10){                    
+                horaFin= "0"+horaFin;
+            }
+            if(minutosFin<10){    
+                minutosFin = "0"+minutosFin;           
+            }            
+            document.getElementById("horaFin").value = horaFin + ":" +minutosFin;
+            console.log(document.getElementById("horaFin").value );
+        }
+
+    }
 </script>
 <!-- jQuery and JS bundle w/ Popper.js -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 <script src="/js/main.js"></script>
 </html>
