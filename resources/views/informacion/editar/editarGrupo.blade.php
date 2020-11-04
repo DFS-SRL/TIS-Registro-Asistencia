@@ -36,16 +36,26 @@
                 <tbody>
                     @forelse($horarios as $key => $horario)
                         <tr>
-                            <td class="border border-dark">{{ $horario->dia }} {{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</td>
-                            <td class="border border-dark">
+                            <td id={{"horario".$horario->id}} class="border border-dark">
+                                {{ $horario->dia }} {{ $horario->hora_inicio }} - {{ $horario->hora_fin }}
+                            </td>
+                            <td id={{"cargo".$horario->id}} class="border border-dark">
                                 @if ($horario->rol_id === 3)
                                     DOCENCIA
                                 @else
                                     AUXILIATURA
                                 @endif
                             </td>
-                            <td class="border border-dark">
-                                <input width="30rem" height="30rem" type="image" name="botonEditar" src="/icons/editar.png" alt="Editar">
+                            <td id={{"opciones".$horario->id}} class="border border-dark">
+                                <input 
+                                    width="30rem"
+                                    height="30rem"
+                                    type="image"
+                                    name="botonEditar" 
+                                    src="/icons/editar.png" 
+                                    alt="Editar"
+                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}})"       
+                                >
                                 <input 
                                     width="30rem" height="30rem" 
                                     type="image" name="botonEliminar" 

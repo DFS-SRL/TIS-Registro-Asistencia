@@ -1,3 +1,5 @@
+const { functionsIn } = require("lodash");
+
 /*Valida el limite de letras en actividadRealizada */
 function valLimAct(codigo){
     let textAreaAct = document.getElementById("actividad"+codigo);
@@ -107,4 +109,33 @@ function contieneSoloNumeros(texto){
         res = texto.charCodeAt(pos) >= 48 && texto.charCodeAt(pos) <= 57;
     }
     return res;
+}
+
+// funcion para confirmacion de la eliminacion de un horarioClase
+function confirmarEliminarHorario(horarioId) {
+    if (confirm("¿Estás seguro de eliminar esta porción de horario?"))
+        document.getElementById("eliminar-horario" + horarioId).submit();
+}
+
+// funcion para confirmacion de la desasignacion de docente de un grupo
+function confirmarDesasignarDocente(docente) {
+    if (confirm("¿Estás seguro de desasignar al docente " + docente + "?"))
+        document.getElementById("desasignar-docente").submit();
+}
+
+function camposEdicionHorarioDeGrupo(horarioId) {
+    $("#horario"+horarioId).empty();
+    $("#horario"+horarioId).append("<select id=\"dias"+horarioId+"\"></select>");
+    var dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
+    dias.forEach(dia => {
+        $("#dias"+horarioId).append("<option value=\""+dia+"\">"+dia+"</option>");
+    });
+
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio"+horarioId+"\"></input>");
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFinal"+horarioId+"\"></input>");
+
+    $("#cargo"+horarioId).empty();
+    $("#cargo"+horarioId).append("<select id=\"cargos"+horarioId+"\"></select>");
+    $("#cargos"+horarioId).append("<option value=\"DOCENCIA\">DOCENCIA</option>");
+    $("#cargos"+horarioId).append("<option value=\"AUXILIATURA\">AUXILIATURA</option>");
 }
