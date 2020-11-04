@@ -123,7 +123,13 @@ function confirmarDesasignarDocente(docente) {
         document.getElementById("desasignar-docente").submit();
 }
 
+/**
+ * Habilita las opciones para editar la informacion de un horario
+ * Los valores por defecto no son los del horario a ser cambiado
+ */
 function camposEdicionHorarioDeGrupo(horarioId) {
+    
+    // Vaciamos los elementos de la fila y añadimos las opciones
     $("#horario"+horarioId).empty();
     $("#horario"+horarioId).append("<select id=\"dias"+horarioId+"\"></select>");
     var dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
@@ -138,4 +144,24 @@ function camposEdicionHorarioDeGrupo(horarioId) {
     $("#cargo"+horarioId).append("<select id=\"cargos"+horarioId+"\"></select>");
     $("#cargos"+horarioId).append("<option value=\"DOCENCIA\">DOCENCIA</option>");
     $("#cargos"+horarioId).append("<option value=\"AUXILIATURA\">AUXILIATURA</option>");
+
+    $('#botonEditar'+horarioId).hide();
+    
+    $("<input id = botonAceptar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonAceptar\" src=\"/icons/aceptar.png\" alt=\"Aceptar\"onclick=\"alert('aceptar! :D')\">").insertBefore("#botonEliminar"+horarioId);
+    
+    $("<input id = botonCancelar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonCancelar\" src=\"/icons/cancelar.png\" alt=\"Cancelar\"onclick=\"cancelarEdicionHorarioDeGrupo("+horarioId+")\">").insertBefore("#botonEliminar"+horarioId);
+}
+
+/**
+ * Cancela la edicion de un horario recargando la pagina
+ */
+function cancelarEdicionHorarioDeGrupo(horarioId) {
+    location.reload();
+}
+
+/**
+ * Aplicar la actualizacion del horario
+ */
+function aceptarEdicionHorarioDeGrupo(horarioId) {
+    
 }

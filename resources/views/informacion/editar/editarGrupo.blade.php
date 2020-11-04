@@ -37,26 +37,30 @@
                     @forelse($horarios as $key => $horario)
                         <tr>
                             <td id={{"horario".$horario->id}} class="border border-dark">
-                                {{ $horario->dia }} {{ $horario->hora_inicio }} - {{ $horario->hora_fin }}
+                                <p>{{ $horario->dia }} {{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</p>
                             </td>
                             <td id={{"cargo".$horario->id}} class="border border-dark">
-                                @if ($horario->rol_id === 3)
-                                    DOCENCIA
-                                @else
-                                    AUXILIATURA
-                                @endif
+                                <p>
+                                    @if ($horario->rol_id === 3)
+                                        DOCENCIA
+                                    @else
+                                        AUXILIATURA
+                                    @endif
+                                </p>
                             </td>
                             <td id={{"opciones".$horario->id}} class="border border-dark">
                                 <input 
+                                    id = {{"botonEditar".$horario->id}}
                                     width="30rem"
                                     height="30rem"
                                     type="image"
                                     name="botonEditar" 
                                     src="/icons/editar.png" 
                                     alt="Editar"
-                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}})"       
+                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}})"
                                 >
                                 <input 
+                                    id = {{"botonEliminar".$horario->id}}
                                     width="30rem" height="30rem" 
                                     type="image" name="botonEliminar" 
                                     src="/icons/eliminar.png" alt="Eliminar"
