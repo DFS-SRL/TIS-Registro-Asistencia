@@ -17,11 +17,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script type="text/javascript" src='js/bootstrap-input-spinner.js'></script>
-    <script type="text/javascript" src='js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.min.js'></script>
-    <script type="text/javascript" src='js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.es.min.js'></script>
-
+    <script type="text/javascript" src='/js/bootstrap-input-spinner.js'></script>
+    <script type="text/javascript" src='/js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.min.js'></script>
+    <script type="text/javascript" src='/js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.es.min.js'></script>
 
     <style>
         .esquina-redondeada {

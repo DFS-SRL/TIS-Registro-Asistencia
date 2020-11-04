@@ -143,8 +143,7 @@
         location.href="/grupo/"+id;
     }
     function añadirHorario(){
-        let cuerpoTabla = document.getElementById("cuerpo-tabla");
-        cuerpoTabla.innerHTML += `<tr id ="`+numColumnas+`">
+        $("#cuerpo-tabla").append( `<tr id ="`+numColumnas+`">
                                     <td class="border border-dark">
                                         <select>
                                             <option value="LUNES">LUNES</option>
@@ -168,7 +167,33 @@
                                         <input width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar" onclick="aceptarFila();">
                                         <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar" onclick = "cancelarFila();">
                                     </td>
-                                </tr>`;
+                                </tr>`);
+        // let cuerpoTabla = document.getElementById("cuerpo-tabla");
+        // cuerpoTabla.innerHTML += `<tr id ="`+numColumnas+`">
+        //                             <td class="border border-dark">
+        //                                 <select>
+        //                                     <option value="LUNES">LUNES</option>
+        //                                     <option value="MARTES">MARTES</option>
+        //                                     <option value="MIERCOLES">MIERCOLES</option>
+        //                                     <option value="JUEVES">JUEVES</option>
+        //                                     <option value="VIERNES">VIERNES</option>
+        //                                     <option value="SABADO">SABADO</option>
+        //                                 </select>
+        //                                 <input type="time" name="" id="">
+        //                                 <input type="time" name="" id="" disabled>
+        //                                 <input type="number" name="" id="" min="1" max="12" value="1">
+        //                             </td>
+        //                             <td class="border border-dark">
+        //                                 <select>
+        //                                     <option value="DOCENCIA">DOCENCIA</option>
+        //                                     <option value="AUXILIATURA">AUXILIATURA</option>
+        //                                 </select>
+        //                             </td>
+        //                             <td class="border border-dark">
+        //                                 <input width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar" onclick="aceptarFila();">
+        //                                 <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar" onclick = "cancelarFila();">
+        //                             </td>
+        //                         </tr>`;
     }
     function aceptarFila(){
         // numColumnas++;
