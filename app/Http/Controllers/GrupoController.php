@@ -167,6 +167,6 @@ class GrupoController extends Controller
     private function desasignarUsuarioRol($grupo_id, $rol_id)
     {
         $this->asignarUsuarioRol(null, $grupo_id, $rol_id);
-        return back()->with('status', 'Personal desasignado');
+        return back()->with('info', 'Personal desasignado');
     }
 }
