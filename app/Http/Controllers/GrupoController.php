@@ -129,6 +129,19 @@ class GrupoController extends Controller
         return view('informacion.editar.editarGrupo', $informacion);
     }
 
+
+    // funcion para preguntar si un codsis es de docente y devuelve la vista de edicion del grupo
+    public function esAuxDoc(Grupo $grupo, Request $request)
+    {
+        $informacion = $this->informacionGrupo($grupo);
+        $informacion['asignarAuxiliar'] = true;
+        $usuario = null;
+        if (UsuarioController::esAuxDoc($request['codSis'], $grupo->unidad_id))
+            $usuario = Usuario::find($request['codSis']);
+        $informacion['usuario'] = $usuario;
+        return view('informacion.editar.editarGrupo', $informacion);
+    }
+
     // asignar docente a un grupo
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
