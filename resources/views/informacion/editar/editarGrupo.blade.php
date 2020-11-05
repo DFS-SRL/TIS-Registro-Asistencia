@@ -89,19 +89,17 @@
                             <h4>Docente: <button class="btn boton" id="asignarDocente"
                                     onclick="botonAsignar(this.id,'botonBuscador1','buscador1','cancelar1','msgObsDocente',true)">ASIGNAR
                                     DOCENTE</button>
-                                <form class="form-inline my-2 my-lg-0 d-inline"
-                                    onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')">
-                                    <input id="buscador1" class="oculto" type="search" placeholder="codSis docente"
+                                    <input id="buscador1" class=" oculto form-control-plaintext buscador" type="search" placeholder="codSis docente"
                                         aria-label="Search">
-                                    <button id="botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit" {{-- onclick="buscarUsuario('buscador1',{{$grupo->unidad->id}})" --}}>
+                                    <button id="botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit" onclick="validarBusquedaAsignar('buscador1','msgObsDocente')">
                                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
                                                 d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
                                             <path fill-rule="evenodd"
                                                 d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-                                        </svg></button>
-                                </form>
+                                        </svg>
+                                    </button>
                                 <button id="cancelar1" class="btn btn-danger oculto"
                                     onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1',this.id,'msgObsDocente',false)">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x"
@@ -124,19 +122,17 @@
                             <h4>Auxiliar: <button class="btn boton" id="asignarAuxiliar"
                                     onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',true)">ASIGNAR
                                     AUXILIAR</button>
-                                <form class="form-inline my-2 my-lg-0 d-inline"
-                                    onsubmit="return validarBusquedaAsignar('buscador2','msgObsAuxiliar')">
-                                    <input id="buscador2" class="oculto" type="search" placeholder="codSis auxiliar"
+                                    <input id="buscador2" class="oculto form-control-plaintext buscador" type="search" placeholder="codSis auxiliar"
                                         aria-label="Search">
-                                    <button id="botonBuscador2" class="btn boton my-2 my-sm-0 oculto" type="submit"><svg
+                                    <button id="botonBuscador2" class="btn boton my-2 my-sm-0 oculto" type="submit" onclick="validarBusquedaAsignar('buscador2','msgObsAuxiliar')"><svg
                                             width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
                                                 d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
                                             <path fill-rule="evenodd"
                                                 d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-                                        </svg></button>
-                                </form>
+                                        </svg>
+                                    </button>
                                 <button id="cancelar2" class="btn btn-danger oculto"
                                     onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',false)">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x"
@@ -147,6 +143,9 @@
                                 </button>
                                 <label class="text-danger" id="msgObsAuxiliar" for="buscador2"></label>
                             </h4>
+                            <div id="prueba">
+
+                            </div>
                         @endif
                     @endif
                 </div>

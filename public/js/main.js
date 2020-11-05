@@ -198,12 +198,12 @@ function botonAsignar(botonId, botonBuscadorId, buscadorId, cancelarId, msgObsId
     if(ocultar){
         $('#'+botonId).hide() ;
         $('#'+botonBuscadorId).show();
-        $('#'+buscadorId).addClass("form-control");
+        $('#'+buscadorId).show();
         $('#'+cancelarId).show();
     }else{
         $('#'+botonId).show();
         $('#'+botonBuscadorId).hide();
-        $('#'+buscadorId).removeClass("form-control");
+        $('#'+buscadorId).hide();
         $('#'+cancelarId).hide();
         $('#'+msgObsId).empty();
     }
@@ -222,8 +222,7 @@ function validarBusquedaAsignar(buscadorId, msgObsId){
             "solo se permiten caracteres numéricos";
         res = false;
     } else {
-        nombre = "{{App\Usuario::find(6)->nombre}}";
-        console.log(nombre);
+        document.getElementById("prueba").innerHTML = "{{ App\Usuario::find(1) }}";
         res = true;
     }
     return res;
