@@ -318,3 +318,23 @@ function cancelarEdicionHorarioDeGrupo(horarioId) {
     $("#botonAceptar"+horarioId).remove();
     $("#botonCancelar"+horarioId).remove();
 }
+
+/**
+ * Aceptar la edicion del horario enviando el form
+ */
+function aceptarEdicionHorarioDeGrupo(horarioId) {
+    // Llenamos el form de actualizacion con los datos ingresados
+    $("#horaInicioForm"+horarioId).val( $("#horaInicio"+horarioId).val() );
+    $("#horaFinForm"+horarioId).val( $("#horaFin"+horarioId).val() );
+    $("#diaForm"+horarioId).val( $("#dias"+horarioId+" option:selected").text() );
+    var rol;
+    if ($("#cargos"+horarioId+" option:selected").text() == "AUXILIATURA") {
+        rol = 2;
+    }
+    else {
+        rol = 3;
+    }
+    $("#rolIdForm"+horarioId).val( rol );
+
+    document.getElementById("editar-horario"+horarioId).submit();
+}

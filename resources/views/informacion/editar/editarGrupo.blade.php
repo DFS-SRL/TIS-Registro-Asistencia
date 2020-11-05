@@ -67,6 +67,17 @@
                                     type="image" name="botonEliminar" 
                                     src="/icons/eliminar.png" alt="Eliminar"
                                     onclick="confirmarEliminarHorario({{ $horario->id }})">
+                                <form id="editar-horario{{ $horario->id }}" class="d-none" method="POST"
+                                    action="{{ route('horarioClase.actualizar', $horario) }}">
+                                    @csrf @method('PATCH')
+                                    <input type="number" name="unidad_id" value="{{ $grupo->unidad->id }}">
+                                    <input type="number" name="materia_id" value="{{ $grupo->materia->id }}">
+                                    <input type="number" name="grupo_id" value="{{ $grupo->id }}">
+                                    <input id="horaInicioForm{{ $horario->id }}" type="time" name="hora_inicio">
+                                    <input id="horaFinForm{{ $horario->id }}" type="time" name="hora_fin">
+                                    <input id="diaForm{{ $horario->id }}" type="text" name="dia">
+                                    <input id="rolIdForm{{ $horario->id }}" type="number" name="rol_id">
+                                </form>
                                 <form id="eliminar-horario{{ $horario->id }}" class="d-none" method="POST"
                                     action="{{ route('horarioClase.eliminar', $horario) }}">
                                     @csrf @method('DELETE')
@@ -215,7 +226,6 @@
         padre.removeChild(fila);
     }
     function setHoraFin(horarioId = ""){
-        console.log(horarioId);
         var timeInicio = document.getElementById("horaInicio" + horarioId).value;
         var periodo = 45;
         var numPeriodos = parseInt(document.getElementById("periodo"+horarioId).value);
@@ -248,9 +258,4 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/main.js"></script>
-<script>
-    function aceptarEdicionHorarioDeGrupo(horarioId) {
-        
-    }
-</script>
 </html>
