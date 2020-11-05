@@ -264,7 +264,6 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
         }
     });
 
-    // TODO: añadir propiedades una por una para hacerlo mas legible :v
     $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio"+horarioId+"\" value=\""+horario["hora_inicio"].substring(0,5)+"\" onchange=\"setHoraFin("+horarioId+")\"></input>");
     $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFin"+horarioId+"\" value=\""+horario["hora_fin"].substring(0,5)+"\" disabled></input>");
     
@@ -281,7 +280,7 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
     var periodos = horaFin*60 + minutosFin - horaInicio*60 - minutosInicio;
     periodos /= 45;
 
-    $("#horario"+horarioId).append("<input type=\"number\" name=\"\" id=\"periodo"+horarioId+"\" min=\"1\" max=\"12\" value=\""+periodos+"\" onchange=\"setHoraFin("+horarioId+")\">");
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"number\" name=\"\" id=\"periodo"+horarioId+"\" min=\"1\" max=\"12\" value=\""+periodos+"\" onchange=\"setHoraFin("+horarioId+")\">");
 
     $("#cargo"+horarioId).children("p").hide();
     $("#cargo"+horarioId).append("<select id=\"cargos"+horarioId+"\"></select>");
@@ -293,6 +292,9 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
         $("#cargos"+horarioId+" :last-child").prop("selected", "selected");
 
     $('#botonEditar'+horarioId).hide();
+    $('[id^=botonEditar]').prop("disabled", true);
+    $('[id^=botonEliminar]').prop("disabled", true);
+    $('#botonEliminar'+horarioId).prop("disabled", false);
     
     $("<input id = botonAceptar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonAceptar\" src=\"/icons/aceptar.png\" alt=\"Aceptar\"onclick=\"aceptarEdicionHorarioDeGrupo("+horarioId+")\">").insertBefore("#botonEliminar"+horarioId);
     
@@ -310,7 +312,9 @@ function cancelarEdicionHorarioDeGrupo(horarioId) {
     $("#cargo"+horarioId).children("p").show();
     $("#cargo"+horarioId + " :not(:first-child)").remove();
 
-    $("#botonEditar"+horarioId).show();
+    $('#botonEditar'+horarioId).show();
+    $('[id^=botonEditar]').prop("disabled", false);
+    $('[id^=botonEliminar]').prop("disabled", false);
     $("#botonAceptar"+horarioId).remove();
     $("#botonCancelar"+horarioId).remove();
 }
