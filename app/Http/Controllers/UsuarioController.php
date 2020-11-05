@@ -28,11 +28,6 @@ class UsuarioController extends Controller
     // devuelve codSis si el codSis tiene el rol de la unidad_id
     private static function esDelRol($codSis, $unidad_id, $rol)
     {
-        return !UsuarioTieneRol::where('rol_id', '=', $rol)
-            ->where('Usuario_tiene_rol.usuario_codSis', '=', $codSis)
-            ->join('Usuario_pertenece_unidad', 'Usuario_pertenece_unidad.usuario_codSis', '=', 'Usuario_tiene_rol.usuario_codSis')
-            ->where('unidad_id', '=', $unidad_id)
-            ->get()
-            ->isEmpty();
+        return !UsuarioTieneRol::where('rol_id', '=', $rol)->where('Usuario_tiene_rol.usuario_codSis', '=', $codSis)->join('Usuario_pertenece_unidad', 'Usuario_pertenece_unidad.usuario_codSis', '=', 'Usuario_tiene_rol.usuario_codSis')->where('unidad_id', '=', $unidad_id)->get()->isEmpty();
     }
 }

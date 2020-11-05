@@ -222,6 +222,8 @@ function validarBusquedaAsignar(buscadorId, msgObsId){
             "solo se permiten caracteres numéricos";
         res = false;
     } else {
+        nombre = "{{App\Usuario::find(6)->nombre}}";
+        console.log(nombre);
         res = true;
     }
     return res;
