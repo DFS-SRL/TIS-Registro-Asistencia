@@ -13,14 +13,25 @@ class HorarioClaseController extends Controller
     {
         $horario = $request->validated();
         $this->validarHoras($horario);
+        $this->asignarPersonal($horario);
         HorarioClase::create($horario);
-        return back()->with('success', 'Registro exitoso');
+        return back()->with('success', 'Registro existoso');
+    }
+
+    // asigna el personal al horario de acuerdo a los horarios del grupo
+    private function asignarPersonal(&$horario)
+    {
+        $horarios = HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
+            ->where('rol_id', '=', $horario['rol_id'])
+            ->get();
+        if (!$horarios->isEmpty() && $horarios[0]->asignado_codSis)
+            $horario['asignado_codSis'] = $horarios[0]->asignado_codSis;
     }
 
     // valida las horas del horario
-    private function validarHoras($horario)
+    private function validarHoras($horario, $except = -1)
     {
-        if (!$this->verificarLibre($horario)) {
+        if (!$this->verificarLibre($horario, $except)) {
             $error = ValidationException::withMessages([
                 'horario' => ['El horario choca con algún otro horario']
             ]);
@@ -38,10 +49,11 @@ class HorarioClaseController extends Controller
     }
 
     // verifica si un horario no choca con algun otro en el grupo al que pertenece el horario
-    private function verificarLibre($horario)
+    private function verificarLibre($horario, $except = -1)
     {
         return HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
             ->where('dia', '=', $horario['dia'])
+            ->where('id', '!=', $except)
             ->where(function ($query) use ($horario) {
                 $query->where(function ($query) use ($horario) {
                     $query->where('hora_inicio', '=', $horario['hora_inicio'])
@@ -63,6 +75,17 @@ class HorarioClaseController extends Controller
             ->get()
             ->isEmpty();
     }
+
+
+    // actualiza en la base de datos el horario otorgado
+    public function actualizar(HorarioClase $horario, GuardarHorarioRequest $request)
+    {
+        $horarioNuevo = $request->validated();
+        $this->validarHoras($horarioNuevo, $horario->id);
+        $horario->update($horarioNuevo);
+        return back()->with('success', 'Clase actualizada');
+    }
+
     // elimina de la base de datos el horario otorgado
     public function eliminar(HorarioClase $horario)
     {

@@ -57,6 +57,7 @@ Route::patch('/grupo/{grupo}/desasignar/docente', 'GrupoController@desasignarDoc
 Route::get('/item/{grupo}', 'GrupoController@mostrarInformacion');
 
 Route::post('/horarioClase', 'HorarioClaseController@guardar')->name('horarioClase.guardar');
+Route::patch('/horarioClase/{horario}', 'HorarioClaseController@actualizar')->name('horarioClase.actualizar');
 Route::delete('/horarioClase/{horario}', 'HorarioClaseController@eliminar')->name('horarioClase.eliminar');
 
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
