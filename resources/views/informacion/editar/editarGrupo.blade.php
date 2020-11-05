@@ -38,21 +38,46 @@
                 <tbody id="cuerpo-tabla">
                     @forelse($horarios as $key => $horario)
                         <tr>
-                            <td class="border border-dark">{{ $horario->dia }} {{ $horario->hora_inicio }} -
-                                {{ $horario->hora_fin }}</td>
-                            <td class="border border-dark">
-                                @if ($horario->rol_id === 3)
-                                    DOCENCIA
-                                @else
-                                    AUXILIATURA
-                                @endif
+                            <td id={{"horario".$horario->id}} class="border border-dark">
+                                <p>{{ $horario->dia }} {{ $horario->hora_inicio }} - {{ $horario->hora_fin }}</p>
                             </td>
-                            <td class="border border-dark">
-                                <input width="30rem" height="30rem" type="image" name="botonEditar" src="/icons/editar.png"
-                                    alt="Editar">
-                                <input width="30rem" height="30rem" type="image" name="botonEliminar"
+                            <td id={{"cargo".$horario->id}} class="border border-dark">
+                                <p>
+                                    @if ($horario->rol_id === 3)
+                                        DOCENCIA
+                                    @else
+                                        AUXILIATURA
+                                    @endif
+                                </p>
+                            </td>
+                            <td id={{"opciones".$horario->id}} class="border border-dark">
+                                <input 
+                                    id = {{"botonEditar".$horario->id}}
+                                    width="30rem"
+                                    height="30rem"
+                                    type="image"
+                                    name="botonEditar" 
+                                    src="/icons/editar.png" 
+                                    alt="Editar"
+                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}}, {{$horario}})"
+                                >
+                                <input 
+                                    id = {{"botonEliminar".$horario->id}}
+                                    width="30rem" height="30rem" 
+                                    type="image" name="botonEliminar" 
                                     src="/icons/eliminar.png" alt="Eliminar"
                                     onclick="confirmarEliminarHorario({{ $horario->id }})">
+                                <form id="editar-horario{{ $horario->id }}" class="d-none" method="POST"
+                                    action="{{ route('horarioClase.actualizar', $horario) }}">
+                                    @csrf @method('PATCH')
+                                    <input type="number" name="unidad_id" value="{{ $grupo->unidad->id }}">
+                                    <input type="number" name="materia_id" value="{{ $grupo->materia->id }}">
+                                    <input type="number" name="grupo_id" value="{{ $grupo->id }}">
+                                    <input id="horaInicioForm{{ $horario->id }}" type="time" name="hora_inicio">
+                                    <input id="horaFinForm{{ $horario->id }}" type="time" name="hora_fin">
+                                    <input id="diaForm{{ $horario->id }}" type="text" name="dia">
+                                    <input id="rolIdForm{{ $horario->id }}" type="number" name="rol_id">
+                                </form>
                                 <form id="eliminar-horario{{ $horario->id }}" class="d-none" method="POST"
                                     action="{{ route('horarioClase.eliminar', $horario) }}">
                                     @csrf @method('DELETE')
@@ -199,10 +224,10 @@
         padre = fila.parentNode;
         padre.removeChild(fila);
     }
-    function setHoraFin(){
-        var timeInicio = document.getElementById("horaInicio").value;
+    function setHoraFin(horarioId = ""){
+        var timeInicio = document.getElementById("horaInicio" + horarioId).value;
         var periodo = 45;
-        var numPeriodos = parseInt(document.getElementById("periodo").value);
+        var numPeriodos = parseInt(document.getElementById("periodo"+horarioId).value);
         var splitTimeInicio = timeInicio.split(":");
         var horaFin = parseInt(splitTimeInicio[0]);
         var minutosFin = parseInt(splitTimeInicio[1]);
@@ -223,7 +248,7 @@
             if(minutosFin<10){    
                 minutosFin = "0"+minutosFin;           
             }            
-            document.getElementById("horaFin").value = horaFin + ":" +minutosFin;
+            document.getElementById("horaFin"+horarioId).value = horaFin + ":" +minutosFin;
         }
     }
     function buscarUsuario(idInput, idUnidad){
@@ -237,5 +262,4 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/main.js"></script>
-
 </html>
