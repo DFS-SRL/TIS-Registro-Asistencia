@@ -214,10 +214,11 @@
         padre = fila.parentNode;
         padre.removeChild(fila);
     }
-    function setHoraFin(){
-        var timeInicio = document.getElementById("horaInicio").value;
+    function setHoraFin(horarioId = ""){
+        console.log(horarioId);
+        var timeInicio = document.getElementById("horaInicio" + horarioId).value;
         var periodo = 45;
-        var numPeriodos = parseInt(document.getElementById("periodo").value);
+        var numPeriodos = parseInt(document.getElementById("periodo"+horarioId).value);
         var splitTimeInicio = timeInicio.split(":");
         var horaFin = parseInt(splitTimeInicio[0]);
         var minutosFin = parseInt(splitTimeInicio[1]);
@@ -238,7 +239,7 @@
             if(minutosFin<10){    
                 minutosFin = "0"+minutosFin;           
             }            
-            document.getElementById("horaFin").value = horaFin + ":" +minutosFin;
+            document.getElementById("horaFin"+horarioId).value = horaFin + ":" +minutosFin;
         }
 
     }

@@ -265,8 +265,23 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
     });
 
     // TODO: añadir propiedades una por una para hacerlo mas legible :v
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio "+horarioId+"\" value=\""+horario["hora_inicio"].substring(0,5)+"\"></input>");
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFinal"+horarioId+"\" value=\""+horario["hora_fin"].substring(0,5)+"\"></input>");
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio"+horarioId+"\" value=\""+horario["hora_inicio"].substring(0,5)+"\" onchange=\"setHoraFin("+horarioId+")\"></input>");
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFin"+horarioId+"\" value=\""+horario["hora_fin"].substring(0,5)+"\" disabled></input>");
+    
+    // Obtenemos la diferencia entre la hora de inicio y la hora fin
+    // y asignamos esa diferencia a los periodos
+    var splitTimeInicio = horario["hora_inicio"].split(":");
+    var horaInicio = parseInt(splitTimeInicio[0]);
+    var minutosInicio = parseInt(splitTimeInicio[1]);
+
+    var splitTimeFin = horario["hora_fin"].split(":");
+    var horaFin = parseInt(splitTimeFin[0]);
+    var minutosFin = parseInt(splitTimeFin[1]);
+
+    var periodos = horaFin*60 + minutosFin - horaInicio*60 - minutosInicio;
+    periodos /= 45;
+
+    $("#horario"+horarioId).append("<input type=\"number\" name=\"\" id=\"periodo"+horarioId+"\" min=\"1\" max=\"12\" value=\""+periodos+"\" onchange=\"setHoraFin("+horarioId+")\">");
 
     $("#cargo"+horarioId).children("p").hide();
     $("#cargo"+horarioId).append("<select id=\"cargos"+horarioId+"\"></select>");
