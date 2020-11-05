@@ -57,7 +57,7 @@
                                     name="botonEditar" 
                                     src="/icons/editar.png" 
                                     alt="Editar"
-                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}})"
+                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}}, {{$horario}})"
                                 >
                                 <input 
                                     id = {{"botonEliminar".$horario->id}}
@@ -133,4 +133,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
 <script src="/js/main.js"></script>
+<script>
+    function aceptarEdicionHorarioDeGrupo(horarioId) {
+        
+    }
+</script>
 </html>

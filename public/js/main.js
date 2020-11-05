@@ -125,43 +125,51 @@ function confirmarDesasignarDocente(docente) {
 
 /**
  * Habilita las opciones para editar la informacion de un horario
- * Los valores por defecto no son los del horario a ser cambiado
  */
-function camposEdicionHorarioDeGrupo(horarioId) {
-    
+function camposEdicionHorarioDeGrupo(horarioId, horario) {
     // Vaciamos los elementos de la fila y añadimos las opciones
-    $("#horario"+horarioId).empty();
+    $("#horario"+horarioId).children("p").hide();
     $("#horario"+horarioId).append("<select id=\"dias"+horarioId+"\"></select>");
     var dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
     dias.forEach(dia => {
         $("#dias"+horarioId).append("<option value=\""+dia+"\">"+dia+"</option>");
+        if (dia == horario["dia"]) {
+            $("#dias"+horarioId+" :last-child").prop("selected", "selected");
+        }
     });
 
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio"+horarioId+"\"></input>");
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFinal"+horarioId+"\"></input>");
+    // TODO: añadir propiedades una por una para hacerlo mas legible :v
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio "+horarioId+"\" value=\""+horario["hora_inicio"].substring(0,5)+"\"></input>");
+    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFinal"+horarioId+"\" value=\""+horario["hora_fin"].substring(0,5)+"\"></input>");
 
-    $("#cargo"+horarioId).empty();
+    $("#cargo"+horarioId).children("p").hide();
     $("#cargo"+horarioId).append("<select id=\"cargos"+horarioId+"\"></select>");
     $("#cargos"+horarioId).append("<option value=\"DOCENCIA\">DOCENCIA</option>");
     $("#cargos"+horarioId).append("<option value=\"AUXILIATURA\">AUXILIATURA</option>");
+    if (horario["rol_id"] == 3)
+        $("#cargos"+horarioId+" :first-child").prop("selected", "selected");
+    else
+        $("#cargos"+horarioId+" :last-child").prop("selected", "selected");
 
     $('#botonEditar'+horarioId).hide();
     
-    $("<input id = botonAceptar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonAceptar\" src=\"/icons/aceptar.png\" alt=\"Aceptar\"onclick=\"alert('aceptar! :D')\">").insertBefore("#botonEliminar"+horarioId);
+    $("<input id = botonAceptar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonAceptar\" src=\"/icons/aceptar.png\" alt=\"Aceptar\"onclick=\"aceptarEdicionHorarioDeGrupo("+horarioId+")\">").insertBefore("#botonEliminar"+horarioId);
     
     $("<input id = botonCancelar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonCancelar\" src=\"/icons/cancelar.png\" alt=\"Cancelar\"onclick=\"cancelarEdicionHorarioDeGrupo("+horarioId+")\">").insertBefore("#botonEliminar"+horarioId);
 }
 
 /**
- * Cancela la edicion de un horario recargando la pagina
+ * Cancela la edicion de un horario
  */
 function cancelarEdicionHorarioDeGrupo(horarioId) {
-    location.reload();
-}
+    // Eliminamos los elemtnos para editar horario y mostramos los que tienen informacion
+    $("#horario"+horarioId).children("p").show();
+    $("#horario"+horarioId+" :not(:first-child)").remove();
 
-/**
- * Aplicar la actualizacion del horario
- */
-function aceptarEdicionHorarioDeGrupo(horarioId) {
-    
+    $("#cargo"+horarioId).children("p").show();
+    $("#cargo"+horarioId + " :not(:first-child)").remove();
+
+    $("#botonEditar"+horarioId).show();
+    $("#botonAceptar"+horarioId).remove();
+    $("#botonCancelar"+horarioId).remove();
 }
