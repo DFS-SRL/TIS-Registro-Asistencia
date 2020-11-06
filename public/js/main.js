@@ -241,6 +241,7 @@ function confirmarEliminarHorario(horarioId) {
         document.getElementById("eliminar-horario" + horarioId).submit();
 }
 
+
 // funcion para confirmacion de la desasignacion de docente de un grupo
 function confirmarDesasignarDocente(docente) {
     if (confirm("¿Estás seguro de desasignar al docente " + docente + "?"))

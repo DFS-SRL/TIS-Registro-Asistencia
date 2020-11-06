@@ -11,7 +11,9 @@ class HorarioClaseController extends Controller
 {
     public function guardar(GuardarHorarioRequest $request)
     {
+        
         $horario = $request->validated();
+        // return $horario;
         $this->validarHoras($horario);
         $this->asignarPersonal($horario);
         HorarioClase::create($horario);
