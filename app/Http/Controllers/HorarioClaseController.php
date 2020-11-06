@@ -83,6 +83,8 @@ class HorarioClaseController extends Controller
     public function actualizar(HorarioClase $horario, GuardarHorarioRequest $request)
     {
         $horarioNuevo = $request->validated();
+        $horarioNuevo['hora_inicio'] .= ":00";
+        $horarioNuevo['hora_fin'] .= ":00";
         $this->validarHoras($horarioNuevo, $horario->id);
         $horario->update($horarioNuevo);
         return back()->with('success', 'Clase actualizada');

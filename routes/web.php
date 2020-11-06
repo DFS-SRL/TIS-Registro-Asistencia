@@ -49,6 +49,8 @@ Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
 Route::get('/departamentos', 'ProvController\Menu@departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
+Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');
+Route::post('/grupo/{grupo}/editar/esAuxDoc', 'GrupoController@esAuxDoc')->name('grupo.editar.esAuxDoc');
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
 Route::patch('/grupo/asignar/docente', 'GrupoController@asignarDocente')->name('grupo.asignar.docente');
 Route::patch('/grupo/asignar/auxDoc', 'GrupoController@asignarAuxDoc')->name('grupo.asignar.auxDoc');
