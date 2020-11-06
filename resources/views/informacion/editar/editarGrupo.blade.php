@@ -15,12 +15,12 @@
 </head>
 
 
-<body>
+<body >
     <div class="mx-3 my-4">
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <h2 class="textoBlanco">{{ $grupo->unidad->facultad }}</h4>
+                    <h2 class="textoBlanco" >{{ $grupo->unidad->facultad }}</h4>
                         <h2 class="textoBlanco">{{ $grupo->unidad->nombre }}</h1>
                             <h4 class="textoBlanco">{{ $grupo->materia->nombre }}</h4>
                             <br>
@@ -59,7 +59,7 @@
                                     name="botonEditar" 
                                     src="/icons/editar.png" 
                                     alt="Editar"
-                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}}, {{$horario}})"
+                                    onclick="camposEdicionHorarioDeGrupo({{$horario->id}}, {{$horario}}); desactivar()"
                                 >
                                 <input 
                                     id = {{"botonEliminar".$horario->id}}
@@ -90,17 +90,18 @@
                 </tbody>
             </table>
 
-            <button class="btn boton" id="añadirHorario" onclick="añadirHorario();">AÑADIR HORARIO</button>
+            <button class="btn boton" id="añadirHorario" onclick="añadirHorario(); desactivar()">AÑADIR HORARIO</button>
             <div class="row rounded-lg" id="personalAcademico">
 
-                @include('layout/flash-message')
+                @include('layouts.flash-message')
 
                 <div class="col-12">
                     @if ($horarios != null && $horarios->where('rol_id', '=', 3)->count() > 0)
                         @if ($docente != null)
                             <h4>
                                 Docente: {{ $docente->nombre }}
-                                <input width="30rem" height="30rem" type="image" name="botonDesasignar"
+                                <input width="30rem" height="30rem" type="image" 
+                                    name="botonDesasignar" id="desasignarDocente"
                                     src="/icons/eliminar.png" alt="Desasignar"
                                     onclick="confirmarDesasignarDocente('{{ $docente->nombre }}')">
                                 <form id="desasignar-docente" class="d-none" method="POST"
@@ -112,7 +113,7 @@
 
                         @else
                             <h4>Docente: <button class="btn boton" id="asignarDocente"
-                                    onclick="botonAsignar(this.id,'botonBuscador1','buscador1','cancelar1','msgObsDocente',true)">ASIGNAR
+                                    onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',true); desactivar()">ASIGNAR
                                     DOCENTE</button>
                                 <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')" action="">
                                     @csrf @method('PATCH')
@@ -129,7 +130,7 @@
                                     <input type="hidden" name = 'grupo_id' value = '{{$grupo->id}}'>
                                 </form>
                                 <button id="cancelar1" class="btn btn-danger oculto"
-                                    onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1',this.id,'msgObsDocente',false)">
+                                    onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',false); activar()">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -142,13 +143,15 @@
                     @endif
                     @if ($horarios != null && $horarios->where('rol_id', '<=', 2)->count() > 0)
                         @if ($auxiliar != null)
-                            <h4>Auxiliar: {{ $auxiliar->nombre }}<input width="30rem" height="30rem" type="image"
-                                    name="botonEliminar" src="/icons/eliminar.png" alt="Eliminar"></h4>
+                            <h4>Auxiliar: {{ $auxiliar->nombre }}
+                                <input width="30rem" height="30rem" type="image"
+                                    name="botonEliminar" id="desasignarAuxiliar"
+                                    src="/icons/eliminar.png" alt="Eliminar"></h4>
                             <h4>Carga horaria auxilliar: {{ $cargaHorariaAuxiliar }} </h4>
 
                         @else
                             <h4>Auxiliar: <button class="btn boton" id="asignarAuxiliar"
-                                    onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',true)">ASIGNAR
+                                    onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',true), desactivar()">ASIGNAR
                                     AUXILIAR</button>
                                 <form method="POST" action="{{ route('grupo.asignar.auxDoc') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador2','msgObsAuxiliar')">
                                     @csrf @method('PATCH')
@@ -166,7 +169,7 @@
                                     <input type="hidden" name = 'grupo_id' value = '{{$grupo->id}}'>
                                 </form>
                                 <button id="cancelar2" class="btn btn-danger oculto"
-                                    onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',false)">
+                                    onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',false); activar()">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x"
                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -185,49 +188,66 @@
             <button class="btn boton float-right" id="regresar" onclick="vistaGrupo({{ $grupo->id }})">REGRESAR</button>
         </div>
     </div>
+    <form id="guardar-horario" class="d-none" method="POST"
+        action="{{ route('horarioClase.guardar') }}">
+        @csrf  
+        <input id="unidadId" type="hidden" name="unidad_id" value="{{$grupo->unidad->id}}">
+        <input id="materiaId" type="hidden" name="materia_id" value="{{$grupo->materia->id}}">
+        <input id="grupoId" type="hidden" name="grupo_id" value="{{$grupo->id}}">
+        <input id="horaInicioS" type="hidden" name="hora_inicio">
+        <input id="horaFinS" type="hidden" name="hora_fin">
+        <input id="diaS" type="hidden" name="dia">
+        <input id="rolId" type="hidden" name="rol_id">
+    </form>
 </body>
 
 <script>
-    let numColumnas = document.getElementById('cuerpo-tabla').rows.length;
-
+    function confirmarGuardarHorario() {
+        document.getElementById("horaFinS").value = document.getElementById("horaFin").value+":00";
+        document.getElementById("horaInicioS").value = document.getElementById("horaInicio").value+":00";
+        document.getElementById("diaS").value = document.getElementById("dia").value;
+        document.getElementById("rolId").value =document.getElementById("tipoAcademico").value;
+        if (confirm("¿Estás seguro de guardar esta porción de horario?"))
+            document.getElementById("guardar-horario").submit();
+    }
+    let numFilas = document.getElementById('cuerpo-tabla').rows.length;
+    
     function vistaGrupo(id) {
         location.href = "/grupo/" + id;
     }
     function añadirHorario(){
-        $("#cuerpo-tabla").append( `<tr id ="`+numColumnas+`">
-                                    <td class="border border-dark">
-                                        <select>
-                                            <option value="LUNES">LUNES</option>
-                                            <option value="MARTES">MARTES</option>
-                                            <option value="MIERCOLES">MIERCOLES</option>
-                                            <option value="JUEVES">JUEVES</option>
-                                            <option value="VIERNES">VIERNES</option>
-                                            <option value="SABADO">SABADO</option>
-                                        </select>
-                                        <input type="time" name="" id="horaInicio" onchange="setHoraFin()">
-                                        <input type="time" name="" id="horaFin" disabled>
-                                        <input type="number" name="" id="periodo" min="1" max="12" value="1" onchange="setHoraFin()">
-                                    </td>
-                                    <td class="border border-dark">
-                                        <select>
-                                            <option value="DOCENCIA">DOCENCIA</option>
-                                            <option value="AUXILIATURA">AUXILIATURA</option>
-                                        </select>
-                                    </td>
-                                    <td class="border border-dark">
-                                        <input width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar" onclick="aceptarFila()">
-                                        <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar" onclick = "cancelarFila()">
-                                    </td>
+        $("#cuerpo-tabla").append( `<tr id="`+numFilas+`">
+            <td class="border border-dark">
+                
+                <select name ="dia" id= "dia"> 
+                    <option value="LUNES">LUNES</option>
+                    <option value="MARTES">MARTES</option>
+                    <option value="MIERCOLES">MIERCOLES</option>
+                    <option value="JUEVES">JUEVES</option>
+                    <option value="VIERNES">VIERNES</option>
+                    <option value="SABADO">SABADO</option>
+                    </select>
+                    <input type="time" name="hora_inicio" id="horaInicio" onchange="setHoraFin()" required>
+                    <input type="time" name="hora_fin" id="horaFin" disabled>
+                    <input type="number" id="periodo" min="1" max="12" value="1" onchange="setHoraFin()">
+                    </td>
+                    <td class="border border-dark">
+                        <select id="tipoAcademico" name="rol_id">
+                            <option value="3">DOCENCIA</option>
+                            <option value="2">AUXILIATURA</option>
+                            </select>
+                            </td>
+                            <td class="border border-dark">
+                                <input width="30rem" height="30rem" type="image" src="/icons/aceptar.png" alt="Aceptar" onclick="confirmarGuardarHorario()">
+                                
+                                <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar" onclick = "cancelarFila(`+numFilas+`)">
+                                </td>
                                 </tr>`);
-    }
+                                numFilas++;
+                            }
+    function cancelarFila(id) {
 
-    function aceptarFila() {
-        // numColumnas++;
-    }
-
-    function cancelarFila() {
-
-        fila = document.getElementById(numColumnas);
+        fila = document.getElementById(id);
         padre = fila.parentNode;
         padre.removeChild(fila);
     }
@@ -256,6 +276,78 @@
                 minutosFin = "0"+minutosFin;           
             }            
             document.getElementById("horaFin"+horarioId).value = horaFin + ":" +minutosFin;
+        }
+    }
+
+    function desactivar()
+    {
+        @foreach ($horarios as $key => $horario)
+            eliminar = document.getElementById("botonEliminar" + {{$horario->id}});
+            eliminar.disabled = true;
+            eliminar.src="/icons/eliminarDis.png";
+            
+            editar = document.getElementById("botonEditar" + {{$horario->id}});
+            editar.disabled = true;
+            editar.src="/icons/editarDis.png";
+        @endforeach
+        
+        document.getElementById("añadirHorario").disabled = true;
+
+        nuevo = document.getElementById("asignarDocente");
+        if(nuevo)
+            nuevo.disabled = true
+        nuevo = document.getElementById("asignarAuxiliar");
+        if(nuevo)
+            nuevo.disabled = true
+
+        eliminar = document.getElementById("desasignarDocente");
+        if(eliminar)
+        {
+            eliminar.disabled = true;
+            eliminar.src="/icons/eliminarDis.png";
+        }
+        
+        eliminar = document.getElementById("desasignarAuxiliar");
+        if(eliminar)
+        {
+            eliminar.disabled = true;
+            eliminar.src="/icons/eliminarDis.png";
+        }
+    }
+
+    function activar()
+    {
+        @foreach ($horarios as $key => $horario)
+            eliminar = document.getElementById("botonEliminar" + {{$horario->id}});
+            eliminar.disabled = false;
+            eliminar.src="/icons/eliminar.png";
+            
+            editar = document.getElementById("botonEditar" + {{$horario->id}});
+            editar.disabled = false;
+            editar.src="/icons/editar.png";
+        @endforeach
+        
+        document.getElementById("añadirHorario").disabled = false;
+
+        nuevo = document.getElementById("asignarDocente");
+        if(nuevo)
+            nuevo.disabled = false;
+        nuevo = document.getElementById("asignarAuxiliar");
+        if(nuevo)
+            nuevo.disabled = false;
+
+        eliminar = document.getElementById("desasignarDocente");
+        if(eliminar)
+        {
+            eliminar.disabled = false;
+            eliminar.src="/icons/eliminar.png";
+        }
+        
+        eliminar = document.getElementById("desasignarAuxiliar");
+        if(eliminar)
+        {
+            eliminar.disabled = false;
+            eliminar.src="/icons/eliminar.png";
         }
     }
 </script>

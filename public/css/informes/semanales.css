@@ -1,0 +1,29 @@
+.esquina-redondeada {
+    border-style: solid;
+    border-radius: 25px;
+    padding: 20px;
+    border-color: black;
+}
+
+.opciones {
+    background: white;
+    color: black;
+}
+
+.espaciado {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.datepicker-switch,
+.prev,
+.next,
+.clear {
+    color: white;
+}
+
+.input-group-prepend,
+.input-group-append {
+    color: black;
+    background: white;
+}
