@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Auxiliares laboratorios</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/estiloGeneral.css">
+@extends('layouts.master')
+
+@section('title', 'Auxiliares laboratorios')
+
+@section('css')
     <style>
         table, th, td {
-         border: 1px solid black;
+        border: 1px solid black;
         }
     </style>
-</head>
+@endsection
 
-
-<body>
+@section('content')
     <div class="container my-3">
         <div class="row">            
             <div class="col-8"> 
-               <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA</h2>
-               <h4 class = "textoBlanco">FACULTAD/DPTO: {{ $unidad->facultad }} / {{ $unidad->nombre }}  </h4>                
+            <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA</h2>
+            <h4 class = "textoBlanco">FACULTAD/DPTO: {{ $unidad->facultad }} / {{ $unidad->nombre }}  </h4>                
                 <br>
             </div>
             <div class = "col-4">
@@ -65,20 +59,8 @@
             <h4 class="text-center textoBlanco">NO HAY ASISTENCIAS REGISTRADAS</h4>
         @endif
     </div>
-</body>
-<!-- jQuery and JS bundle w/ Popper.js -->
-<script>
-    function habilitarPermiso(id) {
-        if (document.getElementById("asistencia"+id).checked == false){
-            document.getElementById("columnaPermiso"+id).disabled = false;
-            document.getElementById("asistenciaFalse"+id).value= false;
-        } else {
-            document.getElementById("columnaPermiso"+id).disabled = true;
-            document.getElementById("asistenciaFalse"+id).value= true;
-        }
-    }
-</script>
+@endsection
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ></script>
-</html>
+@section('script-footer')
+    <script src="/js/informes/semanalLabo.js"></script>
+@endsection
