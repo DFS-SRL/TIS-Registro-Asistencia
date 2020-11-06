@@ -196,23 +196,30 @@ function habilitarBotonRegistrar(horarios) {
 /*al hacer click en boton editar de grupo materia se redirige a la vista editar */
 
 /*habilita el campo de busqueda al precionar el boton "asignar ..." en la vista de edicion de informacion de un grupo*/
-function botonAsignar(botonId, botonBuscadorId, buscadorId, cancelarId, msgObsId, ocultar){
-    if(ocultar){
-        $('#'+botonId).hide() ;
-        $('#'+botonBuscadorId).show();
-        $('#'+buscadorId).addClass("form-control");
-        $('#'+cancelarId).show();
-    }else{
-        $('#'+botonId).show();
-        $('#'+botonBuscadorId).hide();
-        $('#'+buscadorId).removeClass("form-control");
-        $('#'+cancelarId).hide();
-        $('#'+msgObsId).empty();
+function botonAsignar(
+    botonId,
+    botonBuscadorId,
+    buscadorId,
+    cancelarId,
+    msgObsId,
+    ocultar
+) {
+    if (ocultar) {
+        $("#" + botonId).hide();
+        $("#" + botonBuscadorId).show();
+        $("#" + buscadorId).addClass("form-control");
+        $("#" + cancelarId).show();
+    } else {
+        $("#" + botonId).show();
+        $("#" + botonBuscadorId).hide();
+        $("#" + buscadorId).removeClass("form-control");
+        $("#" + cancelarId).hide();
+        $("#" + msgObsId).empty();
     }
 }
 
 /*valida que el campo de busqueda de docentes o auxiliares   para asignar a un grupo, no este vacio y que solo contenga numeros*/
-function validarBusquedaAsignar(buscadorId, msgObsId){
+function validarBusquedaAsignar(buscadorId, msgObsId) {
     campoBusqueda = document.getElementById(buscadorId);
     let res;
     if (campoBusqueda.value.length == 0) {
@@ -254,19 +261,42 @@ function confirmarDesasignarDocente(docente) {
  */
 function camposEdicionHorarioDeGrupo(horarioId, horario) {
     // Vaciamos los elementos de la fila y añadimos las opciones
-    $("#horario"+horarioId).children("p").hide();
-    $("#horario"+horarioId).append("<select id=\"dias"+horarioId+"\"></select>");
+    $("#horario" + horarioId)
+        .children("p")
+        .hide();
+    $("#horario" + horarioId).append(
+        '<select id="dias' + horarioId + '"></select>'
+    );
     var dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
-    dias.forEach(dia => {
-        $("#dias"+horarioId).append("<option value=\""+dia+"\">"+dia+"</option>");
+    dias.forEach((dia) => {
+        $("#dias" + horarioId).append(
+            '<option value="' + dia + '">' + dia + "</option>"
+        );
         if (dia == horario["dia"]) {
-            $("#dias"+horarioId+" :last-child").prop("selected", "selected");
+            $("#dias" + horarioId + " :last-child").prop(
+                "selected",
+                "selected"
+            );
         }
     });
 
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaInicio"+horarioId+"\" value=\""+horario["hora_inicio"].substring(0,5)+"\" onchange=\"setHoraFin("+horarioId+")\"></input>");
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"time\" id=\"horaFin"+horarioId+"\" value=\""+horario["hora_fin"].substring(0,5)+"\" disabled></input>");
-    
+    $("#horario" + horarioId).append(
+        '<input class="ml-1" type="time" id="horaInicio' +
+            horarioId +
+            '" value="' +
+            horario["hora_inicio"].substring(0, 5) +
+            '" onchange="setHoraFin(' +
+            horarioId +
+            ')"></input>'
+    );
+    $("#horario" + horarioId).append(
+        '<input class="ml-1" type="time" id="horaFin' +
+            horarioId +
+            '" value="' +
+            horario["hora_fin"].substring(0, 5) +
+            '" disabled></input>'
+    );
+
     // Obtenemos la diferencia entre la hora de inicio y la hora fin
     // y asignamos esa diferencia a los periodos
     var splitTimeInicio = horario["hora_inicio"].split(":");
@@ -277,28 +307,55 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
     var horaFin = parseInt(splitTimeFin[0]);
     var minutosFin = parseInt(splitTimeFin[1]);
 
-    var periodos = horaFin*60 + minutosFin - horaInicio*60 - minutosInicio;
+    var periodos = horaFin * 60 + minutosFin - horaInicio * 60 - minutosInicio;
     periodos /= 45;
 
-    $("#horario"+horarioId).append("<input class=\"ml-1\" type=\"number\" name=\"\" id=\"periodo"+horarioId+"\" min=\"1\" max=\"12\" value=\""+periodos+"\" onchange=\"setHoraFin("+horarioId+")\">");
+    $("#horario" + horarioId).append(
+        '<input class="ml-1" type="number" name="" id="periodo' +
+            horarioId +
+            '" min="1" max="12" value="' +
+            periodos +
+            '" onchange="setHoraFin(' +
+            horarioId +
+            ')">'
+    );
 
-    $("#cargo"+horarioId).children("p").hide();
-    $("#cargo"+horarioId).append("<select id=\"cargos"+horarioId+"\"></select>");
-    $("#cargos"+horarioId).append("<option value=\"DOCENCIA\">DOCENCIA</option>");
-    $("#cargos"+horarioId).append("<option value=\"AUXILIATURA\">AUXILIATURA</option>");
+    $("#cargo" + horarioId)
+        .children("p")
+        .hide();
+    $("#cargo" + horarioId).append(
+        '<select id="cargos' + horarioId + '"></select>'
+    );
+    $("#cargos" + horarioId).append(
+        '<option value="DOCENCIA">DOCENCIA</option>'
+    );
+    $("#cargos" + horarioId).append(
+        '<option value="AUXILIATURA">AUXILIATURA</option>'
+    );
     if (horario["rol_id"] == 3)
-        $("#cargos"+horarioId+" :first-child").prop("selected", "selected");
-    else
-        $("#cargos"+horarioId+" :last-child").prop("selected", "selected");
+        $("#cargos" + horarioId + " :first-child").prop("selected", "selected");
+    else $("#cargos" + horarioId + " :last-child").prop("selected", "selected");
 
-    $('#botonEditar'+horarioId).hide();
-    $('[id^=botonEditar]').prop("disabled", true);
-    $('[id^=botonEliminar]').prop("disabled", true);
-    $('#botonEliminar'+horarioId).prop("disabled", false);
-    
-    $("<input id = botonAceptar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonAceptar\" src=\"/icons/aceptar.png\" alt=\"Aceptar\"onclick=\"aceptarEdicionHorarioDeGrupo("+horarioId+")\">").insertBefore("#botonEliminar"+horarioId);
-    
-    $("<input id = botonCancelar"+horarioId+" width=\"30rem\" height=\"30rem\" type=\"image\" name=\"botonCancelar\" src=\"/icons/cancelar.png\" alt=\"Cancelar\"onclick=\"cancelarEdicionHorarioDeGrupo("+horarioId+")\">").insertBefore("#botonEliminar"+horarioId);
+    $("#botonEditar" + horarioId).hide();
+    $("[id^=botonEditar]").prop("disabled", true);
+    $("[id^=botonEliminar]").prop("disabled", true);
+    $("#botonEliminar" + horarioId).prop("disabled", false);
+
+    $(
+        "<input id = botonAceptar" +
+            horarioId +
+            ' width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar"onclick="aceptarEdicionHorarioDeGrupo(' +
+            horarioId +
+            ')">'
+    ).insertBefore("#botonEliminar" + horarioId);
+
+    $(
+        "<input id = botonCancelar" +
+            horarioId +
+            ' width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar"onclick="cancelarEdicionHorarioDeGrupo(' +
+            horarioId +
+            '); activar()">'
+    ).insertBefore("#botonEliminar" + horarioId);
 }
 
 /**
@@ -306,17 +363,21 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
  */
 function cancelarEdicionHorarioDeGrupo(horarioId) {
     // Eliminamos los elemtnos para editar horario y mostramos los que tienen informacion
-    $("#horario"+horarioId).children("p").show();
-    $("#horario"+horarioId+" :not(:first-child)").remove();
+    $("#horario" + horarioId)
+        .children("p")
+        .show();
+    $("#horario" + horarioId + " :not(:first-child)").remove();
 
-    $("#cargo"+horarioId).children("p").show();
-    $("#cargo"+horarioId + " :not(:first-child)").remove();
+    $("#cargo" + horarioId)
+        .children("p")
+        .show();
+    $("#cargo" + horarioId + " :not(:first-child)").remove();
 
-    $('#botonEditar'+horarioId).show();
-    $('[id^=botonEditar]').prop("disabled", false);
-    $('[id^=botonEliminar]').prop("disabled", false);
-    $("#botonAceptar"+horarioId).remove();
-    $("#botonCancelar"+horarioId).remove();
+    $("#botonEditar" + horarioId).show();
+    $("[id^=botonEditar]").prop("disabled", false);
+    $("[id^=botonEliminar]").prop("disabled", false);
+    $("#botonAceptar" + horarioId).remove();
+    $("#botonCancelar" + horarioId).remove();
 }
 
 /**
@@ -324,17 +385,18 @@ function cancelarEdicionHorarioDeGrupo(horarioId) {
  */
 function aceptarEdicionHorarioDeGrupo(horarioId) {
     // Llenamos el form de actualizacion con los datos ingresados
-    $("#horaInicioForm"+horarioId).val( $("#horaInicio"+horarioId).val() );
-    $("#horaFinForm"+horarioId).val( $("#horaFin"+horarioId).val() );
-    $("#diaForm"+horarioId).val( $("#dias"+horarioId+" option:selected").text() );
+    $("#horaInicioForm" + horarioId).val($("#horaInicio" + horarioId).val());
+    $("#horaFinForm" + horarioId).val($("#horaFin" + horarioId).val());
+    $("#diaForm" + horarioId).val(
+        $("#dias" + horarioId + " option:selected").text()
+    );
     var rol;
-    if ($("#cargos"+horarioId+" option:selected").text() == "AUXILIATURA") {
+    if ($("#cargos" + horarioId + " option:selected").text() == "AUXILIATURA") {
         rol = 2;
-    }
-    else {
+    } else {
         rol = 3;
     }
-    $("#rolIdForm"+horarioId).val( rol );
+    $("#rolIdForm" + horarioId).val(rol);
 
-    document.getElementById("editar-horario"+horarioId).submit();
+    document.getElementById("editar-horario" + horarioId).submit();
 }
