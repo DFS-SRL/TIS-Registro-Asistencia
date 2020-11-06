@@ -1,4 +1,4 @@
-const { functionsIn } = require("lodash");
+
 
 /*Valida el limite de letras en actividadRealizada */
 function valLimAct(codigo) {
@@ -200,12 +200,12 @@ function botonAsignar(botonId, botonBuscadorId, buscadorId, cancelarId, msgObsId
     if(ocultar){
         $('#'+botonId).hide() ;
         $('#'+botonBuscadorId).show();
-        $('#'+buscadorId).show();
+        $('#'+buscadorId).addClass("form-control");
         $('#'+cancelarId).show();
     }else{
         $('#'+botonId).show();
         $('#'+botonBuscadorId).hide();
-        $('#'+buscadorId).hide();
+        $('#'+buscadorId).removeClass("form-control");
         $('#'+cancelarId).hide();
         $('#'+msgObsId).empty();
     }
@@ -224,7 +224,6 @@ function validarBusquedaAsignar(buscadorId, msgObsId){
             "solo se permiten caracteres numéricos";
         res = false;
     } else {
-        document.getElementById("prueba").innerHTML = "{{ App\Usuario::find(1) }}";
         res = true;
     }
     return res;

@@ -126,6 +126,7 @@ class GrupoController extends Controller
         if (UsuarioController::esDocente($request['codSis'], $grupo->unidad_id))
             $usuario = Usuario::find($request['codSis']);
         $informacion['usuario'] = $usuario;
+        
         return view('informacion.editar.editarGrupo', $informacion);
     }
 
