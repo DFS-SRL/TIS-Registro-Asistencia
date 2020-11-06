@@ -15,7 +15,7 @@
 </head>
 
 
-<body onload="setUnidad({{$grupo->unidad->id}});setMateria({{$grupo->materia->id}});setGrupo({{$grupo->id}})">
+<body >
     <div class="mx-3 my-4">
         <div class="container">
             <div class="row">
@@ -184,10 +184,10 @@
     </div>
     <form id="guardar-horario" class="d-none" method="POST"
         action="{{ route('horarioClase.guardar') }}">
-        @csrf           
-        <input id="unidadId" type="hidden" name="unidad_id">
-        <input id="materiaId" type="hidden" name="materia_id">
-        <input id="grupoId" type="hidden" name="grupo_id">
+        @csrf  
+        <input id="unidadId" type="hidden" name="unidad_id" value="{{$grupo->unidad->id}}">
+        <input id="materiaId" type="hidden" name="materia_id" value="{{$grupo->materia->id}}">
+        <input id="grupoId" type="hidden" name="grupo_id" value="{{$grupo->id}}">
         <input id="horaInicioS" type="hidden" name="hora_inicio">
         <input id="horaFinS" type="hidden" name="hora_fin">
         <input id="diaS" type="hidden" name="dia">
@@ -206,15 +206,6 @@
     }
     let numFilas = document.getElementById('cuerpo-tabla').rows.length;
     
-    function setUnidad(id){
-        document.getElementById("unidadId").value = id;
-    }
-    function setMateria(id){
-        document.getElementById("materiaId").value = id;
-    }
-    function setGrupo(id){
-        document.getElementById("grupoId").value = id;
-    }
     function vistaGrupo(id) {
         location.href = "/grupo/" + id;
     }
@@ -248,32 +239,6 @@
                                 </tr>`);
                                 numFilas++;
                             }
-
-    function aceptarFila(id) {
-    //     dia= document.getElementById("dia"+id).value;
-    //     horaI = document.getElementById("horaInicio"+id).value+":00";
-    //     horaF = document.getElementById("horaFin"+id).value+":00";
-    //     tipoAcademico = document.getElementById("tipoAcademico"+id).value;
-    //     $("#"+id).empty();
-    //     $("#"+id).append( `<td class="border border-dark" id="diaHoras`+id+`">`+dia+` `+horaI+` -
-    //                                 `+horaF+`</td>
-    //                         <td class="border border-dark" id="tipoAcademico{{$key}}">
-    //                                 `+tipoAcademico+`
-    //                             </td>
-    //                             <td class="border border-dark">
-    //                             <input id="editar`+id+`" width="30rem" height="30rem" type="image" name="botonEditar" src="/icons/editar.png"
-    //                                     alt="Editar">
-    //                             <input id="eliminar`+id+`" width="30rem" height="30rem" type="image" name="botonEliminar"
-    //                                     src="/icons/eliminar.png" alt="Eliminar"
-    //                                     onclick="confirmarEliminarHorario(`+id+`)">
-    //                                 <form id="eliminar-horario`+id+`" class="d-none" method="POST"
-    //                                     action="{{ route('horarioClase.eliminar', $horario) }}">
-    //                                     @csrf @method('DELETE')
-    //                                 </form>
-    //                             </td>
-    //                         `);
-    }
-
     function cancelarFila(id) {
 
         fila = document.getElementById(id);

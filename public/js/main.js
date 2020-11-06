@@ -1,4 +1,3 @@
-const { functionsIn } = require("lodash");
 
 /*Valida el limite de letras en actividadRealizada */
 function valLimAct(codigo) {
