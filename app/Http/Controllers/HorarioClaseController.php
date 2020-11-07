@@ -11,7 +11,7 @@ class HorarioClaseController extends Controller
 {
     public function guardar(GuardarHorarioRequest $request)
     {
-        
+
         $horario = $request->validated();
         // return $horario;
         $this->validarHoras($horario);
@@ -93,7 +93,9 @@ class HorarioClaseController extends Controller
     // elimina de la base de datos el horario otorgado
     public function eliminar(HorarioClase $horario)
     {
-        $horario->delete();
+        $horario->update([
+            'activo' => false
+        ]);
         return back()->with('success', 'Clase eliminada');
     }
 }
