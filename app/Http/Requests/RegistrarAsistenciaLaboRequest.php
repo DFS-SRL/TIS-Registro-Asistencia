@@ -37,4 +37,19 @@ class RegistrarAsistenciaLaboRequest extends FormRequest
         }
         return $reglas;
     }
+
+    // nombrar atributos para mostrar errores
+    public function attributes()
+    {
+        $nombres = [];
+        foreach ($this->request->get('asistencias') as $key => $val) {
+            $nombres['asistencias.' . $key . '.horario_clase_id'] = 'horario_clase_id';
+            $nombres['asistencias.' . $key . '.asistencia'] = 'asistencia';
+            $nombres['asistencias.' . $key . '.fecha'] = 'fecha';
+            $nombres['asistencias.' . $key . '.permiso'] = 'permiso';
+            $nombres['asistencias.' . $key . '.actividad_realizada'] = 'actividad_realizada';
+            $nombres['asistencias.' . $key . '.observaciones'] = 'observaciones';
+        }
+        return $nombres;
+    }
 }

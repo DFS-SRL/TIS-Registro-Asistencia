@@ -40,7 +40,7 @@ class RegistrarAsistenciaSemanal extends Controller
             Asistencia::create($asistencia);
         }
 
-        return "asistencias registradas!!!";
+        return back()->with('success', "asistencias registradas!!!");
     }
 
     private function hayAsistencias($usuario, $rol)

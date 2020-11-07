@@ -16,6 +16,7 @@ class HorarioClaseController extends Controller
         // return $horario;
         $this->validarHoras($horario);
         $this->asignarPersonal($horario);
+        $horario['activo'] = true;
         HorarioClase::create($horario);
         return back()->with('success', 'Registro existoso');
     }
@@ -54,6 +55,7 @@ class HorarioClaseController extends Controller
     private function verificarLibre($horario, $except = -1)
     {
         return HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
+            ->where('activo', '=', 'true')
             ->where('dia', '=', $horario['dia'])
             ->where('id', '!=', $except)
             ->where(function ($query) use ($horario) {

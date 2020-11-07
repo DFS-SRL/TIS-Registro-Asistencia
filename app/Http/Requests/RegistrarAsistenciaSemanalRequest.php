@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\HorarioClase;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegistrarAsistenciaSemanalRequest extends FormRequest
@@ -33,9 +35,29 @@ class RegistrarAsistenciaSemanalRequest extends FormRequest
             else {
                 $reglas['asistencias.' . $key . '.actividad_realizada'] = 'required|min:5|max:150';
                 $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
-                $reglas['asistencias.' . $key . '.indicador_verificable'] = 'nullable';
+                $horario = HorarioClase::find($val['horario_clase_id']);
+                if (UsuarioController::esAuxDoc($horario->asignado_codSis, $horario->unidad_id))
+                    $reglas['asistencias.' . $key . '.indicador_verificable'] = 'required';
+                else
+                    $reglas['asistencias.' . $key . '.indicador_verificable'] = 'nullable';
             }
         }
         return $reglas;
+    }
+
+    // nombrar atributos para mostrar errores
+    public function attributes()
+    {
+        $nombres = [];
+        foreach ($this->request->get('asistencias') as $key => $val) {
+            $nombres['asistencias.' . $key . '.horario_clase_id'] = 'horario_clase_id';
+            $nombres['asistencias.' . $key . '.asistencia'] = 'asistencia';
+            $nombres['asistencias.' . $key . '.fecha'] = 'fecha';
+            $nombres['asistencias.' . $key . '.permiso'] = 'permiso';
+            $nombres['asistencias.' . $key . '.actividad_realizada'] = 'actividad_realizada';
+            $nombres['asistencias.' . $key . '.observaciones'] = 'observaciones';
+            $nombres['asistencias.' . $key . '.indicador_verificable'] = 'indicador_verificable';
+        }
+        return $nombres;
     }
 }
