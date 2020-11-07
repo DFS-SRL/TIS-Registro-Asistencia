@@ -20,7 +20,20 @@
 
 </head>
 <body>
-    @yield('content')
+    <div id="app" class="d-flex flex-column h-screen justify-content-between">
+        <header>
+            @include('layouts.nav')
+            @include('layouts.flash-message')
+        </header>
+        
+        <main>
+            @yield('content')
+        </main>
+
+        <footer class="text-center text-white py-3 shadow">
+            {{ config('app.name') }} | Copyright @ {{ date('Y')}}
+        </footer>
+    </div>
 </body>
 
 @yield('script-footer')

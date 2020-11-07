@@ -19,6 +19,7 @@ class PlanillaSemanalAuxDocController extends Controller
         if (!$llenado) {
             // obteniendo horarios asignados al auxiliar actual
             $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
+                ->where('activo', '=', 'true')
                 ->where('rol_id', '=', 2)
                 ->orderBy('dia', 'DESC')
                 ->orderBy('hora_inicio', 'DESC')
