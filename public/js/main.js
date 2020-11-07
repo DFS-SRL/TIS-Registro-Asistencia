@@ -1,4 +1,3 @@
-
 /*Valida el limite de letras en actividadRealizada */
 function valLimAct(codigo) {
     let textAreaAct = document.getElementById("actividad" + codigo);
@@ -249,7 +248,6 @@ function confirmarEliminarHorario(horarioId) {
         document.getElementById("eliminar-horario" + horarioId).submit();
 }
 
-
 // funcion para confirmacion de la desasignacion de docente de un grupo
 function confirmarDesasignarDocente(docente) {
     if (confirm("¿Estás seguro de desasignar al docente " + docente + "?"))
@@ -399,4 +397,17 @@ function aceptarEdicionHorarioDeGrupo(horarioId) {
     $("#rolIdForm" + horarioId).val(rol);
 
     document.getElementById("editar-horario" + horarioId).submit();
+}
+
+// funcion de confirm box para subir asistencias del mes de una unidad
+function confirmSubmit(fuerza) {
+    var agree = confirm(
+        "¿Estás seguro de subir los informes?, no habrá marcha atras"
+    );
+    if (agree) {
+        if (fuerza)
+            document.getElementById("formulario").action =
+                "{{ route('informes.subirFuerza') }}";
+        return true;
+    } else return false;
 }

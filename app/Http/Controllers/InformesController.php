@@ -43,7 +43,7 @@ class InformesController extends Controller
             }
         }
         $this->subirNivel($asistencias);
-        return 'enviado correctamente :)';
+        return back()->with('success', 'Enviado correctamente :)');
     }
 
     public function subirInformesFuerza()
@@ -76,22 +76,24 @@ class InformesController extends Controller
         }
     }
 
-    public function formulario(Unidad $unidad){
+    public function formulario(Unidad $unidad)
+    {
         // $res = Unidad::where('id','=',$unidadId) -> select('nombre','facultad')->get();
         // $unidad = [
         //     'facultad' => ($res[0] -> facultad),
         //     'nombre' => $res[0] -> nombre
         // ];
-        return view('informes.semanales', ['unidad'=>$unidad]);
+        return view('informes.semanales', ['unidad' => $unidad]);
         // return $unidad;
         // return $this->verPrueba();
     }
 
-    public function verPrueba(){
+    public function verPrueba()
+    {
         $unidad = [
             'facultad' => 'Ciencias y Tecnología',
             'nombre' => 'Informática y Sistemas'
         ];
-        return view('informes.semanales', ['unidad'=>$unidad]);
+        return view('informes.semanales', ['unidad' => $unidad]);
     }
 }

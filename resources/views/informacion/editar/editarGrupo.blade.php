@@ -93,8 +93,6 @@
             <button class="btn boton" id="añadirHorario" onclick="añadirHorario(); desactivar()">AÑADIR HORARIO</button>
             <div class="row rounded-lg" id="personalAcademico">
 
-                @include('layouts.flash-message')
-
                 <div class="col-12">
                     @if ($horarios != null && $horarios->where('rol_id', '=', 3)->count() > 0)
                         @if ($docente != null)

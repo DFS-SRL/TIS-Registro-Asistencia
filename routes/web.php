@@ -13,9 +13,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('/provicional/menu');
-});
+Route::view('/', 'provicional.menu')->name('home');
+
+Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 //http://localhost:8000/parteMensual/docentes/1/2020-10-19 
@@ -66,11 +66,8 @@ Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 
-Route::get('/informes/semanales/{unidad}', 'InformesController@formulario');
-// Route::get('/informes/semanales')->name('informes.semanales');
-Route::get('/informesSemanales', 'InformesController@verPrueba');
+Route::get('/informes/semanales/{unidad}', 'InformesController@formulario')->name('informes.semanales');
+
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion');
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
-
-Route::get('/informesSemanales', 'InformesController@formulario')->name('informes.semanales');
