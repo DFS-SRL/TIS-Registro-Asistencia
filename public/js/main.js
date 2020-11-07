@@ -32,14 +32,14 @@ function valMinAct() {
             res = res && true;
         } else {
             if (actividad.value.length < 5) {
-                console.log("Llenar campo actividad");
+                // console.log("Llenar campo actividad");
                 id = actividad.id.replace("actividad", "");
                 document.getElementById("msgAct" + id).innerHTML =
                     "N&uacutemero de caracteres insuficiente";
-                console.log(id);
+                // console.log(id);
                 res = res && false;
             } else {
-                console.log("Llenado correctamente");
+                // console.log("Llenado correctamente");
                 res = res && true;
             }
         }
@@ -72,10 +72,10 @@ function habilitarDeshabilitar(codigo) {
 }
 /*deshabilita el boton de horarios si existen horarios */
 function habilitarBotonRegistrar(horarios) {
-    console.log(horarios);
+    // console.log(horarios);
     if (horarios > 0) {
         document.getElementById("registrar").style.display = "block";
-        console.log("es vacio");
+        // console.log("es vacio");
     }
 }
 /*al hacer click en boton editar de grupo materia se redirige a la vista editar */
@@ -146,14 +146,14 @@ function valMinAct() {
             res = res && true;
         } else {
             if (actividad.value.length < 5) {
-                console.log("Llenar campo actividad");
+                // console.log("Llenar campo actividad");
                 id = actividad.id.replace("actividad", "");
                 document.getElementById("msgAct" + id).innerHTML =
                     "N&uacutemero de caracteres insuficiente";
-                console.log(id);
+                // console.log(id);
                 res = res && false;
             } else {
-                console.log("Llenado correctamente");
+                // console.log("Llenado correctamente");
                 res = res && true;
             }
         }
@@ -184,15 +184,6 @@ function habilitarDeshabilitar(codigo) {
         document.getElementById("asistenciaFalse" + codigo).value = false;
     }
 }
-/*deshabilita el boton de horarios si existen horarios */
-function habilitarBotonRegistrar(horarios) {
-    console.log(horarios);
-    if (horarios > 0) {
-        document.getElementById("registrar").style.display = "block";
-        console.log("es vacio");
-    }
-}
-/*al hacer click en boton editar de grupo materia se redirige a la vista editar */
 
 /*habilita el campo de busqueda al precionar el boton "asignar ..." en la vista de edicion de informacion de un grupo*/
 function botonAsignar(
