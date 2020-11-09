@@ -1,3 +1,6 @@
+let año ="";
+let mes = "";
+let dia = "";
 $(window).on('unload', function() {
     $("#inputLoop").val("");
     $('#rangoSemana')[0].innerHTML = ("Del __/__ al __/__");
@@ -107,15 +110,34 @@ function setRangoSemana(semana) {
     var fin = ini.addDays(5);
 
     var $p = $('#rangoSemana');
+    dia = fin.getDate();
     $p[0].innerHTML = "Del " + ini.getDate() + "/" + (ini.getMonth() + 1) +
         " al " + fin.getDate() + "/" + (fin.getMonth() + 1);
 }
 
 function actualizarMesAnio() {
-    if (primerDiaMes)
+    if (primerDiaMes){
         $('#sandbox-container').val((primerDiaMes.getMonth() + 1) + "/" + primerDiaMes.getFullYear())
+    }
     else{
         $('#sandbox-container').val("");
         $('#rangoSemana')[0].innerHTML = ("Del __/__ al __/__");
     }
+}
+
+function verInforme(unidad){
+    var radios = document.getElementsByName('informe');
+    var tipoAcademico = "";    
+    año = primerDiaMes.getFullYear();
+    mes = primerDiaMes.getMonth();
+    var fecha = año+"-" + mes+"-" + dia;
+    for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+            tipoAcademico = radios[i].value;
+            console.log(tipoAcademico);
+            break;
+        }
+    }
+    console.log(fecha);
+    window.location.href = "/informes/semanal/"+tipoAcademico+"/"+unidad+"/"+fecha;
 }
