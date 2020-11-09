@@ -33,13 +33,9 @@ Route::get('/informes/{unidad}', 'InformesController@index');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
 Route::post('/informes/subirFuerza', 'InformesController@subirInformesFuerza')->name('informes.subirFuerza');
 
-Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalAuxDocController@obtenerPlanillaSemana');
-// Route::post('/planillas/semanal/auxdoc', 'PlanillaSemanalAuxDocController@registrarAsistencia')->name('planillas.semanal');
-
-Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalDocenteController@obtenerPlanillaSemana');
-// Route::post('/planillas/semanal/docente', 'PlanillaSemanalDocenteController@registrarAsistencia')->name('planillas.semanalDoc');
-
-Route::post('/planillas/semanal/', 'RegistrarAsistenciaSemanal@registrarAsistencia')->name('planillas.semanal');
+Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalAuxDoc');
+Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalDocente');
+Route::post('/planillas/semanal/', 'PlanillaSemanalController@registrarAsistenciasSemana')->name('planillas.semanal');
 
 Route::get('/docentes', 'ProvController\Menu@docentes');
 Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc');
