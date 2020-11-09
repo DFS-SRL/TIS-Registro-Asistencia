@@ -22,6 +22,7 @@
     <form  method="POST"  @yield('action') onsubmit= "return valMinAct()"> --}}
             @yield('reporte')
         {{-- </form>       --}}
+    <p class="text-muted">*las horas pagables y no pagables estan en funcion a las cargas horarias efectivas</p>
     </div>
 @endsection
 
