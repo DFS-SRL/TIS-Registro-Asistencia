@@ -2,6 +2,10 @@
 
 @section('title', 'Lista de Cargos de Laboratorio')
 
+@section('css')
+    <link rel="stylesheet" href="/css/estiloListaMaterias.css">
+@endsection
+
 @section('content')
     <div class="container">
         <div class="mx-3 my-4">
@@ -38,7 +42,7 @@
             <div class="container mt-4">
                 <ul class="list-group">
                     @forelse ($cargos as $cargo)
-                        <li class="list-group-item linkcargo lista"><a href="/cargo/{{ $cargo->id }}">{{ $cargo->nombre }}</a>
+                        <li class="list-group-item linkMateria lista"><a href="/cargo/{{ $cargo->id }}">{{ $cargo->nombre }}</a>
                         </li>
                     @empty
                         <h3 class="textoBlanco">Este unidad no tiene cargos asignados</h3>

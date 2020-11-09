@@ -14,6 +14,26 @@
                     @lang('About')
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ setActive('docentes') }}" href="{{ route('docentes') }}">
+                    Docentes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ setActive('auxiliaresDoc') }}" href="{{ route('auxiliaresDoc') }}">
+                    Auxiliares de docencia
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ setActive('auxiliaresLabo') }}" href="{{ route('auxiliaresLabo') }}">
+                    Auxiliares de laboratorio
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ setActive('departamentos') }}" href="{{ route('departamentos') }}">
+                    Departamentos
+                </a>
+            </li>
         </ul>
         </div>
     </div>

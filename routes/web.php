@@ -29,7 +29,7 @@ Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesSemanalesC
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalAuxDoc');
 Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalDoc');
 
-Route::get('/informes/{unidad}', 'InformesController@index');
+Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
 Route::post('/informes/subirFuerza', 'InformesController@subirInformesFuerza')->name('informes.subirFuerza');
 
@@ -37,12 +37,12 @@ Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalController@obtene
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalDocente');
 Route::post('/planillas/semanal/', 'PlanillaSemanalController@registrarAsistenciasSemana')->name('planillas.semanal');
 
-Route::get('/docentes', 'ProvController\Menu@docentes');
-Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc');
-Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo');
+Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
+Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
+Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxiliaresLabo');
 Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
 Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
-Route::get('/departamentos', 'ProvController\Menu@departamentos');
+Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');

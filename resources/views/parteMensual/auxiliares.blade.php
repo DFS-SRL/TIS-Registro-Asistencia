@@ -19,7 +19,8 @@
                 <tr>
                     <th class="textoBlanco border border-dark">CODIGO SIS</th>
                     <th class="textoBlanco border border-dark">NOMBRE</th>
-                    <th class="textoBlanco border border-dark">CARGA HORARIA</th>
+                    <th class="textoBlanco border border-dark">C. HORARIA NOMINAL</th>
+                    <th class="textoBlanco border border-dark">C. HORARIA EFECTIVA</th>
                     <th class="textoBlanco border border-dark">HORAS ASISTIDAS</th>
                     <th class="textoBlanco border border-dark">HH. CON FALTA</th>
                     <th class="textoBlanco border border-dark">HH. CON LICENCIA</th>
@@ -45,7 +46,8 @@
                     <tr>
                         <th class="textoBlanco border border-dark">CODIGO SIS</th>
                         <th class="textoBlanco border border-dark">NOMBRE</th>
-                        <th class="textoBlanco border border-dark">CARGA HORARIA</th>
+                        <th class="textoBlanco border border-dark">C. HORARIA NOMINAL</th>
+                        <th class="textoBlanco border border-dark">C. HORARIA EFECTIVA</th>
                         <th class="textoBlanco border border-dark">HORAS ASISTIDAS</th>
                         <th class="textoBlanco border border-dark">HH. CON FALTA</th>
                         <th class="textoBlanco border border-dark">HH. CON LICENCIA</th>
@@ -73,7 +75,8 @@
                     <tr>
                         <th class="textoBlanco border border-dark">CODIGO SIS</th>
                         <th class="textoBlanco border border-dark">NOMBRE</th>
-                        <th class="textoBlanco border border-dark">CARGA HORARIA</th>
+                        <th class="textoBlanco border border-dark">C. HORARIA NOMINAL</th>
+                        <th class="textoBlanco border border-dark">C. HORARIA EFECTIVA</th>
                         <th class="textoBlanco border border-dark">HORAS ASISTIDAS</th>
                         <th class="textoBlanco border border-dark">HH. CON FALTA</th>
                         <th class="textoBlanco border border-dark">HH. CON LICENCIA</th>
