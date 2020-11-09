@@ -75,7 +75,7 @@ class InformesController extends Controller
             ]);
         }
     }
-
+ 
     public function formulario(Unidad $unidad)
     {
         // $res = Unidad::where('id','=',$unidadId) -> select('nombre','facultad')->get();
