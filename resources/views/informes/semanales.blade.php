@@ -22,7 +22,7 @@
                 <br>
             </div>
         </div>
-
+ 
         <div class="row">
             <div class="col-12">
                 <p class="textoBlanco">
@@ -34,11 +34,11 @@
         <div class="row textoBlanco justify-content-center esquina-redondeada" style="background:#7C7365;">
             <form>
                 <div class="col-12 opciones espaciado esquina-redondeada">
-                    <input type="radio" id="docente" name="informe" value="docente">
+                    <input type="radio" id="docente" name="informe" value="docencia">
                     <label for="docente">Docente</label><br>
-                    <input type="radio" id="auxiliarDoc" name="informe" value="auxiliarDoc">
+                    <input type="radio" id="auxiliarDoc" name="informe" value="aux-docencia">
                     <label for="auxiliarDoc">Auxiliares de Docencia</label><br>
-                    <input type="radio" id="auxLabo" name="informe" value="auxLabo">
+                    <input type="radio" id="auxLabo" name="informe" value="laboratorio">
                     <label for="auxLabo">Auxiliares de Laboratior</label>
                 </div>
 
@@ -81,7 +81,7 @@
         </div>
 
         <div class="espaciado float-right">
-            <button class="boton btn btn-success textoNegro">Ver Informe</button>
+            <button class="boton btn btn-success textoNegro" onclick="verInforme({{$unidad['id']}})">Ver Informe</button>
         </div>
 
     </div>
