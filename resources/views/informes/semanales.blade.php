@@ -81,7 +81,7 @@
             </form>
         </div>
 
-        <div class="espaciado float-right">
+        <div class="espaciado d-flex flex-row-reverse">
             <button class="boton btn btn-success textoNegro" onclick="verInforme({{$unidad['id']}})">VER INFORME</button>
         </div>
         
