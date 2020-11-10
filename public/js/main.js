@@ -89,7 +89,7 @@ function botonAsignar(botonId, botonBuscadorId, buscadorId) {
 /*valida que el campo de busqueda de docentes o auxiliares   para asignar a un grupo, no este vacio y que solo contenga numeros*/
 function validarBusquedaAsignar(buscadorId, msgObsId) {
     campoBusqueda = document.getElementById(buscadorId);
-    let res;
+    let res = false;
     if (campoBusqueda.value.length == 0) {
         document.getElementById(msgObsId).innerHTML =
             "debe especificar el codSis del docente que desea asignar a este grupo";

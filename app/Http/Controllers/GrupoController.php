@@ -186,7 +186,7 @@ class GrupoController extends Controller
                 'asignado_codSis' => $codSis
             ]);
         }
-        return back()->with('status', 'Registro exitoso');
+        return back()->with('success', 'Registro exitoso');
     }
 
     // designar docente a un grupo

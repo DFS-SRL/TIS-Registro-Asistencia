@@ -105,7 +105,7 @@
                             <h4>Docente: <button class="btn boton" id="asignarDocente"
                                     onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',true); desactivar()">ASIGNAR
                                     DOCENTE</button>
-                                <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')" action="">
+                                <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')">
                                     @csrf @method('PATCH')
                                     <input id="buscador1" class=" oculto" type="search" placeholder="codSis docente" aria-label="Search" name='codSis'>
                                     <button id="botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit">
