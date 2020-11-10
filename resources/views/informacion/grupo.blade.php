@@ -24,10 +24,12 @@
             </div>
             <table class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th class="textoBlanco border border-dark" scope="col">HORARIO</th>
-                        <th class="textoBlanco border border-dark" scope="col">CARGO</th>
-                    </tr>
+                    @if (!$horarios->isEmpty())
+                        <tr>
+                            <th class="textoBlanco border border-dark" scope="col">HORARIO</th>
+                            <th class="textoBlanco border border-dark" scope="col">CARGO</th>
+                        </tr>
+                    @endif
                 </thead>
                 <tbody>
                     @forelse($horarios as $key => $horario)
@@ -43,7 +45,7 @@
                             </td>
                         </tr>
                     @empty
-                        <h5 class="textoBlanco">NO HAY HORARIOS</h5>
+                        <h4 class="textoBlanco text-center">NO HAY HORARIOS</h4>
                     @endforelse
                 </tbody>
             </table>

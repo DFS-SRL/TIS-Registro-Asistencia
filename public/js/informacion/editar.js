@@ -32,8 +32,11 @@ function añadirHorario() {
                     <option value="VIERNES">VIERNES</option>
                     <option value="SABADO">SABADO</option>
                     </select>
+                    hora inicio:
                     <input type="time" name="hora_inicio" id="horaInicio" onchange="setHoraFin()" required>
+                    hora fin:
                     <input type="time" name="hora_fin" id="horaFin" disabled>
+                    periodos:
                     <input type="number" id="periodo" min="1" max="12" value="1" onchange="setHoraFin()">
                     </td>
                     <td class="border border-dark">
