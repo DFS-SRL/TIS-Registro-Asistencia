@@ -16,7 +16,7 @@ $("#sandbox-container").datepicker({
     minViewMode: 1,
     language: "es",
     format: "mm/yyyy",
-    clearBtn: true,
+    // clearBtn: true,
     autoclose: true,
 });
 
