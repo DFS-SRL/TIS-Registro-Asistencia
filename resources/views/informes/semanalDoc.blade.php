@@ -1,4 +1,2 @@
 @extends('informes.semanalMaster')
-@section('tipo-academico')
-    DOCENTES
-@endsection
+@section('tipo_academico', 'DOCENTES')

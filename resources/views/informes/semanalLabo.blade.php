@@ -14,8 +14,9 @@
     <div class="container my-3">
         <div class="row">            
             <div class="col-8"> 
-            <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA</h2>
-            <h4 class = "textoBlanco">FACULTAD/DPTO: {{ $unidad->facultad }} / {{ $unidad->nombre }}  </h4>                
+                <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA AUXILIARES DE LABORATORIO</h2>
+                <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
+                <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                 <br>
             </div>
             <div class = "col-4">
