@@ -1,20 +1,44 @@
 body {
-  background-color: #404a44;
+    background-color: #404a44;
 }
-.textoBlanco{
-  color: white;
+
+.textoBlanco {
+    color: white;
 }
-th{
-  background-color: #000000;
+
+.textoNegro {
+    color: black;
 }
-td{
-  background-color: white;
+
+th {
+    background-color: #000000;
 }
-textarea{
-  width:200px; 
-  height:100px;
+
+td {
+    background-color: white;
 }
-.boton{
-  background-color: #D2B272;
-  font-weight: bold;
+
+textarea {
+    width: 200px;
+    height: 100px;
+}
+
+.boton {
+    background-color: #D2B272;
+    font-weight: bold;
+}
+
+.nav-pills .nav-link:not(.active) {
+    background-color: #D2B272;
+    color: white;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #968e82;
+    color: white;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #7C7365;
+    color: white;
 }

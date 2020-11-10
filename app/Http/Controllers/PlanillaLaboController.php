@@ -21,6 +21,7 @@ class PlanillaLaboController extends Controller
         // obteniendo horarios asignados en el dia actual
         if (!$llenado)
             $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
+                ->where('activo', '=', 'true')
                 ->where('rol_id', '=', 1)
                 ->where('dia', '=', getDia())->get();
         else
@@ -31,23 +32,6 @@ class PlanillaLaboController extends Controller
             'fecha' => getFecha(),
             'horarios' => $horarios,
             'llenado' => $llenado
-        ]);
-    }
-
-    public function obtenerInformeSemanal(Unidad $unidad, $fecha)
-    {
-        // obteniendo las fechas de la semana
-        $fechas = getFechasDeSemanaEnFecha($fecha);
-
-        // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistenciasRol($unidad, 1, $fechas[0], $fechas[5]);;
-
-        //devolver la vista de informe semanal de laboratorio
-        return view('informes.semanalLabo', [
-            'asistencias' => $asistencias,
-            'fechaInicio' => formatoFecha($fechas[0]),
-            'fechaFinal' => formatoFecha($fechas[5]),
-            'unidad' => $unidad
         ]);
     }
 
@@ -78,7 +62,7 @@ class PlanillaLaboController extends Controller
             Asistencia::create($asistencia);
         }
 
-        return "asistencias registradas!!!";
+        return back()->with('success', "asistencias registradas!!!");
     }
 
     private function hayAsistencias($usuario)

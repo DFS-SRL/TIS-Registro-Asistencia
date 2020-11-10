@@ -1,16 +1,8 @@
+@extends('layouts.master')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Planilla semanal de asistencia</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/estiloGeneral.css">
-    
-</head>
-<body onload="habilitarBotonRegistrar({{sizeof($horarios)}})">
+@section('title', 'Planilla Semana de Asistencia')
+
+@section('content')
     <div class="m-3">
     <div class="row">
         <div class="col-6">
@@ -24,7 +16,7 @@
     <h4 class = "textoBlanco">@yield('tipoUsuario') {{$nombre}}</h4>
     <h4 class = "textoBlanco">CODIGO SIS: {{$codSis}}</h4>
     @if(!$horarios->isEmpty())
-        <form  method="POST"  @yield('action') onsubmit= "return valMinAct()">
+        <form  method="POST"  @yield('action') @yield('onsubmit')>
         @foreach ($horarios as $key1 => $unidad)
             <br>
             <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
@@ -52,7 +44,10 @@
                                 maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLimAct({{$key1.$key2 }})" onkeyup="valLimAct({{$key1.$key2 }})"  ></textarea>                             
                                 <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                                 </td>
-                            <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}"></textarea></td>
+                            <td class="border border-dark">
+                                <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}  verificable" id="verificable{{$key1.$key2 }}"></textarea>
+                                <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
+                            </td>
                             <td class="border border-dark">
                                 <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" 
                                 maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLimObs({{$key1.$key2 }})" onkeyup="valLimObs({{$key1.$key2 }})" ></textarea>                            
@@ -96,6 +91,11 @@
     <button class="btn boton float-right" id="registrar" style="display:none;">REGISTRAR</button>  
     </form>      
     </div>
+@endsection
+
+@section('script-footer')
     <script src="/js/main.js"></script>
-</body>
-</html>
+    <script>
+        $(window).on('load', habilitarBotonRegistrar({{sizeof($horarios)}}));
+    </script>
+@endsection

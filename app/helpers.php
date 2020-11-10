@@ -6,7 +6,7 @@ use Carbon\Carbon;
 // devuelve el dia actual
 function getDia()
 {
-    return traducirDia( date("l") );
+    return traducirDia(date("l"));
     //return 'MARTES';
 }
 
@@ -15,6 +15,21 @@ function getFecha()
 {
     return date("d/m/Y");
     //return "12/10/2020";
+}
+
+//devuelve el primer dia del mes
+function primerDiaMes()
+{
+    $fecha = date("m/d/Y");
+    $fecha[3] = '0';
+    $fecha[4] = '1';
+    return $fecha;
+}
+
+//diferencia entre hoy y el primer dia del mes
+function dia()
+{
+    return (int)date("d") + 4 - (int)date("l");
 }
 
 //devuelve la fecha actual con formato
@@ -31,7 +46,8 @@ function formatoFecha($fecha)
 
 // traduce el dia de semana de ingles a español en mayusculas
 // si se puede, cambiar a __()
-function traducirDia($dia) {
+function traducirDia($dia)
+{
     if ($dia == "Monday") return "LUNES";
     if ($dia == "Tuesday") return "MARTES";
     if ($dia == "Wednesday") return "MIERCOLES";
@@ -43,20 +59,23 @@ function traducirDia($dia) {
 }
 
 // lo mismo pero la entrada son numeros
-function traducirDia1($dia) {
+function traducirDia1($dia)
+{
     $dias = [
         '0' => "DOMINGO",
         '1' => "LUNES",
-        '2'=> "MARTES",
+        '2' => "MARTES",
         '3' => "MIERCOLES",
         '4' => "JUEVES",
         '5' => "VIERNES",
-        '6' => "SABADO"];
+        '6' => "SABADO"
+    ];
     return $dias[$dia];
 }
 
 // devuelve un arreglo con la fecha de cada dia de la semana actual
-function getFechasDeSemanaActual() {  
+function getFechasDeSemanaActual()
+{
     $d = strtotime("last monday", strtotime("tomorrow"));
     return [
         "LUNES" =>      date("d/m/Y", $d),
@@ -83,7 +102,8 @@ function getFechasDeSemanaEnFecha($fecha)
 }
 
 // compara dos dias de semana tomando LUNES como el primer dia
-function compararDias($diaA, $diaB) {
+function compararDias($diaA, $diaB)
+{
     $posicion = [
         "LUNES" =>      0,
         "MARTES" =>     1,
@@ -106,17 +126,23 @@ function tiempoHora($hora)
 function tiempoFecha($fecha)
 {
     return Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
-} 
+}
 
 // parametro por referencia, devuelve fecha 16 a 15 del ultimo mes e instancia Carbon de la inicial
 function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
 {
     $t = tiempoFecha($fecha);
-    if($t->day <= 15)
+    if ($t->day <= 15)
         $t->subMonth();
     $t->day = 15;
     $fechaFin = $t->toDateString();
     $t->subMonth();
     $t->addDay();
     $fechaInicio = $t->toDateString();
+}
+
+// activar ruta en navbar
+function setactive($routeName)
+{
+    return request()->routeIs($routeName) ? 'active' : '';
 }
