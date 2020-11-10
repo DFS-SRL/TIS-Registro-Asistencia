@@ -47,7 +47,7 @@
                         <td class = "border border-dark">{{ $asistencia->actividad_realizada }}</td>
                         <td class = "border border-dark">{{ $asistencia->observaciones }}</td>
                         <td class = "border border-dark">{{ $asistencia->asistencia ? 'SI' : 'NO' }}</td>
-                        <td class = "border border-dark">{{ $asistencia->permiso ? $asistencia->permiso : 'sin permiso' }}</td>   
+                        <td class = "border border-dark">{{ $asistencia->permiso ? $asistencia->permiso : '' }}</td>   
                     </tr>
                 @endforeach 
             </table>  

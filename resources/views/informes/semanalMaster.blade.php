@@ -30,6 +30,7 @@
                     <th class="textoBlanco border border-dark">FECHA</th>
                     <th class="textoBlanco border border-dark">HORARIO</th>
                     <th class="textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
+                    <th class="textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
                     <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                     <th class="textoBlanco border border-dark">ASISTENCIA</th>
                     <th class="textoBlanco border border-dark">PERMISO</th>
@@ -43,9 +44,10 @@
                         <td>{{ formatoFecha($asistencia->fecha) }}</td>
                         <td>{{ $asistencia->horarioClase->hora_inicio }} - {{ $asistencia->horarioClase->hora_fin }} </td>
                         <td>{{ $asistencia->actividad_realizada }} </td>
+                        <td>{{ $asistencia->indicador_verificable }} </td>
                         <td>{{ $asistencia->observaciones }}</td>
                         <td> {{ $asistencia->asistencia ? 'SI' : 'NO' }}</td>
-                        <td> {{ $asistencia->permiso ? $asistencia->permiso : '-' }} </td>
+                        <td> {{ $asistencia->permiso ? $asistencia->permiso : '' }} </td>
                     </tr>
                 @endforeach
             </table>
