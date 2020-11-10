@@ -22,6 +22,12 @@ function valLimObs(codigo) {
         document.getElementById("msgObs" + codigo).innerHTML = "";
     }
 }
+
+/*valida los campos actividad realizada e indicador verificable */
+function validarCampos(){
+    return valMinAct() && valIndVer();
+}
+
 /*Valida numero minimo de caracteres para actividad realizada */
 function valMinAct() {
     let res = true;
@@ -39,6 +45,27 @@ function valMinAct() {
                 res = res && false;
             } else {
                 // console.log("Llenado correctamente");
+                res = res && true;
+            }
+        }
+    }
+    return res;
+}
+
+/*valida que los auxiliares especifiquen obligatoriamente el campo indicador verificable */
+function valIndVer(){
+    let res = true;
+    let verificables = document.getElementsByClassName('verificable');
+    for(verificable of verificables){
+        if(verificable.disabled){
+           res = res && true; 
+        }else{
+            //console.log("entra aqui");
+            if(verificable.value.length == 0){
+                id = verificable.id.replace('verificable',"");
+                document.getElementById("msgVer" + id).innerHTML = "es obligatorio especificar un indicador verificable"
+                res = res && false;
+            }else{
                 res = res && true;
             }
         }

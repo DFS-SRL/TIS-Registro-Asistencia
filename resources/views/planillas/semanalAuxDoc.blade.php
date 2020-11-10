@@ -5,3 +5,6 @@
 @section('tipoUsuario')
     NOMBRE AUXILIAR:
 @endsection
+@section('onsubmit')
+    onsubmit= "return validarCampos()"
+@endsection

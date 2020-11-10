@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-    <div class="container my-3">
+    <div class="m-3">
         <div class="row">            
             <div class="col-8"> 
                 <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA AUXILIARES DE LABORATORIO</h2>

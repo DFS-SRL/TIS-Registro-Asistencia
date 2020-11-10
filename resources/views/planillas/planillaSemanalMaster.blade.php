@@ -16,7 +16,7 @@
     <h4 class = "textoBlanco">@yield('tipoUsuario') {{$nombre}}</h4>
     <h4 class = "textoBlanco">CODIGO SIS: {{$codSis}}</h4>
     @if(!$horarios->isEmpty())
-        <form  method="POST"  @yield('action') onsubmit= "return valMinAct()">
+        <form  method="POST"  @yield('action') @yield('onsubmit')>
         @foreach ($horarios as $key1 => $unidad)
             <br>
             <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
@@ -44,7 +44,10 @@
                                 maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLimAct({{$key1.$key2 }})" onkeyup="valLimAct({{$key1.$key2 }})"  ></textarea>                             
                                 <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                                 </td>
-                            <td class="border border-dark"><textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}"></textarea></td>
+                            <td class="border border-dark">
+                                <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}  verificable" id="verificable{{$key1.$key2 }}"></textarea>
+                                <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
+                            </td>
                             <td class="border border-dark">
                                 <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" 
                                 maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLimObs({{$key1.$key2 }})" onkeyup="valLimObs({{$key1.$key2 }})" ></textarea>                            
