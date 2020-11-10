@@ -282,19 +282,19 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
 
     $("#horario" + horarioId).append(
         '<input class="ml-1" type="time" id="horaInicio' +
-            horarioId +
-            '" value="' +
-            horario["hora_inicio"].substring(0, 5) +
-            '" onchange="setHoraFin(' +
-            horarioId +
-            ')"></input>'
+        horarioId +
+        '" value="' +
+        horario["hora_inicio"].substring(0, 5) +
+        '" onchange="setHoraFin(' +
+        horarioId +
+        ')"></input>'
     );
     $("#horario" + horarioId).append(
         '<input class="ml-1" type="time" id="horaFin' +
-            horarioId +
-            '" value="' +
-            horario["hora_fin"].substring(0, 5) +
-            '" disabled></input>'
+        horarioId +
+        '" value="' +
+        horario["hora_fin"].substring(0, 5) +
+        '" disabled></input>'
     );
 
     // Obtenemos la diferencia entre la hora de inicio y la hora fin
@@ -312,12 +312,12 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
 
     $("#horario" + horarioId).append(
         '<input class="ml-1" type="number" name="" id="periodo' +
-            horarioId +
-            '" min="1" max="12" value="' +
-            periodos +
-            '" onchange="setHoraFin(' +
-            horarioId +
-            ')">'
+        horarioId +
+        '" min="1" max="12" value="' +
+        periodos +
+        '" onchange="setHoraFin(' +
+        horarioId +
+        ')">'
     );
 
     $("#cargo" + horarioId)
@@ -343,18 +343,18 @@ function camposEdicionHorarioDeGrupo(horarioId, horario) {
 
     $(
         "<input id = botonAceptar" +
-            horarioId +
-            ' width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar"onclick="aceptarEdicionHorarioDeGrupo(' +
-            horarioId +
-            ')">'
+        horarioId +
+        ' width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar"onclick="aceptarEdicionHorarioDeGrupo(' +
+        horarioId +
+        ')">'
     ).insertBefore("#botonEliminar" + horarioId);
 
     $(
         "<input id = botonCancelar" +
-            horarioId +
-            ' width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar"onclick="cancelarEdicionHorarioDeGrupo(' +
-            horarioId +
-            '); activar()">'
+        horarioId +
+        ' width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar"onclick="cancelarEdicionHorarioDeGrupo(' +
+        horarioId +
+        '); activar()">'
     ).insertBefore("#botonEliminar" + horarioId);
 }
 
