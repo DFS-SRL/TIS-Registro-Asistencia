@@ -23,7 +23,9 @@
     <div id="app" class="d-flex flex-column h-screen justify-content-between">
         <header>
             @include('layouts.nav')
-            @include('layouts.flash-message')
+            <div class="container">
+                @include('layouts.flash-message')
+            </div>
         </header>
         
         <main>

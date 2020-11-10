@@ -1,10 +1,8 @@
 let año = "";
 let mes = "";
 let dia = "";
-$(window).on("unload", function () {
-    $("#inputLoop").val("");
-    $("#rangoSemana")[0].innerHTML = "Del __/__ al __/__";
-    $("#sandbox-container").val("");
+$(window).on("load", function () {
+    $('.datepicker').datepicker('setDate', new Date());
 });
 
 Date.prototype.addDays = function (d) {
@@ -14,12 +12,14 @@ Date.prototype.addDays = function (d) {
 var primerDiaMes;
 
 $("#sandbox-container").datepicker({
-    enddate: 2020,
+    enddate: new Date().getFullYear(),
     minViewMode: 1,
     language: "es",
     format: "mm/yyyy",
     clearBtn: true,
+    autoclose: true,
 });
+
 
 $("#sandbox-container").on("change", function () {
     var x = $(this).val();
