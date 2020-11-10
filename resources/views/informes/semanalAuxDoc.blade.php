@@ -1,5 +1,3 @@
 
 @extends('informes.semanalMaster')
-@section('tipo-academico')
-    AUXILIARES
-@endsection
+@section('tipo_academico', 'AUXILIARES DE DOCENCIA')

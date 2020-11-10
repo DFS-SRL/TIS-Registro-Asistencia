@@ -11,11 +11,18 @@ class HorarioClaseController extends Controller
 {
     public function guardar(GuardarHorarioRequest $request)
     {
-        
+
         $horario = $request->validated();
-        // return $horario;
+        if ($horario['hora_inicio'] == ":00") {
+            $error = ValidationException::withMessages([
+                'horario' => ['debe añadir las horas del nuevo horario para guardar los cambios']
+            ]);
+            throw $error;
+        }
+        return $horario;
         $this->validarHoras($horario);
         $this->asignarPersonal($horario);
+        $horario['activo'] = true;
         HorarioClase::create($horario);
         return back()->with('success', 'Registro existoso');
     }
@@ -51,11 +58,11 @@ class HorarioClaseController extends Controller
     }
 
     // verifica si un horario no choca con algun otro en el grupo al que pertenece el horario
-    private function verificarLibre($horario, $except = -1)
+    private function verificarLibre($horario)
     {
         return HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
+            ->where('activo', '=', 'true')
             ->where('dia', '=', $horario['dia'])
-            ->where('id', '!=', $except)
             ->where(function ($query) use ($horario) {
                 $query->where(function ($query) use ($horario) {
                     $query->where('hora_inicio', '=', $horario['hora_inicio'])
@@ -85,15 +92,21 @@ class HorarioClaseController extends Controller
         $horarioNuevo = $request->validated();
         $horarioNuevo['hora_inicio'] .= ":00";
         $horarioNuevo['hora_fin'] .= ":00";
-        $this->validarHoras($horarioNuevo, $horario->id);
-        $horario->update($horarioNuevo);
+        $horarioNuevo['activo'] = true;
+        $horario->update([
+            'activo' => false
+        ]);
+        $this->validarHoras($horarioNuevo);
+        HorarioClase::create($horarioNuevo);
         return back()->with('success', 'Clase actualizada');
     }
 
     // elimina de la base de datos el horario otorgado
     public function eliminar(HorarioClase $horario)
     {
-        $horario->delete();
+        $horario->update([
+            'activo' => false
+        ]);
         return back()->with('success', 'Clase eliminada');
     }
 }

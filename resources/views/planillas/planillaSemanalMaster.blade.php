@@ -1,16 +1,8 @@
+@extends('layouts.master')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Planilla semanal de asistencia</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/estiloGeneral.css">
-    
-</head>
-<body onload="habilitarBotonRegistrar({{sizeof($horarios)}})">
+@section('title', 'Planilla Semana de Asistencia')
+
+@section('content')
     <div class="m-3">
     <div class="row">
         <div class="col-6">
@@ -96,6 +88,11 @@
     <button class="btn boton float-right" id="registrar" style="display:none;">REGISTRAR</button>  
     </form>      
     </div>
+@endsection
+
+@section('script-footer')
     <script src="/js/main.js"></script>
-</body>
-</html>
+    <script>
+        $(window).on('load', habilitarBotonRegistrar({{sizeof($horarios)}}));
+    </script>
+@endsection

@@ -28,6 +28,7 @@ class GrupoController extends Controller
 
         // Obtener los horarios correspondientes a la materia
         $horarios = HorarioClase::where('grupo_id', '=', $grupo->id)
+            ->where('activo', '=', 'true')
             ->get();
 
         $horarios = $horarios->sort(function (HorarioClase $a, HorarioClase $b) {
@@ -47,6 +48,7 @@ class GrupoController extends Controller
             ->join('Rol', 'Rol.id', '=', 'Usuario_tiene_rol.rol_id')
             ->where('Rol.id', '=', 3)
             ->join('Horario_clase', 'Horario_clase.asignado_codSis', '=', 'codSis')
+            ->where('activo', '=', 'true')
             ->where('Horario_clase.grupo_id', '=', $grupo->id)
             ->select('Usuario.codSis', 'Usuario.nombre')
             ->get()->first();
@@ -56,6 +58,7 @@ class GrupoController extends Controller
             ->join('Rol', 'Rol.id', '=', 'Usuario_tiene_rol.rol_id')
             ->where('Rol.id', '<=', 2)
             ->join('Horario_clase', 'Horario_clase.asignado_codSis', '=', 'codSis')
+            ->where('activo', '=', 'true')
             ->where('Horario_clase.grupo_id', '=', $grupo->id)
             ->select('Usuario.codSis', 'Usuario.nombre')
             ->get()->first();
@@ -78,7 +81,9 @@ class GrupoController extends Controller
         }
 
         //* Ahora diferenciamos entre docencia y auxiliaruta
-        $esGrupoDeDocencia = ($horarios->where('rol_id', '=', 1)->count() == 0);
+        $esGrupoDeDocencia = ($horarios->where('rol_id', '=', 1)
+            ->where('activo', '=', 'true')
+            ->count() == 0);
 
         if ($esGrupoDeDocencia) {
             return [
@@ -126,7 +131,7 @@ class GrupoController extends Controller
         if (UsuarioController::esDocente($request['codSis'], $grupo->unidad_id))
             $usuario = Usuario::find($request['codSis']);
         $informacion['usuario'] = $usuario;
-        
+
         return view('informacion.editar.editarGrupo', $informacion);
     }
 
@@ -174,13 +179,14 @@ class GrupoController extends Controller
     {
         $horarios = HorarioClase::where('grupo_id', '=', $grupo_id)
             ->where('rol_id', '=', $rol_id)
+            ->where('activo', '=', 'true')
             ->get();
         foreach ($horarios as $key => $horario) {
             $horario->update([
                 'asignado_codSis' => $codSis
             ]);
         }
-        return back()->with('status', 'Registro exitoso');
+        return back()->with('success', 'Registro exitoso');
     }
 
     // designar docente a un grupo

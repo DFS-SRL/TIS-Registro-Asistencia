@@ -1,4 +1,3 @@
-
 /*Valida el limite de letras en actividadRealizada */
 function valLimAct(codigo) {
     let textAreaAct = document.getElementById("actividad" + codigo);
@@ -32,14 +31,14 @@ function valMinAct() {
             res = res && true;
         } else {
             if (actividad.value.length < 5) {
-                console.log("Llenar campo actividad");
+                // console.log("Llenar campo actividad");
                 id = actividad.id.replace("actividad", "");
                 document.getElementById("msgAct" + id).innerHTML =
                     "N&uacutemero de caracteres insuficiente";
-                console.log(id);
+                // console.log(id);
                 res = res && false;
             } else {
-                console.log("Llenado correctamente");
+                // console.log("Llenado correctamente");
                 res = res && true;
             }
         }
@@ -72,10 +71,10 @@ function habilitarDeshabilitar(codigo) {
 }
 /*deshabilita el boton de horarios si existen horarios */
 function habilitarBotonRegistrar(horarios) {
-    console.log(horarios);
+    // console.log(horarios);
     if (horarios > 0) {
         document.getElementById("registrar").style.display = "block";
-        console.log("es vacio");
+        // console.log("es vacio");
     }
 }
 /*al hacer click en boton editar de grupo materia se redirige a la vista editar */
@@ -90,7 +89,7 @@ function botonAsignar(botonId, botonBuscadorId, buscadorId) {
 /*valida que el campo de busqueda de docentes o auxiliares   para asignar a un grupo, no este vacio y que solo contenga numeros*/
 function validarBusquedaAsignar(buscadorId, msgObsId) {
     campoBusqueda = document.getElementById(buscadorId);
-    let res;
+    let res = false;
     if (campoBusqueda.value.length == 0) {
         document.getElementById(msgObsId).innerHTML =
             "debe especificar el codSis del docente que desea asignar a este grupo";
@@ -146,14 +145,14 @@ function valMinAct() {
             res = res && true;
         } else {
             if (actividad.value.length < 5) {
-                console.log("Llenar campo actividad");
+                // console.log("Llenar campo actividad");
                 id = actividad.id.replace("actividad", "");
                 document.getElementById("msgAct" + id).innerHTML =
                     "N&uacutemero de caracteres insuficiente";
-                console.log(id);
+                // console.log(id);
                 res = res && false;
             } else {
-                console.log("Llenado correctamente");
+                // console.log("Llenado correctamente");
                 res = res && true;
             }
         }
@@ -184,15 +183,6 @@ function habilitarDeshabilitar(codigo) {
         document.getElementById("asistenciaFalse" + codigo).value = false;
     }
 }
-/*deshabilita el boton de horarios si existen horarios */
-function habilitarBotonRegistrar(horarios) {
-    console.log(horarios);
-    if (horarios > 0) {
-        document.getElementById("registrar").style.display = "block";
-        console.log("es vacio");
-    }
-}
-/*al hacer click en boton editar de grupo materia se redirige a la vista editar */
 
 /*habilita el campo de busqueda al precionar el boton "asignar ..." en la vista de edicion de informacion de un grupo*/
 function botonAsignar(
@@ -248,7 +238,6 @@ function confirmarEliminarHorario(horarioId) {
     if (confirm("¿Estás seguro de eliminar esta porción de horario?"))
         document.getElementById("eliminar-horario" + horarioId).submit();
 }
-
 
 // funcion para confirmacion de la desasignacion de docente de un grupo
 function confirmarDesasignarDocente(docente) {
@@ -399,4 +388,17 @@ function aceptarEdicionHorarioDeGrupo(horarioId) {
     $("#rolIdForm" + horarioId).val(rol);
 
     document.getElementById("editar-horario" + horarioId).submit();
+}
+
+// funcion de confirm box para subir asistencias del mes de una unidad
+function confirmSubmit(fuerza) {
+    var agree = confirm(
+        "¿Estás seguro de subir los informes?, no habrá marcha atras"
+    );
+    if (agree) {
+        if (fuerza)
+            document.getElementById("formulario").action =
+                "{{ route('informes.subirFuerza') }}";
+        return true;
+    } else return false;
 }

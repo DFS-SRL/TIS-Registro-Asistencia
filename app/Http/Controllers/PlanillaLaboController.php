@@ -21,6 +21,7 @@ class PlanillaLaboController extends Controller
         // obteniendo horarios asignados en el dia actual
         if (!$llenado)
             $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
+                ->where('activo', '=', 'true')
                 ->where('rol_id', '=', 1)
                 ->where('dia', '=', getDia())->get();
         else
@@ -61,7 +62,7 @@ class PlanillaLaboController extends Controller
             Asistencia::create($asistencia);
         }
 
-        return "asistencias registradas!!!";
+        return back()->with('success', "asistencias registradas!!!");
     }
 
     private function hayAsistencias($usuario)

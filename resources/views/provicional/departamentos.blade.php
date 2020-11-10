@@ -9,19 +9,19 @@
     <tr>
         <td class="col-3">{{$departamento->facultad}} - {{$departamento->nombre}}</td>
         <td class="col-2">
-        <a href="parteMensual/docentes/{{$departamento->id}}/2020-10-27">Reporte Docentes</a>
+        <a href="parteMensual/docentes/{{$departamento->id}}/2020-10-27">Parte Docentes</a>
         </td>
         <td class="col-2">
-            <a href="parteMensual/auxiliares/{{$departamento->id}}/2020-10-27">Reporte Auxiliares</a>
+            <a href="parteMensual/auxiliares/{{$departamento->id}}/2020-10-27">Parte Auxiliares</a>
         </td>
         <td class="col-2">
-            <a href="/materias/{{$departamento->id}}">Ver materias</a>
+            <a href="/materias/{{$departamento->id}}">Materias</a>
+        </td>  
+        <td class="col-2">
+            <a href="/cargos/{{$departamento->id}}">Cargos de Laboratorio</a>
         </td>        
         <td class="col-2">
-            <a href="/informe/labo/{{$departamento->id}}/2020-10-27">Informe semanal labo</a>
-        </td>
-        <td class="col-1">
-            <a href="/informes/{{$departamento->id}}">Enviar asistencias</a>
+            <a href="{{ route('informes', $departamento->id )}}">Informes</a>
         </td>
     </tr>
     @empty

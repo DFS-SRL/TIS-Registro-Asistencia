@@ -6,7 +6,7 @@ body {
     color: white;
 }
 
-.textoNegro{
+.textoNegro {
     color: black;
 }
 
@@ -26,4 +26,19 @@ textarea {
 .boton {
     background-color: #D2B272;
     font-weight: bold;
+}
+
+.nav-pills .nav-link:not(.active) {
+    background-color: #D2B272;
+    color: white;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #968e82;
+    color: white;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #7C7365;
+    color: white;
 }
