@@ -1,27 +1,27 @@
-let año ="";
+let año = "";
 let mes = "";
 let dia = "";
-$(window).on('unload', function() {
+$(window).on("unload", function () {
     $("#inputLoop").val("");
-    $('#rangoSemana')[0].innerHTML = ("Del __/__ al __/__");
-    $('#sandbox-container').val("");
+    $("#rangoSemana")[0].innerHTML = "Del __/__ al __/__";
+    $("#sandbox-container").val("");
 });
 
-Date.prototype.addDays = function(d) {
-    return new Date(this.valueOf() + 864E5 * d);
+Date.prototype.addDays = function (d) {
+    return new Date(this.valueOf() + 864e5 * d);
 };
 
 var primerDiaMes;
 
-$('#sandbox-container').datepicker({
+$("#sandbox-container").datepicker({
     enddate: 2020,
     minViewMode: 1,
     language: "es",
     format: "mm/yyyy",
-    clearBtn: true
+    clearBtn: true,
 });
 
-$("#sandbox-container").on("change", function() {
+$("#sandbox-container").on("change", function () {
     var x = $(this).val();
     if (x) {
         $("#inputLoop").val("1");
@@ -35,31 +35,33 @@ $("#sandbox-container").on("change", function() {
         actualizarMesAnio();
     }
 });
-
+function stap(dia) {
+    step(Math.floor((dia - fin.getDate()) / 7));
+}
 function step(s) {
+    actualizarMesAnio();
     var max = nroSemanas();
 
     var $inputLoop = $("#inputLoop");
-    var date = $('#sandbox-container');
+    var date = $("#sandbox-container");
 
     if (date[0].value !== "") {
         var value = $inputLoop.val();
-        if (value === "")
-            value = 1;
+        if (value === "") value = 1;
         value = parseInt(value, 10) + parseInt(s, 10);
         if (value > max) {
             value = value % max;
             primerDiaMes.setMonth(primerDiaMes.getMonth() + 1);
             actualizarMesAnio();
         } else if (value < 1) {
-            value = max + parseInt(value, 10) % max;
             primerDiaMes.setMonth(primerDiaMes.getMonth() - 1);
+            value = nroSemanas();
             actualizarMesAnio();
         }
         if (esFechaValida(value)) {
-            $inputLoop.val(value)
+            $inputLoop.val(value);
 
-            setRangoSemana(value)
+            setRangoSemana(value);
         }
     } else {
         primerDiaMes = null;
@@ -67,20 +69,21 @@ function step(s) {
     }
 }
 
-
-function nroSemanas(){
+function nroSemanas() {
     var semanas = 0;
     var ini, fin;
-    
-    if(primerDiaMes){
-        do{
-            ini = primerDiaMes.addDays(-(primerDiaMes.getDay() - 1) + (semanas) * 7);
+
+    if (primerDiaMes) {
+        do {
+            ini = primerDiaMes.addDays(
+                -(primerDiaMes.getDay() - 1) + semanas * 7
+            );
             fin = ini.addDays(5);
             semanas++;
-        }while(ini.getMonth() === primerDiaMes.getMonth() || fin.getMonth() === primerDiaMes.getMonth());
+        } while (fin.getMonth() === primerDiaMes.getMonth());
     }
 
-    return semanas-1;
+    return semanas - 1;
 }
 
 function weekCount(year, month_number, startDayOfWeek) {
@@ -100,44 +103,60 @@ function weekCount(year, month_number, startDayOfWeek) {
 }
 
 function esFechaValida(semana) {
-    var ini = primerDiaMes.addDays(-(primerDiaMes.getDay() - 1) + (semana - 1) * 7);
+    var ini = primerDiaMes.addDays(
+        -(primerDiaMes.getDay() - 1) + (semana - 1) * 7
+    );
     var hoy = new Date();
     return ini < hoy;
 }
-
+var fin;
 function setRangoSemana(semana) {
-    var ini = primerDiaMes.addDays(-(primerDiaMes.getDay() - 1) + (semana - 1) * 7);
-    var fin = ini.addDays(5);
+    var ini = primerDiaMes.addDays(
+        -(primerDiaMes.getDay() - 1) + (semana - 1) * 7
+    );
+    fin = ini.addDays(5);
 
-    var $p = $('#rangoSemana');
+    var $p = $("#rangoSemana");
     dia = fin.getDate();
-    $p[0].innerHTML = "Del " + ini.getDate() + "/" + (ini.getMonth() + 1) +
-        " al " + fin.getDate() + "/" + (fin.getMonth() + 1);
+    $p[0].innerHTML =
+        "Del " +
+        ini.getDate() +
+        "/" +
+        (ini.getMonth() + 1) +
+        " al " +
+        fin.getDate() +
+        "/" +
+        (fin.getMonth() + 1);
 }
 
 function actualizarMesAnio() {
-    if (primerDiaMes){
-        $('#sandbox-container').val((primerDiaMes.getMonth() + 1) + "/" + primerDiaMes.getFullYear())
-    }
-    else{
-        $('#sandbox-container').val("");
-        $('#rangoSemana')[0].innerHTML = ("Del __/__ al __/__");
+    if (primerDiaMes) {
+        $("#sandbox-container").val(
+            primerDiaMes.getMonth() + 1 + "/" + primerDiaMes.getFullYear()
+        );
+    } else {
+        $("#sandbox-container").val("");
+        $("#rangoSemana")[0].innerHTML = "Del __/__ al __/__";
     }
 }
 
-function verInforme(unidad){
-    var radios = document.getElementsByName('informe');
-    var tipoAcademico = "";    
-    año = primerDiaMes.getFullYear();
-    mes = primerDiaMes.getMonth();
-    var fecha = año+"-" + mes+"-" + dia;
+function verInforme(unidad) {
+    var radios = document.getElementsByName("informe");
+    var tipoAcademico = "";
     for (var i = 0, length = radios.length; i < length; i++) {
         if (radios[i].checked) {
             tipoAcademico = radios[i].value;
-            console.log(tipoAcademico);
             break;
         }
     }
-    console.log(fecha);
-    window.location.href = "/informes/semanal/"+tipoAcademico+"/"+unidad+"/"+fecha;
+    date = fin.getDate();
+    month = fin.getMonth();
+    mesanio = $("#sandbox-container")[0].value;
+    if (date <= "9") date = "0" + date;
+    if (mesanio[1] == "/") mesanio = "0" + mesanio;
+    fecha = date + "/" + mesanio;
+    fecha =
+        fecha.substr(6) + "-" + fecha.substr(3, 2) + "-" + fecha.substr(0, 2);
+    window.location.href =
+        "/informes/semanal/" + tipoAcademico + "/" + unidad + "/" + fecha;
 }

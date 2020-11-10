@@ -34,19 +34,20 @@
         <div class="row textoBlanco justify-content-center esquina-redondeada" style="background:#7C7365;">
             <form>
                 <div class="col-12 opciones espaciado esquina-redondeada">
-                    <input type="radio" id="docente" name="informe" value="docencia">
+                    <input type="radio" id="docente" name="informe" value="docencia" checked="checked">
                     <label for="docente">Docente</label><br>
                     <input type="radio" id="auxiliarDoc" name="informe" value="aux-docencia">
                     <label for="auxiliarDoc">Auxiliares de Docencia</label><br>
                     <input type="radio" id="auxLabo" name="informe" value="laboratorio">
-                    <label for="auxLabo">Auxiliares de Laboratior</label>
+                    <label for="auxLabo">Auxiliares de Laboratorio</label>
                 </div>
 
                 <div class="col-12 espaciado">
                     <div class="input-group">
                         <label class="col-3 align-self-center" for="startDate">Mes/Año: </label>
                         <input id="sandbox-container" type="text" class="form-control col-8 ml-3"
-                            data-date-end-date="0d" name="startDate">
+                            data-date-end-date="0d" name="startDate"
+                            value="{{Request::old('startDate')}}">
                     </div>
                 </div>
 
@@ -81,13 +82,19 @@
         </div>
 
         <div class="espaciado float-right">
-            <button class="boton btn btn-success textoNegro" onclick="verInforme({{$unidad['id']}})">Ver Informe</button>
+            <button class="boton btn btn-success textoNegro" onclick="verInforme({{$unidad['id']}})">VER INFORME</button>
         </div>
-
+        
     </div>
 @endsection
 
 @section('script-footer')
-    <script type="text/javascript" src='/js/informes/semanales.js'></script>
+    <script type="text/javascript" src='/js/informes/semanales.js'> </script>
+    <script>
+        primerDiaMes = new Date("{{ primerDiaMes() }}");
+        actualizarMesAnio();
+        step(0);
+        stap({{dia()}});
+    </script>
 @endsection
 

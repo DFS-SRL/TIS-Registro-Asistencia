@@ -17,6 +17,21 @@ function getFecha()
     //return "12/10/2020";
 }
 
+//devuelve el primer dia del mes
+function primerDiaMes()
+{
+    $fecha = date("m/d/Y");
+    $fecha[3] = '0';
+    $fecha[4] = '1';
+    return $fecha;
+}
+
+//diferencia entre hoy y el primer dia del mes
+function dia()
+{
+    return (int)date("d") + 4 - (int)date("l");
+}
+
 //devuelve la fecha actual con formato
 function getFechaF($formato)
 {
