@@ -15,7 +15,7 @@
                             <h4 class="textoBlanco">{{ $item->nombre }}</h4>
                 </div>
                 <div class="col-4">
-                    <button type="button" class="btn boton my-3">EDITAR<svg
+                    <button type="button" class="btn boton my-3" onclick="editarItem({{ $item->id }});">EDITAR<svg
                             width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -59,7 +59,7 @@
 
 @section('script-footer')
 <script>
-    function editarGrupo(id) {
+    function editarItem(id) {
         location.href = "/grupo/" + id + "/editar";
     }
 </script>

@@ -113,7 +113,12 @@ class GrupoController extends Controller
     public function editarInformacion(Grupo $grupo)
     {
         $informacion = $this->informacionGrupo($grupo);
-        return view('informacion.editar.editarGrupo', $informacion);
+        if ($informacion['esGrupoDeDocencia']) {
+            return view('informacion.editar.editarGrupo', $informacion);
+        }
+        else {
+            return view('informacion.editar.editarItem', $informacion);
+        }
     }
 
     // funcion para preguntar si un codsis es de docente y devuelve la vista de edicion del grupo
