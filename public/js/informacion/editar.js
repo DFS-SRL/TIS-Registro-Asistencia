@@ -252,6 +252,9 @@ function aceptarEdicionHorarioDeGrupo(horarioId) {
     } else {
         rol = 3;
     }
+    if (!$("#cargos" + horarioId).length ) {
+        rol = 1;
+    } 
     $("#rolIdForm" + horarioId).val(rol);
 
     document.getElementById("editar-horario" + horarioId).submit();
