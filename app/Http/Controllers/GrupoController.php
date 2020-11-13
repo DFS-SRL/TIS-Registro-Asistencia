@@ -17,10 +17,6 @@ class GrupoController extends Controller
     /**
      * Las clases de docencia y auxiliatura son Materia en la BD
      * Tanto los grupos como los items son Grupo en la BD
-    
-     * Para diferenciarlos, vemos los horarios asignados al grupo/item
-     * si todos los horarios tienen rol_id = 1, es auxiliatura de laboratorio
-     * si todos los horarios tienen rol_id = [2,3], es clase de docencia
      */
     private function informacionGrupo(Grupo $grupo)
     {
@@ -81,9 +77,7 @@ class GrupoController extends Controller
         }
 
         //* Ahora diferenciamos entre docencia y auxiliaruta
-        $esGrupoDeDocencia = ($horarios->where('rol_id', '=', 1)
-            ->where('activo', '=', 'true')
-            ->count() == 0);
+        $esGrupoDeDocencia = $grupo->materia->es_materia;
 
         if ($esGrupoDeDocencia) {
             return [
