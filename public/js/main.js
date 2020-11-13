@@ -272,6 +272,14 @@ function confirmarDesasignarDocente(docente) {
         document.getElementById("desasignar-docente").submit();
 }
 
+// funcion para confirmacion de la desasignacion de auxiliar de un grupo/item
+function confirmarDesasignarAuxiliar(auxiliar) {
+    if (confirm("¿Estás seguro de desasignar al auxiliar " + auxiliar + "?")) {
+        //document.getElementById("desasignar-docente").submit();
+        alert("falta crear y enviar el formulario");
+    }
+}
+
 // funcion de confirm box para subir asistencias del mes de una unidad
 function confirmSubmit(fuerza) {
     var agree = confirm(

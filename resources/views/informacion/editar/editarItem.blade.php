@@ -94,7 +94,9 @@
                             <h4>Auxiliar: {{ $auxiliar->nombre }}
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
-                                    src="/icons/eliminar.png" alt="Eliminar"></h4>
+                                    src="/icons/eliminar.png" alt="Eliminar"
+                                    onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
+                                </h4>
                             <h4>Carga horaria auxilliar: {{ $cargaHorariaAuxiliar }} </h4>
 
                         @else
