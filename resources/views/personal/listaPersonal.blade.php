@@ -1,3 +1,4 @@
+@include('layouts.flash-message')
 <h1>{{ $unidad->nombre }}</h1>
 <h3>todos</h3>
 <ul>
