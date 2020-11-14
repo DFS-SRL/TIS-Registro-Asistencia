@@ -172,7 +172,18 @@ class GrupoController extends Controller
         }
         return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);
     }
+    public function asignarAuxLabo(UsuarioGrupoRequest $request)
+    {
 
+        $datos = $request->validated();
+        if (!UsuarioController::esAuxLab($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
+            ]);
+            throw $error;
+        }
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'],1);
+    }
     // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
     private function asignarUsuarioRol($codSis, $grupo_id, $rol_id)
     {

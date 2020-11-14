@@ -1,4 +1,3 @@
-const { partition } = require("lodash");
 
 function confirmarGuardarHorario() {
     document.getElementById("horaFinS").value =

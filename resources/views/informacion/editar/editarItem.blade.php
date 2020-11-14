@@ -76,7 +76,7 @@
                 </tbody>
             </table>
 
-            <button class="btn boton" id="añadirHorario" onclick="añadirHorario(); desactivar()">AÑADIR HORARIO
+            <button class="btn boton" id="añadirHorario" onclick="añadirHorarioItem(); desactivar()">AÑADIR HORARIO
                 <svg width="2em" height="2em"
                     viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg">
@@ -89,12 +89,12 @@
             <div class="row rounded-lg" id="personalAcademico">
 
                 <div class="col-12">
-                    @if ($horarios != null && $horarios->where('rol_id', '<=', 2)->count() > 0)
+                    @if ($horarios != null && $horarios->where('rol_id', '<=', 1)->count() > 0)
                         @if ($auxiliar != null)
                             <h4>Auxiliar: {{ $auxiliar->nombre }}
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
-                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
+                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliarLabo('{{ $auxiliar->nombre }}')">
                                     <form id="desasignar-auxiliar" class="d-none" method="POST"
                                         action="{{ route('grupo.desasignar.auxiliar', $item) }}">
                                         @csrf @method('PATCH')
@@ -106,7 +106,7 @@
                             <h4>Auxiliar: <button class="btn boton" id="asignarAuxiliar"
                                     onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',true), desactivar()">ASIGNAR
                                     AUXILIAR</button>
-                                <form method="POST" action="{{ route('grupo.asignar.auxDoc') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador2','msgObsAuxiliar')">
+                                <form method="POST" action="{{ route('item.asignar.auxLabo') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador2','msgObsAuxiliar')">
                                     @csrf @method('PATCH')
                                     <input id="buscador2" class="oculto " type="search" placeholder="codSis auxiliar"
                                         aria-label="Search" name="codSis">

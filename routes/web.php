@@ -58,6 +58,7 @@ Route::patch('/grupo/{grupo}/desasignar/auxiliar', 'GrupoController@desasignarAu
 
 Route::get('/item/{grupo}', 'GrupoController@mostrarInformacion');
 Route::get('/item/{grupo}/editar', 'GrupoController@editarInformacion');
+Route::patch('/item/asignar/auxLabo', 'GrupoController@asignarAuxLabo')->name('item.asignar.auxLabo');
 
 Route::post('/horarioClase', 'HorarioClaseController@guardar')->name('horarioClase.guardar');
 Route::patch('/horarioClase/{horario}', 'HorarioClaseController@actualizar')->name('horarioClase.actualizar');
