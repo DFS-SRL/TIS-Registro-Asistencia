@@ -2,7 +2,6 @@
 function valLim(limite, textarea, msg) {
     let textAreaAct = document.getElementById(textarea);
     numCaracteres = textAreaAct.value.length;
-    console.log(msg);
     if (numCaracteres >= limite) {
         document.getElementById(msg).innerHTML =
             "L&iacutemite de caracteres alcanzado";
@@ -10,30 +9,6 @@ function valLim(limite, textarea, msg) {
         document.getElementById(msg).innerHTML = "";
     }
 }
-/*Valida el limite de letras en actividadRealizada */
-/* function valLimAct(codigo) {
-    let textAreaAct = document.getElementById("actividad" + codigo);
-    let limite = 150;
-    numCaracteres = textAreaAct.value.length;
-    if (numCaracteres >= limite) {
-        document.getElementById("msgAct" + codigo).innerHTML =
-            "L&iacutemite de caracteres alcanzado";
-    } else {
-        document.getElementById("msgAct" + codigo).innerHTML = "";
-    }
-} */
-/*Valida el limite de caracteres en Observaciones*/
-/* function valLimObs(codigo) {
-    let textAreaAct = document.getElementById("observacion" + codigo);
-    let limite = 200;
-    numCaracteres = textAreaAct.value.length;
-    if (numCaracteres >= limite) {
-        document.getElementById("msgObs" + codigo).innerHTML =
-            "L&iacutemite de caracteres alcanzado";
-    } else {
-        document.getElementById("msgObs" + codigo).innerHTML = "";
-    }
-} */
 
 /*valida los campos actividad realizada e indicador verificable */
 function validarCampos(){
@@ -194,4 +169,22 @@ function confirmSubmit(fuerza) {
                 "{{ route('informes.subirFuerza') }}";
         return true;
     } else return false;
+}
+
+// valida que el contenido de un campo de texto solo tenga letras y espacios
+function validarSoloLetras(idCampoTexto, mensaje){
+    let texto = document.getElementById(idCampoTexto).value
+    res = true;
+    for(pos = 0; pos < texto.length && res; pos++){
+        res = (texto.charCodeAt(pos) >= 65 && texto.charCodeAt(pos) <= 90) || (texto.charCodeAt(pos) >= 97 && texto.charCodeAt(pos) <= 122) || (texto.charCodeAt(pos) == 32);
+    }
+    if(!res){
+        document.getElementById(mensaje).innerHTML = "solo se puede insertar letras y espacios"
+    }
+    return res;
+}
+// valida que un campo de texto no este vacio
+function validarNoVacio(idCampoTexto){
+    let texto = document.getElementById(idCampoTexto).value.trim();
+    return texto.length != 0;
 }
