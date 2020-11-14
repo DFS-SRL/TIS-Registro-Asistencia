@@ -136,7 +136,12 @@
                             <h4>Auxiliar: {{ $auxiliar->nombre }}
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
-                                    src="/icons/eliminar.png" alt="Eliminar"></h4>
+                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
+                                    <form id="desasignar-auxiliar" class="d-none" method="POST"
+                                        action="{{ route('grupo.desasignar.auxiliar', $grupo) }}">
+                                        @csrf @method('PATCH')
+                                    </form>
+                            </h4>
                             <h4>Carga horaria auxilliar: {{ $cargaHorariaAuxiliar }} </h4>
 
                         @else

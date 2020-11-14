@@ -17,6 +17,9 @@ let numFilas = document.getElementById("cuerpo-tabla").rows.length;
 function vistaGrupo(id) {
     location.href = "/grupo/" + id;
 }
+function vistaItem(id) {
+    location.href = "/item/" + id;
+}
 function añadirHorario() {
     $("#cuerpo-tabla").append(
         `<tr id="` +

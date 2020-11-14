@@ -80,7 +80,7 @@ class GrupoController extends Controller
             }
         }
 
-        //* Ahora diferenciamos entre docencia y auxiliaruta
+        //* Ahora diferenciamos entre docencia y auxiliatura
         $esGrupoDeDocencia = ($horarios->where('rol_id', '=', 1)
             ->where('activo', '=', 'true')
             ->count() == 0);
@@ -119,7 +119,11 @@ class GrupoController extends Controller
     public function editarInformacion(Grupo $grupo)
     {
         $informacion = $this->informacionGrupo($grupo);
-        return view('informacion.editar.editarGrupo', $informacion);
+        if ($informacion['esGrupoDeDocencia']) {
+            return view('informacion.editar.editarGrupo', $informacion);
+        } else {
+            return view('informacion.editar.editarItem', $informacion);
+        }
     }
 
     // funcion para preguntar si un codsis es de docente y devuelve la vista de edicion del grupo
@@ -193,6 +197,10 @@ class GrupoController extends Controller
     public function desasignarDocente(Grupo $grupo)
     {
         return $this->desasignarUsuarioRol($grupo->id, 3);
+    }
+    public function desasignarAuxiliar(Grupo $grupo)
+    {
+        return $this->desasignarUsuarioRol($grupo->id, 2);
     }
 
     // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo

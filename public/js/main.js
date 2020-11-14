@@ -244,6 +244,10 @@ function confirmarDesasignarDocente(docente) {
     if (confirm("¿Estás seguro de desasignar al docente " + docente + "?"))
         document.getElementById("desasignar-docente").submit();
 }
+function confirmarDesasignarAuxiliar(auxiliar) {
+    if (confirm("¿Estás seguro de desasignar al auxiliar " + auxiliar + "?"))
+        document.getElementById("desasignar-auxiliar").submit();
+}
 
 /**
  * Habilita las opciones para editar la informacion de un horario
