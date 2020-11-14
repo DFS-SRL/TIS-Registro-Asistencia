@@ -45,7 +45,7 @@
                         <li class="list-group-item linkMateria lista"><a href="/cargo/{{ $cargo->id }}">{{ $cargo->nombre }}</a>
                         </li>
                     @empty
-                        <h3 class="textoBlanco">Este unidad no tiene cargos asignados</h3>
+                        <h3 class="textoBlanco">El departamento no tiene cargos asignados</h3>
                     @endforelse
                     <div class="mt-3">
                         {{ $cargos->links() }}

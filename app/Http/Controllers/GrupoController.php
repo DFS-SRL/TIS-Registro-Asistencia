@@ -17,10 +17,6 @@ class GrupoController extends Controller
     /**
      * Las clases de docencia y auxiliatura son Materia en la BD
      * Tanto los grupos como los items son Grupo en la BD
-    
-     * Para diferenciarlos, vemos los horarios asignados al grupo/item
-     * si todos los horarios tienen rol_id = 1, es auxiliatura de laboratorio
-     * si todos los horarios tienen rol_id = [2,3], es clase de docencia
      */
     private function informacionGrupo(Grupo $grupo)
     {
@@ -81,9 +77,7 @@ class GrupoController extends Controller
         }
 
         //* Ahora diferenciamos entre docencia y auxiliaruta
-        $esGrupoDeDocencia = ($horarios->where('rol_id', '=', 1)
-            ->where('activo', '=', 'true')
-            ->count() == 0);
+        $esGrupoDeDocencia = $grupo->materia->es_materia;
 
         if ($esGrupoDeDocencia) {
             return [
@@ -119,7 +113,12 @@ class GrupoController extends Controller
     public function editarInformacion(Grupo $grupo)
     {
         $informacion = $this->informacionGrupo($grupo);
-        return view('informacion.editar.editarGrupo', $informacion);
+        if ($informacion['esGrupoDeDocencia']) {
+            return view('informacion.editar.editarGrupo', $informacion);
+        }
+        else {
+            return view('informacion.editar.editarItem', $informacion);
+        }
     }
 
     // funcion para preguntar si un codsis es de docente y devuelve la vista de edicion del grupo
@@ -173,7 +172,18 @@ class GrupoController extends Controller
         }
         return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 2);
     }
+    public function asignarAuxLabo(UsuarioGrupoRequest $request)
+    {
 
+        $datos = $request->validated();
+        if (!UsuarioController::esAuxLab($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
+            ]);
+            throw $error;
+        }
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'],1);
+    }
     // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
     private function asignarUsuarioRol($codSis, $grupo_id, $rol_id)
     {
@@ -193,6 +203,10 @@ class GrupoController extends Controller
     public function desasignarDocente(Grupo $grupo)
     {
         return $this->desasignarUsuarioRol($grupo->id, 3);
+    }
+    public function desasignarAuxiliar(Grupo $grupo)
+    {
+        return $this->desasignarUsuarioRol($grupo->id, 2);
     }
 
     // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
