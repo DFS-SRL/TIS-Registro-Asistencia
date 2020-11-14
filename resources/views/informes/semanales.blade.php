@@ -45,7 +45,7 @@
                 <div class="col-12 espaciado">
                     <div class="input-group">
                         <label class="col-3 align-self-center" for="startDate">Mes/Año: </label>
-                        <input id="sandbox-container" type="text" class="form-control col-8 ml-3"
+                        <input value="1" id="sandbox-container" type="text" class="form-control col-8 ml-3"
                             data-date-end-date="0d" name="startDate"
                             value="{{Request::old('startDate')}}">
                     </div>

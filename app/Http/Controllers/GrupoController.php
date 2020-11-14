@@ -17,10 +17,6 @@ class GrupoController extends Controller
     /**
      * Las clases de docencia y auxiliatura son Materia en la BD
      * Tanto los grupos como los items son Grupo en la BD
-    
-     * Para diferenciarlos, vemos los horarios asignados al grupo/item
-     * si todos los horarios tienen rol_id = 1, es auxiliatura de laboratorio
-     * si todos los horarios tienen rol_id = [2,3], es clase de docencia
      */
     private function informacionGrupo(Grupo $grupo)
     {
@@ -80,10 +76,8 @@ class GrupoController extends Controller
             }
         }
 
-        //* Ahora diferenciamos entre docencia y auxiliatura
-        $esGrupoDeDocencia = ($horarios->where('rol_id', '=', 1)
-            ->where('activo', '=', 'true')
-            ->count() == 0);
+        //* Ahora diferenciamos entre docencia y auxiliaruta
+        $esGrupoDeDocencia = $grupo->materia->es_materia;
 
         if ($esGrupoDeDocencia) {
             return [
@@ -121,7 +115,8 @@ class GrupoController extends Controller
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             return view('informacion.editar.editarGrupo', $informacion);
-        } else {
+        }
+        else {
             return view('informacion.editar.editarItem', $informacion);
         }
     }
@@ -190,7 +185,7 @@ class GrupoController extends Controller
                 'asignado_codSis' => $codSis
             ]);
         }
-        return back()->with('status', 'Registro exitoso');
+        return back()->with('success', 'Registro exitoso');
     }
 
     // designar docente a un grupo

@@ -5,3 +5,6 @@
 @section('tipoUsuario')
     NOMBRE DOCENTE:
 @endsection
+@section('onsubmit')
+    onsubmit= "return valMinAct()"
+@endsection

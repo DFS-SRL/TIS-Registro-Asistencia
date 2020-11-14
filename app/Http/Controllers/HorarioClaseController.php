@@ -13,7 +13,12 @@ class HorarioClaseController extends Controller
     {
 
         $horario = $request->validated();
-        // return $horario;
+        if ($horario['hora_inicio'] == ":00") {
+            $error = ValidationException::withMessages([
+                'horario' => ['debe añadir las horas del nuevo horario para guardar los cambios']
+            ]);
+            throw $error;
+        }
         $this->validarHoras($horario);
         $this->asignarPersonal($horario);
         $horario['activo'] = true;
@@ -87,10 +92,10 @@ class HorarioClaseController extends Controller
         $horarioNuevo['hora_inicio'] .= ":00";
         $horarioNuevo['hora_fin'] .= ":00";
         $horarioNuevo['activo'] = true;
+        $this->validarHoras($horarioNuevo);
         $horario->update([
             'activo' => false
         ]);
-        $this->validarHoras($horarioNuevo);
         HorarioClase::create($horarioNuevo);
         return back()->with('success', 'Clase actualizada');
     }

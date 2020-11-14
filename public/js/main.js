@@ -22,6 +22,12 @@ function valLimObs(codigo) {
         document.getElementById("msgObs" + codigo).innerHTML = "";
     }
 }
+
+/*valida los campos actividad realizada e indicador verificable */
+function validarCampos(){
+    return valMinAct() && valIndVer();
+}
+
 /*Valida numero minimo de caracteres para actividad realizada */
 function valMinAct() {
     let res = true;
@@ -39,6 +45,27 @@ function valMinAct() {
                 res = res && false;
             } else {
                 // console.log("Llenado correctamente");
+                res = res && true;
+            }
+        }
+    }
+    return res;
+}
+
+/*valida que los auxiliares especifiquen obligatoriamente el campo indicador verificable */
+function valIndVer(){
+    let res = true;
+    let verificables = document.getElementsByClassName('verificable');
+    for(verificable of verificables){
+        if(verificable.disabled){
+           res = res && true; 
+        }else{
+            //console.log("entra aqui");
+            if(verificable.value.length == 0){
+                id = verificable.id.replace('verificable',"");
+                document.getElementById("msgVer" + id).innerHTML = "es obligatorio especificar un indicador verificable"
+                res = res && false;
+            }else{
                 res = res && true;
             }
         }
@@ -89,7 +116,7 @@ function botonAsignar(botonId, botonBuscadorId, buscadorId) {
 /*valida que el campo de busqueda de docentes o auxiliares   para asignar a un grupo, no este vacio y que solo contenga numeros*/
 function validarBusquedaAsignar(buscadorId, msgObsId) {
     campoBusqueda = document.getElementById(buscadorId);
-    let res;
+    let res = false;
     if (campoBusqueda.value.length == 0) {
         document.getElementById(msgObsId).innerHTML =
             "debe especificar el codSis del docente que desea asignar a este grupo";
@@ -249,149 +276,12 @@ function confirmarDesasignarAuxiliar(auxiliar) {
         document.getElementById("desasignar-auxiliar").submit();
 }
 
-/**
- * Habilita las opciones para editar la informacion de un horario
- */
-function camposEdicionHorarioDeGrupo(horarioId, horario) {
-    // Vaciamos los elementos de la fila y añadimos las opciones
-    $("#horario" + horarioId)
-        .children("p")
-        .hide();
-    $("#horario" + horarioId).append(
-        '<select id="dias' + horarioId + '"></select>'
-    );
-    var dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
-    dias.forEach((dia) => {
-        $("#dias" + horarioId).append(
-            '<option value="' + dia + '">' + dia + "</option>"
-        );
-        if (dia == horario["dia"]) {
-            $("#dias" + horarioId + " :last-child").prop(
-                "selected",
-                "selected"
-            );
-        }
-    });
-
-    $("#horario" + horarioId).append(
-        '<input class="ml-1" type="time" id="horaInicio' +
-            horarioId +
-            '" value="' +
-            horario["hora_inicio"].substring(0, 5) +
-            '" onchange="setHoraFin(' +
-            horarioId +
-            ')"></input>'
-    );
-    $("#horario" + horarioId).append(
-        '<input class="ml-1" type="time" id="horaFin' +
-            horarioId +
-            '" value="' +
-            horario["hora_fin"].substring(0, 5) +
-            '" disabled></input>'
-    );
-
-    // Obtenemos la diferencia entre la hora de inicio y la hora fin
-    // y asignamos esa diferencia a los periodos
-    var splitTimeInicio = horario["hora_inicio"].split(":");
-    var horaInicio = parseInt(splitTimeInicio[0]);
-    var minutosInicio = parseInt(splitTimeInicio[1]);
-
-    var splitTimeFin = horario["hora_fin"].split(":");
-    var horaFin = parseInt(splitTimeFin[0]);
-    var minutosFin = parseInt(splitTimeFin[1]);
-
-    var periodos = horaFin * 60 + minutosFin - horaInicio * 60 - minutosInicio;
-    periodos /= 45;
-
-    $("#horario" + horarioId).append(
-        '<input class="ml-1" type="number" name="" id="periodo' +
-            horarioId +
-            '" min="1" max="12" value="' +
-            periodos +
-            '" onchange="setHoraFin(' +
-            horarioId +
-            ')">'
-    );
-
-    $("#cargo" + horarioId)
-        .children("p")
-        .hide();
-    $("#cargo" + horarioId).append(
-        '<select id="cargos' + horarioId + '"></select>'
-    );
-    $("#cargos" + horarioId).append(
-        '<option value="DOCENCIA">DOCENCIA</option>'
-    );
-    $("#cargos" + horarioId).append(
-        '<option value="AUXILIATURA">AUXILIATURA</option>'
-    );
-    if (horario["rol_id"] == 3)
-        $("#cargos" + horarioId + " :first-child").prop("selected", "selected");
-    else $("#cargos" + horarioId + " :last-child").prop("selected", "selected");
-
-    $("#botonEditar" + horarioId).hide();
-    $("[id^=botonEditar]").prop("disabled", true);
-    $("[id^=botonEliminar]").prop("disabled", true);
-    $("#botonEliminar" + horarioId).prop("disabled", false);
-
-    $(
-        "<input id = botonAceptar" +
-            horarioId +
-            ' width="30rem" height="30rem" type="image" name="botonAceptar" src="/icons/aceptar.png" alt="Aceptar"onclick="aceptarEdicionHorarioDeGrupo(' +
-            horarioId +
-            ')">'
-    ).insertBefore("#botonEliminar" + horarioId);
-
-    $(
-        "<input id = botonCancelar" +
-            horarioId +
-            ' width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png" alt="Cancelar"onclick="cancelarEdicionHorarioDeGrupo(' +
-            horarioId +
-            '); activar()">'
-    ).insertBefore("#botonEliminar" + horarioId);
-}
-
-/**
- * Cancela la edicion de un horario
- */
-function cancelarEdicionHorarioDeGrupo(horarioId) {
-    // Eliminamos los elemtnos para editar horario y mostramos los que tienen informacion
-    $("#horario" + horarioId)
-        .children("p")
-        .show();
-    $("#horario" + horarioId + " :not(:first-child)").remove();
-
-    $("#cargo" + horarioId)
-        .children("p")
-        .show();
-    $("#cargo" + horarioId + " :not(:first-child)").remove();
-
-    $("#botonEditar" + horarioId).show();
-    $("[id^=botonEditar]").prop("disabled", false);
-    $("[id^=botonEliminar]").prop("disabled", false);
-    $("#botonAceptar" + horarioId).remove();
-    $("#botonCancelar" + horarioId).remove();
-}
-
-/**
- * Aceptar la edicion del horario enviando el form
- */
-function aceptarEdicionHorarioDeGrupo(horarioId) {
-    // Llenamos el form de actualizacion con los datos ingresados
-    $("#horaInicioForm" + horarioId).val($("#horaInicio" + horarioId).val());
-    $("#horaFinForm" + horarioId).val($("#horaFin" + horarioId).val());
-    $("#diaForm" + horarioId).val(
-        $("#dias" + horarioId + " option:selected").text()
-    );
-    var rol;
-    if ($("#cargos" + horarioId + " option:selected").text() == "AUXILIATURA") {
-        rol = 2;
-    } else {
-        rol = 3;
+// funcion para confirmacion de la desasignacion de auxiliar de un grupo/item
+function confirmarDesasignarAuxiliar(auxiliar) {
+    if (confirm("¿Estás seguro de desasignar al auxiliar " + auxiliar + "?")) {
+        //document.getElementById("desasignar-docente").submit();
+        alert("falta crear y enviar el formulario");
     }
-    $("#rolIdForm" + horarioId).val(rol);
-
-    document.getElementById("editar-horario" + horarioId).submit();
 }
 
 // funcion de confirm box para subir asistencias del mes de una unidad

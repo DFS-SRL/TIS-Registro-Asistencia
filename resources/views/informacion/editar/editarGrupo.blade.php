@@ -82,7 +82,16 @@
                 </tbody>
             </table>
 
-            <button class="btn boton" id="añadirHorario" onclick="añadirHorario(); desactivar()">AÑADIR HORARIO</button>
+            <button class="btn boton" id="añadirHorario" onclick="añadirHorario(); desactivar()">AÑADIR HORARIO
+                <svg width="2em" height="2em"
+                    viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path fill-rule="evenodd"
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+            </button>
             <div class="row rounded-lg" id="personalAcademico">
 
                 <div class="col-12">
@@ -105,7 +114,7 @@
                             <h4>Docente: <button class="btn boton" id="asignarDocente"
                                     onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',true); desactivar()">ASIGNAR
                                     DOCENTE</button>
-                                <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')" action="">
+                                <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')">
                                     @csrf @method('PATCH')
                                     <input id="buscador1" class=" oculto" type="search" placeholder="codSis docente" aria-label="Search" name='codSis'>
                                     <button id="botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit">
