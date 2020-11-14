@@ -17,7 +17,7 @@ class UsuarioController extends Controller
         $todos = Usuario::join('Usuario_pertenece_unidad', 'codSis', '=', 'usuario_codSis')
             ->where('unidad_id', '=', $unidad->id)
             ->select('Usuario.nombre', 'Usuario.codSis')
-            ->get();
+            ->paginate(10);
         if ($codigos)
             $todos = $this->filtrarCodigos($todos, $codigos);
         foreach ($todos as $key => $usuario) {
@@ -34,9 +34,9 @@ class UsuarioController extends Controller
         return view('personal.listaPersonal', [
             'unidad' => $unidad,
             'todos' => $todos,
-            'docentes' => $docentes,
-            'auxiliaresDoc' => $auxiliaresDoc,
-            'auxiliaresLabo' => $auxiliaresLabo
+            'docentes' => $docentes->paginate(10),
+            'auxiliaresDoc' => $auxiliaresDoc->paginate(10),
+            'auxiliaresLabo' => $auxiliaresLabo->paginate(10)
         ]);
     }
 
@@ -73,8 +73,7 @@ class UsuarioController extends Controller
             ->where('unidad_id', '=', $unidad->id)
             ->join('Usuario_tiene_rol', 'codSis', '=', 'Usuario_tiene_rol.usuario_codSis')
             ->where('rol_id', '=', $rol)
-            ->select('Usuario.nombre', 'Usuario.codSis')
-            ->get();
+            ->select('Usuario.nombre', 'Usuario.codSis');
         if ($codigos)
             $usuarios = $this->filtrarCodigos($usuarios, $codigos);
         return $usuarios;
