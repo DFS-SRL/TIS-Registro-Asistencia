@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
+    // muestra la vista del buscador de personal
+    public function mostrarBuscarPersonal(Unidad $unidad){
+
+        return view('personal.buscarPersonal',[
+            'nombreUnidad' => $unidad-> nombre,
+            'facultad' => $unidad-> facultad,
+        ]);
+    }
     // devuelve la vista de todo el personal academico de la unidad correspondiente
     public function obtenerPersonal(Unidad $unidad)
     {
