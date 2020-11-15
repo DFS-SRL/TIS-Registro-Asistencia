@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-5">
                     <form class="form-inline my-2 my-lg-0">
-                        <input id="buscador" class="form-control" type="search" placeholder="buscar cargo"
+                        <input id="buscador" class="form-control" type="search" placeholder="Buscar cargo"
                             aria-label="Search">
                         <button class="btn boton my-2 my-sm-0" type="submit"><svg width="1em" height="1em"
                                 viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"

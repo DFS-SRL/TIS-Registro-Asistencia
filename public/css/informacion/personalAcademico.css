@@ -1,0 +1,25 @@
+#myTabContent {
+    border-color: black;
+    background: white;
+    color: black;
+}
+
+.tab-item {
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+}
+
+.nav-link {
+    font-weight: bold;
+}
+
+.form-control,
+.btn-success {
+    border: 1px solid white;
+}
+
+.table {
+    margin: auto;
+}

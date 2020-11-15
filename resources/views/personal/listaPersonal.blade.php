@@ -7,8 +7,8 @@
     <div class="mx-3 my-4">
         <div class="row">
             <div class="col-md-4">
-                <h4 class="textoBlanco">{{ $unidad->facultad }}</h4>
-                <h1 class="textoBlanco">{{ $unidad->nombre }}</h1>
+                <h4 class="textoBlanco">{{ $unidad['facultad'] }}</h4>
+                <h1 class="textoBlanco">{{ $unidad['nombre'] }}</h1>
             </div>
             <div class="col-md-5">
                 <form class="form-inline my-2 my-lg-0" method="POST" action="{{ route('personalAcademico.buscar', $unidad->id) }}" onsubmit="return (validarSoloLetras('buscador', 'mensaje') && validarNoVacio('buscador'))">
