@@ -17,6 +17,7 @@ class UsuarioController extends Controller
         return view('personal.buscarPersonal',[
             'nombreUnidad' => $unidad-> nombre,
             'facultad' => $unidad-> facultad,
+            'unidad' => $unidad->id,
         ]);
     }
     // devuelve la vista de todo el personal academico de la unidad correspondiente
@@ -35,7 +36,6 @@ class UsuarioController extends Controller
                 ->select('rol_id')
                 ->get();
         }
-
         $docentes = $this->obtenerUsuariosRol($unidad, 3, $codigos);
         $auxiliaresDoc = $this->obtenerUsuariosRol($unidad, 2, $codigos);
         $auxiliaresLabo = $this->obtenerUsuariosRol($unidad, 1, $codigos);

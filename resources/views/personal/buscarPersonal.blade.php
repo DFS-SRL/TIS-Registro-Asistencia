@@ -10,8 +10,8 @@
                 <h1 class="textoBlanco">{{ $nombreUnidad }}</h1>
             </div>
             <div class="col-md-5">
-                <form class="form-inline my-2 my-lg-0" {{--method="GET" action="{{ route('personalAcademico.buscar') }}" --}} onsubmit="return (validarSoloLetras('buscador', 'mensaje') && validarNoVacio('buscador'))">
-                    <input class="form-control" type="search" placeholder="buscar personal academico"aria-label="Search" style="width:75%;" name = "nombreUsuario" maxlength="50" id="buscador" onkeypress="valLim(50, 'buscador', 'mensaje')" onkeyup="valLim(50, 'buscador', 'mensaje')">
+                <form class="form-inline my-2 my-lg-0" method="POST" action="{{ route('personalAcademico.buscar', $unidad) }}" onsubmit="return (validarSoloLetras('buscador', 'mensaje') && validarNoVacio('buscador'))">
+                    <input class="form-control" type="search" placeholder="buscar personal academico"aria-label="Search" style="width:75%;" name = "buscado" maxlength="50" id="buscador" onkeypress="valLim(50, 'buscador', 'mensaje')" onkeyup="valLim(50, 'buscador', 'mensaje')">
                     <button class="btn boton my-2 my-sm-0" type="submit"><svg width="1em" height="1em"
                             viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
