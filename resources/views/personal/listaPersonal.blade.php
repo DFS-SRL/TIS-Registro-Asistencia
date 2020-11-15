@@ -1,3 +1,4 @@
+@include('layouts.flash-message')
 <h1>{{ $unidad->nombre }}</h1>
 <h3>todos</h3>
 <ul>
@@ -6,6 +7,8 @@
     @empty
         <p>no hay personal</p>
     @endforelse
+    
+        {{ $todos->links() }}
 </ul>
 <br>
 <h3>docentes</h3>
@@ -15,6 +18,8 @@
     @empty
         <p>no hay docentes</p>
     @endforelse
+    
+        {{ $docentes->links() }}
 </ul>
 <br>
 <h3>auxiliares de docencia</h3>
@@ -24,6 +29,7 @@
     @empty
         <p>no hay auxiliares de docencia</p>
     @endforelse
+        {{ $auxiliaresDoc->links() }}
 </ul>
 <br>
 <h3>auxiliares de laboratorio</h3>
@@ -33,4 +39,5 @@
     @empty
         <p>no hay auxiliares de laboratorio</p>
     @endforelse
+        {{ $auxiliaresLabo->links() }}
 </ul>

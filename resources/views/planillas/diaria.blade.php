@@ -34,14 +34,14 @@
                             <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                             <td class="border border-dark">
                                 <textarea class="{{ $key }} actividad" name="asistencias[{{ $key }}][actividad_realizada]"
-                                    id="actividad{{ $key }}" onkeypress="valLimAct({{ $key }})"
-                                    onkeyup="valLimAct({{ $key }})" maxlength="150"></textarea>
+                                    id="actividad{{ $key }}" onkeypress="valLim(150, 'actividad{{ $key }}', 'msgAct{{ $key }}')"
+                                    onkeyup="valLim(150, 'actividad{{ $key }}', 'msgAct{{ $key }}')" maxlength="150"></textarea>
                                 <label class="text-danger" id="msgAct{{ $key }}" for="actividad{{ $key }}"></label>
                             </td>
                             <td class="border border-dark">
                                 <textarea class="{{ $key }}" name="asistencias[{{ $key }}][observaciones]"
-                                    id="observacion{{ $key }}" onkeypress="valLimObs({{ $key }})"
-                                    onkeyup="valLimObs({{ $key }})" maxlength="200"></textarea>
+                                    id="observacion{{ $key }}" onkeypress="valLim(200, 'observacion{{ $key }}', 'msgObs{{ $key }}')"
+                                    onkeyup="valLim(200, 'observacion{{ $key }}', 'msgObs{{ $key }}')" maxlength="200"></textarea>
                                 <label class="text-danger" id="msgObs{{ $key }}" for="observaciones"></label>
                             </td>
                             <td class="border border-dark">

@@ -41,7 +41,7 @@
                             <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                             <td class="border border-dark">
                                 <textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}} actividad" 
-                                maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLimAct({{$key1.$key2 }})" onkeyup="valLimAct({{$key1.$key2 }})"  ></textarea>                             
+                                maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')" onkeyup="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"  ></textarea>                             
                                 <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                                 </td>
                             <td class="border border-dark">
@@ -49,8 +49,7 @@
                                 <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
                             </td>
                             <td class="border border-dark">
-                                <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" 
-                                maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLimObs({{$key1.$key2 }})" onkeyup="valLimObs({{$key1.$key2 }})" ></textarea>                            
+                                <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLim(200, 'observacion{{$key1.$key2}}', 'msgObs{{$key1.$key2}}')" onkeyup="valLim(200, 'observacion{{$key1.$key2}}', 'msgObs{{$key1.$key2}}')" ></textarea>                            
                                 <label class ="text-danger" id="msgObs{{$key1.$key2 }}" for="observaciones"></label>
                                 </td>
                             <td class="border border-dark">
