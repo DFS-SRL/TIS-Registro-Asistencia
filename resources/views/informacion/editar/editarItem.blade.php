@@ -76,7 +76,7 @@
                 </tbody>
             </table>
 
-            <button class="btn boton" id="añadirHorario" onclick="añadirHorarioItem(); desactivar()">AÑADIR HORARIO
+            <button class="btn boton" id="añadirHorario" onclick="añadirHorario(false); desactivar()">AÑADIR HORARIO
                 <svg width="2em" height="2em"
                     viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg">
