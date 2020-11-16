@@ -57,11 +57,12 @@ class HorarioClaseController extends Controller
     }
 
     // verifica si un horario no choca con algun otro en el grupo al que pertenece el horario
-    private function verificarLibre($horario)
+    private function verificarLibre($horario, $except = -1)
     {
         return HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
             ->where('activo', '=', 'true')
             ->where('dia', '=', $horario['dia'])
+            ->where('id', '!=', $except)
             ->where(function ($query) use ($horario) {
                 $query->where(function ($query) use ($horario) {
                     $query->where('hora_inicio', '=', $horario['hora_inicio'])
@@ -92,7 +93,7 @@ class HorarioClaseController extends Controller
         $horarioNuevo['hora_inicio'] .= ":00";
         $horarioNuevo['hora_fin'] .= ":00";
         $horarioNuevo['activo'] = true;
-        $this->validarHoras($horarioNuevo);
+        $this->validarHoras($horarioNuevo, $horario->id);
         $horario->update([
             'activo' => false
         ]);
