@@ -94,9 +94,9 @@
                             <h4>Auxiliar: {{ $auxiliar->nombre }}
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
-                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliarLabo('{{ $auxiliar->nombre }}')">
+                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
                                     <form id="desasignar-auxiliar" class="d-none" method="POST"
-                                        action="{{ route('grupo.desasignar.auxiliar', $item) }}">
+                                        action="{{ route('grupo.desasignar.auxiliarLaboratorio', $item) }}">
                                         @csrf @method('PATCH')
                                     </form>
                             </h4>

@@ -208,6 +208,10 @@ class GrupoController extends Controller
     {
         return $this->desasignarUsuarioRol($grupo->id, 2);
     }
+    public function desasignarAuxiliarDeLaboratorio(Grupo $grupo)
+    {
+        return $this->desasignarUsuarioRol($grupo->id, 1);
+    }
 
     // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
     private function desasignarUsuarioRol($grupo_id, $rol_id)
