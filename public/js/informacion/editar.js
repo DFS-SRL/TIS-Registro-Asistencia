@@ -1,15 +1,24 @@
 
 function confirmarGuardarHorario() {
-    documphpementById("horaFinS").value =
+    document.getElementById("horaFinS").value =
         document.getElementById("horaFin").value + ":00";
+    
     document.getElementById("horaInicioS").value =
         document.getElementById("horaInicio").value + ":00";
+    
     document.getElementById("diaS").value = document.getElementById(
         "dia"
     ).value;
-    document.getElementById("rolId").value = document.getElementById(
-        "tipoAcademico"
-    ).value;
+
+    var rol;
+    if (document.getElementById("tipoAcademico")) {
+        rol = document.getElementById("tipoAcademico").value;
+    }
+    else {
+        rol = 1;
+    }
+    document.getElementById("rolId").value = rol;
+    
     if (confirm("¿Estás seguro de guardar esta porción de horario?"))
         document.getElementById("guardar-horario").submit();
 }
@@ -71,11 +80,11 @@ function añadirHorario(esMateria = true) {
             </td>
             <td class = "border border-dark">
                 hora inicio:
-                <input type="time" name="hora_inicio" id="horaInicio" onchange="setHoraFin("", false)" required>
+                <input type="time" name="hora_inicio" id="horaInicio" onchange="setHoraFin('', false)" required>
                 hora fin:
                 <input type="time" name="hora_fin" id="horaFin" disabled>
                 periodos:
-                <input type="number" id="periodo" min="1" max="12" value="1" onchange="setHoraFin("", false)">
+                <input type="number" id="periodo" min="1" max="12" value="1" onchange="setHoraFin('', false)">
             </td>`
         );
     }
