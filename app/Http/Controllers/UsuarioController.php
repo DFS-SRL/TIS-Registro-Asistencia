@@ -33,7 +33,8 @@ class UsuarioController extends Controller
             $raw .= ' end';
             $todos = $todos->whereIn('codSis', $codigos)
                 ->orderByRaw($raw);
-        }
+        } else
+            $todos = $todos->orderBy('nombre', 'asc');
         $todos = $todos->paginate(10);
         foreach ($todos as $key => $usuario) {
             $usuario->roles = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
@@ -97,7 +98,8 @@ class UsuarioController extends Controller
             $raw .= ' end';
             $usuarios = $usuarios->whereIn('codSis', $codigos)
                 ->orderByRaw($raw);
-        }
+        } else
+            $usuarios = $usuarios->orderBy('nombre', 'asc');
         return $usuarios->paginate(10);
     }
 
