@@ -18,7 +18,7 @@ class HorarioClaseController extends Controller
             ]);
             throw $error;
         }
-        $this->validarHoras($horario);
+        $this->validarHoras($horario,60);
         $this->asignarPersonal($horario);
         $horario['activo'] = true;
         HorarioClase::create($horario);
@@ -36,7 +36,7 @@ class HorarioClaseController extends Controller
     }
 
     // valida las horas del horario
-    private function validarHoras($horario, $except = -1, $periodo)
+    private function validarHoras($horario,$periodo,$except = -1)
     {
         if (!$this->verificarLibre($horario, $except)) {
             $error = ValidationException::withMessages([
@@ -93,9 +93,9 @@ class HorarioClaseController extends Controller
         $horarioNuevo['hora_fin'] .= ":00";
         $horarioNuevo['activo'] = true;
         if($horario->rol_id == 1){
-            $this->validarHoras($horarioNuevo, $horario->id, 60);
+            $this->validarHoras($horarioNuevo, 60, $horario->id);
         }else{
-            $this->validarHoras($horarioNuevo, $horario->id, 45);
+            $this->validarHoras($horarioNuevo, 45, $horario->id);
         }
         $horario->update([
             'activo' => false
