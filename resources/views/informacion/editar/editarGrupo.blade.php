@@ -116,7 +116,7 @@
                                     DOCENTE</button>
                                 <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')">
                                     @csrf @method('PATCH')
-                                    <input id="buscador1" class=" oculto" type="search" placeholder="codSis docente" aria-label="Search" name='codSis'>
+                                    <input id="buscador1" class=" oculto" type="search" placeholder="codSis docente" aria-label="Search" name='codSis' >
                                     <button id="botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit">
                                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
