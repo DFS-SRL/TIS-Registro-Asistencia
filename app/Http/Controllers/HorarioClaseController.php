@@ -11,7 +11,6 @@ class HorarioClaseController extends Controller
 {
     public function guardar(GuardarHorarioRequest $request)
     {
-
         $horario = $request->validated();
         if ($horario['hora_inicio'] == ":00") {
             $error = ValidationException::withMessages([
@@ -37,7 +36,7 @@ class HorarioClaseController extends Controller
     }
 
     // valida las horas del horario
-    private function validarHoras($horario, $except = -1)
+    private function validarHoras($horario, $except = -1, $periodo)
     {
         if (!$this->verificarLibre($horario, $except)) {
             $error = ValidationException::withMessages([
@@ -47,21 +46,22 @@ class HorarioClaseController extends Controller
         }
         if (
             $horario['hora_fin'] <= $horario['hora_inicio'] ||
-            tiempoHora($horario['hora_inicio'])->diffInMinutes(tiempoHora($horario['hora_fin'])) % 45 != 0
+            tiempoHora($horario['hora_inicio'])->diffInMinutes(tiempoHora($horario['hora_fin'])) % $periodo != 0
         ) {
             $error = ValidationException::withMessages([
-                'horario' => ['las hora fin debe ser mayor a la inicio con periodos de 45 minutos']
+                'horario' => ['las hora fin debe ser mayor a la inicio con periodos de '. $periodo .' minutos']
             ]);
             throw $error;
         }
     }
 
     // verifica si un horario no choca con algun otro en el grupo al que pertenece el horario
-    private function verificarLibre($horario)
+    private function verificarLibre($horario, $except = -1)
     {
         return HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
             ->where('activo', '=', 'true')
             ->where('dia', '=', $horario['dia'])
+            ->where('id', '!=', $except)
             ->where(function ($query) use ($horario) {
                 $query->where(function ($query) use ($horario) {
                     $query->where('hora_inicio', '=', $horario['hora_inicio'])
@@ -92,7 +92,11 @@ class HorarioClaseController extends Controller
         $horarioNuevo['hora_inicio'] .= ":00";
         $horarioNuevo['hora_fin'] .= ":00";
         $horarioNuevo['activo'] = true;
-        $this->validarHoras($horarioNuevo);
+        if($horario->rol_id == 1){
+            $this->validarHoras($horarioNuevo, $horario->id, 60);
+        }else{
+            $this->validarHoras($horarioNuevo, $horario->id, 45);
+        }
         $horario->update([
             'activo' => false
         ]);

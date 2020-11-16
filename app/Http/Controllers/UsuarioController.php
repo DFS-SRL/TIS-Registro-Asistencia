@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Unidad;
 use App\Usuario;
+use App\Asistencia;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\BuscadorHelper;
@@ -16,13 +17,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class UsuarioController extends Controller
 {
     // devuelve la vista de todo el personal academico de la unidad correspondiente
-    public function obtenerPersonal(Unidad $unidad)
+    public function obtenerPersonal(Unidad $unidad, $codigos = null)
     {
-        $codigos = Session::get('codigos');
-        if ($codigos)
-            error_log('yei');
-        else
-            error_log("la puuuuta");
+        //$codigos = Session::get('codigos');
         $todos = Usuario::join('Usuario_pertenece_unidad', 'codSis', '=', 'usuario_codSis')
             ->where('unidad_id', '=', $unidad->id)->select(
                 'Usuario.nombre',
@@ -36,7 +33,8 @@ class UsuarioController extends Controller
             $raw .= ' end';
             $todos = $todos->whereIn('codSis', $codigos)
                 ->orderByRaw($raw);
-        }
+        } else
+            $todos = $todos->orderBy('nombre', 'asc');
         $todos = $todos->paginate(10);
         foreach ($todos as $key => $usuario) {
             $usuario->roles = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
@@ -80,7 +78,8 @@ class UsuarioController extends Controller
             array_push($codigos, $key);
         }
         request()->session()->flash('info', 'Resultados de la busqueda');
-        return redirect()->route('personalAcademico.obtenerPersonal', $unidad->id)->with(['codigos' => $codigos]);
+        //return redirect()->route('personalAcademico.obtenerPersonal', $unidad->id)->with(['codigos' => $codigos]);
+        return $this->obtenerPersonal($unidad, $codigos);
     }
 
     // obtener usuarios con el rol indicado que pertenezcan a la unidad indicada
@@ -99,8 +98,21 @@ class UsuarioController extends Controller
             $raw .= ' end';
             $usuarios = $usuarios->whereIn('codSis', $codigos)
                 ->orderByRaw($raw);
-        }
+        } else
+            $usuarios = $usuarios->orderBy('nombre', 'asc');
         return $usuarios->paginate(10);
+    }
+
+    public function informacionDocente(Unidad $unidad, Usuario $usuario)
+    {
+        $asistencias = Asistencia::where('usuario_codSis', '=', $usuario->codSis)
+            ->where('unidad_id', '=', $unidad->id)
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        return view('personal.informacionDocente', [
+            'asistencias' => $asistencias
+        ]);
     }
 
     // paginar coleccion
