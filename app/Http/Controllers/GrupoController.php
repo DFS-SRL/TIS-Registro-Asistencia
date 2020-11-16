@@ -178,7 +178,7 @@ class GrupoController extends Controller
         $datos = $request->validated();
         if (!UsuarioController::esAuxLab($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
-                'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
+                'codSis' => ['el codigo sis no pertenece a un auxiliar de laboratorio de la unidad']
             ]);
             throw $error;
         }
