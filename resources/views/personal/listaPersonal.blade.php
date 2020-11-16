@@ -12,6 +12,7 @@
             </div>
             <div class="col-md-5">
                 <form class="form-inline my-2 my-lg-0" method="POST" action="{{ route('personalAcademico.buscar', $unidad->id) }}" onsubmit="return (validarSoloLetras('buscador', 'mensaje') && validarNoVacio('buscador'))">
+                    @csrf
                     <input class="form-control" type="search" placeholder="buscar personal academico"aria-label="Search" style="width:75%;" name = "buscado" maxlength="50" id="buscador" onkeypress="valLim(50, 'buscador', 'mensaje')" onkeyup="valLim(50, 'buscador', 'mensaje')">
                     <button class="btn boton my-2 my-sm-0" type="submit"><svg width="1em" height="1em"
                             viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"

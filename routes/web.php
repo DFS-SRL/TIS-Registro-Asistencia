@@ -39,7 +39,7 @@ Route::post('/planillas/semanal/', 'PlanillaSemanalController@registrarAsistenci
 
 // Route::get('/buscarPersonalAcademico/{unidad}', 'usuarioController@mostrarBuscarPersonal');
 // Route::post('/personalAcademico/{unidad}/buscar', 'usuarioController@buscarPersonal')->name('personalAcademico.buscar');
-// Route::get('/personalAcademico/{unidad}', 'usuarioController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
+Route::get('/personalAcademicos/{unidad}', 'usuarioController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
 
 Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
 Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
@@ -76,5 +76,6 @@ Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion');
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
 Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->name('informacion.personalAcademico');
-Route::post('/personalAcademico/{unidad}/buscar', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscar');
+Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@informacionDocente');
+Route::post('/personalAcademico/{unidad}/buscar', 'UsuarioController@buscarPersonal')->name('personalAcademico.buscar');
 // Route::get('/personalAcademico/{unidad}', 'usuarioController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
