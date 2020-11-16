@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Editar Grupo')
+@section('title', 'Editar Item')
 
 @section('css')
     <link rel="stylesheet" href="/css/estiloEditarGrupo.css">
