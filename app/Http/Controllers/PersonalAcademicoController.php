@@ -25,7 +25,11 @@ class PersonalAcademicoController extends Controller{
         ->where('Usuario_pertenece_unidad.unidad_id', '=', $unidad->id)
         ->select('Usuario.codSis', 'Usuario.nombre', 'Usuario_tiene_rol.rol_id')
         ->orderBy('Usuario.nombre')
-        ->get();
+        ->paginate(3,['*'],'todos-pag');
+        // ->setPath('todos/');
+        // ->get();
+
+        // $todos = Usuario::paginate(3,['*'],'todos-pag');
 
         return view('informacion.personalAcademico',
         [
@@ -46,7 +50,8 @@ class PersonalAcademicoController extends Controller{
             ->where('Usuario_pertenece_unidad.unidad_id', '=', $unidad->id)
             ->select('Usuario.codSis', 'Usuario.nombre', 'Usuario_tiene_rol.rol_id')
             ->orderBy('Usuario.nombre')
-            ->get();
+            ->paginate(3,['*'],'usuario-' . $rol . '-pag');
+            // ->get();
     }
 
     // devuelve la vista de todo el personal academico de la unidad correspondiente

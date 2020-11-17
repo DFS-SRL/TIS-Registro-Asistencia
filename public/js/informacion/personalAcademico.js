@@ -1,9 +1,19 @@
+var section = $('#todos-tab');
+
+if (typeof(Storage) !== "undefined") {
+    if (localStorage.section){
+        section = $('#' + localStorage.section)
+    }else{
+        localStorage.setItem("section", "todos-tab");
+    }
+}
+
 $(window).on("load", function() {
-    $('#todos-tab').click();
+    section.click();
 });
 
 function mostrarTabla(id, arreglo) {
-    var div = document.getElementById(id);
+    var div = document.getElementById(id+'-content');
 
     var content =
         `<table class="table table-bordered">
