@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Editar Grupo')
+@section('title', 'Editar Item')
 
 @section('css')
     <link rel="stylesheet" href="/css/estiloEditarGrupo.css">
@@ -76,7 +76,7 @@
                 </tbody>
             </table>
 
-            <button class="btn boton" id="añadirHorario" onclick="añadirHorarioItem(); desactivar()">AÑADIR HORARIO
+            <button class="btn boton" id="añadirHorario" onclick="añadirHorario(false); desactivar()">AÑADIR TURNO
                 <svg width="2em" height="2em"
                     viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg">
@@ -94,9 +94,9 @@
                             <h4>Auxiliar: {{ $auxiliar->nombre }}
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
-                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliarLabo('{{ $auxiliar->nombre }}')">
+                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
                                     <form id="desasignar-auxiliar" class="d-none" method="POST"
-                                        action="{{ route('grupo.desasignar.auxiliar', $item) }}">
+                                        action="{{ route('grupo.desasignar.auxiliarLaboratorio', $item) }}">
                                         @csrf @method('PATCH')
                                     </form>
                             </h4>
