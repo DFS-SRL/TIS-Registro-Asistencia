@@ -19,7 +19,6 @@ class UsuarioController extends Controller
     // devuelve la vista de todo el personal academico de la unidad correspondiente
     public function obtenerPersonal(Unidad $unidad, $codigos = null)
     {
-        //$codigos = Session::get('codigos');
         $todos = Usuario::join('Usuario_pertenece_unidad', 'codSis', '=', 'usuario_codSis')
             ->where('unidad_id', '=', $unidad->id)->select(
                 'Usuario.nombre',
@@ -35,12 +34,13 @@ class UsuarioController extends Controller
                 ->orderByRaw($raw);
         } else
             $todos = $todos->orderBy('nombre', 'asc');
-        $todos = $todos->paginate(10);
+        $todos = $todos->paginate(10, ['*'], 'todos-pag');
         foreach ($todos as $key => $usuario) {
             $usuario->roles = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
                 ->where('rol_id', '>=', 1)
                 ->where('rol_id', '<=', 3)
-                ->select('rol_id')
+                ->join('Rol', 'Rol.id', '=', 'rol_id')
+                ->select('nombre')
                 ->get();
         }
         $docentes = $this->obtenerUsuariosRol($unidad, 3, $codigos);
@@ -78,7 +78,6 @@ class UsuarioController extends Controller
             array_push($codigos, $key);
         }
         request()->session()->flash('info', 'Resultados de la busqueda');
-        //return redirect()->route('personalAcademico.obtenerPersonal', $unidad->id)->with(['codigos' => $codigos]);
         return $this->obtenerPersonal($unidad, $codigos);
     }
 
@@ -100,7 +99,8 @@ class UsuarioController extends Controller
                 ->orderByRaw($raw);
         } else
             $usuarios = $usuarios->orderBy('nombre', 'asc');
-        return $usuarios->paginate(10);
+        return
+            $usuarios->paginate(10, ['*'], 'usuario-' . $rol . '-pag');;
     }
 
     public function informacionDocente(Unidad $unidad, Usuario $usuario)
@@ -113,16 +113,6 @@ class UsuarioController extends Controller
         return view('personal.informacionDocente', [
             'asistencias' => $asistencias
         ]);
-    }
-
-    // paginar coleccion
-    public function paginate($items, $perPage = 10, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     // devuelve codSis si el codSis es de un docente de la unidad_id

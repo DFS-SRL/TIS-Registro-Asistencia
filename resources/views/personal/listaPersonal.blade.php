@@ -34,7 +34,7 @@
     <h3>todos</h3>
     <ul>
         @forelse ($todos as $usuario)
-            <li>{{ $usuario->nombre }} {{ $usuario->codSis }} roles: @foreach ($usuario->roles as $rol) {{$rol->rol_id}}, @endforeach</li>
+            <li>{{ $usuario->nombre }} {{ $usuario->codSis }} roles: @foreach ($usuario->roles as $rol) {{$rol->nombre}}, @endforeach</li>
         @empty
             <p>no hay personal</p>
         @endforelse
