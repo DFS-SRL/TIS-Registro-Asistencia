@@ -106,6 +106,16 @@ class GrupoController extends Controller
         if ($informacion['esGrupoDeDocencia']) {
             return view('informacion.grupo', $informacion);
         } else {
+            abort(404);
+        }
+    }
+    //Esta funcion se usa al momento de entrar a la vista de item
+    public function mostrarInformacionItem(Grupo $grupo)
+    {
+        $informacion = $this->informacionGrupo($grupo);
+        if ($informacion['esGrupoDeDocencia']) {
+            abort(404);
+        } else {
             return view('informacion.item', $informacion);
         }
     }
@@ -115,6 +125,17 @@ class GrupoController extends Controller
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             return view('informacion.editar.editarGrupo', $informacion);
+        }
+        else {
+            abort(404);
+        }
+    }
+    //Esta funcion se usa al momento de entrar a la vista de editar item
+    public function editarInformacionItem(Grupo $grupo)
+    {
+        $informacion = $this->informacionGrupo($grupo);
+        if ($informacion['esGrupoDeDocencia']) {
+            abort(404);
         }
         else {
             return view('informacion.editar.editarItem', $informacion);

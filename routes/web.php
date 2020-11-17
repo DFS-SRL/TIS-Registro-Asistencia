@@ -58,8 +58,8 @@ Route::patch('/grupo/{grupo}/desasignar/docente', 'GrupoController@desasignarDoc
 Route::patch('/grupo/{grupo}/desasignar/auxiliar', 'GrupoController@desasignarAuxiliar')->name('grupo.desasignar.auxiliar');
 Route::patch('/grupo/{grupo}/desasignar/auxiliarLabo', 'GrupoController@desasignarAuxiliarDeLaboratorio')->name('grupo.desasignar.auxiliarLaboratorio');
 
-Route::get('/item/{grupo}', 'GrupoController@mostrarInformacion');
-Route::get('/item/{grupo}/editar', 'GrupoController@editarInformacion');
+Route::get('/item/{grupo}', 'GrupoController@mostrarInformacionItem');
+Route::get('/item/{grupo}/editar', 'GrupoController@editarInformacionItem');
 Route::patch('/item/asignar/auxLabo', 'GrupoController@asignarAuxLabo')->name('item.asignar.auxLabo');
 
 Route::post('/horarioClase', 'HorarioClaseController@guardar')->name('horarioClase.guardar');
