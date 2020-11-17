@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Unidad;
 use App\Usuario;
+use Carbon\Carbon;
 use App\Asistencia;
 use App\HorarioClase;
 use App\UsuarioTieneRol;
@@ -20,13 +21,12 @@ class UsuarioController extends Controller
     // devuelve la vista de todo el personal academico de la unidad correspondiente
     public function obtenerPersonal(Unidad $unidad, $codigos = null)
     {
-        //$codigos = Session::get('codigos');
         $todos = Usuario::join('Usuario_pertenece_unidad', 'codSis', '=', 'usuario_codSis')
             ->where('unidad_id', '=', $unidad->id)->select(
                 'Usuario.nombre',
                 'Usuario.codSis'
             );
-        if ($codigos) {
+        if (is_array($codigos)) {
             $raw = 'case';
             foreach ($codigos as $key => $codSis) {
                 $raw .= ' when "Usuario"."codSis"=' . $codSis . ' then ' . $key;
@@ -34,13 +34,15 @@ class UsuarioController extends Controller
             $raw .= ' end';
             $todos = $todos->whereIn('codSis', $codigos)
                 ->orderByRaw($raw);
-        }
-        $todos = $todos->paginate(10);
+        } else
+            $todos = $todos->orderBy('nombre', 'asc');
+        $todos = $todos->paginate(10, ['*'], 'todos-pag');
         foreach ($todos as $key => $usuario) {
             $usuario->roles = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
                 ->where('rol_id', '>=', 1)
                 ->where('rol_id', '<=', 3)
-                ->select('rol_id')
+                ->join('Rol', 'Rol.id', '=', 'rol_id')
+                ->select('nombre')
                 ->get();
         }
         $docentes = $this->obtenerUsuariosRol($unidad, 3, $codigos);
@@ -56,11 +58,17 @@ class UsuarioController extends Controller
     }
 
     // busca coincidencias en los nombres del personal que pertenecen a cierta unidad academica
-    public function buscarPersonal(Unidad $unidad)
+    public function buscarPersonal(Unidad $unidad, $buscando = null)
     {
-        $datos = request()->validate([
-            'buscado' => ['required', 'regex:/^[a-zA-Z\s]*$/', 'max:50']
-        ]);
+        if (request()->method() == 'POST') {
+            $datos = $this->validarBuscado();
+            return redirect()->route('personalAcademico.buscando', [
+                'unidad' => $unidad,
+                'buscando' => $datos['buscado']
+            ]);
+        }
+        request()['buscado'] = $buscando;
+        $datos = $this->validarBuscado();
         $buscando =  BuscadorHelper::separar(BuscadorHelper::normalizar($datos['buscado']));
         $aux = Usuario::join('Usuario_pertenece_unidad', 'codSis', '=', 'usuario_codSis')
             ->where('unidad_id', '=', $unidad->id)
@@ -78,8 +86,14 @@ class UsuarioController extends Controller
             array_push($codigos, $key);
         }
         request()->session()->flash('info', 'Resultados de la busqueda');
-        //return redirect()->route('personalAcademico.obtenerPersonal', $unidad->id)->with(['codigos' => $codigos]);
         return $this->obtenerPersonal($unidad, $codigos);
+    }
+
+    private function validarBuscado()
+    {
+        return request()->validate([
+            'buscado' => ['required', 'regex:/^[a-zA-Z\s]*$/', 'max:50']
+        ]);
     }
 
     // obtener usuarios con el rol indicado que pertenezcan a la unidad indicada
@@ -90,7 +104,7 @@ class UsuarioController extends Controller
             ->join('Usuario_tiene_rol', 'codSis', '=', 'Usuario_tiene_rol.usuario_codSis')
             ->where('rol_id', '=', $rol)
             ->select('Usuario.nombre', 'Usuario.codSis');
-        if ($codigos) {
+        if (is_array($codigos)) {
             $raw = 'case';
             foreach ($codigos as $key => $codSis) {
                 $raw .= ' when "Usuario"."codSis"=' . $codSis . ' then ' . $key;
@@ -98,10 +112,13 @@ class UsuarioController extends Controller
             $raw .= ' end';
             $usuarios = $usuarios->whereIn('codSis', $codigos)
                 ->orderByRaw($raw);
-        }
-        return $usuarios->paginate(10);
+        } else
+            $usuarios = $usuarios->orderBy('nombre', 'asc');
+        return
+            $usuarios->paginate(10, ['*'], 'usuario-' . $rol . '-pag');;
     }
 
+    // devuelve la vista de la informacion del docente
     public function informacionDocente(Unidad $unidad, Usuario $usuario)
     {
         $grupos = HorarioClase:: join('Usuario', 'Usuario.codSis', '=',"Horario_clase.asignado_codSis") 
@@ -114,24 +131,17 @@ class UsuarioController extends Controller
         $gruposInactivos = $grupos->where('activo', '=', 'false')->get();
         $asistencias = Asistencia::where('usuario_codSis', '=', $usuario->codSis)
             ->where('unidad_id', '=', $unidad->id)
-            ->orderBy('fecha', 'desc')
             ->get();
-
+        $asistencias = $asistencias->sort(function (Asistencia $a, Asistencia $b) {
+            $a1 = Carbon::createFromFormat('Y-m-d H:i:s',  $a->fecha . ' ' . $a->horarioClase->hora_inicio);
+            $b1 = Carbon::createFromFormat('Y-m-d H:i:s',  $b->fecha . ' ' . $b->horarioClase->hora_inicio);
+            return $a1->lt($b1) ? 1 : -1;
+        });
         return view('personal.informacionDocente', [
             'asistencias' => $asistencias,
             'gruposInactivos' => $gruposInactivos,
             'gruposActivos' => $gruposActivos
         ]);
-    }
-
-    // paginar coleccion
-    public function paginate($items, $perPage = 10, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     // devuelve codSis si el codSis es de un docente de la unidad_id
