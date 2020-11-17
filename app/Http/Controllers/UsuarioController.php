@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Unidad;
 use App\Usuario;
 use App\Asistencia;
+use App\HorarioClase;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\BuscadorHelper;
@@ -103,13 +104,23 @@ class UsuarioController extends Controller
 
     public function informacionDocente(Unidad $unidad, Usuario $usuario)
     {
+        $grupos = HorarioClase:: join('Usuario', 'Usuario.codSis', '=',"Horario_clase.asignado_codSis") 
+                                ->join('Grupo', 'Grupo.id' ,'=', 'Horario_clase.grupo_id')
+                                ->join('Materia', 'Materia.id', '=', 'Horario_clase.materia_id')
+                                ->where('asignado_codSis','=', $usuario->codSis)
+                                ->distinct()
+                                ->select('Horario_clase.grupo_id','Materia.nombre');
+        $gruposActivos =$grupos->where('activo', '=', 'true')->get();
+        $gruposInactivos = $grupos->where('activo', '=', 'false')->get();
         $asistencias = Asistencia::where('usuario_codSis', '=', $usuario->codSis)
             ->where('unidad_id', '=', $unidad->id)
             ->orderBy('fecha', 'desc')
             ->get();
 
         return view('personal.informacionDocente', [
-            'asistencias' => $asistencias
+            'asistencias' => $asistencias,
+            'gruposInactivos' => $gruposInactivos,
+            'gruposActivos' => $gruposActivos
         ]);
     }
 
