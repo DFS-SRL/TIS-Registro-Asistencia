@@ -80,3 +80,7 @@ Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->
 Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@informacionDocente');
 Route::post('/personalAcademico/{unidad}/buscar', 'UsuarioController@buscarPersonal')->name('personalAcademico.buscar');
 Route::get('/personalAcademicos/{unidad}', 'UsuarioController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
+
+
+
+Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'UsuarioController@buscarPersonal')->name('personalAcademico.buscando');
