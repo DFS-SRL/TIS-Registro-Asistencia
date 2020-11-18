@@ -3,6 +3,13 @@
 @include('layouts.flash-message')
 @section('content')
     <div class="container">
+      <div class="text-white">
+        <h3>Facultad: {{ $unidad->facultad }}</h3>
+        <h3>Departamento: {{ $unidad->nombre }}</h3>
+        <h1 class="text-center">Información de Docente</h1>
+        <h4>Nombre: {{ $usuario->nombre }}</h4>
+        <h4>Codigo SIS: {{ $unidad->codSis }}</h4>
+      </div>
         <div class="accordion" id="accordionExample">
             <div class="card mostaza" {{-- style="background-color: #7C7365" --}}>
               <div class="card-header" id="headingOne">
@@ -16,11 +23,11 @@
               <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">      
                 <table class="table">
                     <tbody>  
-                        @foreach ($gruposActivos as $grupoActivo)
+                        @foreach ($gruposActuales as $grupoActual)
                             <tr>
-                                <td><a href="{{-- /materia/{{ $materia->id }} --}}">{{$grupoActivo}}</a></td>
-                                <td>grupo: <a href="{{-- {{route('grupo.informacion',$grupoActivo->grupo_id)}} --}}">{{$grupoActivo->grupo_id}}</a></td>
-                                <td><a href="">registro historico</a></td>
+                                <td><a href="#{{-- /materia/{{ $materia->id }} --}}">{{$grupoActual}}</a></td>
+                                <td>grupo: <a href="#{{-- {{route('grupo.informacion',$grupoActivo->grupo_id)}} --}}">{{$grupoActual->grupo_id}}</a></td>
+                                <td><a href="#">registro historico</a></td>
                             </tr>
                         @endforeach 
                     </tbody>

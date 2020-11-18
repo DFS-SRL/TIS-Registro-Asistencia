@@ -120,26 +120,28 @@ class UsuarioController extends Controller
             $usuarios->paginate(10, ['*'], 'usuario-' . $rol . '-pag');;
     }
     //devuelve los grupos en los que haya sido asignado el codsis, dependiendo si esta activo o si es materia
-    private function buscarGruposAsignadosActuales($unidadId,$codSis,$esMateria){
-        return  HorarioClase::  join('Usuario', 'Usuario.codSis', '=',"Horario_clase.asignado_codSis") 
-                                ->join('Grupo', 'Grupo.id' ,'=', 'Horario_clase.grupo_id')
-                                ->join('Materia', 'Materia.id', '=', 'Horario_clase.materia_id')
-                                ->where('Grupo.unidad_id', '=', $unidadId)
-                                ->where('asignado_codSis','=', $codSis)
-                                ->where('Materia.es_materia',$esMateria)
-                                ->distinct()
-                                ->select('Horario_clase.grupo_id','Materia.nombre')->get();
-                            }
-    private function buscarGruposAsignadosPasados($unidadId,$codSis,$esMateria,$activos){
-        return Asistencia::    join('Usuario', 'Usuario.codSis', '=',"Asistencia.usuario_codSis")   
-                                ->join('Grupo', 'Grupo.id' ,'=', 'Asistencia.grupo_id')
-                                ->join('Materia', 'Materia.id', '=', 'Asistencia.materia_id')
-                                ->where('Grupo.unidad_id', '=', $unidadId)
-                                ->whereNotIn('Asistencia.grupo_id',$activos)
-                                ->where('usuario_codSis','=', $codSis)
-                                ->where('Materia.es_materia',$esMateria)
-                                ->distinct()
-                                ->select('Asistencia.grupo_id','Materia.nombre')->get();
+    private function buscarGruposAsignadosActuales($unidadId, $codSis, $esMateria)
+    {
+        return  HorarioClase::join('Usuario', 'Usuario.codSis', '=', "Horario_clase.asignado_codSis")
+            ->join('Grupo', 'Grupo.id', '=', 'Horario_clase.grupo_id')
+            ->join('Materia', 'Materia.id', '=', 'Horario_clase.materia_id')
+            ->where('Grupo.unidad_id', '=', $unidadId)
+            ->where('asignado_codSis', '=', $codSis)
+            ->where('Materia.es_materia', $esMateria)
+            ->distinct()
+            ->select('Horario_clase.grupo_id', 'Materia.nombre')->get();
+    }
+    private function buscarGruposAsignadosPasados($unidadId, $codSis, $esMateria, $actuales)
+    {
+        return Asistencia::join('Usuario', 'Usuario.codSis', '=', "Asistencia.usuario_codSis")
+            ->join('Grupo', 'Grupo.id', '=', 'Asistencia.grupo_id')
+            ->join('Materia', 'Materia.id', '=', 'Asistencia.materia_id')
+            ->where('Grupo.unidad_id', '=', $unidadId)
+            ->whereNotIn('Asistencia.grupo_id', $actuales)
+            ->where('usuario_codSis', '=', $codSis)
+            ->where('Materia.es_materia', $esMateria)
+            ->distinct()
+            ->select('Asistencia.grupo_id', 'Materia.nombre')->get();
     }
     //devuelve la vista de la informacion del auxiliar
     public function informacionAuxiliar(Unidad $unidad, Usuario $usuario)
@@ -147,20 +149,32 @@ class UsuarioController extends Controller
         $this->validarUsuarioDeUnidad($unidad, $usuario, [1, 2]);
         $codSis = $usuario->codSis;
         $unidadId = $unidad->id;
+<<<<<<< HEAD
         $gruposActuales = $this->buscarGruposAsignadosActuales($unidadId,$codSis,'true');
         $gruposPasados = $this->buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActuales->toArray(),'grupo_id'));
 
         $itemsActuales = $this->buscarGruposAsignadosActuales($unidadId,$codSis,'false');
         $itemsPasados = $this->buscarGruposAsignadosPasados($unidadId,$codSis,'false',array_column($itemsActuales->toArray(),'grupo_id'));
+=======
+        $gruposActuales = $this->buscarGruposAsignadosActuales($unidadId, $codSis, 'true');
+        $gruposPasados = $this->buscarGruposAsignadosPasados($unidadId, $codSis, 'true', array_column($gruposActuales->toArray(), 'grupo_id'));
+
+        $itemsActuales = $this->buscarGruposAsignadosActuales($unidadId, $codSis, 'false');
+        $itemsPasados = $this->buscarGruposAsignadosPasados($unidadId, $codSis, 'false', array_column($itemsActuales->toArray(), 'grupo_id'));
+>>>>>>> 830a379ad4622f916e81f7f86e549f2c088fec4d
 
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
 
         return view('personal.informacionAuxiliar', [
-            'asistencias' => $asistencias,
-            'gruposActivos' => $gruposActuales,
-            'gruposInactivos' => $gruposPasados,
+            'unidad' => $unidad,
+            'usuario' => $usuario,
+            'cargaHorariaNominalGrupos' => $this->cargaHorariaNominal($unidad, $usuario, 2),
+            'gruposActuales' => $gruposActuales,
+            'gruposPasados' => $gruposPasados,
+            'cargaHorariaNominalItems' => $this->cargaHorariaNominal($unidad, $usuario, 1),
             'itemsActuales' => $itemsActuales,
-            'itemsPasados' => $itemsPasados
+            'itemsPasados' => $itemsPasados,
+            'asistencias' => $asistencias
         ]);
     }
 
@@ -169,16 +183,24 @@ class UsuarioController extends Controller
     {
         $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
+<<<<<<< HEAD
         $gruposActivos = $this->buscarGruposAsignadosActuales($unidad,$codSis,'true');
         $gruposInactivos = $this->buscarGruposAsignadosPasados($unidad,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
+=======
+        $gruposActuales = $this->buscarGruposAsignadosActuales($unidad->id, $codSis, 'true');
+        $gruposPasados = $this->buscarGruposAsignadosPasados($unidad->id, $codSis, 'true', array_column($gruposActuales->toArray(), 'grupo_id'));
+>>>>>>> 830a379ad4622f916e81f7f86e549f2c088fec4d
 
 
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
 
         return view('personal.informacionDocente', [
-            'asistencias' => $asistencias,
-            'gruposInactivos' => $gruposInactivos,
-            'gruposActivos' => $gruposActivos
+            'unidad' => $unidad,
+            'usuario' => $usuario,
+            'cargaHorariaNominalGrupos' => $this->cargaHorariaNominal($unidad, $usuario, 3),
+            'gruposActuales' => $gruposActuales,
+            'gruposPasados' => $gruposPasados,
+            'asistencias' => $asistencias
         ]);
     }
 
@@ -211,6 +233,27 @@ class UsuarioController extends Controller
             ]);
             throw $error;
         }
+    }
+
+    // calcula la carga horaria nominal del usuario en la unidad segun el rol
+    private function cargaHorariaNominal(Unidad $unidad, Usuario $usuario, $rol)
+    {
+        $horarios = HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
+            ->where('unidad_id', '=', $unidad->id)
+            ->where('rol_id', '=', $rol)
+            ->where('activo', '=', 'true')
+            ->get();
+        return $this->cargaHoraria($horarios, $rol == 1 ? 60 : 45);
+    }
+
+    // calcula carga horaria segun el periodo
+    private function cargaHoraria($horarios, $periodo)
+    {
+        $carga = 0;
+        foreach ($horarios as $horario) {
+            $carga += tiempoHora($horario->hora_inicio)->diffInMinutes(tiempoHora($horario->hora_fin));
+        }
+        return $carga / $periodo;
     }
 
     // devuelve codSis si el codSis es de un docente de la unidad_id
