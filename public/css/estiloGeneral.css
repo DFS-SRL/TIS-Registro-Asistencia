@@ -23,7 +23,7 @@ textarea {
     height: 100px;
 }
 
-.boton {
+.boton, .mostaza {
     background-color: #D2B272;
     font-weight: bold;
 }

@@ -10,10 +10,12 @@ use App\HorarioClase;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\BuscadorHelper;
+use App\UsuarioPerteneceUnidad;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UsuarioController extends Controller
@@ -140,29 +142,49 @@ class UsuarioController extends Controller
                                 ->select('Asistencia.grupo_id','Materia.nombre')->get();
     }
     //devuelve la vista de la informacion del auxiliar
-    public function informacionAuxiliar(Unidad $unidad, Usuario $usuario){
+    public function informacionAuxiliar(Unidad $unidad, Usuario $usuario)
+    {
+        $this->validarUsuarioDeUnidad($unidad, $usuario, [1, 2]);
         $codSis = $usuario->codSis;
         $unidadId = $unidad->id;
-        $gruposActivos = self::buscarGruposAsignadosActuales($unidadId,$codSis,'true');
-        $gruposInactivos = self::buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
+        $gruposActuales = self::buscarGruposAsignadosActuales($unidadId,$codSis,'true');
+        $gruposPasados = self::buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
 
         $itemsActuales = self::buscarGruposAsignadosActuales($unidadId,$codSis,'false');
         $itemsPasados = self::buscarGruposAsignadosPasados($unidadId,$codSis,'false',array_column($itemsActuales->toArray(),'grupo_id'));
-        return [
-            'gruposActivos' => $gruposActivos,
-            'gruposInactivos' => $gruposInactivos,
-            'itemsActuales' =>$itemsActuales,
+
+        $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
+
+        return view('personal.informacionAuxiliar', [
+            'asistencias' => $asistencias,
+            'gruposActivos' => $gruposActuales,
+            'gruposInactivos' => $gruposPasados,
+            'itemsActuales' => $itemsActuales,
             'itemsPasados' => $itemsPasados
-        ];
+        ]);
     }
 
     // devuelve la vista de la informacion del docente
     public function informacionDocente(Unidad $unidad, Usuario $usuario)
     {
+        $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
         $gruposActivos = self::buscarGruposAsignadosActuales($unidadId,$codSis,'true');
         $gruposInactivos = self::buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
 
+
+        $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
+
+        return view('personal.informacionDocente', [
+            'asistencias' => $asistencias,
+            'gruposInactivos' => $gruposInactivos,
+            'gruposActivos' => $gruposActivos
+        ]);
+    }
+
+    // obtiene asistencias del usuario en la unidad ordenadas por tiempo en orden decreciente
+    private function asistenciasUsuarioUnidad(Unidad $unidad, Usuario $usuario)
+    {
         $asistencias = Asistencia::where('usuario_codSis', '=', $usuario->codSis)
             ->where('unidad_id', '=', $unidad->id)
             ->get();
@@ -171,11 +193,24 @@ class UsuarioController extends Controller
             $b1 = Carbon::createFromFormat('Y-m-d H:i:s',  $b->fecha . ' ' . $b->horarioClase->hora_inicio);
             return $a1->lt($b1) ? 1 : -1;
         });
-        return view('personal.informacionDocente', [
-            'asistencias' => $asistencias,
-            'gruposInactivos' => $gruposInactivos,
-            'gruposActivos' => $gruposActivos
-        ]);
+        // esta en 1 para probar, luego cambiar a 10
+        return paginate($asistencias, 1);
+    }
+
+    // validar que el usuario pertenezca a la unidad y tenga los roles debidos
+    private function validarUsuarioDeUnidad(Unidad $unidad, Usuario $usuario, $roles)
+    {
+        if (UsuarioPerteneceUnidad::where('Usuario_pertenece_unidad.usuario_codSis', '=', $usuario->codSis)
+            ->where('unidad_id', '=', $unidad->id)
+            ->join('Usuario_tiene_rol', 'Usuario_tiene_rol.usuario_codSis', '=', 'Usuario_pertenece_unidad.usuario_codSis')
+            ->whereIn('rol_id', $roles)
+            ->count() == 0
+        ) {
+            $error = ValidationException::withMessages([
+                'usuario' => ['usuario invalido']
+            ]);
+            throw $error;
+        }
     }
 
     // devuelve codSis si el codSis es de un docente de la unidad_id
