@@ -18,7 +18,7 @@ class HorarioClaseController extends Controller
             ]);
             throw $error;
         }
-        $this->validarHoras($horario,60);
+        $this->validarHoras($horario, $horario['rol_id'] == 1 ? 60 : 45);
         $this->asignarPersonal($horario);
         $horario['activo'] = true;
         HorarioClase::create($horario);
@@ -30,13 +30,14 @@ class HorarioClaseController extends Controller
     {
         $horarios = HorarioClase::where('grupo_id', '=', $horario['grupo_id'])
             ->where('rol_id', '=', $horario['rol_id'])
+            ->where('activo', '=', true)
             ->get();
         if (!$horarios->isEmpty() && $horarios[0]->asignado_codSis)
             $horario['asignado_codSis'] = $horarios[0]->asignado_codSis;
     }
 
     // valida las horas del horario
-    private function validarHoras($horario,$periodo,$except = -1)
+    private function validarHoras($horario, $periodo, $except = -1)
     {
         if (!$this->verificarLibre($horario, $except)) {
             $error = ValidationException::withMessages([
@@ -49,7 +50,7 @@ class HorarioClaseController extends Controller
             tiempoHora($horario['hora_inicio'])->diffInMinutes(tiempoHora($horario['hora_fin'])) % $periodo != 0
         ) {
             $error = ValidationException::withMessages([
-                'horario' => ['las hora fin debe ser mayor a la inicio con periodos de '. $periodo .' minutos']
+                'horario' => ['las hora fin debe ser mayor a la inicio con periodos de ' . $periodo . ' minutos']
             ]);
             throw $error;
         }
@@ -92,9 +93,10 @@ class HorarioClaseController extends Controller
         $horarioNuevo['hora_inicio'] .= ":00";
         $horarioNuevo['hora_fin'] .= ":00";
         $horarioNuevo['activo'] = true;
-        if($horario->rol_id == 1){
+        $horarioNuevo['asignado_codSis'] = $horarioNuevo['rol_id'] == $horario->rol_id ? $horario->asignado_codSis : null;
+        if ($horario->rol_id == 1) {
             $this->validarHoras($horarioNuevo, 60, $horario->id);
-        }else{
+        } else {
             $this->validarHoras($horarioNuevo, 45, $horario->id);
         }
         $horario->update([
