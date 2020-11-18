@@ -1,6 +1,9 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 // si no da para activar correr comando composer dumpautoload
 // devuelve el dia actual
@@ -145,4 +148,23 @@ function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
 function setactive($routeName)
 {
     return request()->routeIs($routeName) ? 'active' : '';
+}
+
+// paginar colecciones
+function paginate($items, $perPage = 10, $page = null, $options = [])
+{
+    $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+
+    $items = $items instanceof Collection ? $items : Collection::make($items);
+
+    return new LengthAwarePaginator(
+        $items->forPage($page, $perPage),
+        $items->count(),
+        $perPage,
+        $page,
+        [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]
+    );
 }
