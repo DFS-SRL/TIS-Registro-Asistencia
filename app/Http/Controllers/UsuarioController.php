@@ -149,19 +149,11 @@ class UsuarioController extends Controller
         $this->validarUsuarioDeUnidad($unidad, $usuario, [1, 2]);
         $codSis = $usuario->codSis;
         $unidadId = $unidad->id;
-<<<<<<< HEAD
-        $gruposActuales = $this->buscarGruposAsignadosActuales($unidadId,$codSis,'true');
-        $gruposPasados = $this->buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActuales->toArray(),'grupo_id'));
-
-        $itemsActuales = $this->buscarGruposAsignadosActuales($unidadId,$codSis,'false');
-        $itemsPasados = $this->buscarGruposAsignadosPasados($unidadId,$codSis,'false',array_column($itemsActuales->toArray(),'grupo_id'));
-=======
         $gruposActuales = $this->buscarGruposAsignadosActuales($unidadId, $codSis, 'true');
         $gruposPasados = $this->buscarGruposAsignadosPasados($unidadId, $codSis, 'true', array_column($gruposActuales->toArray(), 'grupo_id'));
 
         $itemsActuales = $this->buscarGruposAsignadosActuales($unidadId, $codSis, 'false');
         $itemsPasados = $this->buscarGruposAsignadosPasados($unidadId, $codSis, 'false', array_column($itemsActuales->toArray(), 'grupo_id'));
->>>>>>> 830a379ad4622f916e81f7f86e549f2c088fec4d
 
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
 
@@ -183,13 +175,8 @@ class UsuarioController extends Controller
     {
         $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
-<<<<<<< HEAD
-        $gruposActivos = $this->buscarGruposAsignadosActuales($unidad,$codSis,'true');
-        $gruposInactivos = $this->buscarGruposAsignadosPasados($unidad,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
-=======
         $gruposActuales = $this->buscarGruposAsignadosActuales($unidad->id, $codSis, 'true');
         $gruposPasados = $this->buscarGruposAsignadosPasados($unidad->id, $codSis, 'true', array_column($gruposActuales->toArray(), 'grupo_id'));
->>>>>>> 830a379ad4622f916e81f7f86e549f2c088fec4d
 
 
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
