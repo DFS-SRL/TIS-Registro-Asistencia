@@ -51,7 +51,7 @@ Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departa
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');
 Route::post('/grupo/{grupo}/editar/esAuxDoc', 'GrupoController@esAuxDoc')->name('grupo.editar.esAuxDoc');
-Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion');
+Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion')->name('grupo.informacion');
 Route::patch('/grupo/asignar/docente', 'GrupoController@asignarDocente')->name('grupo.asignar.docente');
 Route::patch('/grupo/asignar/auxDoc', 'GrupoController@asignarAuxDoc')->name('grupo.asignar.auxDoc');
 Route::patch('/grupo/{grupo}/desasignar/docente', 'GrupoController@desasignarDocente')->name('grupo.desasignar.docente');
@@ -66,7 +66,7 @@ Route::post('/horarioClase', 'HorarioClaseController@guardar')->name('horarioCla
 Route::patch('/horarioClase/{horario}', 'HorarioClaseController@actualizar')->name('horarioClase.actualizar');
 Route::delete('/horarioClase/{horario}', 'HorarioClaseController@eliminar')->name('horarioClase.eliminar');
 
-Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion');
+Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 
@@ -77,7 +77,7 @@ Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion');
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
 Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->name('informacion.personalAcademico');
-Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@informacionDocente');
+Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@informacionDocente');//
 Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'UsuarioController@informacionAuxiliar');
 // Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@gruposAsignadosUsuario');
 
