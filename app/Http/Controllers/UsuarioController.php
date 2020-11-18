@@ -128,7 +128,7 @@ class UsuarioController extends Controller
                                 ->where('asignado_codSis','=', $codSis)
                                 ->where('Materia.es_materia',$esMateria)
                                 ->distinct()
-                                ->select('Horario_clase.grupo_id','Materia.nombre')->get();
+                                ->select('Horario_clase.grupo_id','Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
                             }
     private function buscarGruposAsignadosPasados($unidadId,$codSis,$esMateria,$activos){
         return Asistencia::    join('Usuario', 'Usuario.codSis', '=',"Asistencia.usuario_codSis")   
@@ -169,6 +169,7 @@ class UsuarioController extends Controller
     {
         $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
+        $unidadId = $unidad->id;
         $gruposActivos = self::buscarGruposAsignadosActuales($unidadId,$codSis,'true');
         $gruposInactivos = self::buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
 
