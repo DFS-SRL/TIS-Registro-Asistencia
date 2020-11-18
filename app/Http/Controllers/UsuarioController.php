@@ -38,7 +38,7 @@ class UsuarioController extends Controller
                 ->orderByRaw($raw);
         } else
             $todos = $todos->orderBy('nombre', 'asc');
-        $todos = $todos->paginate(10, ['*'], 'todos-pag');
+        $todos = $todos->paginate(3, ['*'], 'todos-pag');
         foreach ($todos as $key => $usuario) {
             $usuario->roles = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
                 ->where('rol_id', '>=', 1)
@@ -117,7 +117,7 @@ class UsuarioController extends Controller
         } else
             $usuarios = $usuarios->orderBy('nombre', 'asc');
         return
-            $usuarios->paginate(10, ['*'], 'usuario-' . $rol . '-pag');;
+            $usuarios->paginate(3, ['*'], 'usuario-' . $rol . '-pag');;
     }
     //devuelve los grupos en los que haya sido asignado el codsis, dependiendo si esta activo o si es materia
     private function buscarGruposAsignadosActuales($unidadId, $codSis, $esMateria)
