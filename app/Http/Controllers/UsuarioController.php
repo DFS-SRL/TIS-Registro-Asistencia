@@ -50,12 +50,12 @@ class UsuarioController extends Controller
         $docentes = $this->obtenerUsuariosRol($unidad, 3, $codigos);
         $auxiliaresDoc = $this->obtenerUsuariosRol($unidad, 2, $codigos);
         $auxiliaresLabo = $this->obtenerUsuariosRol($unidad, 1, $codigos);
-        return view('personal.listaPersonal', [
+        return view('informacion.personalAcademico', [
             'unidad' => $unidad,
             'todos' => $todos,
             'docentes' => $docentes,
-            'auxiliaresDoc' => $auxiliaresDoc,
-            'auxiliaresLabo' => $auxiliaresLabo
+            'auxDoc' => $auxiliaresDoc,
+            'auxLabo' => $auxiliaresLabo
         ]);
     }
 
@@ -147,11 +147,11 @@ class UsuarioController extends Controller
         $this->validarUsuarioDeUnidad($unidad, $usuario, [1, 2]);
         $codSis = $usuario->codSis;
         $unidadId = $unidad->id;
-        $gruposActuales = self::buscarGruposAsignadosActuales($unidadId,$codSis,'true');
-        $gruposPasados = self::buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
+        $gruposActuales = $this->buscarGruposAsignadosActuales($unidadId,$codSis,'true');
+        $gruposPasados = $this->buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActuales->toArray(),'grupo_id'));
 
-        $itemsActuales = self::buscarGruposAsignadosActuales($unidadId,$codSis,'false');
-        $itemsPasados = self::buscarGruposAsignadosPasados($unidadId,$codSis,'false',array_column($itemsActuales->toArray(),'grupo_id'));
+        $itemsActuales = $this->buscarGruposAsignadosActuales($unidadId,$codSis,'false');
+        $itemsPasados = $this->buscarGruposAsignadosPasados($unidadId,$codSis,'false',array_column($itemsActuales->toArray(),'grupo_id'));
 
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
 
@@ -169,8 +169,8 @@ class UsuarioController extends Controller
     {
         $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
-        $gruposActivos = self::buscarGruposAsignadosActuales($unidadId,$codSis,'true');
-        $gruposInactivos = self::buscarGruposAsignadosPasados($unidadId,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
+        $gruposActivos = $this->buscarGruposAsignadosActuales($unidad,$codSis,'true');
+        $gruposInactivos = $this->buscarGruposAsignadosPasados($unidad,$codSis,'true',array_column($gruposActivos->toArray(),'grupo_id'));
 
 
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);

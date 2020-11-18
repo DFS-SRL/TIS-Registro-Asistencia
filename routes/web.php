@@ -76,7 +76,8 @@ Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion');
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
-Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->name('informacion.personalAcademico');
+// Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->name('informacion.personalAcademico');
+Route::get('/personalAcademico/{unidad}', 'UsuarioController@obtenerPersonal')->name('informacion.personalAcademico');
 Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@informacionDocente');//
 Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'UsuarioController@informacionAuxiliar');
 // Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@gruposAsignadosUsuario');
