@@ -37,9 +37,21 @@
                 </tr>
                 @foreach ($asistencias as $asistencia)
                     <tr>
-                        <td>{{ $asistencia->materia->nombre }} </td>
-                        <td>{{ $asistencia->grupo->nombre }}</td>
-                        <td>{{ $asistencia->usuario->nombre }} </td>
+                        <td>
+                            <a class="textoNegro" href="{{ route('materia.informacion', $asistencia->materia_id ) }}">
+                                {{ $asistencia->materia->nombre }} 
+                            </a>
+                        </td>
+                        <td>
+                            <a class="textoNegro" href="{{ route('grupo.informacion', $asistencia->grupo_id) }}">
+                                {{ $asistencia->grupo->nombre }} 
+                            </a>
+                        </td>
+                        <td>
+                            <a class="textoNegro" href="{{ route('informacion.' . ($asistencia->horarioClase->rol_id == 3 ? 'docente' : 'auxiliar'), ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
+                                {{ $asistencia->usuario->nombre }}
+                            </a>
+                        </td>
                         <td>{{ $asistencia->usuario->codSis }} </td>
                         <td>{{ formatoFecha($asistencia->fecha) }}</td>
                         <td>{{ $asistencia->horarioClase->hora_inicio }} - {{ $asistencia->horarioClase->hora_fin }} </td>

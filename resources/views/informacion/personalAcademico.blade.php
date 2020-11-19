@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Cargo Laboratorio')
+@section('title', 'Personal Academico')
 
 @section('css')
     <link rel="stylesheet" href="/css/informacion/personalAcademico.css">
@@ -42,7 +42,7 @@
             </li>
             <li class="nav-item tab-item">
                 <a class="nav-link" id="docentes-tab" data-toggle="tab" href="#docentes" role="tab" aria-controls="docentes"
-                    aria-selected="false" onclick="docente()">DOCENTES</a>
+                    aria-selected="false" onclick="docentes()">DOCENTES</a>
             </li>
             <li class="nav-item tab-item">
                 <a class="nav-link" id="aux-docencia-tab" data-toggle="tab" href="#aux-docencia" role="tab"
@@ -63,7 +63,7 @@
                 </div>
                 <div class="tab-pane fade" id="docentes" role="tabpanel" aria-labelledby="docentes-tab">
                     <div id="docentes-content"></div>
-                    {{ $docente->links() }}
+                    {{ $docentes->links() }}
                 </div>
                 <div class="tab-pane fade" id="aux-docencia" role="tabpanel" aria-labelledby="aux-docencia-tab">
                     <div id="aux-docencia-content"></div>
@@ -82,37 +82,42 @@
     <script src="/js/main.js"></script>
     <script src="/js/informacion/personalAcademico.js"></script>
     <script>
+        var unidad = {{ $unidad->id }};
         function todos(){
             var a = @json($todos);
+            console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "todos-tab");
 
-            mostrarTabla('todos', b);
+            mostrarTabla('todos', b, true);
         }
-        function docente(){
-            var a = @json($docente);
+        function docentes(){
+            var a = @json($docentes);
+            console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "docentes-tab");
 
-            mostrarTabla('docentes', b);
+            mostrarTabla('docentes', b, false);
         }
         function auxDoc(){
             var a = @json($auxDoc);
+            console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "aux-docencia-tab");
 
-            mostrarTabla('aux-docencia', b);
+            mostrarTabla('aux-docencia', b, false);
         }
         function auxLabo(){
             var a = @json($auxLabo);
+            console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "aux-labo-tab");
 
-            mostrarTabla('aux-labo', b);
+            mostrarTabla('aux-labo', b, false);
         }
     </script>
 @endsection

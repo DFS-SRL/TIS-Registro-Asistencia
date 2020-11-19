@@ -42,3 +42,20 @@ textarea {
     background-color: #7C7365;
     color: white;
 }
+.cafe{
+    background-color: #7C7365
+}
+
+.page-item.active .page-link{
+    background-color: #7C7365;
+    border-color: white;
+}
+
+.page-link, .page-item.disabled .page-link{
+    background-color: #D2B272;
+    border-color: white;
+    color: white;
+}
+.oculto{
+    display: none;
+}

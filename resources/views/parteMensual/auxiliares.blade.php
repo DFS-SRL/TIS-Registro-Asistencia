@@ -32,8 +32,15 @@
                 @foreach ($parteCombinado as $reporte)
                     <tr>
                         @foreach ($reporte as $key => $value)
-                            <td class="border border-dark">{{ $value }}</td>
-
+                            <td class="border border-dark">
+                                @if ($key == 'nombre')
+                                    <a href="#">
+                                        {{ $value }}
+                                    </a>
+                                @else
+                                    {{ $value }}
+                                @endif
+                            </td> 
                         @endforeach
                     </tr>
                 @endforeach
@@ -59,8 +66,15 @@
                     @foreach ($parteLabo as $reporte)
                         <tr>
                             @foreach ($reporte as $key => $value)
-                                <td class="border border-dark">{{ $value }}</td>
-
+                                <td class="border border-dark">
+                                    @if ($key == 'nombre')
+                                        <a href="#">
+                                            {{ $value }}
+                                        </a>
+                                    @else
+                                        {{ $value }}
+                                    @endif
+                                </td> 
                             @endforeach
                         </tr>
                     @endforeach
@@ -88,8 +102,15 @@
                     @foreach ($parteDoc as $reporte)
                         <tr>
                             @foreach ($reporte as $key => $value)
-                                <td class="border border-dark">{{ $value }}</td>
-
+                                <td class="border border-dark">
+                                    @if ($key == 'nombre')
+                                        <a href="#">
+                                            {{ $value }}
+                                        </a>
+                                    @else
+                                        {{ $value }}
+                                    @endif
+                                </td> 
                             @endforeach
                         </tr>
                     @endforeach

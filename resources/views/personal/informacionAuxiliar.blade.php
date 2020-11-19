@@ -1,17 +1,42 @@
-<h2>esta es la informacion del auxiliar :v</h2>
-<h4>grupos activos</h4>
+<h1>{{ $unidad->facultad }}</h1>
+<h1>{{ $unidad->nombre }}</h1>
+<h2>{{ $usuario->nombre }}</h2>
+<h2>codSis: {{ $usuario->codSis }}</h2>
+<h4>grupos actuales</h4>
 <ul>
-    @foreach ($gruposActivos as $grupoActivo)
+    @if (!$gruposActuales->isempty())
+        <h5>carga horaria nominal semanal de grupos de docencia: {{ $cargaHorariaNominalGrupos }}</h5>
+        @foreach ($gruposActuales as $grupoActual)
+            <li>
+                {{ $grupoActual }}
+            </li>
+        @endforeach
+    @endif
+</ul>
+<h4>grupos pasados</h4>
+<ul>
+    @foreach ($gruposPasados as $grupoPasado)
         <li>
-            {{$grupoActivo->nombre}}
+            {{ $grupoPasado }}
         </li>
     @endforeach
 </ul>
-<h4>items activos</h4>
+<h4>items actuales</h4>
 <ul>
-    @foreach ($itemsActuales as $itemActual)
+    @if (!$itemsActuales->isempty())
+        <h5>carga horaria nominal semanal de items de laboratorio: {{ $cargaHorariaNominalItems }}</h5>
+        @foreach ($itemsActuales as $itemActual)
+            <li>
+                {{ $itemActual }}
+            </li>
+        @endforeach
+    @endif
+</ul>
+<h4>items pasados</h4>
+<ul>
+    @foreach ($itemsPasados as $itemPasado)
         <li>
-            {{$itemActual->nombre}}
+            {{ $itemPasado }}
         </li>
     @endforeach
 </ul>

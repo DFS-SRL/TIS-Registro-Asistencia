@@ -97,8 +97,11 @@
                 <div class="col-12">
                     @if ($horarios != null && $horarios->where('rol_id', '=', 3)->count() > 0)
                         @if ($docente != null)
-                            <h4>
-                                Docente: {{ $docente->nombre }}
+                            <h4>Docente: 
+                                <a class="textoNegro"
+                                    href="{{ route('informacion.docente', ['unidad' => $grupo->unidad_id, 'usuario' => $docente->codSis]) }}">
+                                    {{ $docente->nombre }}
+                                </a>
                                 <input width="30rem" height="30rem" type="image" 
                                     name="botonDesasignar" id="desasignarDocente"
                                     src="/icons/eliminar.png" alt="Desasignar"
@@ -142,7 +145,11 @@
                     @endif
                     @if ($horarios != null && $horarios->where('rol_id', '<=', 2)->count() > 0)
                         @if ($auxiliar != null)
-                            <h4>Auxiliar: {{ $auxiliar->nombre }}
+                            <h4>Auxiliar: 
+                                <a class="textoNegro"
+                                    href="{{ route('informacion.auxiliar', ['unidad' => $grupo->unidad_id, 'usuario' => $auxiliar->codSis]) }}">
+                                    {{ $auxiliar->nombre }}
+                                </a>
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
                                     src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
