@@ -16,3 +16,8 @@ function cambiarItems(actuales){
         $('#itemsActuales').hide();
     }
 }
+
+$(window).on('load', function(){
+    $('#inlineRadio1').prop("checked", true);
+    $('#inlineRadio3').prop("checked", true);
+});

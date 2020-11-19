@@ -23,3 +23,7 @@
 .table {
     margin: auto;
 }
+
+td a{
+    text-decoration: underline;
+}
