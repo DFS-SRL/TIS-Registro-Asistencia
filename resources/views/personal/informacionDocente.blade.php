@@ -17,13 +17,13 @@
       <div class="card mostaza">
         <div class="card-header " id="headingOne">
           <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left text-white" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <button class="btn btn-link btn-block text-left text-white" type="button" data-toggle="collapse" data-target="" aria-expanded="true" aria-controls="collapseOne" onclick="expandir('collapseOne','collapseTwo')">
               <b>GRUPOS</b>
             </button>
           </h2>
         </div>
     
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">     
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" >     
           <div class="row justify-content-center my-2">
             <form>
               <div class="col-12 opciones esquina-redondeada">
@@ -81,7 +81,7 @@
       <div class="card mostaza">
         <div class="card-header" id="headingTwo">
           <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left collapsed text-white" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <button class="btn btn-link btn-block text-left collapsed text-white" type="button" data-toggle="collapse" data-target="" aria-expanded="false" aria-controls="collapseTwo" onclick="expandir('collapseTwo','collapseOne')">
               <b>ASISTENCIAS</b>
             </button>
           </h2>
