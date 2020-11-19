@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Cargo Laboratorio')
+@section('title', 'Personal Academico')
 
 @section('css')
     <link rel="stylesheet" href="/css/informacion/personalAcademico.css">
@@ -82,6 +82,7 @@
     <script src="/js/main.js"></script>
     <script src="/js/informacion/personalAcademico.js"></script>
     <script>
+        var unidad = {{ $unidad->id }};
         function todos(){
             var a = @json($todos);
             console.log(a);

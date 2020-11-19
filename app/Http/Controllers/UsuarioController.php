@@ -38,7 +38,7 @@ class UsuarioController extends Controller
                 ->orderByRaw($raw);
         } else
             $todos = $todos->orderBy('nombre', 'asc');
-        $todos = $todos->paginate(3, ['*'], 'todos-pag');
+        $todos = $todos->paginate(10, ['*'], 'todos-pag');
         foreach ($todos as $key => $usuario) {
             $usuario->roles = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
                 ->where('rol_id', '>=', 1)
@@ -117,7 +117,7 @@ class UsuarioController extends Controller
         } else
             $usuarios = $usuarios->orderBy('nombre', 'asc');
         return
-            $usuarios->paginate(3, ['*'], 'usuario-' . $rol . '-pag');;
+            $usuarios->paginate(10, ['*'], 'usuario-' . $rol . '-pag');;
     }
     //devuelve los grupos en los que haya sido asignado el codsis, dependiendo si esta activo o si es materia
     private function buscarGruposAsignadosActuales($unidadId, $codSis, $esMateria)
@@ -129,7 +129,7 @@ class UsuarioController extends Controller
             ->where('asignado_codSis', '=', $codSis)
             ->where('Materia.es_materia', $esMateria)
             ->distinct()
-            ->select('Horario_clase.grupo_id','Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
+            ->select('Horario_clase.grupo_id', 'Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
     }
     private function buscarGruposAsignadosPasados($unidadId, $codSis, $esMateria, $actuales)
     {
@@ -141,7 +141,7 @@ class UsuarioController extends Controller
             ->where('usuario_codSis', '=', $codSis)
             ->where('Materia.es_materia', $esMateria)
             ->distinct()
-            ->select('Asistencia.grupo_id', 'Materia.nombre AS nombre_materia', 'Materia.id AS materia_id','Grupo.nombre AS nombre_grupo')->get();
+            ->select('Asistencia.grupo_id', 'Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
     }
     //devuelve la vista de la informacion del auxiliar
     public function informacionAuxiliar(Unidad $unidad, Usuario $usuario)
@@ -200,7 +200,7 @@ class UsuarioController extends Controller
             return $a1->lt($b1) ? 1 : -1;
         });
         // esta en 1 para probar, luego cambiar a 10
-        return paginate($asistencias, 1);
+        return paginate($asistencias, 10);
     }
 
     // validar que el usuario pertenezca a la unidad y tenga los roles debidos

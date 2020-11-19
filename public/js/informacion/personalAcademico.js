@@ -25,12 +25,19 @@ function mostrarTabla(id, arreglo, todos) {
         content = content + `<th class="textoBlanco border border-dark">CODIGO SIS</th>
             </tr>
         `;
-
+    link = '#'
     arreglo.forEach(
         function callback(elem, index, array) {
+        if (todos && elem.roles[0].nombre == 'docente' || !todos && id == 'docentes')
+            personal = 'docente';
+        else
+            personal = 'auxiliar';
+        link = "http://localhost:8000/personalAcademico/" + unidad + "/" + personal + "/" + elem.codSis;
             content += `
                     <tr>
-                        <td>` + elem.nombre + "</td>";
+                        <td> 
+                            <a class="textoNegro" href="` + link + `">`+ elem.nombre + `</a>
+                        </td>`;
             if(todos){
                 let rs = "";
                 elem.roles.forEach(
