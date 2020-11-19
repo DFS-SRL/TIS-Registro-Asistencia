@@ -96,6 +96,6 @@
     </div>
   </div>
   @section('script-footer')
-  <script type="text/javascript" src='/js/informacion/informacionDocente.js'></script>
+  <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
   @endsection
 @endsection
