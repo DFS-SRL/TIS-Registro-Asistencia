@@ -46,10 +46,11 @@
                     @if ($horarios != null && $horarios->where('rol_id', '<=', 2)->count() > 0)
                         @if ($auxiliar != null)
                             <h4 class="textoBlanco">Auxiliar: 
-                            <a class="textoBlanco"
-                                href="{{ route('informacion.auxiliar', ['unidad' => $item->unidad_id, 'usuario' => $auxiliar->codSis]) }}">
-                                {{ $auxiliar->nombre }}</h4>
-                            </a>
+                                <a class="textoBlanco"
+                                    href="{{ route('informacion.auxiliar', ['unidad' => $item->unidad_id, 'usuario' => $auxiliar->codSis]) }}">
+                                    {{ $auxiliar->nombre }}
+                                </a>
+                            </h4>
                             <h4 class="textoBlanco">Carga horaria auxilliar: {{ $cargaHorariaAuxiliar }}</h4>
                         @else
                             <h4 class="textoBlanco">Auxiliar no asignado</h4>

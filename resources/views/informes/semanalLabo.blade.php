@@ -28,6 +28,7 @@
             <table class="table">
                 <tr>
                     <th class = "textoBlanco border border-dark" scope="col">CARGO</th>
+                    <th class = "textoBlanco border border-dark" scope="col">ITEM</th>
                     <th class = "textoBlanco border border-dark" scope="col">NOMBRE</th>
                     <th class = "textoBlanco border border-dark" scope="col">CODIGO SIS</th>
                     <th class = "textoBlanco border border-dark" scope="col">FECHA</th>
@@ -39,8 +40,21 @@
                 </tr>
                 @foreach ($asistencias as $asistencia)
                     <tr>
-                        <td class = "border border-dark">{{ $asistencia->materia->nombre }} </td>
-                        <td class = "border border-dark">{{ $asistencia->usuario->nombre }}</td>
+                        <td class = "border border-dark">
+                            <a href="{{ route('cargo.informacion', $asistencia->materia_id ) }}">
+                                {{ $asistencia->materia->nombre }} 
+                            </a>
+                        </td>
+                        <td class = "border border-dark">
+                            <a href="{{ route('item.informacion', $asistencia->grupo_id) }}">
+                                {{ $asistencia->grupo->nombre }} 
+                            </a>
+                        </td>
+                        <td class = "border border-dark">
+                            <a href="{{ route('informacion.auxiliar', ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
+                                {{ $asistencia->usuario->nombre }}
+                            </a>
+                        </td>
                         <td class = "border border-dark">{{ $asistencia->usuario->codSis }}</td>
                         <td class = "border border-dark">{{ formatoFecha($asistencia->fecha) }} </td>
                         <td class = "border border-dark">{{ $asistencia->horarioClase->hora_inicio }} - {{ $asistencia->horarioClase->hora_fin }}</td>
