@@ -178,7 +178,6 @@ class PersonalAcademicoController extends Controller
         $gruposActuales = $this->buscarGruposAsignadosActuales($unidad->id, $codSis, 'true');
         $gruposPasados = $this->buscarGruposAsignadosPasados($unidad->id, $codSis, 'true', array_column($gruposActuales->toArray(), 'grupo_id'));
         $asistencias = $this->asistenciasUsuarioUnidad($unidad, $usuario);
-        return $asistencias;
         return view('personal.informacionDocente', [
             'unidad' => $unidad,
             'usuario' => $usuario,
