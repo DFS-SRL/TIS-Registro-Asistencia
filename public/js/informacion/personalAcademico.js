@@ -57,3 +57,35 @@ function mostrarTabla(id, arreglo, todos) {
 
     div.innerHTML = content;
 }
+// valida que el contenido de un campo de texto solo tenga letras y espacios
+function validarSoloLetras(idCampoTexto, mensaje){
+    let texto = document.getElementById(idCampoTexto).value
+    res = true;
+    for(pos = 0; pos < texto.length && res; pos++){
+        res = (texto.charCodeAt(pos) >= 65 && texto.charCodeAt(pos) <= 90) //mayusculas
+               || (texto.charCodeAt(pos) >= 97 && texto.charCodeAt(pos) <= 122) //minusculas
+               || texto.charCodeAt(pos) == 32 //espacio
+               || texto.charCodeAt(pos) == 241 //ñ 
+               || texto.charCodeAt(pos) == 209 //Ñ
+               || texto.charCodeAt(pos) == 225 //á
+               || texto.charCodeAt(pos) == 233 //é
+               || texto.charCodeAt(pos) == 237 //í
+               || texto.charCodeAt(pos) == 243 //ó
+               || texto.charCodeAt(pos) == 250 //ú
+               || texto.charCodeAt(pos) == 205 //Í
+               || texto.charCodeAt(pos) == 211 //Ó
+               || texto.charCodeAt(pos) == 218 //Ú
+               || texto.charCodeAt(pos) == 193 //Á
+               || texto.charCodeAt(pos) == 201; //É
+        console.log(texto.charCodeAt(pos));
+    }
+    if(!res){
+        document.getElementById(mensaje).innerHTML = "solo se puede insertar letras y espacios"
+    }
+    return res;
+}
+// valida que un campo de texto no este vacio
+function validarNoVacio(idCampoTexto){
+    let texto = document.getElementById(idCampoTexto).value.trim();
+    return texto.length != 0;
+}

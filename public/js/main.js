@@ -171,20 +171,3 @@ function confirmSubmit(fuerza) {
     } else return false;
 }
 
-// valida que el contenido de un campo de texto solo tenga letras y espacios
-function validarSoloLetras(idCampoTexto, mensaje){
-    let texto = document.getElementById(idCampoTexto).value
-    res = true;
-    for(pos = 0; pos < texto.length && res; pos++){
-        res = (texto.charCodeAt(pos) >= 65 && texto.charCodeAt(pos) <= 90) || (texto.charCodeAt(pos) >= 97 && texto.charCodeAt(pos) <= 122) || (texto.charCodeAt(pos) == 32);
-    }
-    if(!res){
-        document.getElementById(mensaje).innerHTML = "solo se puede insertar letras y espacios"
-    }
-    return res;
-}
-// valida que un campo de texto no este vacio
-function validarNoVacio(idCampoTexto){
-    let texto = document.getElementById(idCampoTexto).value.trim();
-    return texto.length != 0;
-}
