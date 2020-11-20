@@ -9,7 +9,7 @@ use App\HorarioClase;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsuarioGrupoRequest;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PersonalAcademicoController;
 use Illuminate\Validation\ValidationException;
 
 class GrupoController extends Controller
@@ -125,8 +125,7 @@ class GrupoController extends Controller
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             return view('informacion.editar.editarGrupo', $informacion);
-        }
-        else {
+        } else {
             abort(404);
         }
     }
@@ -136,8 +135,7 @@ class GrupoController extends Controller
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             abort(404);
-        }
-        else {
+        } else {
             return view('informacion.editar.editarItem', $informacion);
         }
     }
@@ -148,7 +146,7 @@ class GrupoController extends Controller
         $informacion = $this->informacionGrupo($grupo);
         $informacion['asignarDocente'] = true;
         $usuario = null;
-        if (UsuarioController::esDocente($request['codSis'], $grupo->unidad_id))
+        if (PersonalAcademicoController::esDocente($request['codSis'], $grupo->unidad_id))
             $usuario = Usuario::find($request['codSis']);
         $informacion['usuario'] = $usuario;
 
@@ -162,7 +160,7 @@ class GrupoController extends Controller
         $informacion = $this->informacionGrupo($grupo);
         $informacion['asignarAuxiliar'] = true;
         $usuario = null;
-        if (UsuarioController::esAuxDoc($request['codSis'], $grupo->unidad_id))
+        if (PersonalAcademicoController::esAuxDoc($request['codSis'], $grupo->unidad_id))
             $usuario = Usuario::find($request['codSis']);
         $informacion['usuario'] = $usuario;
         return view('informacion.editar.editarGrupo', $informacion);
@@ -172,7 +170,7 @@ class GrupoController extends Controller
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
         $datos = $request->validated();
-        if (!UsuarioController::esDocente($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+        if (!PersonalAcademicoController::esDocente($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
             ]);
@@ -185,7 +183,7 @@ class GrupoController extends Controller
     public function asignarAuxDoc(UsuarioGrupoRequest $request)
     {
         $datos = $request->validated();
-        if (!UsuarioController::esAuxDoc($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+        if (!PersonalAcademicoController::esAuxDoc($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
             ]);
@@ -197,13 +195,13 @@ class GrupoController extends Controller
     {
 
         $datos = $request->validated();
-        if (!UsuarioController::esAuxLab($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
+        if (!PersonalAcademicoController::esAuxLab($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un auxiliar de laboratorio de la unidad']
             ]);
             throw $error;
         }
-        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'],1);
+        return $this->asignarUsuarioRol($datos['codSis'], $datos['grupo_id'], 1);
     }
     // funcion auxiliar para asignar personal con codSis y rol a los horarios de un grupo
     private function asignarUsuarioRol($codSis, $grupo_id, $rol_id)

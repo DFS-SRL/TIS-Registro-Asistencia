@@ -14,7 +14,11 @@ class Usuario extends Model
     protected $table = 'public.Usuario';
 
     protected $primaryKey = 'codSis';
-    
+
+    protected $hidden = [
+        'contrasenia'
+    ];
+
     public function getRouteKeyName()
     {
         return 'codSis';

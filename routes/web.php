@@ -77,14 +77,14 @@ Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('ca
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
 // Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->name('informacion.personalAcademico');
-Route::get('/personalAcademico/{unidad}', 'UsuarioController@obtenerPersonal')->name('informacion.personalAcademico');
-Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@informacionDocente')->name('informacion.docente'); //
-Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'UsuarioController@informacionAuxiliar')->name('informacion.auxiliar');
-// Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'UsuarioController@gruposAsignadosUsuario');
+Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('informacion.personalAcademico');
+Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@informacionDocente')->name('informacion.docente'); //
+Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'PersonalAcademicoController@informacionAuxiliar')->name('informacion.auxiliar');
+// Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@gruposAsignadosUsuario');
 
-Route::post('/personalAcademico/{unidad}/buscar', 'UsuarioController@buscarPersonal')->name('personalAcademico.buscar');
-Route::get('/personalAcademicos/{unidad}', 'UsuarioController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
+Route::post('/personalAcademico/{unidad}/buscar', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscar');
+Route::get('/personalAcademicos/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
 
 
 
-Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'UsuarioController@buscarPersonal')->name('personalAcademico.buscando');
+Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscando');
