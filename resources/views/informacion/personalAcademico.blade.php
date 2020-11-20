@@ -85,7 +85,7 @@
         var unidad = {{ $unidad->id }};
         function todos(){
             var a = @json($todos);
-            console.log(a);
+            // console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "todos-tab");
@@ -94,7 +94,7 @@
         }
         function docentes(){
             var a = @json($docentes);
-            console.log(a);
+            // console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "docentes-tab");
@@ -103,7 +103,7 @@
         }
         function auxDoc(){
             var a = @json($auxDoc);
-            console.log(a);
+            // console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "aux-docencia-tab");
@@ -112,7 +112,7 @@
         }
         function auxLabo(){
             var a = @json($auxLabo);
-            console.log(a);
+            // console.log(a);
             var b = a.data;
 
             localStorage.setItem("section", "aux-labo-tab");

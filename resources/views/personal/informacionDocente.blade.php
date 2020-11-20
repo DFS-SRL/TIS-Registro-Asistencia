@@ -88,14 +88,73 @@
         </div>
       
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-          <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          <div class="card-body" id="asistencias-content">
+            
           </div>
+          {{ $asistencias->links() }}
         </div>
       </div>
     </div>
   </div>
   @section('script-footer')
   <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
+  <script>
+    var a = @json($asistencias);
+    console.log(a);
+    var asis = a.data;
+    console.log(asis);
+
+    // var asis = [];
+    // for(var i in a.data)
+    //   asis.push(a.data[i]);
+    // console.log(asis);
+
+    var table =
+    `
+    <table class="table table-bordered">
+      <tr>
+        <th class="textoBlanco border border-dark">MATERIA</th>
+        <th class="textoBlanco border border-dark">GRUPO</th>
+        <th class="textoBlanco border border-dark">FECHA</th>
+        <th class="textoBlanco border border-dark">HORARIO</th>
+        <th class="textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
+        <th class="textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
+        <th class="textoBlanco border border-dark">OBSERVACIONES</th>
+        <th class="textoBlanco border border-dark">ASISTENCIA</th>
+        <th class="textoBlanco border border-dark">PERSMISO</th>
+      </tr>
+    `;
+    
+    asis.forEach(
+      function callback(elem, index, array) {
+        table += "<tr>" + 
+            `<td>Materia</td>`+
+            "<td>" + elem.grupo_id + "</td>" +
+            "<td>" + elem.fecha + "</td>" +
+            "<td>" + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</td>" +
+            "<td>" + cambiarTexto(elem.actividad_realizada) + "</td>" +
+            "<td>" + cambiarTexto(elem.indicador_verificable) + "</td>" +
+            "<td>" + cambiarTexto(elem.observaciones) + "</td>" +
+            "<td>" + cambiarTexto(elem.asistencia) + "</td>" +
+            "<td>" + cambiarTexto(elem.permiso) + "</td>" +
+          "</tr>"
+        ;
+      }
+    );
+
+    table += "</table>";
+
+    var div = $('#asistencias-content').html(table);
+
+    function cambiarTexto(txt){
+      if(txt === null)
+        return "-";
+      if(txt === true)
+        return "SI";
+      if(txt === false)
+        return "NO";
+      return txt;
+    }
+  </script>
   @endsection
 @endsection
