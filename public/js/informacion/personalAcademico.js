@@ -36,7 +36,7 @@ function mostrarTabla(id, arreglo, todos) {
             content += `
                     <tr>
                         <td> 
-                            <a class="textoNegro" href="` + link + `">`+ elem.nombre + `</a>
+                            <a href="` + link + `">`+ elem.nombre + `</a>
                         </td>`;
             if(todos){
                 let rs = "";

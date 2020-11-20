@@ -17,7 +17,7 @@
       <div class="card mostaza">
         <div class="card-header " id="headingOne">
           <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left text-white" type="button" data-toggle="collapse" data-target="" aria-expanded="true" aria-controls="collapseOne" onclick="expandir('collapseOne','collapseTwo')">
+            <button class="btn btn-link btn-block text-left text-white" type="button" data-toggle="collapse" data-target="" aria-expanded="true" aria-controls="collapseOne" onclick="accionColapsar('collapseOne','collapseTwo')">
               <b>GRUPOS</b>
             </button>
           </h2>
@@ -81,7 +81,7 @@
       <div class="card mostaza">
         <div class="card-header" id="headingTwo">
           <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left collapsed text-white" type="button" data-toggle="collapse" data-target="" aria-expanded="false" aria-controls="collapseTwo" onclick="expandir('collapseTwo','collapseOne')">
+            <button class="btn btn-link btn-block text-left collapsed text-white" type="button" data-toggle="collapse" data-target="" aria-expanded="false" aria-controls="collapseTwo" onclick="accionColapsar('collapseTwo','collapseOne')">
               <b>ASISTENCIAS</b>
             </button>
           </h2>
@@ -96,6 +96,6 @@
     </div>
   </div>
   @section('script-footer')
-  <script type="text/javascript" src='/js/informacion/informacionDocente.js'></script>
+  <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
   @endsection
 @endsection
