@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'informacion docente')
+@section('title', 'Informacion Docente')
 @include('layouts.flash-message')
 @section('css')
     <link rel="stylesheet" href="/css/informacion/informacionDocente.css">
@@ -53,7 +53,7 @@
               </table>
             @else
               <div class="container">
-                <h4 class="textoBlanco"><b>El docente {{$usuario->nombre}} no esta asignado a ningun grupo actualmente</b></h4>
+                <h4 class="textoBlanco"><b>El docente {{$usuario->nombre}} no se encuentra asignado a ningun grupo actualmente</b></h4>
               </div>
             @endif 
           </div>
@@ -103,58 +103,8 @@
     console.log(a);
     var asis = a.data;
     console.log(asis);
-
-    // var asis = [];
-    // for(var i in a.data)
-    //   asis.push(a.data[i]);
-    // console.log(asis);
-
-    var table =
-    `
-    <table class="table table-bordered">
-      <tr>
-        <th class="textoBlanco border border-dark">MATERIA</th>
-        <th class="textoBlanco border border-dark">GRUPO</th>
-        <th class="textoBlanco border border-dark">FECHA</th>
-        <th class="textoBlanco border border-dark">HORARIO</th>
-        <th class="textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
-        <th class="textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
-        <th class="textoBlanco border border-dark">OBSERVACIONES</th>
-        <th class="textoBlanco border border-dark">ASISTENCIA</th>
-        <th class="textoBlanco border border-dark">PERSMISO</th>
-      </tr>
-    `;
     
-    asis.forEach(
-      function callback(elem, index, array) {
-        table += "<tr>" + 
-            `<td>Materia</td>`+
-            "<td>" + elem.grupo_id + "</td>" +
-            "<td>" + elem.fecha + "</td>" +
-            "<td>" + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</td>" +
-            "<td>" + cambiarTexto(elem.actividad_realizada) + "</td>" +
-            "<td>" + cambiarTexto(elem.indicador_verificable) + "</td>" +
-            "<td>" + cambiarTexto(elem.observaciones) + "</td>" +
-            "<td>" + cambiarTexto(elem.asistencia) + "</td>" +
-            "<td>" + cambiarTexto(elem.permiso) + "</td>" +
-          "</tr>"
-        ;
-      }
-    );
-
-    table += "</table>";
-
-    var div = $('#asistencias-content').html(table);
-
-    function cambiarTexto(txt){
-      if(txt === null)
-        return "-";
-      if(txt === true)
-        return "SI";
-      if(txt === false)
-        return "NO";
-      return txt;
-    }
+    llenarTabla(asis);
   </script>
   @endsection
 @endsection
