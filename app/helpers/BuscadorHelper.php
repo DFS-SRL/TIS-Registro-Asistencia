@@ -7,13 +7,13 @@ class BuscadorHelper
 {
     public static function normalizar($s)
     {
+        $s = self::aplanar($s);
         while (strlen($s) > 0 && $s[0] == ' ') {
             $s = substr($s, 1);
         }
         while (strlen($s) > 0 && $s[strlen($s) - 1] == ' ') {
             $s = substr($s, 0, strlen($s) - 1);
         }
-        $s = strtolower($s);
         $res = '';
         $espacio = false;
         for ($i = 0; $i < strlen($s); $i++) {
@@ -47,6 +47,7 @@ class BuscadorHelper
 
     public static function coincidencias($buscado, $buscando)
     {
+        $buscado = self::aplanar($buscado);
         $res = 0;
         foreach ($buscando as $valor) {
             $res = max($res, self::coincidir($buscado, $valor));
@@ -69,5 +70,17 @@ class BuscadorHelper
             $res = max($res, $con);
         }
         return $res * 1.0 / strlen($buscando);
+    }
+
+    // vuelve minuscula y quita especiales
+    private static function aplanar(&$s)
+    {
+        return strtolower(
+            str_replace(
+                array('Á', 'É', 'Í', 'Ó', 'Ú', 'á', 'é', 'í', 'ó', 'ú', 'Ñ', 'ñ'),
+                array('A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u', 'N', 'n'),
+                $s
+            )
+        );
     }
 }

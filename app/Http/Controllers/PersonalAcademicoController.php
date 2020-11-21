@@ -77,7 +77,7 @@ class PersonalAcademicoController extends Controller
             ->get();
         $personal = [];
         foreach ($aux as $usuario) {
-            $coincidencias = BuscadorHelper::coincidencias(strtolower($usuario->nombre), $buscando);
+            $coincidencias = BuscadorHelper::coincidencias($usuario->nombre, $buscando);
             if ($coincidencias > 0.5) {
                 $personal[$usuario->codSis] = $coincidencias;
             }
@@ -94,7 +94,7 @@ class PersonalAcademicoController extends Controller
     private function validarBuscado()
     {
         return request()->validate([
-            'buscado' => ['required', 'regex:/^[a-zA-Z\s]*$/', 'max:50']
+            'buscado' => ['required', 'regex:/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/', 'max:50']
         ]);
     }
 

@@ -37,10 +37,6 @@ Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalController@obtene
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalDocente');
 Route::post('/planillas/semanal/', 'PlanillaSemanalController@registrarAsistenciasSemana')->name('planillas.semanal');
 
-// Route::get('/buscarPersonalAcademico/{unidad}', 'usuarioController@mostrarBuscarPersonal');
-// Route::post('/personalAcademico/{unidad}/buscar', 'usuarioController@buscarPersonal')->name('personalAcademico.buscar');
-Route::get('/personalAcademicos/{unidad}', 'usuarioController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
-
 Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
 Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
 Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxiliaresLabo');
@@ -76,15 +72,9 @@ Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('ca
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
-// Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@index')->name('informacion.personalAcademico');
 Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('informacion.personalAcademico');
-Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@informacionDocente')->name('informacion.docente'); //
+Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@informacionDocente')->name('informacion.docente');
 Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'PersonalAcademicoController@informacionAuxiliar')->name('informacion.auxiliar');
-// Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@gruposAsignadosUsuario');
 
 Route::post('/personalAcademico/{unidad}/buscar', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscar');
-Route::get('/personalAcademicos/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('personalAcademico.obtenerPersonal');
-
-
-
 Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscando');
