@@ -192,15 +192,15 @@ class PersonalAcademicoController extends Controller
     private function asistenciasUsuarioUnidad(Unidad $unidad, Usuario $usuario)
     {
         $asistencias = Asistencia::where('usuario_codSis', '=', $usuario->codSis)
-            ->where('unidad_id', '=', $unidad->id)
+            ->where('Asistencia.unidad_id', '=', $unidad->id)
+            ->join('Horario_clase', 'Horario_clase.id', '=', 'Asistencia.horario_clase_id')
+            ->orderBy('fecha', 'desc')
+            ->orderBy('Horario_clase.hora_inicio', 'desc')
+            ->select('Asistencia.*')
             ->get();
-        $asistencias = $asistencias->sort(function (Asistencia $a, Asistencia $b) {
-            $a1 = Carbon::createFromFormat('Y-m-d H:i:s',  $a->fecha . ' ' . $a->horarioClase->hora_inicio);
-            $b1 = Carbon::createFromFormat('Y-m-d H:i:s',  $b->fecha . ' ' . $b->horarioClase->hora_inicio);
-            return $a1->lt($b1) ? 1 : -1;
-        });
         // para que tambien se envie las informaciones de materia, grupo, usuario
         foreach ($asistencias as $asistencia) {
+            $asistencia->horarioClase;
             $asistencia->materia;
             $asistencia->grupo;
             $asistencia->usuario;
