@@ -91,7 +91,9 @@
           <div class="card-body" id="asistencias-content">
             
           </div>
-          {{ $asistencias->links() }}
+          <div class="container">
+            {{ $asistencias->links() }}
+          </div>
         </div>
       </div>
     </div>
