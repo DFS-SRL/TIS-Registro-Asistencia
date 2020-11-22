@@ -4,7 +4,7 @@ function valLim(limite, textarea, msg) {
     numCaracteres = textAreaAct.value.length;
     if (numCaracteres >= limite) {
         document.getElementById(msg).innerHTML =
-            "L&iacutemite de caracteres alcanzado";
+            "No se puede escribir mas de "+limite+" caracteres";
     } else {
         document.getElementById(msg).innerHTML = "";
     }

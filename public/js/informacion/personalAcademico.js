@@ -80,7 +80,7 @@ function validarSoloLetras(idCampoTexto, mensaje){
         console.log(texto.charCodeAt(pos));
     }
     if(!res){
-        document.getElementById(mensaje).innerHTML = "solo se puede insertar letras y espacios"
+        document.getElementById(mensaje).innerHTML = "Solo se puede insertar letras y espacios"
     }
     return res;
 }
