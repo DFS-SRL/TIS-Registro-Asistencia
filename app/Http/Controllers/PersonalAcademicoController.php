@@ -94,7 +94,7 @@ class PersonalAcademicoController extends Controller
     private function validarBuscado()
     {
         return request()->validate([
-            'buscado' => ['required', 'regex:/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/', 'max:50']
+            'buscado' => ['required', 'regex:/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]*$/', 'max:50']
         ]);
     }
 

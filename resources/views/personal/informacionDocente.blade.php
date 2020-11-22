@@ -105,6 +105,8 @@
     console.log(a);
     var asis = a.data;
     console.log(asis);
+
+    console.log(asis.length);
     
     llenarTabla(asis);
   </script>
