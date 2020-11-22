@@ -25,6 +25,7 @@
         </div>
     
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">     
+          
           <div class="row justify-content-center my-2">
             <form>
               <div class="col-12 opciones esquina-redondeada">
@@ -39,6 +40,7 @@
               </div>
             </form>
           </div> 
+          <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
           <div id="gruposActuales">
             @if (count($gruposActuales) != 0)
               <table class="table">
@@ -103,6 +105,7 @@
               </div>
             </form>
           </div> 
+          <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalItems}} </h4>
           <div id="itemsActuales">
             @if (count($itemsActuales) != 0)
               <table class="table">

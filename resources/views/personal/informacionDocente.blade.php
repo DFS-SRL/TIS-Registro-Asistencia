@@ -38,6 +38,7 @@
               </div>
             </form>
           </div> 
+          <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
           <div id="gruposActuales">
             @if (count($gruposActuales) != 0)
               <table class="table">
