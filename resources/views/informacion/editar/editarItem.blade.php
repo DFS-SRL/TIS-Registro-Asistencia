@@ -142,7 +142,7 @@
                     @endif
                 </div>
             </div>
-            <button class="btn boton float-right" id="regresar" onclick="vistaGrupo({{ $item->id }})">REGRESAR</button>
+            <button class="btn boton float-right" id="regresar" onclick="vistaItem({{ $item->id }})">REGRESAR</button>
         </div>
     </div>
     <form id="guardar-horario" class="d-none" method="POST"
