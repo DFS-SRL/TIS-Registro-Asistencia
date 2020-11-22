@@ -13,6 +13,9 @@
       <h1 class="text-center">Información de Auxiliar</h1>
       <h4>Nombre: {{ $usuario->nombre }}</h4>
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
+      <h4>Carga Nominal Grupos: {{ $cargaHorariaNominalGrupos }}</h4>
+      <h4>Carga Nominal Ítems: {{ $cargaHorariaNominalItems }}</h4>
+      <h4>Rol: Docente</h4>
     </div>
     <div class="accordion" id="accordionExample">
       <div class="card mostaza">
