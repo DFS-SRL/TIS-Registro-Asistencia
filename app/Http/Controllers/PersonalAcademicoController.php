@@ -79,10 +79,14 @@ class PersonalAcademicoController extends Controller
         foreach ($aux as $usuario) {
             $coincidencias = BuscadorHelper::coincidencias($usuario->nombre, $buscando);
             if ($coincidencias > 0.5) {
-                $personal[$usuario->codSis] = $coincidencias;
+                $personal[$usuario->codSis] = ['val' => $coincidencias, 'nombre' => $usuario->nombre];
             }
         }
-        arsort($personal);
+        uasort($personal, function ($a, $b) {
+            if ($a['val'] == $b['val'])
+                return $a['nombre'] < $b['nombre'] ? -1 : 1;
+            return $a['val'] > $b['val'] ? -1 : 1;
+        });
         $codigos = [];
         foreach ($personal as $key => $value) {
             array_push($codigos, $key);
