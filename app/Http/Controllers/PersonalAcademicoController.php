@@ -205,7 +205,7 @@ class PersonalAcademicoController extends Controller
             $asistencia->grupo;
             $asistencia->usuario;
         }
-        return paginate($asistencias, 10);
+        return paginate($asistencias, 5);
     }
 
     // validar que el usuario pertenezca a la unidad y tenga los roles debidos

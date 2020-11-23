@@ -13,9 +13,9 @@
       <h1 class="text-center">Información de Auxiliar</h1>
       <h4>Nombre: {{ $usuario->nombre }}</h4>
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
-      <h4>Carga Nominal Grupos: {{ $cargaHorariaNominalGrupos }}</h4>
+      {{-- <h4>Carga Nominal Grupos: {{ $cargaHorariaNominalGrupos }}</h4>
       <h4>Carga Nominal Ítems: {{ $cargaHorariaNominalItems }}</h4>
-      <h4>Rol: Docente</h4>
+      <h4>Rol: Docente</h4> --}}
     </div>
     <div class="accordion" id="accordionExample">
       <div class="card mostaza">
@@ -43,16 +43,16 @@
               </div>
             </form>
           </div> 
-          <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
           <div id="gruposActuales">
             @if (count($gruposActuales) != 0)
+              <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
               <table class="table">
                 <tbody>  
                     @foreach ($gruposActuales as $grupoActual)
                         <tr>
                             <td><a href="/materia/{{$grupoActual->materia_id}}">{{$grupoActual->nombre_materia }} </a></td>
                             <td>grupo: <a href="/grupo/{{$grupoActual->grupo_id}}">{{$grupoActual->nombre_grupo}}</a></td>
-                            <td><a href="">registro historico</a></td>
+                            <td><a href="#">registro historico</a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -108,9 +108,9 @@
               </div>
             </form>
           </div> 
-          <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalItems}} </h4>
           <div id="itemsActuales">
             @if (count($itemsActuales) != 0)
+              <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalItems}} </h4>
               <table class="table">
                 <tbody>  
                     @foreach ($itemsActuales as $itemActual)
@@ -172,49 +172,17 @@
   @section('script-footer')
   <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
   <script>
+    var sis = {{ $usuario->codSis }};
+    var dep = {{ $unidad->id }};
+    remember();
     var a = @json($asistencias);
-    console.log(a);
+    // console.log(a);
     var asis = [];
+    var docente = false;
     for(var i in a.data)
       asis.push(a.data[i]);
-    console.log(asis);
+    // console.log(asis);
     llenarTabla(asis);
   </script>
   @endsection
-  {{-- <h4>items actuales</h4>
-<ul>
-    @if (!$itemsActuales->isempty())
-        <h5>carga horaria nominal semanal de items de laboratorio: {{ $cargaHorariaNominalItems }}</h5>
-        @foreach ($itemsActuales as $itemActual)
-            <li>
-                {{ $itemActual }}
-            </li>
-        @endforeach
-    @endif
-</ul>
-<h4>items pasados</h4>
-<ul>
-    @foreach ($itemsPasados as $itemPasado)
-        <li>
-            {{ $itemPasado }}
-        </li>
-    @endforeach
-</ul>
-
-
-<h4> asistencias </h4>
-<ul>
-    @foreach ($asistencias as $asistencia)
-        <li>
-            {{ 
-                "fecha: " . $asistencia->fecha . ", materia: ". $asistencia->materia->nombre 
-                . ", grupo: " . $asistencia->grupo->nombre
-                . ", actividad: " . $asistencia->actividad_realizada 
-                . ", asistencia: " . $asistencia->asistencia 
-                . ", permiso: " . $asistencia->permiso
-            }}
-        </li>
-    @endforeach
-    {{ $asistencias->links() }}
-</ul> --}}
 @endsection

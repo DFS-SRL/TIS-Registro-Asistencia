@@ -37,29 +37,29 @@
                 </tr>
                 @foreach ($asistencias as $asistencia)
                     <tr>
-                        <td>
-                            <a class="textoNegro" href="{{ route('materia.informacion', $asistencia->materia_id ) }}">
+                        <td class = "border border-dark">
+                            <a href="{{ route('materia.informacion', $asistencia->materia_id ) }}">
                                 {{ $asistencia->materia->nombre }} 
                             </a>
                         </td>
-                        <td>
-                            <a class="textoNegro" href="{{ route('grupo.informacion', $asistencia->grupo_id) }}">
+                        <td class = "border border-dark">
+                            <a href="{{ route('grupo.informacion', $asistencia->grupo_id) }}">
                                 {{ $asistencia->grupo->nombre }} 
                             </a>
                         </td>
-                        <td>
-                            <a class="textoNegro" href="{{ route('informacion.' . ($asistencia->horarioClase->rol_id == 3 ? 'docente' : 'auxiliar'), ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
+                        <td class = "border border-dark">
+                            <a href="{{ route('informacion.' . ($asistencia->horarioClase->rol_id == 3 ? 'docente' : 'auxiliar'), ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
                                 {{ $asistencia->usuario->nombre }}
                             </a>
                         </td>
-                        <td>{{ $asistencia->usuario->codSis }} </td>
-                        <td>{{ formatoFecha($asistencia->fecha) }}</td>
-                        <td>{{ $asistencia->horarioClase->hora_inicio }} - {{ $asistencia->horarioClase->hora_fin }} </td>
-                        <td>{{ $asistencia->actividad_realizada }} </td>
-                        <td>{{ $asistencia->indicador_verificable }} </td>
-                        <td>{{ $asistencia->observaciones }}</td>
-                        <td> {{ $asistencia->asistencia ? 'SI' : 'NO' }}</td>
-                        <td> {{ $asistencia->permiso ? $asistencia->permiso : '' }} </td>
+                        <td class = "border border-dark">{{ $asistencia->usuario->codSis }} </td>
+                        <td class = "border border-dark">{{ formatoFecha($asistencia->fecha) }}</td>
+                        <td class = "border border-dark">{{ $asistencia->horarioClase->hora_inicio }} - {{ $asistencia->horarioClase->hora_fin }} </td>
+                        <td class = "border border-dark">{{ $asistencia->actividad_realizada }} </td>
+                        <td class = "border border-dark">{{ $asistencia->indicador_verificable }} </td>
+                        <td class = "border border-dark">{{ $asistencia->observaciones }}</td>
+                        <td class = "border border-dark"> {{ $asistencia->asistencia ? 'SI' : 'NO' }}</td>
+                        <td class = "border border-dark"> {{ $asistencia->permiso ? $asistencia->permiso : '' }} </td>
                     </tr>
                 @endforeach
             </table>

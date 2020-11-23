@@ -82,6 +82,7 @@
     <script src="/js/main.js"></script>
     <script src="/js/informacion/personalAcademico.js"></script>
     <script>
+        localStorage.setItem("caca", "una mierda");
         var unidad = {{ $unidad->id }};
         function todos(){
             var a = @json($todos);

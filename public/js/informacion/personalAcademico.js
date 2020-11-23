@@ -40,7 +40,7 @@ function mostrarTabla(id, arreglo, todos) {
             link = "http://localhost:8000/personalAcademico/" + unidad + "/" + personal + "/" + elem.codSis;
                 content += `
                         <tr>
-                            <td> 
+                            <td class = "border border-dark"> 
                                 <a href="` + link + `">`+ elem.nombre + `</a>
                             </td>`;
                 if(todos){
@@ -51,9 +51,9 @@ function mostrarTabla(id, arreglo, todos) {
                             rs += rol.nombre.replaceAll('-', ' ');
                         }
                     );
-                    content += "<td>" + rs + "</td>";
+                    content += `<td class = "border border-dark">` + rs + "</td>";
                 }
-                content += "<td>" + elem.codSis + "</td>" +
+                content += `<td class = "border border-dark">` + elem.codSis + "</td>" +
                     "</tr>"
             }
         );

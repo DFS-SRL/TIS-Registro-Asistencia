@@ -12,8 +12,8 @@
       <h1 class="text-center">Información de Docente</h1>
       <h4>Nombre: {{ $usuario->nombre }}</h4>
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
-      <h4>Carga Nominal: {{ $cargaHorariaNominalGrupos }}</h4>
-      <h4>Rol: Docente</h4>
+      {{-- <h4>Carga Nominal: {{ $cargaHorariaNominalGrupos }}</h4>
+      <h4>Rol: Docente</h4> --}}
     </div>
     <div class="accordion" id="accordionExample">
       <div class="card mostaza">
@@ -40,16 +40,16 @@
               </div>
             </form>
           </div> 
-          <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
           <div id="gruposActuales">
             @if (count($gruposActuales) != 0)
+              <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
               <table class="table">
                 <tbody>  
                     @foreach ($gruposActuales as $grupoActual)
                         <tr>
                             <td><a href="/materia/{{$grupoActual->materia_id}}">{{$grupoActual->nombre_materia }} </a></td>
                             <td>grupo: <a href="/grupo/{{$grupoActual->grupo_id}}">{{$grupoActual->nombre_grupo}}</a></td>
-                            <td><a href="">registro historico</a></td>
+                            <td><a href="#">registro historico</a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -104,12 +104,16 @@
   @section('script-footer')
   <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
   <script>
+    var sis = {{ $usuario->codSis }};
+    var dep = {{ $unidad->id }};
+    remember();
     var a = @json($asistencias);
-    console.log(a);
+    // console.log(a);
     var asis = a.data;
-    console.log(asis);
+    var docente = true;
+    // console.log(asis);
 
-    console.log(asis.length);
+    // console.log(asis.length);
     
     llenarTabla(asis);
   </script>

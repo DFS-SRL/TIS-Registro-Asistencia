@@ -22,6 +22,29 @@ $(window).on('load', function () {
     $('#inlineRadio3').prop("checked", true);
 });
 
+// acordarse si algun colapsado esta activado o no
+function remember()
+{
+    if (localStorage.getItem("collapseOne" + sis + dep) !== null) {
+        $("#collapseOne").attr(
+            "class",
+            localStorage.getItem("collapseOne" + sis + dep)
+        );
+    }
+    if (localStorage.getItem("collapseTwo" + sis + dep) !== null) {
+        $("#collapseTwo").attr(
+            "class",
+            localStorage.getItem("collapseTwo" + sis + dep)
+        );
+    }
+    if (localStorage.getItem("collapseThree" + sis + dep) !== null) {
+        $("#collapseThree").attr(
+            "class",
+            localStorage.getItem("collapseThree" + sis + dep)
+        );
+    }
+}
+
 function accionColapsar(idAccionado, idOtro1, idOtro2 = "") {
     if (idOtro2 != "") {
         idOtro2 = "#" + idOtro2;
@@ -30,8 +53,10 @@ function accionColapsar(idAccionado, idOtro1, idOtro2 = "") {
     estado2 = $(idOtro2).attr('class');
     if ($('#' + idAccionado).attr('class') == 'collapse') {
         $('#' + idAccionado).collapse('show');
+        localStorage.setItem(idAccionado + sis + dep, "collapse show");
     } else {
         $('#' + idAccionado).collapse('hide');
+        localStorage.setItem(idAccionado + sis + dep, "collapse");
     }
     $('#' + idOtro1).attr('class', estado1);
     $(idOtro2).attr('class', estado2);
@@ -48,8 +73,8 @@ function llenarTabla(asis) {
             `
         <table class="table table-bordered table-responsive">
             <tr>
-            <th class="textoBlanco border border-dark">MATERIA/CARGO</th>
-            <th class="textoBlanco border border-dark">GRUPO/ÍTEM</th>
+            <th class="textoBlanco border border-dark">MATERIA` + (docente ? "" : "/CARGO") + `</th>
+            <th class="textoBlanco border border-dark">GRUPO` + (docente? "" : "/ÍTEM") + `</th>
             <th class="textoBlanco border border-dark">FECHA</th>
             <th class="textoBlanco border border-dark">HORARIO</th>
             <th class="textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
@@ -62,16 +87,19 @@ function llenarTabla(asis) {
     
         asis.forEach(
             function callback(elem, index, array) {
+                esMat = elem.materia.es_materia;
+                link1 = window.location.host + "/" + (esMat ? "materia" : "cargo") + "/" + elem.materia.id;
+                link2 = window.location.host + "/" + (esMat ? "grupo" : "item") + "/" + elem.grupo.id;
                 table += "<tr>" +
-                    "<td>" + elem.materia.nombre + "</td>" +
-                    "<td>" + elem.grupo.nombre + "</td>" +
-                    "<td>" + elem.fecha + "</td>" +
-                    "<td>" + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</td>" +
-                    "<td>" + cambiarTexto(elem.actividad_realizada) + "</td>" +
-                    "<td>" + cambiarTexto(elem.indicador_verificable) + "</td>" +
-                    "<td>" + cambiarTexto(elem.observaciones) + "</td>" +
-                    "<td>" + cambiarTexto(elem.asistencia) + "</td>" +
-                    "<td>" + cambiarTexto(elem.permiso) + "</td>" +
+                    `<td class = "border border-dark"> <a href="` + link1 + `">`+ elem.materia.nombre + "</a> </td>" +
+                    `<td class = "border border-dark"> <a href="` + link2 + `">`+ elem.grupo.nombre + "</a> </td>" +
+                    `<td class = "border border-dark">` + elem.fecha + "</td>" +
+                    `<td class = "border border-dark">` + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</td>" +
+                    `<td class = "border border-dark">` + cambiarTexto(elem.actividad_realizada) + "</td>" +
+                    `<td class = "border border-dark">` + cambiarTexto(elem.indicador_verificable) + "</td>" +
+                    `<td class = "border border-dark">` + cambiarTexto(elem.observaciones) + "</td>" +
+                    `<td class = "border border-dark">` + cambiarTexto(elem.asistencia) + "</td>" +
+                    `<td class = "border border-dark">` + cambiarTexto(elem.permiso) + "</td>" +
                     "</tr>"
                     ;
             }
