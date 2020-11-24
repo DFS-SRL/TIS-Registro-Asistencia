@@ -21,7 +21,7 @@ function mostrarTabla(id, arreglo, todos) {
         content = "<h4><b>No se encontraron resultados</b></h4>"
     }else{
         content =
-            `<table class="table table-bordered">
+            `<table class="table table-bordered table-responsive">
                 <tr>
                     <th class="textoBlanco border border-dark">NOMBRE</th>`;
             if(todos)

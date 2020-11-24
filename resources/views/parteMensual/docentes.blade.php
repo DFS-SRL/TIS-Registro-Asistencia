@@ -4,7 +4,7 @@
 @endsection
 @section('reporte')
     @if (!@empty($parteDoc))
-        <table class="table table-bordered">
+        <table class="table table-bordered table-responsive">
             <tr>
                 <th class="textoBlanco border border-dark">CODIGO SIS</th>
                 <th class="textoBlanco border border-dark">NOMBRE</th>

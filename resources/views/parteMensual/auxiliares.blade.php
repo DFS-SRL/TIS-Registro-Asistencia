@@ -15,7 +15,7 @@
     @if (!empty($parteCombinado))
         <div id="combinado">
             <h4 class="textoBlanco">COMBINADO</h4>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
                 <tr>
                     <th class="textoBlanco border border-dark">CODIGO SIS</th>
                     <th class="textoBlanco border border-dark">NOMBRE</th>
@@ -49,7 +49,7 @@
         <div id="separado" style="display:none;">
             <h4 class="textoBlanco">AUXILIARES DE LABORATORIO</h4>
             @if (!empty($parteLabo))
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive">
                     <tr>
                         <th class="textoBlanco border border-dark">CODIGO SIS</th>
                         <th class="textoBlanco border border-dark">NOMBRE</th>
@@ -85,7 +85,7 @@
 
             <h4 class="textoBlanco">AUXILIARES DE DOCENCIA</h4>
             @if (!empty($parteDoc))
-                <table class="table table-bordered">
+                <table class="table table-bordered table-responsive">
                     <tr>
                         <th class="textoBlanco border border-dark">CODIGO SIS</th>
                         <th class="textoBlanco border border-dark">NOMBRE</th>
