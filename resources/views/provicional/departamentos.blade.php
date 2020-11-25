@@ -24,7 +24,7 @@
             <a href="{{ route('informes', $departamento->id )}}">Informes</a>
         </td>
         <td class="col-2">
-            <a href="{{ route('informacion.personalAcademico', $departamento->id )}}">Personal Academico</a>
+            <a href="{{ route('informacion.personalAcademico', $departamento->id )}}">Ver Personal Academico</a>
         </td>
     </tr>
     @empty
