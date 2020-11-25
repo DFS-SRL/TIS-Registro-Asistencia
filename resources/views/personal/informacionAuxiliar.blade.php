@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/informacion/informacionDocente.css">
 @endsection
 @section('content')
-  <div class="container">
+  <div class="container-fluid">
     <div class="text-white">
       <h3>Facultad: {{ $unidad->facultad }}</h3>
       <h3>Departamento: {{ $unidad->nombre }}</h3>
@@ -46,7 +46,7 @@
           <div id="gruposActuales">
             @if (count($gruposActuales) != 0)
               <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
-              <table class="table">
+              <table class="table table-bordered table-responsive">
                 <tbody>  
                     @foreach ($gruposActuales as $grupoActual)
                         <tr>
@@ -65,7 +65,7 @@
           </div>
           <div id="gruposAntiguos" class="oculto">
             @if (count($gruposPasados) != 0)
-              <table class="table">
+              <table class="table table-bordered table-responsive">
                 <tbody class="">  
                     @foreach ($gruposPasados as $grupoPasado)
                         <tr>
@@ -111,7 +111,7 @@
           <div id="itemsActuales">
             @if (count($itemsActuales) != 0)
               <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalItems}} </h4>
-              <table class="table">
+              <table class="table table-bordered table-responsive">
                 <tbody>  
                     @foreach ($itemsActuales as $itemActual)
                         <tr>
@@ -130,7 +130,7 @@
           </div>
           <div id="itemsAntiguos" class="oculto">
             @if (count($itemsPasados) != 0)
-              <table class="table">
+              <table class="table table-bordered table-responsive">
                 <tbody class="">  
                     @foreach ($itemsPasados as $itemPasado)
                         <tr>

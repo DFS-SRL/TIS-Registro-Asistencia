@@ -9,7 +9,7 @@
 @section('content')
     
     <div class="mx-3 my-4">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
                     <h2 class="textoBlanco" >{{ $grupo->unidad->facultad }}</h4>
@@ -19,7 +19,7 @@
                             <h4 class="textoBlanco">{{ $grupo->nombre }}</h4>
                 </div>
             </div>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">HORARIO</th>
