@@ -97,7 +97,5 @@
 @section('script-footer')
     <script src="/js/main.js"></script>
     <script>
-        var a = @json($asistencia->permiso);
-        console.log(a);
     </script>
 @endsection

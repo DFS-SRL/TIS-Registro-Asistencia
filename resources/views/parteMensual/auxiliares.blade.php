@@ -34,7 +34,13 @@
                         @foreach ($reporte as $key => $value)
                             <td class="border border-dark">
                                 @if ($key == 'nombre')
-                                    <a href="#">
+                                    <a 
+                                        href="{{ route('informes.mensual.auxiliar', [
+                                            'unidad' => $unidad->id,
+                                            'fecha' => $fecha,
+                                            'usuario' => $reporte['codSis']
+                                        ]) }}"
+                                    >
                                         {{ $value }}
                                     </a>
                                 @else
@@ -68,7 +74,13 @@
                             @foreach ($reporte as $key => $value)
                                 <td class="border border-dark">
                                     @if ($key == 'nombre')
-                                        <a href="#">
+                                        <a 
+                                            href="{{ route('informes.mensual.auxiliar', [
+                                                'unidad' => $unidad->id,
+                                                'fecha' => $fecha,
+                                                'usuario' => $reporte['codSis']
+                                            ]) }}"
+                                        >
                                             {{ $value }}
                                         </a>
                                     @else
@@ -104,7 +116,13 @@
                             @foreach ($reporte as $key => $value)
                                 <td class="border border-dark">
                                     @if ($key == 'nombre')
-                                        <a href="#">
+                                        <a 
+                                            href="{{ route('informes.mensual.auxiliar', [
+                                                'unidad' => $unidad->id,
+                                                'fecha' => $fecha,
+                                                'usuario' => $reporte['codSis']
+                                            ]) }}"
+                                        >
                                             {{ $value }}
                                         </a>
                                     @else

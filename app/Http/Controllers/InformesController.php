@@ -127,16 +127,16 @@ class InformesController extends Controller
         ]);
     }
 
-    // obtener informe mensual de asistencia de miembro de personal academico
-    public function obtenerInformeMensualMiembroPersonal(Unidad $unidad, Usuario $usuario, $fecha)
+    // obtener informe mensual de asistencia de un docente de la unidad
+    public function obtenerInformeMensualDocente(Unidad $unidad, $fecha, Usuario $usuario)
     {
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 
         // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal);
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)->get();
 
-        // devolver la vista de informe mensual de miembro de personal
+        // devolver la vista del docente 
         return view('informes.mensuales.mensualDoc', [
             'unidad' => $unidad,
             'fechaInicio' => $fechaInicio,
@@ -144,6 +144,34 @@ class InformesController extends Controller
             'gestion' => $t->year,
             'usuario' => $usuario,
             'asistencias' => $asistencias
+        ]);
+    }
+
+    // obtener informe mensual de asistencia de un auxiliar de la unidad
+    public function obtenerInformeMensualAuxiliar(Unidad $unidad, $fecha, Usuario $usuario)
+    {
+        // obtener fechas inicio y fin del mes
+        calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)->get();
+        $asistenciasLabo = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)
+            ->where('rol_id', '=', 1)
+            ->get();
+        $asistenciasDoc = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)
+            ->where('rol_id', '=', 2)
+            ->get();
+
+        // devolver la vista del auxiliar
+        return view('informes.mensuales.mensualDoc', [
+            'unidad' => $unidad,
+            'fechaInicio' => $fechaInicio,
+            'fechaFinal' => $fechaFinal,
+            'gestion' => $t->year,
+            'usuario' => $usuario,
+            'asistencias' => $asistencias,
+            'asistenciasLabo' => $asistenciasLabo,
+            'asistenciasDoc' => $asistenciasDoc
         ]);
     }
 }

@@ -19,9 +19,8 @@ class AsistenciaHelper
             ->join('Usuario', 'usuario_codSis', '=', 'codSis')
             ->join('Materia', 'Asistencia.materia_id', '=', 'Materia.id')
             ->orderBy('Materia.nombre', 'ASC')
-            ->orderBy('Horario_clase.grupo_id')
             ->orderBy('Usuario.nombre', 'ASC')
-            ->orderBy('fecha', 'DESC')
+            ->orderBy('fecha', 'ASC')
             ->get();
     }
 
@@ -53,8 +52,13 @@ class AsistenciaHelper
     public static function obtenerAsistenciasUnidadUsuario(Unidad $unidad, Usuario $usuario, $fechaInicio, $fechaFin)
     {
         return self::aux($unidad, $fechaInicio, $fechaFin)
+            ->join('Horario_clase', 'horario_clase_id', '=', 'Horario_clase.id')
             ->join('Usuario', 'usuario_codSis', '=', 'codSis')
             ->where('codSis', '=', $usuario->codSis)
-            ->get();
+            ->join('Materia', 'Asistencia.materia_id', '=', 'Materia.id')
+            ->join('Grupo', 'Asistencia.grupo_id', '=', 'Grupo.id')
+            ->orderBy('Materia.nombre', 'ASC')
+            ->orderBy('Grupo.nombre', 'ASC')
+            ->orderBy('fecha', 'ASC');
     }
 }

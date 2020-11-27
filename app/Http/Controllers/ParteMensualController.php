@@ -37,6 +37,7 @@ class ParteMensualController extends Controller
         // devolver la vista de parte mensual de auxiliares
         return view('parteMensual.auxiliares', [
             'unidad' => $unidad,
+            'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
             'gestion' => $t->year,
@@ -67,6 +68,7 @@ class ParteMensualController extends Controller
         // devolver la vista de parte mensual de auxiliares
         return view('parteMensual.docentes', [
             'unidad' => $unidad,
+            'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
             'gestion' => $t->year,

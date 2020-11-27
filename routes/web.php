@@ -29,7 +29,10 @@ Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');
 Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalDoc');
 
-Route::get('/informes/mensual/personal/{unidad}/{usuario}/{fecha}', 'InformesController@obtenerInformeMensualMiembroPersonal');
+Route::get('/informes/mensual/{unidad}/{fecha}/docente/{usuario}', 'InformesController@obtenerInformeMensualDocente')
+    ->name('informes.mensual.docente');
+Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesController@obtenerInformeMensualAuxiliar')
+    ->name('informes.mensual.auxiliar');
 
 Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
