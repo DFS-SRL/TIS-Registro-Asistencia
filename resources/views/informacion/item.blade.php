@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="mx-3 my-4">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
                     <h2 class="textoBlanco">{{ $item->unidad->facultad }}</h4>
@@ -23,7 +23,7 @@
                         </svg></button>
                 </div>
             </div>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">DIA</th>

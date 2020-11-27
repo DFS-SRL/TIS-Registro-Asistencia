@@ -79,10 +79,14 @@ class PersonalAcademicoController extends Controller
         foreach ($aux as $usuario) {
             $coincidencias = BuscadorHelper::coincidencias($usuario->nombre, $buscando);
             if ($coincidencias > 0.5) {
-                $personal[$usuario->codSis] = $coincidencias;
+                $personal[$usuario->codSis] = ['val' => $coincidencias, 'nombre' => $usuario->nombre];
             }
         }
-        arsort($personal);
+        uasort($personal, function ($a, $b) {
+            if ($a['val'] == $b['val'])
+                return $a['nombre'] < $b['nombre'] ? -1 : 1;
+            return $a['val'] > $b['val'] ? -1 : 1;
+        });
         $codigos = [];
         foreach ($personal as $key => $value) {
             array_push($codigos, $key);
@@ -128,6 +132,7 @@ class PersonalAcademicoController extends Controller
             ->where('Grupo.unidad_id', '=', $unidadId)
             ->where('asignado_codSis', '=', $codSis)
             ->where('Materia.es_materia', $esMateria)
+            ->where('activo', '=', 'true')
             ->distinct()
             ->select('Horario_clase.grupo_id', 'Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
     }
@@ -205,7 +210,7 @@ class PersonalAcademicoController extends Controller
             $asistencia->grupo;
             $asistencia->usuario;
         }
-        return paginate($asistencias, 10);
+        return paginate($asistencias, 5);
     }
 
     // validar que el usuario pertenezca a la unidad y tenga los roles debidos

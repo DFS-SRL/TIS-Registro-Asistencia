@@ -28,6 +28,10 @@ textarea {
     font-weight: bold;
 }
 
+.btn-success{
+    border: 1px solid black;
+}
+
 .nav-pills .nav-link:not(.active) {
     background-color: #D2B272;
     color: white;
@@ -56,6 +60,12 @@ textarea {
     border-color: white;
     color: white;
 }
+
 .oculto{
     display: none;
+}
+
+svg{
+    display: block;
+    margin: auto;
 }

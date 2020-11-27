@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
-                    <h2 class = "textoBlanco" >INFORMES SEMANAL DE ASISTENCIA @yield('tipo_academico')</h2>
+                    <h2 class = "textoBlanco" >INFORMES MENSUAL DE ASISTENCIA @yield('tipo_academico')</h2>
                     <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <br>
@@ -97,7 +97,7 @@
 @section('script-footer')
     <script src="/js/main.js"></script>
     <script>
-        var a = @json($asistencias);
+        var a = @json($asistencia->permiso);
         console.log(a);
     </script>
 @endsection

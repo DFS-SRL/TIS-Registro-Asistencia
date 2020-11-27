@@ -93,12 +93,12 @@ function habilitarBotonRegistrar(horarios) {
 }
 
 /*valida que el campo de busqueda de docentes o auxiliares para asignar a un grupo, no este vacio y que solo contenga numeros*/
-function validarBusquedaAsignar(buscadorId, msgObsId) {
+function validarBusquedaAsignar(buscadorId, msgObsId, aux) {
     campoBusqueda = document.getElementById(buscadorId);
     let res = false;
     if (campoBusqueda.value.length == 0) {
         document.getElementById(msgObsId).innerHTML =
-            "debe especificar el codSis del docente que desea asignar a este grupo";
+            "debe especificar el codSis del " + (aux ? "auxiliar" : "docente") + " que desea asignar a este grupo";
         res = false;
     } else if (!contieneSoloNumeros(campoBusqueda.value)) {
         document.getElementById(msgObsId).innerHTML =
@@ -107,7 +107,8 @@ function validarBusquedaAsignar(buscadorId, msgObsId) {
     } else {
         res = true;
     }
-    return res;
+    if(res)
+        document.getElementById("asignar-" + (aux ? "auxiliar": "docente")).submit();
 }
 
 function contieneSoloNumeros(texto) {

@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="mx-3 my-4">
             <div class="row">
                 <div class="col-md-6">
@@ -56,7 +56,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
 
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
                 <div class="tab-pane fade show active" id="todos" role="tabpanel" aria-labelledby="todos-tab">
                     <div id="todos-content"></div>
                     {{ $todos->links() }}
@@ -82,6 +82,7 @@
     <script src="/js/main.js"></script>
     <script src="/js/informacion/personalAcademico.js"></script>
     <script>
+        localStorage.setItem("caca", "una mierda");
         var unidad = {{ $unidad->id }};
         function todos(){
             var a = @json($todos);

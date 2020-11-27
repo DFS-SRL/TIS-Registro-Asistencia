@@ -9,7 +9,7 @@
 @section('content')
     
     <div class="mx-3 my-4">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
                     <h2 class="textoBlanco" >{{ $grupo->unidad->facultad }}</h4>
@@ -19,7 +19,7 @@
                             <h4 class="textoBlanco">{{ $grupo->nombre }}</h4>
                 </div>
             </div>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">HORARIO</th>
@@ -117,28 +117,20 @@
                             <h4>Docente: <button class="btn boton" id="asignarDocente"
                                     onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',true); desactivar()">ASIGNAR
                                     DOCENTE</button>
-                                <form method="POST" action="{{ route('grupo.asignar.docente') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador1','msgObsDocente')">
+                                <form method="POST" action="{{ route('grupo.asignar.docente') }}" id='asignar-docente'
+                                    class="form-inline my-2 my-lg-0 d-inline"
+                                >
                                     @csrf @method('PATCH')
                                     <input id="buscador1" class=" oculto" type="search" placeholder="codSis docente" aria-label="Search" name='codSis' >
-                                    <button id="botonBuscador1" class="btn boton my-2 my-sm-0 oculto" type="submit">
-                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
-                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                                            <path fill-rule="evenodd"
-                                                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-                                        </svg>
-                                    </button>
                                     <input type="hidden" name = 'grupo_id' value = '{{$grupo->id}}'>
                                 </form>
-                                <button id="cancelar1" class="btn btn-danger oculto"
-                                    onclick="botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',false); activar()">
-                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x"
-                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                    </svg>
-                                </button>
+                                <input width="30rem" height="30rem" type="image" 
+                                    src="/icons/aceptar.png" id="botonBuscador1" class="oculto align-middle"
+                                    alt="Aceptar" onclick="validarBusquedaAsignar('buscador1','msgObsDocente', false)">
+                                <input width="30rem" height="30rem" type="image" 
+                                    id="cancelar1" src="/icons/cancelar.png"
+                                    class="oculto align-middle"
+                                    alt="Cancelar" onclick = "botonAsignar('asignarDocente','botonBuscador1','buscador1','cancelar1','msgObsDocente',false); activar()">
                                 <label class="text-danger" id="msgObsDocente" for="buscador1"></label>
                             </h4>
                         @endif
@@ -164,29 +156,21 @@
                             <h4>Auxiliar: <button class="btn boton" id="asignarAuxiliar"
                                     onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',true), desactivar()">ASIGNAR
                                     AUXILIAR</button>
-                                <form method="POST" action="{{ route('grupo.asignar.auxDoc') }}" class="form-inline my-2 my-lg-0 d-inline" onsubmit="return validarBusquedaAsignar('buscador2','msgObsAuxiliar')">
+                                <form method="POST" id="asignar-auxiliar"
+                                    action="{{ route('grupo.asignar.auxDoc') }}" class="form-inline my-2 my-lg-0 d-inline"
+                                >
                                     @csrf @method('PATCH')
                                     <input id="buscador2" class="oculto " type="search" placeholder="codSis auxiliar"
                                         aria-label="Search" name="codSis">
-                                    <button id="botonBuscador2" class="btn boton my-2 my-sm-0 oculto" type="submit"><svg
-                                            width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
-                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                                            <path fill-rule="evenodd"
-                                                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-                                        </svg>
-                                    </button>
                                     <input type="hidden" name = 'grupo_id' value = '{{$grupo->id}}'>
                                 </form>
-                                <button id="cancelar2" class="btn btn-danger oculto"
-                                    onclick="botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',false); activar()">
-                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-x"
-                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                    </svg>
-                                </button>
+                                <input width="30rem" height="30rem" type="image" 
+                                    src="/icons/aceptar.png" id="botonBuscador2" class="oculto align-middle"
+                                    alt="Aceptar" onclick="validarBusquedaAsignar('buscador2','msgObsAuxiliar', true)">
+                                <input width="30rem" height="30rem" type="image" 
+                                    id="cancelar2" src="/icons/cancelar.png"
+                                    class="oculto align-middle"
+                                    alt="Cancelar" onclick = "botonAsignar('asignarAuxiliar','botonBuscador2','buscador2','cancelar2','msgObsAuxiliar',false); activar()">
                                 <label class="text-danger" id="msgObsAuxiliar" for="buscador2"></label>
                             </h4>
                             <div id="prueba">
