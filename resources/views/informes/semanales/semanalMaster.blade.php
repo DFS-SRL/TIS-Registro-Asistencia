@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
-                    <h2 class = "textoBlanco" >INFORMES MENSUAL DE ASISTENCIA @yield('tipo_academico')</h2>
+                    <h2 class = "textoBlanco" >INFORMES SEMANAL DE ASISTENCIA @yield('tipo_academico')</h2>
                     <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <br>
@@ -50,7 +50,7 @@
                             </td>
                             <td class = "border border-dark">
                                 <a href="{{ route('informacion.' . ($asistencia->horarioClase->rol_id == 3 ? 'docente' : 'auxiliar'), ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
-                                    {{ $asistencia->usuario->nombre }}
+                                    {{ $asistencia->usuario->nombre() }}
                                 </a>
                             </td>
                             <td class = "border border-dark">{{ $asistencia->usuario->codSis }} </td>
@@ -97,7 +97,7 @@
 @section('script-footer')
     <script src="/js/main.js"></script>
     <script>
-        var a = @json($asistencia->permiso);
+        var a = @json($asistencias);
         console.log(a);
     </script>
 @endsection

@@ -41,7 +41,7 @@ function mostrarTabla(id, arreglo, todos) {
                 content += `
                         <tr>
                             <td class = "border border-dark"> 
-                                <a href="` + link + `">`+ elem.nombre + `</a>
+                                <a href="` + link + `">`+ elem.nombre.replace("_", " ") + `</a>
                             </td>`;
                 if(todos){
                     let rs = "";

@@ -9,7 +9,7 @@
 @section('content')
     
     <div class="mx-3 my-4">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-8">
                     <h2 class="textoBlanco" >{{ $item->unidad->facultad }}</h4>
@@ -19,7 +19,7 @@
                             <h4 class="textoBlanco">{{ $item->nombre }}</h4>
                 </div>
             </div>
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered table">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">DIA</th>
@@ -94,11 +94,11 @@
                             <h4>Auxiliar: 
                                 <a class="textoNegro"
                                     href="{{ route('informacion.auxiliar', ['unidad' => $item->unidad_id, 'usuario' => $auxiliar->codSis]) }}">
-                                    {{ $auxiliar->nombre }}
+                                    {{ $auxiliar->nombre() }}
                                 </a>
                                 <input width="30rem" height="30rem" type="image"
                                     name="botonEliminar" id="desasignarAuxiliar"
-                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre }}')">
+                                    src="/icons/eliminar.png" alt="Eliminar" onclick="confirmarDesasignarAuxiliar('{{ $auxiliar->nombre() }}')">
                                     <form id="desasignar-auxiliar" class="d-none" method="POST"
                                         action="{{ route('grupo.desasignar.auxiliarLaboratorio', $item) }}">
                                         @csrf @method('PATCH')

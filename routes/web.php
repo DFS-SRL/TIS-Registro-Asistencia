@@ -25,9 +25,11 @@ Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDi
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
 
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
-Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalLabo');
-Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalAuxDoc');
-Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesSemanalesController@obtenerInformeSemanalDoc');
+Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalLabo');
+Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');
+Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalDoc');
+
+Route::get('/informes/mensual/personal/{unidad}/{usuario}/{fecha}', 'InformesController@obtenerInformeMensualMiembroPersonal');
 
 Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');

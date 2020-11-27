@@ -53,7 +53,7 @@
                             </td>
                             <td class = "border border-dark">
                                 <a href="{{ route('informacion.auxiliar', ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
-                                    {{ $asistencia->usuario->nombre }}
+                                    {{ $asistencia->usuario->nombre() }}
                                 </a>
                             </td>
                             <td class = "border border-dark">{{ $asistencia->usuario->codSis }}</td>

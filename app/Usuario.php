@@ -33,4 +33,9 @@ class Usuario extends Model
     {
         return $this->belongsTo('App\Unidad');
     }
+
+    public function nombre()
+    {
+        return str_replace("_", " ", $this->nombre);
+    }
 }

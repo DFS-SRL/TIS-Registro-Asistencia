@@ -50,7 +50,7 @@ class PersonalAcademicoController extends Controller
         $docentes = $this->obtenerUsuariosRol($unidad, 3, $codigos);
         $auxiliaresDoc = $this->obtenerUsuariosRol($unidad, 2, $codigos);
         $auxiliaresLabo = $this->obtenerUsuariosRol($unidad, 1, $codigos);
-        return view('informacion.personalAcademico', [
+        return view('personal.listaPersonal', [
             'unidad' => $unidad,
             'todos' => $todos,
             'docentes' => $docentes,

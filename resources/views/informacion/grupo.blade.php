@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mx-3 my-4">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-8">
                     <h2 class="textoBlanco">{{ $grupo->unidad->facultad }}</h4>
@@ -22,7 +22,7 @@
                         </svg></button>
                 </div>
             </div>
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     @if (!$horarios->isEmpty())
                         <tr>
@@ -56,7 +56,7 @@
                             <h4 class="textoBlanco">Docente: 
                                 <a class="textoBlanco"
                                     href="{{ route('informacion.docente', ['unidad' => $grupo->unidad_id, 'usuario' => $docente->codSis]) }}">
-                                    {{ $docente->nombre }}
+                                    {{ $docente->nombre() }}
                                 </a>
                             </h4>
                             <h4 class="textoBlanco">Carga horaria docente: {{ $cargaHorariaDocente }}</h4>
@@ -69,7 +69,7 @@
                             <h4 class="textoBlanco">Auxiliar: 
                                 <a class="textoBlanco"
                                     href="{{ route('informacion.auxiliar', ['unidad' => $grupo->unidad_id, 'usuario' => $auxiliar->codSis]) }}">
-                                    {{ $auxiliar->nombre }}
+                                    {{ $auxiliar->nombre() }}
                                 </a>
                             </h4>
                             <h4 class="textoBlanco">Carga horaria auxilliar: {{ $cargaHorariaAuxiliar }}</h4>

@@ -88,7 +88,7 @@ class ParteMensualController extends Controller
                 $asistencias = AsistenciaHelper::obtenerAsistenciasUsuarioRol($unidad, $rol, 3, $fechaInicio, $fechaFin, $usuario);
                 $reporte = [
                     'codSis' => $usuario->codSis,
-                    'nombre' => $usuario->nombre,
+                    'nombre' => $usuario->nombre(),
                     'cargaHorariaNominal' => $cargaNominal,
                     'cargaHorariaEfectiva' => 0.0,
                     'asistidas' => 0.0,
