@@ -77,7 +77,7 @@
                             @if ($asistencia->permiso)
                                 <td class="border border-dark">
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-success boton my-3">
+                                        <button type="button" class="btn btn-success boton">
                                             <svg width="3em" height="3em" viewBox="0 0 16 16"
                                                 class="bi bi-file-earmark-text" fill="currentColor"
                                                 xmlns="http://www.w3.org/2000/svg">

@@ -70,7 +70,9 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    {{ $asistencia->permiso }}
+                                    <div class="text-center">
+                                        <?=str_replace('_', ' ', $asistencia->permiso)?>
+                                    </div>
                                 </td>
                             @else
                                 <td class = "border border-dark"></td>
