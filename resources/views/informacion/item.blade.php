@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="mx-3 my-4">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-8">
                     <h2 class="textoBlanco">{{ $item->unidad->facultad }}</h4>
@@ -23,7 +23,7 @@
                         </svg></button>
                 </div>
             </div>
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">DIA</th>
@@ -48,7 +48,7 @@
                             <h4 class="textoBlanco">Auxiliar: 
                                 <a class="textoBlanco"
                                     href="{{ route('informacion.auxiliar', ['unidad' => $item->unidad_id, 'usuario' => $auxiliar->codSis]) }}">
-                                    {{ $auxiliar->nombre }}
+                                    {{ $auxiliar->nombre() }}
                                 </a>
                             </h4>
                             <h4 class="textoBlanco">Carga horaria auxilliar: {{ $cargaHorariaAuxiliar }}</h4>

@@ -37,6 +37,7 @@ class ParteMensualController extends Controller
         // devolver la vista de parte mensual de auxiliares
         return view('parteMensual.auxiliares', [
             'unidad' => $unidad,
+            'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
             'gestion' => $t->year,
@@ -67,6 +68,7 @@ class ParteMensualController extends Controller
         // devolver la vista de parte mensual de auxiliares
         return view('parteMensual.docentes', [
             'unidad' => $unidad,
+            'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
             'gestion' => $t->year,
@@ -88,7 +90,7 @@ class ParteMensualController extends Controller
                 $asistencias = AsistenciaHelper::obtenerAsistenciasUsuarioRol($unidad, $rol, 3, $fechaInicio, $fechaFin, $usuario);
                 $reporte = [
                     'codSis' => $usuario->codSis,
-                    'nombre' => $usuario->nombre,
+                    'nombre' => $usuario->nombre(),
                     'cargaHorariaNominal' => $cargaNominal,
                     'cargaHorariaEfectiva' => 0.0,
                     'asistidas' => 0.0,

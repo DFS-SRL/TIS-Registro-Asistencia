@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Unidad;
+use App\Usuario;
 use App\Asistencia;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
@@ -46,6 +47,7 @@ class InformesController extends Controller
         return back()->with('success', 'Enviado correctamente :)');
     }
 
+    // subir asistencias sin importar que se habilito edicion al personal
     public function subirInformesFuerza()
     {
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
@@ -75,25 +77,101 @@ class InformesController extends Controller
             ]);
         }
     }
- 
+
+    //obtener formulario para seleccionar informes semanales en el departamento
     public function formulario(Unidad $unidad)
     {
-        // $res = Unidad::where('id','=',$unidadId) -> select('nombre','facultad')->get();
-        // $unidad = [
-        //     'facultad' => ($res[0] -> facultad),
-        //     'nombre' => $res[0] -> nombre
-        // ];
-        return view('informes.semanales', ['unidad' => $unidad]);
-        // return $unidad;
-        // return $this->verPrueba();
+        return view('informes.semanales.semanales', ['unidad' => $unidad]);
     }
 
-    public function verPrueba()
+    // obtener informes semanales de auxiliares de laboratorio
+    public function obtenerInformeSemanalDoc(Unidad $unidad, $fecha)
     {
-        $unidad = [
-            'facultad' => 'Ciencias y Tecnología',
-            'nombre' => 'Informática y Sistemas'
+        return $this->obtenerInformeSemanal($unidad, $fecha, 3);
+    }
+
+    // obtener informes semanales de auxiliares de docencia
+    public function obtenerInformeSemanalAuxDoc(Unidad $unidad, $fecha)
+    {
+        return $this->obtenerInformeSemanal($unidad, $fecha, 2);
+    }
+
+    // obtener informes semanales de auxiliares de laboratorio
+    public function obtenerInformeSemanalLabo(Unidad $unidad, $fecha)
+    {
+        return $this->obtenerInformeSemanal($unidad, $fecha, 1);
+    }
+
+    // funcion para obtener informes semanales segun el rol
+    private function obtenerInformeSemanal(Unidad $unidad, $fecha, $rol)
+    {
+        //lista de vistas segun roles
+        $vistas = [
+            1 => 'semanalLabo',
+            2 => 'semanalAuxDoc',
+            3 => 'semanalDoc'
         ];
-        return view('informes.semanales', ['unidad' => $unidad]);
+
+        // obteniendo las fechas de la semana
+        $fechas = getFechasDeSemanaEnFecha($fecha);
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasRol($unidad, $rol, $fechas[0], $fechas[5]);;
+
+        //devolver la vista de informe semanal de laboratorio
+        return view('informes.semanales.' . $vistas[$rol], [
+            'asistencias' => $asistencias,
+            'fechaInicio' => formatoFecha($fechas[0]),
+            'fechaFinal' => formatoFecha($fechas[5]),
+            'unidad' => $unidad
+        ]);
+    }
+
+    // obtener informe mensual de asistencia de un docente de la unidad
+    public function obtenerInformeMensualDocente(Unidad $unidad, $fecha, Usuario $usuario)
+    {
+        // obtener fechas inicio y fin del mes
+        calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)->get();
+
+        // devolver la vista del docente 
+        return view('informes.mensuales.mensualDoc', [
+            'unidad' => $unidad,
+            'fechaInicio' => $fechaInicio,
+            'fechaFinal' => $fechaFinal,
+            'gestion' => $t->year,
+            'usuario' => $usuario,
+            'asistencias' => $asistencias
+        ]);
+    }
+
+    // obtener informe mensual de asistencia de un auxiliar de la unidad
+    public function obtenerInformeMensualAuxiliar(Unidad $unidad, $fecha, Usuario $usuario)
+    {
+        // obtener fechas inicio y fin del mes
+        calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)->get();
+        $asistenciasLabo = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)
+            ->where('rol_id', '=', 1)
+            ->get();
+        $asistenciasDoc = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)
+            ->where('rol_id', '=', 2)
+            ->get();
+
+        // devolver la vista del auxiliar
+        return view('informes.mensuales.mensualDoc', [
+            'unidad' => $unidad,
+            'fechaInicio' => $fechaInicio,
+            'fechaFinal' => $fechaFinal,
+            'gestion' => $t->year,
+            'usuario' => $usuario,
+            'asistencias' => $asistencias,
+            'asistenciasLabo' => $asistenciasLabo,
+            'asistenciasDoc' => $asistenciasDoc
+        ]);
     }
 }

@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-8">
                 <h2 class="textoBlanco">PLANILLA DIARIA DE ASISTENCIA</h2>
-                <h4 class="textoBlanco">NOMBRE AUXILIAR LABORATORIO: {{ $usuario->nombre }}</h4>
+                <h4 class="textoBlanco">NOMBRE AUXILIAR LABORATORIO: {{ $usuario->nombre() }}</h4>
                 <h4 class="textoBlanco">CODSIS: {{ $usuario->codSis }} </h4>
 
             </div>

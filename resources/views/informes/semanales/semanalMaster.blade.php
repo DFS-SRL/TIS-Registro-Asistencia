@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-8">
-                    <h2 class = "textoBlanco" >INFORMES MENSUAL DE ASISTENCIA @yield('tipo_academico')</h2>
+                    <h2 class = "textoBlanco" >INFORMES SEMANAL DE ASISTENCIA @yield('tipo_academico')</h2>
                     <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <br>
@@ -50,7 +50,7 @@
                             </td>
                             <td class = "border border-dark">
                                 <a href="{{ route('informacion.' . ($asistencia->horarioClase->rol_id == 3 ? 'docente' : 'auxiliar'), ['unidad' => $unidad->id, 'usuario' => $asistencia->usuario_codSis]) }}">
-                                    {{ $asistencia->usuario->nombre }}
+                                    {{ $asistencia->usuario->nombre() }}
                                 </a>
                             </td>
                             <td class = "border border-dark">{{ $asistencia->usuario->codSis }} </td>
@@ -64,7 +64,7 @@
                             @if ( $asistencia->permiso )
                                 <td class = "border border-dark">
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-success boton my-3" >
+                                        <button type="button" class="btn btn-success boton" >
                                             <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
                                                 <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
@@ -72,7 +72,9 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    {{ $asistencia->permiso }}
+                                    <div class="text-center">
+                                        <?=str_replace('_', ' ', $asistencia->permiso)?>
+                                    </div>
                                 </td>
                             @else
                                 <td class = "border border-dark"></td>
@@ -97,7 +99,7 @@
 @section('script-footer')
     <script src="/js/main.js"></script>
     <script>
-        var a = @json($asistencia->permiso);
+        var a = @json($asistencias);
         console.log(a);
     </script>
 @endsection

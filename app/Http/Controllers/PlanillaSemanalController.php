@@ -53,8 +53,7 @@ class PlanillaSemanalController extends Controller
             'fechaFinal' => $fechasDeSemana["SABADO"],
             'fechasDeSemana' => $fechasDeSemana,
             'horarios' => $horarios,
-            'nombre' => $user->nombre,
-            'codSis' => $codigoSis,
+            'usuario' => $user,
             'llenado' => $llenado
         ]);
     }

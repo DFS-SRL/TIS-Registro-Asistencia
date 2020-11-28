@@ -14,8 +14,8 @@
                     <b class = "textoBlanco ml-4">AL: </b><span class = "textoBlanco"> {{$fechaFinal}}</span>
                 </div>
             </div>
-            <h4 class = "textoBlanco">@yield('tipoUsuario') {{$nombre}}</h4>
-            <h4 class = "textoBlanco">CODIGO SIS: {{$codSis}}</h4>
+            <h4 class = "textoBlanco">@yield('tipoUsuario') {{ $usuario->nombre() }}</h4>
+            <h4 class = "textoBlanco">CODIGO SIS: {{ $usuario->codSis }}</h4>
             @if(!$horarios->isEmpty())
                 <form  method="POST"  @yield('action') @yield('onsubmit')>
                 @foreach ($horarios as $key1 => $unidad)
