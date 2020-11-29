@@ -20,6 +20,8 @@ Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 //http://localhost:8000/parteMensual/docentes/1/2020-10-19 
 Route::get('/parteMensual/docentes/{unidad}/{fecha}', 'ParteMensualController@obtenerParteDocentes');
+Route::get('/parteMensual/docentes/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDF');
+
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia');
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');

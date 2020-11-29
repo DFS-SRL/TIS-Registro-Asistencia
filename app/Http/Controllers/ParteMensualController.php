@@ -11,7 +11,7 @@ use App\HorarioClase;
 use Illuminate\Http\Request;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 class ParteMensualController extends Controller
 {
     // dada unidad y fecha devuelve vista de parte de auxiliares
@@ -48,11 +48,8 @@ class ParteMensualController extends Controller
             'totNoPagables' => $totNoPagables
         ]);
     }
-
-    // dada unidad y fecha devuelve vista de parte de docentes
-    public function obtenerParteDocentes(Unidad $unidad, $fecha)
-    {
-        // obtener fechas inicio y fin del mes
+    //Generar parte docentes
+    private function generarParteDocentes(Unidad $unidad, $fecha){
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
         // obtener usuarios con rol docente
@@ -64,9 +61,7 @@ class ParteMensualController extends Controller
 
         // obtener parte
         $parteDoc = $this->parteMensual($docentes, $unidad, 3, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
-
-        // devolver la vista de parte mensual de auxiliares
-        return view('parteMensual.docentes', [
+        return [
             'unidad' => $unidad,
             'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
@@ -75,7 +70,17 @@ class ParteMensualController extends Controller
             'parteDoc' => $parteDoc,
             'totPagables' => $totPagables,
             'totNoPagables' => $totNoPagables
-        ]);
+        ];
+    }
+    // dada unidad y fecha devuelve vista de parte de docentes
+    public function obtenerParteDocentes(Unidad $unidad, $fecha)
+    {
+        $parteDocentes = $this->generarParteDocentes($unidad,$fecha);
+        // obtener fechas inicio y fin del mes
+        
+
+        // devolver la vista de parte mensual de auxiliares
+        return view('parteMensual.docentes',$parteDocentes );
     }
 
 
@@ -172,5 +177,14 @@ class ParteMensualController extends Controller
             $cargaNominal += $horas;
         }
         return 4 * $cargaNominal;
+    }
+    //Obtener PDF
+    public function descargarPDF(Unidad $unidad, $fecha )
+    {
+        // $pdf = App::make('dompdf.wrapper');
+        $respuesta = $this->generarParteDocentes($unidad, $fecha);
+        return PDF::loadView('parteMensual.docentes',$respuesta)
+                    ->setPaper('a4', 'landscape')
+                    ->stream('archivo.pdf');
     }
 }
