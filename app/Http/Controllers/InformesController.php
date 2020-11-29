@@ -163,7 +163,7 @@ class InformesController extends Controller
             ->get();
 
         // devolver la vista del auxiliar
-        return view('informes.mensuales.mensualDoc', [
+        return view('informes.mensuales.mensualAux', [
             'unidad' => $unidad,
             'fechaInicio' => $fechaInicio,
             'fechaFinal' => $fechaFinal,
