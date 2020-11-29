@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\HorarioClase;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PersonalAcademicoController;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegistrarAsistenciaSemanalRequest extends FormRequest
@@ -30,13 +30,15 @@ class RegistrarAsistenciaSemanalRequest extends FormRequest
             $reglas['asistencias.' . $key . '.horario_clase_id'] = 'required';
             $reglas['asistencias.' . $key . '.asistencia'] = 'required';
             $reglas['asistencias.' . $key . '.fecha'] = 'required';
-            if ($val['asistencia'] == "false")
-                $reglas['asistencias.' . $key . '.permiso'] = 'required';
+            if ($val['asistencia'] == "false") {
+                    $reglas['asistencias.' . $key . '.permiso'] = 'required';
+                $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
+            }
             else {
                 $reglas['asistencias.' . $key . '.actividad_realizada'] = 'required|min:5|max:150';
                 $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
                 $horario = HorarioClase::find($val['horario_clase_id']);
-                if (UsuarioController::esAuxDoc($horario->asignado_codSis, $horario->unidad_id))
+                if (PersonalAcademicoController::esAuxDoc($horario->asignado_codSis, $horario->unidad_id))
                     $reglas['asistencias.' . $key . '.indicador_verificable'] = 'required';
                 else
                     $reglas['asistencias.' . $key . '.indicador_verificable'] = 'nullable';

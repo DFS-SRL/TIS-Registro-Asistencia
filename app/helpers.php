@@ -104,6 +104,13 @@ function getFechasDeSemanaEnFecha($fecha)
     ];
 }
 
+// cambia una fecha en formato d/m/Y en Y-m-d amigable con DB
+function convertirFechaDMYEnYMD($fecha) {
+    $separada = explode("/", $fecha);
+    $fechaFormateada = $separada[2]."-".$separada[1]."-".$separada[0];
+    return date("Y-m-d", strtotime($fechaFormateada));
+}
+
 // compara dos dias de semana tomando LUNES como el primer dia
 function compararDias($diaA, $diaB)
 {
