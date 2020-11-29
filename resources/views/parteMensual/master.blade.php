@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h2 class = "textoBlanco">PLANILLA MENSUAL DE ASISTENCIA</h2>
+                    <h2 class = "textoBlanco">PARTE MENSUAL DE ASISTENCIA</h2>
                     <h4 class = "textoBlanco">@yield('tipoParte')</h4>
                     <h4 class = "textoBlanco">{{ $unidad->facultad . " / " . $unidad->nombre }}</h4>
                     <h4 class = "textoBlanco">{{ $gestion }}</h4>
@@ -39,6 +39,6 @@
 @endsection
 <script>
     function descargar(){
-        window.location.href = window.location.href + "/descargarPDF";
+        window.open(window.location.href + "/descargarPDF", '_blank');
     }
 </script>

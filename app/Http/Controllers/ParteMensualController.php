@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\DB;
 use PDF;
 class ParteMensualController extends Controller
 {
-    // dada unidad y fecha devuelve vista de parte de auxiliares
-    public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
-    {
+    //Generar parte auxiliares
+    private function generarParteAuxiliares(Unidad $unidad,$fecha){
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
@@ -33,9 +32,7 @@ class ParteMensualController extends Controller
         $parteDoc = $this->parteMensual($auxDoc, $unidad, 2, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
 
         $parteCombinado = $this->combinar($parteLabo, $parteDoc);
-
-        // devolver la vista de parte mensual de auxiliares
-        return view('parteMensual.auxiliares', [
+        return  [
             'unidad' => $unidad,
             'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
@@ -46,10 +43,20 @@ class ParteMensualController extends Controller
             'parteCombinado' => $parteCombinado,
             'totPagables' => $totPagables,
             'totNoPagables' => $totNoPagables
-        ]);
+        ];
+    }
+
+    // dada unidad y fecha devuelve vista de parte de auxiliares
+    public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
+    {
+        $parteAuxiliares = $this->generarParteAuxiliares($unidad,$fecha);
+
+        // devolver la vista de parte mensual de auxiliares
+        return view('parteMensual.auxiliares',$parteAuxiliares);
     }
     //Generar parte docentes
     private function generarParteDocentes(Unidad $unidad, $fecha){
+        // obtener fechas inicio y fin del mes        
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
         // obtener usuarios con rol docente
@@ -76,8 +83,6 @@ class ParteMensualController extends Controller
     public function obtenerParteDocentes(Unidad $unidad, $fecha)
     {
         $parteDocentes = $this->generarParteDocentes($unidad,$fecha);
-        // obtener fechas inicio y fin del mes
-        
 
         // devolver la vista de parte mensual de auxiliares
         return view('parteMensual.docentes',$parteDocentes );
@@ -178,13 +183,19 @@ class ParteMensualController extends Controller
         }
         return 4 * $cargaNominal;
     }
-    //Obtener PDF
-    public function descargarPDF(Unidad $unidad, $fecha )
+    //Obtener PDF Docentes
+    public function descargarPDFDocentes(Unidad $unidad, $fecha )
     {
-        // $pdf = App::make('dompdf.wrapper');
         $respuesta = $this->generarParteDocentes($unidad, $fecha);
-        return PDF::loadView('parteMensual.docentes',$respuesta)
-                    ->setPaper('a4', 'landscape')
-                    ->stream('archivo.pdf');
+        return PDF::loadView('parteMensual.masterPDF',$respuesta)
+                    ->setPaper('letter', 'landscape')
+                    ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
+    }
+    public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
+    {
+        $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
+        return PDF::loadView('parteMensual.masterPDF',$respuesta)
+                    ->setPaper('letter', 'landscape')
+                    ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
     }
 }
