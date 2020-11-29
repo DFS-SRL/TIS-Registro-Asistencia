@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Unidad;
 use App\Usuario;
 use App\Asistencia;
+use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
 use Illuminate\Validation\ValidationException;
@@ -94,12 +95,17 @@ class InformesController extends Controller
         $asistencias = AsistenciaHelper::obtenerAsistenciasUsuario($usuario, $fechas[0], $fechas[5])
             ->groupBy('unidad_id');
 
+        $esDocente = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
+            ->where('rol_id', '=', 3)
+            ->count() > 0;
+
         // devolver la vista del informe pasado
         return view('informes.semanales.semanalUsuario', [
             'usuario' => $usuario,
             'asistencias' => $asistencias,
             'fechaInicio' => $fechas[0],
-            'fechaFinal' => $fechas[5]
+            'fechaFinal' => $fechas[5],
+            'esDocente' => $esDocente
         ]);
     }
 

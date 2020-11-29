@@ -23,8 +23,8 @@
                         @csrf
                         <table class = "table table-responsive">
                             <tr>
-                                <th class = "textoBlanco border border-dark">MATERIA</th>
-                                <th class = "textoBlanco border border-dark">GRUPO</th>
+                                <th class = "textoBlanco border border-dark">@if($esDocente)MATERIA @else MATERIA/CARGO @endif</th>
+                                <th class = "textoBlanco border border-dark">@if($esDocente)GRUPO @else GRUPO/ÍTEM @endif</th>
                                 <th class = "textoBlanco border border-dark">FECHA</th>
                                 <th class = "textoBlanco border border-dark">HORARIO</th>
                                 <th class = "textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
