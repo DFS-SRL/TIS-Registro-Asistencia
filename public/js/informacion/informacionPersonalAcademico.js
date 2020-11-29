@@ -71,7 +71,7 @@ function llenarTabla(asis) {
     else{
         table =
             `
-        <table class="table table-bordered table-responsive">
+        <table class="table table-responsive">
             <tr>
             <th class="textoBlanco border border-dark">MATERIA` + (docente ? "" : "/CARGO") + `</th>
             <th class="textoBlanco border border-dark">GRUPO` + (docente? "" : "/ÍTEM") + `</th>

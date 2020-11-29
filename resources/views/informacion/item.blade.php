@@ -23,7 +23,7 @@
                         </svg></button>
                 </div>
             </div>
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">DIA</th>

@@ -19,7 +19,7 @@
                             <h4 class="textoBlanco">{{ $item->nombre }}</h4>
                 </div>
             </div>
-            <table class="table table-bordered table">
+            <table class="table">
                 <thead>
                     <tr>
                         <th class="textoBlanco border border-dark" scope="col">DIA</th>

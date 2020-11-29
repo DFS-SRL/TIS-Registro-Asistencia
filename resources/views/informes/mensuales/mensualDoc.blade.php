@@ -11,11 +11,11 @@
                     <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <h4 class="textoBlanco">NOMBRE: 
-                        <a href="{{ route('informacion.' . ($asistencias[0]->horarioClase->rol_id == 3 ? 'docente' : 'auxiliar'), ['unidad' => $unidad->id, 'usuario' => $asistencias[0]->usuario_codSis]) }}">
-                            {{ $asistencias[0]->usuario->nombre }}
+                        <a href="{{ route('informacion.docente', ['unidad' => $unidad->id, 'usuario' => $usuario->codSis]) }}">
+                            {{ $usuario->nombre() }}
                         </a>
                     </h4>
-                    <h4 class="textoBlanco">CODIGO SIS: {{ $asistencias[0]->usuario->codSis }}</h4>
+                    <h4 class="textoBlanco">CODIGO SIS: {{ $usuario->codSis }}</h4>
                     <br>
                 </div>
                 <div class="col-4">
@@ -29,7 +29,7 @@
             @if (!$asistencias->isEmpty())
                 {{-- <h4 class="textoBlanco">{{ $unidad[0]->unidad->facultad }} /
                     {{ $unidad[0]->unidad->nombre }}</h4> --}}
-                <table class="table table-bordered table-responsive">
+                <table class="table table-responsive">
                     <tr>
                         <th class="textoBlanco border border-dark">MATERIA</th>
                         <th class="textoBlanco border border-dark">GRUPO</th>

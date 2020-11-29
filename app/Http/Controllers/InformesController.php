@@ -130,6 +130,13 @@ class InformesController extends Controller
     // obtener informe mensual de asistencia de un docente de la unidad
     public function obtenerInformeMensualDocente(Unidad $unidad, $fecha, Usuario $usuario)
     {
+        if (!PersonalAcademicoController::esDocente($usuario->codSis, $unidad->id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
+            ]);
+            throw $error;
+        }
+
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 
@@ -150,6 +157,12 @@ class InformesController extends Controller
     // obtener informe mensual de asistencia de un auxiliar de la unidad
     public function obtenerInformeMensualAuxiliar(Unidad $unidad, $fecha, Usuario $usuario)
     {
+        if (!PersonalAcademicoController::esAuxiliar($usuario->codSis, $unidad->id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un auxilar de la unidad']
+            ]);
+            throw $error;
+        }
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 
