@@ -17,7 +17,7 @@
             <h4 class = "textoBlanco">@yield('tipoUsuario') {{ $usuario->nombre() }}</h4>
             <h4 class = "textoBlanco">CODIGO SIS: {{ $usuario->codSis }}</h4>
             @if(!$horarios->isEmpty())
-                <form  method="POST"  @yield('action') @yield('onsubmit')>
+                <form  method="POST"  @yield('action') @yield('onsubmit') enctype="multipart/form-data">
                 @foreach ($horarios as $key1 => $unidad)
                     <br>
                     <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
@@ -65,6 +65,8 @@
                                             <option value="BAJA_MEDICA">Baja medica</option>
                                             <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>  
                                         </select>
+                                        <br>
+                                        <input class="mt-4" type="file" id="documento_adicional{{$key1}}{{$key2}}" name="asistencias[{{ $key1.$key2 }}][documento_adicional]">
                                     </td>
                                     <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
                                     <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">
