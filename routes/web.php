@@ -29,6 +29,8 @@ Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');
 Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalDoc');
 
+Route::get('/informes/semanal/{usuario}/{fecha}', 'InformesController@obtenerInformeSemanalUsuario');
+
 Route::get('/informes/mensual/{unidad}/{fecha}/docente/{usuario}', 'InformesController@obtenerInformeMensualDocente')
     ->name('informes.mensual.docente');
 Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesController@obtenerInformeMensualAuxiliar')

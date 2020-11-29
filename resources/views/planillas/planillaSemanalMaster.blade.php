@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Planilla Semana de Asistencia')
+@section('title', 'Planilla Semanal de Asistencia')
 
 @section('content')
     <div class="m-3">
@@ -22,7 +22,7 @@
                     <br>
                     <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
                         @csrf
-                        <table class = "table table-bordered table-responsive">
+                        <table class = "table table-responsive">
                             <tr>
                                 <th class = "textoBlanco border border-dark">FECHA</th>
                                 <th class = "textoBlanco border border-dark">HORARIO</th>

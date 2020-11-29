@@ -84,6 +84,25 @@ class InformesController extends Controller
         return view('informes.semanales.semanales', ['unidad' => $unidad]);
     }
 
+    // obtener informe semanal de un miembro del personal academico
+    public function obtenerInformeSemanalUsuario(Usuario $usuario, $fecha)
+    {
+        // obteniendo las fechas de la semana
+        $fechas = getFechasDeSemanaEnFecha($fecha);
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUsuario($usuario, $fechas[0], $fechas[5])
+            ->groupBy('unidad_id');
+
+        // devolver la vista del informe pasado
+        return view('informes.semanales.semanalUsuario', [
+            'usuario' => $usuario,
+            'asistencias' => $asistencias,
+            'fechaInicio' => $fechas[0],
+            'fechaFinal' => $fechas[5]
+        ]);
+    }
+
     // obtener informes semanales de auxiliares de laboratorio
     public function obtenerInformeSemanalDoc(Unidad $unidad, $fecha)
     {

@@ -17,7 +17,7 @@
             </div>
         </div>
         @if (!$horarios->isEmpty())
-            <table class="table table-bordered table-responsive">
+            <table class="table table-responsive">
                 <tr>
                     <th class="textoBlanco border border-dark" scope="col">HORARIO</th>
                     <th class="textoBlanco border border-dark" scope="col">CARGO</th>
