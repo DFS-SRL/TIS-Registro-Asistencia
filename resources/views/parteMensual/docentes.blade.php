@@ -4,7 +4,7 @@
 @endsection
 @section('reporte')
     @if (!@empty($parteDoc))
-        <table class="table table-bordered table-responsive">
+        <table class="table table-responsive">
             <tr>
                 <th class="textoBlanco border border-dark">CODIGO SIS</th>
                 <th class="textoBlanco border border-dark">NOMBRE</th>
@@ -23,7 +23,13 @@
                     @foreach ($reporte as $key => $value)
                     <td class="border border-dark">
                         @if ($key == 'nombre')
-                            <a href="#">
+                            <a 
+                                href="{{ route('informes.mensual.docente', [
+                                    'unidad' => $unidad->id,
+                                    'fecha' => $fecha,
+                                    'usuario' => $reporte['codSis']
+                                ]) }}"
+                            >
                                 {{ $value }}
                             </a>
                         @else

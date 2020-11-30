@@ -29,6 +29,8 @@ Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');
 Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalDoc');
 
+Route::get('/informes/semanal/personal/{usuario}/{fecha}', 'InformesController@obtenerInformeSemanalUsuario');
+
 Route::get('/informes/mensual/{unidad}/{fecha}/docente/{usuario}', 'InformesController@obtenerInformeMensualDocente')
     ->name('informes.mensual.docente');
 Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesController@obtenerInformeMensualAuxiliar')
@@ -71,7 +73,8 @@ Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 
-Route::get('/informes/semanales/{unidad}', 'InformesController@formulario')->name('informes.semanales');
+Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad')->name('informes.semanales');
+Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 

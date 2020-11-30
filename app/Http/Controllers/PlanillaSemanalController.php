@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\RegistrarAsistenciaDocenteRequest;
 use App\Http\Requests\RegistrarAsistenciaSemanalRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class PlanillaSemanalController extends Controller
 {
@@ -75,12 +77,25 @@ class PlanillaSemanalController extends Controller
 
         // recorrer asistencias colocando datos extra y almacenando en bd
         foreach ($asistencias as $key => $asistencia) {
+            // Se cambia el formato de fecha de d/m/Y a Y-m-d para la BD
+            $asistencia['fecha'] = convertirFechaDMYEnYMD($asistencia['fecha']);
+            
             $horario = HorarioClase::find($asistencia['horario_clase_id']);
             $asistencia['nivel'] = 2;
             $asistencia['usuario_codSis'] = $horario->asignado_codSis;
             $asistencia['materia_id'] = $horario->materia_id;
             $asistencia['grupo_id'] = $horario->grupo_id;
             $asistencia['unidad_id'] = $horario->unidad_id;
+
+            if (array_key_exists('documento_adicional', $asistencia)) {
+                $doc = $asistencia['documento_adicional'];
+                $docNombre = pathInfo($doc->getClientOriginalName(), PATHINFO_FILENAME);
+                $docExtension = $doc->getClientOriginalExtension();
+                $nombreAGuardar = $docNombre.'_'.time().'.'.$docExtension;
+                $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
+                $asistencia['documento_adicional'] = $nombreAGuardar;
+            }
+
             Asistencia::create($asistencia);
         }
 

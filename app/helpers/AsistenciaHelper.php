@@ -61,4 +61,17 @@ class AsistenciaHelper
             ->orderBy('Grupo.nombre', 'ASC')
             ->orderBy('fecha', 'ASC');
     }
+
+    public static function obtenerAsistenciasUsuario(Usuario $usuario, $fechaInicio, $fechaFin)
+    {
+        return Asistencia::where('fecha', '>=', $fechaInicio)
+            ->where('fecha', '<=', $fechaFin)
+            ->where('usuario_codSis', '=', $usuario->codSis)
+            ->join('Materia', 'Asistencia.materia_id', '=', 'Materia.id')
+            ->join('Grupo', 'Asistencia.grupo_id', '=', 'Grupo.id')
+            ->orderBy('Materia.nombre', 'ASC')
+            ->orderBy('Grupo.nombre', 'ASC')
+            ->orderBy('fecha', 'ASC')
+            ->get();
+    }
 }
