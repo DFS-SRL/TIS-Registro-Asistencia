@@ -65,7 +65,7 @@
                                     @endif
                                     <td class="border border-dark">
                                         <input 
-                                            id = {{"botonEditar".$asistencia->id}}
+                                            id = {{"botonEditar". $asistencia->id}}
                                             width="30rem"
                                             height="30rem"
                                             type="image"
@@ -98,4 +98,26 @@
 
 @section('script-footer')
     <script src="/js/main.js"></script>
+    <script src="/js/informes/semanales/usuario.js"></script>
+    <script>
+        function desactivar() {
+            @foreach($asistencias as $key1 => $unidad)
+                @foreach($unidad as $key2 => $asistencia)
+                    editar = document.getElementById("botonEditar" + {{ $asistencia->id }});
+                    editar.disabled = true;
+                    editar.src = "/icons/editarDis.png";
+                @endforeach
+            @endforeach
+        }
+
+        function activar() {
+            @foreach($asistencias as $key1 => $unidad)
+                @foreach($unidad as $key2 => $asistencia)
+                    editar = document.getElementById("botonEditar" + {{ $asistencia->id }});
+                    editar.disabled = false;
+                    editar.src = "/icons/editar.png";
+                @endforeach
+            @endforeach
+        }
+    </script>
 @endsection
