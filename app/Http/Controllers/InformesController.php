@@ -80,10 +80,17 @@ class InformesController extends Controller
     }
 
     //obtener formulario para seleccionar informes semanales en el departamento
-    public function formulario(Unidad $unidad)
+    public function formularioUnidad(Unidad $unidad)
     {
-        return view('informes.semanales.semanales', ['unidad' => $unidad]);
+        return view('informes.semanales.unidadSeleccion', ['unidad' => $unidad]);
     }
+
+    //obtener formulario para seleccionar informes semanales de un miembro del personal academico
+    public function formularioUsuario(Usuario $usuario)
+    {
+        return view('informes.semanales.usuarioSeleccion', ['usuario' => $usuario]);
+    }
+
 
     // obtener informe semanal de un miembro del personal academico
     public function obtenerInformeSemanalUsuario(Usuario $usuario, $fecha)

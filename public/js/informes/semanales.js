@@ -1,11 +1,11 @@
 let año = "";
 let mes = "";
 let dia = "";
-$(window).on("load", function () {
-    $('.datepicker').datepicker('setDate', new Date());
+$(window).on("load", function() {
+    $(".datepicker").datepicker("setDate", new Date());
 });
 
-Date.prototype.addDays = function (d) {
+Date.prototype.addDays = function(d) {
     return new Date(this.valueOf() + 864e5 * d);
 };
 
@@ -17,15 +17,16 @@ $("#sandbox-container").datepicker({
     language: "es",
     format: "mm/yyyy",
     // clearBtn: true,
-    autoclose: true,
+    autoclose: true
 });
 
-
-$("#sandbox-container").on("change", function () {
+$("#sandbox-container").on("change", function() {
     var x = $(this).val();
     if (x) {
         $("#inputLoop").val("1");
-        var data = $("#sandbox-container").val().split("/");
+        var data = $("#sandbox-container")
+            .val()
+            .split("/");
         data.splice(1, 0, "01");
         primerDiaMes = new Date(data[0] + "/" + data[1] + "/" + data[2]);
         setRangoSemana(1);
@@ -140,7 +141,7 @@ function actualizarMesAnio() {
     }
 }
 
-function verInforme(unidad) {
+function verInformeUnidad(unidad) {
     var radios = document.getElementsByName("informe");
     var tipoAcademico = "";
     for (var i = 0, length = radios.length; i < length; i++) {
@@ -159,4 +160,17 @@ function verInforme(unidad) {
         fecha.substr(6) + "-" + fecha.substr(3, 2) + "-" + fecha.substr(0, 2);
     window.location.href =
         "/informes/semanal/" + tipoAcademico + "/" + unidad + "/" + fecha;
+}
+
+function verInformeUsuario(usuario) {
+    date = fin.getDate();
+    month = fin.getMonth();
+    mesanio = $("#sandbox-container")[0].value;
+    if (date <= "9") date = "0" + date;
+    if (mesanio[1] == "/") mesanio = "0" + mesanio;
+    fecha = date + "/" + mesanio;
+    fecha =
+        fecha.substr(6) + "-" + fecha.substr(3, 2) + "-" + fecha.substr(0, 2);
+    window.location.href =
+        "/informes/semanal/personal/" + usuario + "/" + fecha;
 }
