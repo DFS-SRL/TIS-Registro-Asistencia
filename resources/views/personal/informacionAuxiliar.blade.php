@@ -13,9 +13,6 @@
       <h1 class="text-center">Información de Auxiliar</h1>
       <h4>Nombre: {{ $usuario->nombre() }}</h4>
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
-      {{-- <h4>Carga Nominal Grupos: {{ $cargaHorariaNominalGrupos }}</h4>
-      <h4>Carga Nominal Ítems: {{ $cargaHorariaNominalItems }}</h4>
-      <h4>Rol: Docente</h4> --}}
     </div>
     <div class="accordion" id="accordionExample">
       <div class="card mostaza">
@@ -29,7 +26,7 @@
     
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">     
           <div class="card-body">
-            <div class="row justify-content-center my-2">
+            <div class="row justify-content-center">
               <form>
                 <div class="col-12 opciones esquina-redondeada">
                   <div class="form-check form-check-inline">

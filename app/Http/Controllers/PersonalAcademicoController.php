@@ -273,4 +273,11 @@ class PersonalAcademicoController extends Controller
     {
         return !UsuarioTieneRol::where('rol_id', '=', $rol)->where('Usuario_tiene_rol.usuario_codSis', '=', $codSis)->join('Usuario_pertenece_unidad', 'Usuario_pertenece_unidad.usuario_codSis', '=', 'Usuario_tiene_rol.usuario_codSis')->where('unidad_id', '=', $unidad_id)->get()->isEmpty();
     }
+
+    //muestra la vista de registro de personal
+    public function mostrarRegistro( Unidad $unidad){
+        return view('personal.registrarPersonal',[
+            'unidad' => $unidad
+        ]);
+    }
 }
