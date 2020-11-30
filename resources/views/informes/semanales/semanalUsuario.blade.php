@@ -32,6 +32,7 @@
                                 <th class = "textoBlanco border border-dark">OBSERVACIONES</th>
                                 <th class = "textoBlanco border border-dark">ASISTENCIA</th>
                                 <th class = "textoBlanco border border-dark">PERMISO</th>
+                                <th class = "textoBlanco border border-dark">OPCIONES</th>
                             </tr>
                             @foreach ($unidad as $key2 => $asistencia)
                                 <tr>
@@ -62,6 +63,18 @@
                                     @else
                                         <td class = "border border-dark"></td>
                                     @endif
+                                    <td class="border border-dark">
+                                        <input 
+                                            id = {{"botonEditar".$asistencia->id}}
+                                            width="30rem"
+                                            height="30rem"
+                                            type="image"
+                                            name="botonEditar" 
+                                            src="/icons/editar.png" 
+                                            alt="Editar"
+                                            onclick="camposEdicionAsitencia({{$asistencia->id}}, {{$asistencia}}); desactivar()"
+                                        >
+                                    </td>
                                 </tr>
                             @endforeach
                         </table>
