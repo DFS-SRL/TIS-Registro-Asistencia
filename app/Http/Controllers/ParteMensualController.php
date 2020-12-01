@@ -187,14 +187,14 @@ class ParteMensualController extends Controller
     public function descargarPDFDocentes(Unidad $unidad, $fecha )
     {
         $respuesta = $this->generarParteDocentes($unidad, $fecha);
-        return PDF::loadView('parteMensual.masterPDF',$respuesta)
+        return PDF::loadView('parteMensual.docentesPDF',$respuesta)
                     ->setPaper('letter', 'landscape')
                     ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
     }
     public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
     {
         $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
-        return PDF::loadView('parteMensual.masterPDF',$respuesta)
+        return PDF::loadView('parteMensual.auxiliaresPDF',$respuesta)
                     ->setPaper('letter', 'landscape')
                     ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
     }
