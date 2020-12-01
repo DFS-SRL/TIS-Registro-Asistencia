@@ -1,14 +1,32 @@
 /**
  * Habilita las opciones para editar la informacion de una asistencia
  */
-function camposEdicionAsitencia(asistenciaId, asistencia) {
-    // var esMateria = true;
-    // if (horario["rol_id"] == 1) esMateria = false;
-
+function camposEdicionAsitencia(asistenciaId, asistencia, rolId) {
     // Vaciamos los elementos de la fila y añadimos las opciones
-    // $("#horario" + horarioId + ", #dia" + horarioId)
-    //     .children("p")
-    //     .hide();
+    window.alert("chipoyo");
+    $("#actividad" + asistenciaId)
+        .children()
+        .hide();
+    $("#indicador" + asistenciaId)
+        .children()
+        .hide();
+    $("#observaciones" + asistenciaId)
+        .children()
+        .hide();
+    $("#asistencia" + asistenciaId)
+        .children()
+        .hide();
+    $("#permiso" + asistenciaId)
+        .children()
+        .hide();
+
+    // <textarea name="actividad_realizada{{ $asistencia->id }}"
+    //     class = "actividad"
+    //     maxlength="150" id="actividad{{ $asistencia->id }}"
+    //     onkeypress="valLim(150, 'actividad{{ $asistencia->id }}', 'msgAct{{ $asistencia->id }}')"
+    //     onkeyup="valLim(150, 'actividad{{ $asistencia->id }}', 'msgAct{{ $asistencia->id }}')"
+    // ></textarea>
+    // <label class ="text-danger" id="msgAct{{ $asistencia->id }}" for="actividad{{ $asistencia->id }}"></label>
 
     // if (esMateria) {
     //     $("#horario" + horarioId).append(
@@ -99,7 +117,6 @@ function camposEdicionAsitencia(asistenciaId, asistencia) {
     // $("#botonEliminar" + horarioId).prop("disabled", false);
 
     $("#botonEditar" + asistenciaId).hide();
-    $("[id^=botonEditar]").prop("disabled", true);
     $("#botonEliminar" + asistenciaId).prop("disabled", false);
 
     $(
@@ -141,7 +158,6 @@ function cancelarEdicionAsistencia(horarioId) {
     // $("#cargo" + horarioId + " :not(:first-child)").remove();
 
     $("#botonEditar" + horarioId).show();
-    $("[id^=botonEditar]").prop("disabled", false);
     $("#botonAceptar" + horarioId).remove();
     $("#botonCancelar" + horarioId).remove();
 }
@@ -169,4 +185,11 @@ function aceptarEdicionAsistencia(horarioId) {
 
     // document.getElementById("editar-horario" + horarioId).submit();
     window.alert("despedidoooo");
+}
+
+function validarCamposUsuario(rolId) {
+    res = false;
+    if (rolId == 2) res = validarCampos();
+    else res = valMinAct();
+    return res;
 }

@@ -40,29 +40,37 @@
                                     <td class = "border border-dark">{{ $asistencia->grupo->nombre }}</td>
                                     <td class = "border border-dark">{{ formatoFecha($asistencia->fecha) }}</td>
                                     <td class = "border border-dark">{{ $asistencia->horarioClase->hora_inicio }} - {{ $asistencia->horarioClase->hora_fin }} </td>
-                                    <td class = "border border-dark">{{ $asistencia->actividad_realizada }} </td>
-                                    <td class = "border border-dark">{{ $asistencia->indicador_verificable }} </td>
-                                    <td class = "border border-dark">{{ $asistencia->observaciones }}</td>
-                                    <td class = "border border-dark"> {{ $asistencia->asistencia ? 'SI' : 'NO' }}</td>
+                                    <td class = "border border-dark" id="actividad{{ $asistencia->id }}">
+                                        <p>{{ $asistencia->actividad_realizada }}</p>
+                                    </td>
+                                    <td class = "border border-dark" id="indicador{{ $asistencia->id }}">
+                                        <p>{{ $asistencia->indicador_verificable }}</p>
+                                    </td>
+                                    <td class = "border border-dark" id="observaciones{{ $asistencia->id }}">
+                                        <p>{{ $asistencia->observaciones }}</p>
+                                    </td>
+                                    <td class = "border border-dark" id="asistencia{{ $asistencia->id }}">
+                                        <p>{{ $asistencia->asistencia ? 'SI' : 'NO' }}</p>
+                                    </td>
                                     {{-- <td class = "border border-dark"> {{ $asistencia->permiso ? $asistencia->permiso : '' }} </td> --}}
-                                    @if ( $asistencia->permiso )
-                                        <td class = "border border-dark">
-                                            <div class="col-12">
-                                                <button type="button" class="btn btn-success boton" >
-                                                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
-                                                        <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
-                                                        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            <div class="text-center">
-                                                <?=str_replace('_', ' ', $asistencia->permiso)?>
-                                            </div>
-                                        </td>
-                                    @else
-                                        <td class = "border border-dark"></td>
-                                    @endif
+                                    <td class="border border-dark" id="permiso{{ $asistencia->id }}">
+                                        <div>
+                                            @if ( $asistencia->permiso )
+                                                <div class="col-12">
+                                                    <button type="button" class="btn btn-success boton" >
+                                                        <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+                                                            <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+                                                            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div class="text-center">
+                                                    <?=str_replace('_', ' ', $asistencia->permiso)?>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="border border-dark">
                                         <input 
                                             id = {{"botonEditar". $asistencia->id}}
@@ -70,10 +78,30 @@
                                             height="30rem"
                                             type="image"
                                             name="botonEditar" 
-                                            src="/icons/editar.png" 
+                                            @if($asistencia->nivel != 1)
+                                                src="/icons/editarDis.png" 
+                                                disabled
+                                            @else
+                                                src="/icons/editar.png"
+                                            @endif
                                             alt="Editar"
-                                            onclick="camposEdicionAsitencia({{$asistencia->id}}, {{$asistencia}}); desactivar()"
+                                            onclick="camposEdicionAsitencia({{ $asistencia->id }}, {{ $asistencia }}, {{ $asistencia->horarioClase->rol_id }}); desactivar()"
                                         >
+                                        @if($asistencia->nivel == 1)
+                                            <form id="editar-asistencia{{ $asistencia->id }}" method="POST"
+                                                action="{{ route('asistencia.actualizar', $asistencia) }}" 
+                                                onsubmit="return validarCamposUsuario({{ $asistencia->horarioClase->rol_id }})"
+                                            >
+                                                @csrf @method('PATCH')
+                                                <input id="actividad-form{{ $asistencia->id }}" type="text" name="actividad_realizada">
+                                                <input id="indicador-form{{ $asistencia->id }}" type="text" name="indicador_verificable">
+                                                <input id="observaciones-form{{ $asistencia->id }}" type="text" name="observaciones">
+                                                <input id="asistencia-form{{ $asistencia->id }}" type="text" name="asistencia">
+                                                <input id="permiso-form{{ $asistencia->id }}" type="text" name="permiso">
+                                                <input id="documento-form{{ $asistencia->id }}" type="file" name="documento_adicional">
+                                                <button>caca</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -113,9 +141,11 @@
         function activar() {
             @foreach($asistencias as $key1 => $unidad)
                 @foreach($unidad as $key2 => $asistencia)
-                    editar = document.getElementById("botonEditar" + {{ $asistencia->id }});
-                    editar.disabled = false;
-                    editar.src = "/icons/editar.png";
+                    @if($asistencia->nivel == 1)
+                        editar = document.getElementById("botonEditar" + {{ $asistencia->id }});
+                        editar.disabled = false;
+                        editar.src = "/icons/editar.png";
+                    @endif
                 @endforeach
             @endforeach
         }

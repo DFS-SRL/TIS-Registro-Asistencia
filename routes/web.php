@@ -69,6 +69,8 @@ Route::post('/horarioClase', 'HorarioClaseController@guardar')->name('horarioCla
 Route::patch('/horarioClase/{horario}', 'HorarioClaseController@actualizar')->name('horarioClase.actualizar');
 Route::delete('/horarioClase/{horario}', 'HorarioClaseController@eliminar')->name('horarioClase.eliminar');
 
+Route::patch('/asistencia/{asistencia}', 'AsistenciaController@actualizar')->name('asistencia.actualizar');
+
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
