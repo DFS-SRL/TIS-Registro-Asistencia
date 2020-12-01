@@ -284,4 +284,46 @@ class PersonalAcademicoController extends Controller
             ->get()
             ->isEmpty();
     }
+
+    //muestra la vista de registro de personal
+    public function mostrarRegistro( Unidad $unidad){
+        return view('personal.registrarPersonal',[
+            'unidad' => $unidad,
+            'despuesVerificar' => false,
+            'personal' => [],
+            'departamento' => []
+        ]);
+    }
+
+    //verifica si existe el personal academico correspondiente al codsis en el departamento especificado o solo en el sistema o en ninguno
+    public function verificarCodsis(Unidad $unidad){
+        $codSis = request()->codsis;
+        $personal = Usuario::where('codSis','=',$codSis)->get();
+        $departamento = [];
+        $nombres = "";
+        $apellidoPaterno="";
+        $apellidoMaterno="";
+        $correo="";
+        if(count($personal) != 0){
+            $nombreSeparado = explode(" ",$personal[0]->nombre);
+            $nombres = str_replace("_", " ", $nombreSeparado[2]);
+            $apellidoPaterno = str_replace("_", " ", $nombreSeparado[0]);
+            $apellidoMaterno = str_replace("_", " ", $nombreSeparado[1]);
+            $correo = $personal[0]->correo_electronico;
+            $departamento = UsuarioPerteneceUnidad :: where('usuario_codSis','=',$codSis)
+                ->where('unidad_id','=',$unidad->id)
+                ->get();
+        }
+        //return $departamento;
+        return view('personal.registrarPersonal',[
+            'unidad'=>$unidad,
+            'despuesVerificar'=>true,
+            'nombres'=>$nombres,
+            'apellidoPaterno'=>$apellidoPaterno,
+            'apellidoMaterno'=>$apellidoMaterno,
+            'correo'=>$correo,
+            'departamento'=>$departamento,
+            'codSis'=> $codSis
+        ]);
+    }
 }
