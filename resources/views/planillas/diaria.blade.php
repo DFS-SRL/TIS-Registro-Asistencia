@@ -52,7 +52,8 @@
                                 </div>
                             </td>
                             <td class="border border-dark">
-                                <select id="select{{ $key }}" name="asistencias[{{ $key }}][permiso]" disabled>
+                                <select value="SIN_PERMISO" id="select{{ $key }}" name="asistencias[{{ $key }}][permiso]" disabled>
+                                    <option value="SIN_PERMISO">Sin Permiso</option>
                                     <option value="LICENCIA">Licencia</option>
                                     <option value="BAJA_MEDICA">Baja medica</option>
                                     <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>

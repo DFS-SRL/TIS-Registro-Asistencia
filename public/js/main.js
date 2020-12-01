@@ -74,9 +74,11 @@ function habilitarDeshabilitar(codigo) {
         document.getElementById("asistenciaFalse" + codigo).value = true;
     } else {
         for (elemento of elementos) {
-            elemento.setAttribute("disabled", "");
-            elemento.value = "";
-            select.removeAttribute("disabled");
+            if(elemento.id !== ("observacion" + codigo)){
+                elemento.setAttribute("disabled", "");
+                elemento.value = "";
+                select.removeAttribute("disabled");
+            }
         }
         document.getElementById("msgAct" + codigo).innerHTML = "";
         document.getElementById("msgObs" + codigo).innerHTML = "";

@@ -60,10 +60,11 @@
                                         </div>
                                     </td>
                                     <td class="border border-dark">
-                                        <select name="asistencias[{{ $key1.$key2 }}][permiso]" id="select{{$key1}}{{$key2}}" disabled>
+                                        <select value="SIN_PERMISO" name="asistencias[{{ $key1.$key2 }}][permiso]" id="select{{$key1}}{{$key2}}" disabled>
+                                            <option value="SIN_PERMISO">Sin Permiso</option>
                                             <option value="LICENCIA">Licencia</option>
                                             <option value="BAJA_MEDICA">Baja medica</option>
-                                            <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>  
+                                            <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                         </select>
                                         <br>
                                         <input class="mt-4" type="file" id="documento_adicional{{$key1}}{{$key2}}" name="asistencias[{{ $key1.$key2 }}][documento_adicional]">
