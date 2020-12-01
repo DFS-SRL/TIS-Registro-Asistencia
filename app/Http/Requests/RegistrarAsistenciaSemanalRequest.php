@@ -33,6 +33,7 @@ class RegistrarAsistenciaSemanalRequest extends FormRequest
             if ($val['asistencia'] == "false") {
                     $reglas['asistencias.' . $key . '.permiso'] = 'required';
                 $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
+                $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
             }
             else {
                 $reglas['asistencias.' . $key . '.actividad_realizada'] = 'required|min:5|max:150';

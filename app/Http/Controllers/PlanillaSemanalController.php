@@ -77,6 +77,11 @@ class PlanillaSemanalController extends Controller
 
         // recorrer asistencias colocando datos extra y almacenando en bd
         foreach ($asistencias as $key => $asistencia) {
+
+            if($asistencia['permiso'] == 'null'){
+                $asistencia['permiso'] = null;
+            }
+
             // Se cambia el formato de fecha de d/m/Y a Y-m-d para la BD
             $asistencia['fecha'] = convertirFechaDMYEnYMD($asistencia['fecha']);
             
