@@ -26,7 +26,7 @@
         <div class="mx-5 mt-5">
             <form action="" class="mx-5">
                 @if ($despuesVerificar)
-                    @if (count($departamento) == 0)
+                    @if (count($departamento) != 0)
                         <div class="row justify-content-center">
                             <div class="col-3">
                                 <span class="textoBlanco mr-2">Nombres: </span>
@@ -94,7 +94,7 @@
                                 <span class="textoBlanco mr-2">Nombres: </span>
                             </div>
                             <div class="col-4">
-                            <input type="text" class="form-control mb-4 deshabilitado" value="{{explode(' ',$personal->nombre)}}">
+                                <input type="text" class="form-control mb-4 deshabilitado" value="{{$nombres}}">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -102,7 +102,7 @@
                                 <span class="textoBlanco mr-2">Apellido paterno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado">
+                                <input type="text" class="form-control mb-4 deshabilitado" value="{{$apellidoPaterno}}">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -110,7 +110,7 @@
                                 <span class="textoBlanco mr-2">Apellido materno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado">
+                                <input type="text" class="form-control mb-4 deshabilitado" value="{{$apellidoMaterno}}">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -118,7 +118,7 @@
                                 <span class="textoBlanco mr-2">Correo electronico: </span>
                             </div>
                             <div class="col-4">
-                                <input type="email" class="form-control mb-4 deshabilitado">
+                                <input type="email" class="form-control mb-4 deshabilitado" value="{{$correo}}">
                             </div>
                         </div>
                         <div class="row justify-content-center">
