@@ -64,3 +64,10 @@ textarea {
 .oculto{
     display: none;
 }
+
+.esquina-redondeada {
+    border-style: solid;
+    border-radius: 15px;
+    padding: 5px;
+    border-color: black;
+}

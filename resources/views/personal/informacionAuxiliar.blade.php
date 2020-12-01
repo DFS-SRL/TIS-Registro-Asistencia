@@ -13,9 +13,6 @@
       <h1 class="text-center">Información de Auxiliar</h1>
       <h4>Nombre: {{ $usuario->nombre() }}</h4>
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
-      {{-- <h4>Carga Nominal Grupos: {{ $cargaHorariaNominalGrupos }}</h4>
-      <h4>Carga Nominal Ítems: {{ $cargaHorariaNominalItems }}</h4>
-      <h4>Rol: Docente</h4> --}}
     </div>
     <div class="accordion" id="accordionExample">
       <div class="card mostaza">
@@ -29,7 +26,7 @@
     
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">     
           <div class="card-body">
-            <div class="row justify-content-center my-2">
+            <div class="row justify-content-center">
               <form>
                 <div class="col-12 opciones esquina-redondeada">
                   <div class="form-check form-check-inline">
@@ -46,7 +43,7 @@
             <div id="gruposActuales">
               @if (count($gruposActuales) != 0)
                 <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalGrupos}} </h4>
-                <table class="table table-bordered">
+                <table class="table">
                   <tbody>  
                       @foreach ($gruposActuales as $grupoActual)
                           <tr>
@@ -65,7 +62,7 @@
             </div>
             <div id="gruposAntiguos" class="oculto">
               @if (count($gruposPasados) != 0)
-                <table class="table table-bordered">
+                <table class="table">
                   <tbody class="">  
                       @foreach ($gruposPasados as $grupoPasado)
                           <tr>
@@ -113,7 +110,7 @@
             <div id="itemsActuales">
               @if (count($itemsActuales) != 0)
                 <h4 class="textoBlanco m-2">Carga horaria nominal: {{$cargaHorariaNominalItems}} </h4>
-                <table class="table table-bordered">
+                <table class="table">
                   <tbody>  
                       @foreach ($itemsActuales as $itemActual)
                           <tr>
@@ -132,7 +129,7 @@
             </div>
             <div id="itemsAntiguos" class="oculto">
               @if (count($itemsPasados) != 0)
-                <table class="table table-bordered">
+                <table class="table">
                   <tbody class="">  
                       @foreach ($itemsPasados as $itemPasado)
                           <tr>

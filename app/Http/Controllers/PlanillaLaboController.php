@@ -23,7 +23,7 @@ class PlanillaLaboController extends Controller
             $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
                 ->where('activo', '=', 'true')
                 ->where('rol_id', '=', 1)
-                ->where('dia', '=', getDia())->get();
+                ->where('dia', '=', 'MARTES')->get();
         else
             $horarios = collect(new HorarioClase);
         // devolver vista de planillas diarias

@@ -22,7 +22,7 @@
             @if (!$asistencias->isEmpty())
                 {{-- <h4 class="textoBlanco">{{ $unidad[0]->unidad->facultad }} /
                     {{ $unidad[0]->unidad->nombre }}</h4> --}}
-                <table class="table table-bordered table-responsive">
+                <table class="table table-responsive">
                     <tr>
                         <th class="textoBlanco border border-dark">MATERIA</th>
                         <th class="textoBlanco border border-dark">GRUPO</th>

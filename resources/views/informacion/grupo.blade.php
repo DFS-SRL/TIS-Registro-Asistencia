@@ -22,7 +22,7 @@
                         </svg></button>
                 </div>
             </div>
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                     @if (!$horarios->isEmpty())
                         <tr>

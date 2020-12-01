@@ -250,27 +250,80 @@ class PersonalAcademicoController extends Controller
         return $carga / $periodo;
     }
 
-    // devuelve codSis si el codSis es de un docente de la unidad_id
+    // devuelve verdadero si el codSis es de un docente de la unidad_id
     public static function esDocente($codSis, $unidad_id)
     {
         return self::esDelRol($codSis, $unidad_id, 3);
     }
 
-    // devuelve codSis si el codSis es de un docente de la unidad_id
+    // devuelve verdadero si el codSis es de un auxiliar de docencia de la unidad_id
     public static function esAuxDoc($codSis, $unidad_id)
     {
         return self::esDelRol($codSis, $unidad_id, 2);
     }
 
-    // devuelve codSis si el codSis es de un docente de la unidad_id
+    // devuelve verdadero si el codSis es de un auxiliar de laboratorio de la unidad_id
     public static function esAuxLab($codSis, $unidad_id)
     {
         return self::esDelRol($codSis, $unidad_id, 1);
     }
 
-    // devuelve codSis si el codSis tiene el rol de la unidad_id
+    // devuelve verdadero si el codSis es de un axuliar de la unidad_id
+    public static function esAuxiliar($codSis, $unidad_id)
+    {
+        return self::esAuxDoc($codSis, $unidad_id) || self::esAuxLab($codSis, $unidad_id);
+    }
+
+    // devuelve verdadero si el codSis es de un rol de la unidad_id
     private static function esDelRol($codSis, $unidad_id, $rol)
     {
-        return !UsuarioTieneRol::where('rol_id', '=', $rol)->where('Usuario_tiene_rol.usuario_codSis', '=', $codSis)->join('Usuario_pertenece_unidad', 'Usuario_pertenece_unidad.usuario_codSis', '=', 'Usuario_tiene_rol.usuario_codSis')->where('unidad_id', '=', $unidad_id)->get()->isEmpty();
+        return !UsuarioTieneRol::where('rol_id', '=', $rol)
+            ->where('Usuario_tiene_rol.usuario_codSis', '=', $codSis)
+            ->join('Usuario_pertenece_unidad', 'Usuario_pertenece_unidad.usuario_codSis', '=', 'Usuario_tiene_rol.usuario_codSis')
+            ->where('unidad_id', '=', $unidad_id)
+            ->get()
+            ->isEmpty();
+    }
+
+    //muestra la vista de registro de personal
+    public function mostrarRegistro( Unidad $unidad){
+        return view('personal.registrarPersonal',[
+            'unidad' => $unidad,
+            'despuesVerificar' => false,
+            'personal' => [],
+            'departamento' => []
+        ]);
+    }
+
+    //verifica si existe el personal academico correspondiente al codsis en el departamento especificado o solo en el sistema o en ninguno
+    public function verificarCodsis(Unidad $unidad){
+        $codSis = request()->codsis;
+        $personal = Usuario::where('codSis','=',$codSis)->get();
+        $departamento = [];
+        $nombres = "";
+        $apellidoPaterno="";
+        $apellidoMaterno="";
+        $correo="";
+        if(count($personal) != 0){
+            $nombreSeparado = explode(" ",$personal[0]->nombre);
+            $nombres = str_replace("_", " ", $nombreSeparado[2]);
+            $apellidoPaterno = str_replace("_", " ", $nombreSeparado[0]);
+            $apellidoMaterno = str_replace("_", " ", $nombreSeparado[1]);
+            $correo = $personal[0]->correo_electronico;
+            $departamento = UsuarioPerteneceUnidad :: where('usuario_codSis','=',$codSis)
+                ->where('unidad_id','=',$unidad->id)
+                ->get();
+        }
+        //return $departamento;
+        return view('personal.registrarPersonal',[
+            'unidad'=>$unidad,
+            'despuesVerificar'=>true,
+            'nombres'=>$nombres,
+            'apellidoPaterno'=>$apellidoPaterno,
+            'apellidoMaterno'=>$apellidoMaterno,
+            'correo'=>$correo,
+            'departamento'=>$departamento,
+            'codSis'=> $codSis
+        ]);
     }
 }

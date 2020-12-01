@@ -33,6 +33,8 @@ Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');
 Route::get('/informes/semanal/docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalDoc');
 
+Route::get('/informes/semanal/personal/{usuario}/{fecha}', 'InformesController@obtenerInformeSemanalUsuario');
+
 Route::get('/informes/mensual/{unidad}/{fecha}/docente/{usuario}', 'InformesController@obtenerInformeMensualDocente')
     ->name('informes.mensual.docente');
 Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesController@obtenerInformeMensualAuxiliar')
@@ -71,19 +73,25 @@ Route::post('/horarioClase', 'HorarioClaseController@guardar')->name('horarioCla
 Route::patch('/horarioClase/{horario}', 'HorarioClaseController@actualizar')->name('horarioClase.actualizar');
 Route::delete('/horarioClase/{horario}', 'HorarioClaseController@eliminar')->name('horarioClase.eliminar');
 
+Route::patch('/asistencia/{asistencia}', 'AsistenciaController@actualizar')->name('asistencia.actualizar');
+
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 
-Route::get('/informes/semanales/{unidad}', 'InformesController@formulario')->name('informes.semanales');
+Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad')->name('informes.semanales');
+Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
+Route::get('/personalAcademico/registrar/{unidad}', 'PersonalAcademicoController@mostrarRegistro')->name('personalAcademico.mostrarRegistro');
+Route::get('/personalAcademico/registrar/{unidad}/verificar', 'PersonalAcademicoController@verificarCodsis')->name('personalAcademico.verificar');
 Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('informacion.personalAcademico');
 Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@informacionDocente')->name('informacion.docente');
 Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'PersonalAcademicoController@informacionAuxiliar')->name('informacion.auxiliar');
 
 Route::post('/personalAcademico/{unidad}/buscar', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscar');
 Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscando');
+

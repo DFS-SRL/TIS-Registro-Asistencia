@@ -82,7 +82,7 @@
         </div>
 
         <div class="espaciado d-flex flex-row-reverse">
-            <button class="boton btn btn-success textoNegro" onclick="verInforme({{$unidad['id']}})">VER INFORME</button>
+            <button class="boton btn btn-success textoNegro" onclick="verInformeUnidad({{$unidad['id']}})">VER INFORME</button>
         </div>
         
     </div>

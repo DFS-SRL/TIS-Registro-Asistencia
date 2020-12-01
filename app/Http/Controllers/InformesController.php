@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Unidad;
 use App\Usuario;
 use App\Asistencia;
+use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
 use Illuminate\Validation\ValidationException;
@@ -79,9 +80,40 @@ class InformesController extends Controller
     }
 
     //obtener formulario para seleccionar informes semanales en el departamento
-    public function formulario(Unidad $unidad)
+    public function formularioUnidad(Unidad $unidad)
     {
-        return view('informes.semanales.semanales', ['unidad' => $unidad]);
+        return view('informes.semanales.unidadSeleccion', ['unidad' => $unidad]);
+    }
+
+    //obtener formulario para seleccionar informes semanales de un miembro del personal academico
+    public function formularioUsuario(Usuario $usuario)
+    {
+        return view('informes.semanales.usuarioSeleccion', ['usuario' => $usuario]);
+    }
+
+
+    // obtener informe semanal de un miembro del personal academico
+    public function obtenerInformeSemanalUsuario(Usuario $usuario, $fecha)
+    {
+        // obteniendo las fechas de la semana
+        $fechas = getFechasDeSemanaEnFecha($fecha);
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUsuario($usuario, $fechas[0], $fechas[5])
+            ->groupBy('unidad_id');
+
+        $esDocente = UsuarioTieneRol::where('usuario_codSis', '=', $usuario->codSis)
+            ->where('rol_id', '=', 3)
+            ->count() > 0;
+
+        // devolver la vista del informe pasado
+        return view('informes.semanales.semanalUsuario', [
+            'usuario' => $usuario,
+            'asistencias' => $asistencias,
+            'fechaInicio' => $fechas[0],
+            'fechaFinal' => $fechas[5],
+            'esDocente' => $esDocente
+        ]);
     }
 
     // obtener informes semanales de auxiliares de laboratorio
@@ -130,6 +162,13 @@ class InformesController extends Controller
     // obtener informe mensual de asistencia de un docente de la unidad
     public function obtenerInformeMensualDocente(Unidad $unidad, $fecha, Usuario $usuario)
     {
+        if (!PersonalAcademicoController::esDocente($usuario->codSis, $unidad->id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
+            ]);
+            throw $error;
+        }
+
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 
@@ -150,6 +189,12 @@ class InformesController extends Controller
     // obtener informe mensual de asistencia de un auxiliar de la unidad
     public function obtenerInformeMensualAuxiliar(Unidad $unidad, $fecha, Usuario $usuario)
     {
+        if (!PersonalAcademicoController::esAuxiliar($usuario->codSis, $unidad->id)) {
+            $error = ValidationException::withMessages([
+                'codSis' => ['el codigo sis no pertenece a un auxilar de la unidad']
+            ]);
+            throw $error;
+        }
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 

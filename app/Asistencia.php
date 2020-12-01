@@ -36,4 +36,9 @@ class Asistencia extends Model
     {
         return $this->belongsTo('App\HorarioClase');
     }
+
+    public function unidad()
+    {
+        return $this->belongsTo('App\Unidad');
+    }
 }
