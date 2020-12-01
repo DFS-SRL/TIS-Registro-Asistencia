@@ -11,12 +11,11 @@ use App\HorarioClase;
 use Illuminate\Http\Request;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 class ParteMensualController extends Controller
 {
-    // dada unidad y fecha devuelve vista de parte de auxiliares
-    public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
-    {
+    //Generar parte auxiliares
+    private function generarParteAuxiliares(Unidad $unidad,$fecha){
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
@@ -33,9 +32,7 @@ class ParteMensualController extends Controller
         $parteDoc = $this->parteMensual($auxDoc, $unidad, 2, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
 
         $parteCombinado = $this->combinar($parteLabo, $parteDoc);
-
-        // devolver la vista de parte mensual de auxiliares
-        return view('parteMensual.auxiliares', [
+        return  [
             'unidad' => $unidad,
             'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
@@ -46,13 +43,20 @@ class ParteMensualController extends Controller
             'parteCombinado' => $parteCombinado,
             'totPagables' => $totPagables,
             'totNoPagables' => $totNoPagables
-        ]);
+        ];
     }
 
-    // dada unidad y fecha devuelve vista de parte de docentes
-    public function obtenerParteDocentes(Unidad $unidad, $fecha)
+    // dada unidad y fecha devuelve vista de parte de auxiliares
+    public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
     {
-        // obtener fechas inicio y fin del mes
+        $parteAuxiliares = $this->generarParteAuxiliares($unidad,$fecha);
+
+        // devolver la vista de parte mensual de auxiliares
+        return view('parteMensual.auxiliares',$parteAuxiliares);
+    }
+    //Generar parte docentes
+    private function generarParteDocentes(Unidad $unidad, $fecha){
+        // obtener fechas inicio y fin del mes        
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
         // obtener usuarios con rol docente
@@ -64,9 +68,7 @@ class ParteMensualController extends Controller
 
         // obtener parte
         $parteDoc = $this->parteMensual($docentes, $unidad, 3, $fechaInicio, $fechaFin, $totPagables, $totNoPagables);
-
-        // devolver la vista de parte mensual de auxiliares
-        return view('parteMensual.docentes', [
+        return [
             'unidad' => $unidad,
             'fecha' => $fecha,
             'fechaInicio' => $fechaInicio,
@@ -75,7 +77,15 @@ class ParteMensualController extends Controller
             'parteDoc' => $parteDoc,
             'totPagables' => $totPagables,
             'totNoPagables' => $totNoPagables
-        ]);
+        ];
+    }
+    // dada unidad y fecha devuelve vista de parte de docentes
+    public function obtenerParteDocentes(Unidad $unidad, $fecha)
+    {
+        $parteDocentes = $this->generarParteDocentes($unidad,$fecha);
+
+        // devolver la vista de parte mensual de auxiliares
+        return view('parteMensual.docentes',$parteDocentes );
     }
 
 
@@ -172,5 +182,20 @@ class ParteMensualController extends Controller
             $cargaNominal += $horas;
         }
         return 4 * $cargaNominal;
+    }
+    //Obtener PDF Docentes
+    public function descargarPDFDocentes(Unidad $unidad, $fecha )
+    {
+        $respuesta = $this->generarParteDocentes($unidad, $fecha);
+        return PDF::loadView('parteMensual.docentesPDF',$respuesta)
+                    ->setPaper('letter', 'landscape')
+                    ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
+    }
+    public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
+    {
+        $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
+        return PDF::loadView('parteMensual.auxiliaresPDF',$respuesta)
+                    ->setPaper('letter', 'landscape')
+                    ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
     }
 }
