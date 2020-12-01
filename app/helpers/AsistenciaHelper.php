@@ -72,6 +72,7 @@ class AsistenciaHelper
             ->orderBy('Materia.nombre', 'ASC')
             ->orderBy('Grupo.nombre', 'ASC')
             ->orderBy('fecha', 'ASC')
+            ->select('Asistencia.*')
             ->get();
     }
 }
