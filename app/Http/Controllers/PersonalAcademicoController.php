@@ -288,7 +288,33 @@ class PersonalAcademicoController extends Controller
     //muestra la vista de registro de personal
     public function mostrarRegistro( Unidad $unidad){
         return view('personal.registrarPersonal',[
-            'unidad' => $unidad
+            'unidad' => $unidad,
+            'despuesVerificar' => false,
+            'personal' => [],
+            'departamento' => []
+        ]);
+    }
+
+    //verifica si existe el personal academico correspondiente al codsis en el departamento especificado o solo en el sistema o en ninguno
+    public function verificarCodsis(Unidad $unidad){
+        $codSis = request()->codsis;
+        $personal = Usuario::where('codSis','=',$codSis)->get();
+        $departamento = [];
+        if(count($personal) != 0){
+            $nombreSeparado = explode(" ",$personal[0]->nombre);
+            $nombres = str_replace("_", " ", $nombreSeparado[2]);
+            $apellidoPaterno = str_replace("_", " ", $nombreSeparado[0]);
+            $apellidoMaterno = str_replace("_", " ", $nombreSeparado[1]);
+            $departamento = UsuarioPerteneceUnidad :: where('usuario_codSis','=',$codSis)->where('unidad_id','=',$unidad->id)->get();
+        }
+        return view('personal.registrarPersonal',[
+            'unidad'=>$unidad,
+            'despuesVerificar'=>true,
+            'nombres'=>$nombres,
+            'apellidoPaterno'=>$apellidoPaterno,
+            'apellidoMaterno'=>$apellidoMaterno,
+            'departamento'=>$departamento,
+            'codSis'=> $codSis
         ]);
     }
 }

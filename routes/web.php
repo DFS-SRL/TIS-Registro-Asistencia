@@ -80,7 +80,8 @@ Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('ca
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
 
-route::get('/personalAcademico/registrar/{unidad}', 'PersonalAcademicoController@mostrarRegistro')->name('personalAcademico.mostrarRegistro');
+Route::get('/personalAcademico/registrar/{unidad}', 'PersonalAcademicoController@mostrarRegistro')->name('personalAcademico.mostrarRegistro');
+Route::get('/personalAcademico/registrar/{unidad}/verificar', 'PersonalAcademicoController@verificarCodsis')->name('personalAcademico.verificar');
 Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('informacion.personalAcademico');
 Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@informacionDocente')->name('informacion.docente');
 Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'PersonalAcademicoController@informacionAuxiliar')->name('informacion.auxiliar');
