@@ -15,17 +15,24 @@ class PlanillaLaboController extends Controller
 {
     public function obtenerPlanillaDia(Usuario $user)
     {
-        // ver si no se lleno la planilla de hoy
-        $llenado = $this->hayAsistencias($user);
-
         // obteniendo horarios asignados en el dia actual
-        if (!$llenado)
-            $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
-                ->where('activo', '=', 'true')
-                ->where('rol_id', '=', 1)
-                ->where('dia', '=', 'MARTES')->get();
-        else
-            $horarios = collect(new HorarioClase);
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
+            ->where('activo', '=', 'true')
+            ->where('rol_id', '=', 1)
+            ->where('dia', '=', getDia())
+            ->orderBy('hora_inicio', 'ASC')
+            ->get();
+
+        // ver si no se lleno la planilla de esta semana
+        $registradas = $this->asistenciasRegistradas($user, 1);
+        $llenado = $registradas->count() == $horarios->count() && $horarios->count() > 0;
+
+        foreach ($horarios as $key => $horario) {
+            if ($registradas->contains('id', $horario->id)) {
+                $horarios->forget($key);
+            }
+        }
+
         // devolver vista de planillas diarias
         return view('planillas.diaria', [
             'usuario' => $user,
@@ -38,11 +45,12 @@ class PlanillaLaboController extends Controller
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
         // validar
-        $asistencias = $request->validated()['asistencias'];
+        $asistencias = array_values($request->validated()['asistencias']);
 
         // ver si no se lleno la planilla de hoy
-        $llenado = $this->hayAsistencias(Usuario::find(HorarioClase::find($asistencias[0]['horario_clase_id'])->asignado_codSis));
-        if ($llenado) {
+        $usuario = Usuario::find(HorarioClase::find($asistencias[0]['horario_clase_id'])->asignado_codSis);
+        $registradas = $this->asistenciasRegistradas($usuario);
+        if ($registradas->count() == $this->cuantosHorarios($usuario)) {
             $error = ValidationException::withMessages([
                 'lleno' => ['LA PLANILLA YA FUE LLENADA']
             ]);
@@ -52,6 +60,8 @@ class PlanillaLaboController extends Controller
 
         // recorrer asistencias colocando datos extra y almacenando en bd
         foreach ($asistencias as $key => $asistencia) {
+            if ($registradas->contains('id', $asistencia['horario_clase_id']) || $asistencia['asistencia'] == 'false')
+                continue;
             $horario = HorarioClase::find($asistencia['horario_clase_id']);
             $asistencia['fecha'] = getFechaF("Y-m-d");
             $asistencia['nivel'] = 2;
@@ -65,13 +75,22 @@ class PlanillaLaboController extends Controller
         return back()->with('success', "asistencias registradas!!!");
     }
 
-    private function hayAsistencias($usuario)
+    private function asistenciasRegistradas($usuario)
     {
-        $asistencias = Asistencia::where('fecha', '=', date('Y-m-d'))
+        return Asistencia::where('fecha', '=', date('Y-m-d'))
             ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
             ->where('rol_id', '=', 1)
             ->where('Horario_clase.asignado_codSis', '=', $usuario->codSis)
+            ->select('Horario_clase.id')
             ->get();
-        return !$asistencias->isEmpty();
+    }
+
+    private function cuantosHorarios($usuario)
+    {
+        return HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
+            ->where('activo', '=', 'true')
+            ->where('rol_id', '=', 1)
+            ->where('dia', '=', getDia())
+            ->count();
     }
 }
