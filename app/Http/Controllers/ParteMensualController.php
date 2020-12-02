@@ -196,6 +196,6 @@ class ParteMensualController extends Controller
         $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
         return PDF::loadView('parteMensual.auxiliaresPDF',$respuesta)
                     ->setPaper('letter', 'landscape')
-                    ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
+                    ->stream('Parte Auxiliares-'.$unidad->nombre.'.pdf');
     }
 }
