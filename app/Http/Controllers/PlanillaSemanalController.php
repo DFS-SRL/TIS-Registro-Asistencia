@@ -32,20 +32,25 @@ class PlanillaSemanalController extends Controller
     {
         $codigoSis = $user->codSis;
 
-        // ver si no se lleno la planilla de esta semana
-        $llenado = $this->hayAsistencias($user, $rol);
+        // obteniendo horarios asignados al auxiliar actual
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
+            ->where('activo', '=', 'true')
+            ->where('rol_id', '=', $rol)
+            ->orderBy('dia', 'ASC')
+            ->orderBy('hora_inicio', 'ASC')
+            ->get();
 
-        if (!$llenado) {
-            // obteniendo horarios asignados al auxiliar actual
-            $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
-                ->where('activo', '=', 'true')
-                ->where('rol_id', '=', $rol)
-                ->orderBy('dia', 'ASC')
-                ->orderBy('hora_inicio', 'ASC')
-                ->get();
-            $horarios = $horarios->groupBy('unidad_id');
-        } else
-            $horarios = collect(new HorarioClase);
+        // ver si no se lleno la planilla de esta semana
+        $registradas = $this->asistenciasRegistradas($user, $rol);
+        $llenado = $registradas->count() == $horarios->count() && $horarios->count() > 0;
+
+        foreach ($horarios as $key => $horario) {
+            if ($registradas->contains('id', $horario->id)) {
+                $horarios->forget($key);
+            }
+        }
+
+        $horarios = $horarios->groupBy('unidad_id');
 
         $fechasDeSemana = getFechasDeSemanaActual();
 
@@ -63,12 +68,12 @@ class PlanillaSemanalController extends Controller
     // registrar asistencias de la semana
     public function registrarAsistenciasSemana(RegistrarAsistenciaSemanalRequest $request)
     {
-
         // validar
-        $asistencias = $request->validated()['asistencias'];
+        $asistencias = array_values($request->validated()['asistencias']);
         $horario0 = HorarioClase::find(array_values($asistencias)[0]['horario_clase_id']);
-        $llenado = $this->hayAsistencias(Usuario::find($horario0->asignado_codSis), $horario0->rol_id);
-        if ($llenado) {
+        $usuario = Usuario::find($horario0->asignado_codSis);
+        $registradas = $this->asistenciasRegistradas($usuario, $horario0->rol_id);
+        if ($registradas->count() == $this->cuantosHorarios($usuario, $horario0->rol_id)) {
             $error = ValidationException::withMessages([
                 'lleno' => ['LA PLANILLA YA FUE LLENADA']
             ]);
@@ -76,15 +81,13 @@ class PlanillaSemanalController extends Controller
         }
 
         // recorrer asistencias colocando datos extra y almacenando en bd
-        foreach ($asistencias as $key => $asistencia) {
-
-            if($asistencia['permiso'] == 'null'){
-                $asistencia['permiso'] = null;
-            }
+        foreach ($asistencias as $asistencia) {
+            if ($registradas->contains('id', $asistencia['horario_clase_id']))
+                continue;
 
             // Se cambia el formato de fecha de d/m/Y a Y-m-d para la BD
             $asistencia['fecha'] = convertirFechaDMYEnYMD($asistencia['fecha']);
-            
+
             $horario = HorarioClase::find($asistencia['horario_clase_id']);
             $asistencia['nivel'] = 2;
             $asistencia['usuario_codSis'] = $horario->asignado_codSis;
@@ -96,7 +99,7 @@ class PlanillaSemanalController extends Controller
                 $doc = $asistencia['documento_adicional'];
                 $docNombre = pathInfo($doc->getClientOriginalName(), PATHINFO_FILENAME);
                 $docExtension = $doc->getClientOriginalExtension();
-                $nombreAGuardar = $docNombre.'_'.time().'.'.$docExtension;
+                $nombreAGuardar = $docNombre . '_' . time() . '.' . $docExtension;
                 $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
                 $asistencia['documento_adicional'] = $nombreAGuardar;
             }
@@ -108,15 +111,24 @@ class PlanillaSemanalController extends Controller
     }
 
     // funcion auxiliar para ver si hay asistencias en la semana para no registrar 2 veces asistencias
-    private function hayAsistencias($usuario, $rol)
+    private function asistenciasRegistradas($usuario, $rol)
     {
         $fechas = getFechasDeSemanaEnFecha(date('Y-m-d'));
-        $asistencias = Asistencia::where('fecha', '>=', $fechas[0])
+        return Asistencia::where('fecha', '>=', $fechas[0])
             ->where('fecha', '<=', $fechas[5])
             ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
             ->where('rol_id', '=', $rol)
             ->where('Horario_clase.asignado_codSis', '=', $usuario->codSis)
+            ->select('Horario_clase.id')
             ->get();
-        return !$asistencias->isEmpty();
+    }
+
+    // contar horarios de la semana
+    private function cuantosHorarios($usuario, $rol)
+    {
+        return HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
+            ->where('activo', '=', 'true')
+            ->where('rol_id', '=', $rol)
+            ->count();
     }
 }

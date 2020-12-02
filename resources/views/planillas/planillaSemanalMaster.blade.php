@@ -60,14 +60,17 @@
                                             </div>
                                         </td>
                                         <td class="border border-dark">
-                                            <select value="null" name="asistencias[{{ $key1.$key2 }}][permiso]" id="select{{$key1}}{{$key2}}" disabled>
-                                                <option value="null">Sin Permiso</option>
-                                                <option value="LICENCIA">Licencia</option>
-                                                <option value="BAJA_MEDICA">Baja medica</option>
-                                                <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+                                            <select value="" id="select{{ $key1.$key2 }}" 
+                                                name="asistencias[{{ $key1.$key2 }}][permiso]" disabled
+                                                onchange="combo(this.selectedIndex, {{ $key1.$key2 }});" onfocus="this.selectedIndex = -1;"
+                                            >
+                                                <option onselect="console.log('sin perma')" value="">Sin Permiso</option>
+                                                <option onclick="window.alert('licensa')" value="LICENCIA">Licencia</option>
+                                                <option onclick="window.alert('bashs')" value="BAJA_MEDICA">Baja medica</option>
+                                                <option onclick="window.alert('comisionado gordon')" value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                             </select>
                                             <br>
-                                            <input class="mt-4" type="file" id="documento_adicional{{$key1}}{{$key2}}" name="asistencias[{{ $key1.$key2 }}][documento_adicional]">
+                                            <input class="{{$key1}}{{$key2}} mt-4" type="file" id="documento_adicional{{$key1}}{{$key2}}" name="asistencias[{{ $key1.$key2 }}][documento_adicional]" disabled>
                                         </td>
                                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
                                         <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">

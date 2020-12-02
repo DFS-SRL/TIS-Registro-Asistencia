@@ -52,11 +52,14 @@
                                 </div>
                             </td>
                             <td class="border border-dark">
-                                <select value="SIN_PERMISO" id="select{{ $key }}" name="asistencias[{{ $key }}][permiso]" disabled>
-                                    <option value="SIN_PERMISO">Sin Permiso</option>
-                                    <option value="LICENCIA">Licencia</option>
-                                    <option value="BAJA_MEDICA">Baja medica</option>
-                                    <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+                                <select value="" id="select{{ $key }}" 
+                                    name="asistencias[{{ $key }}][permiso]" disabled
+                                    onchange="combo(this.selectedIndex, {{ $key }});" onfocus="this.selectedIndex = -1;"
+                                >
+                                    <option onselect="console.log('sin perma')" value="">Sin Permiso</option>
+                                    <option onclick="window.alert('licensa')" value="LICENCIA">Licencia</option>
+                                    <option onclick="window.alert('bashs')" value="BAJA_MEDICA">Baja medica</option>
+                                    <option onclick="window.alert('comisionado gordon')" value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                 </select>
                             </td>
                         </tr>

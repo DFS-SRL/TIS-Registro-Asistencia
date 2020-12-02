@@ -4,14 +4,14 @@ function valLim(limite, textarea, msg) {
     numCaracteres = textAreaAct.value.length;
     if (numCaracteres >= limite) {
         document.getElementById(msg).innerHTML =
-            "No se puede escribir mas de "+limite+" caracteres";
+            "No se puede escribir mas de " + limite + " caracteres";
     } else {
         document.getElementById(msg).innerHTML = "";
     }
 }
 
 /*valida los campos actividad realizada e indicador verificable */
-function validarCampos(){
+function validarCampos() {
     return valMinAct() && valIndVer();
 }
 
@@ -40,19 +40,20 @@ function valMinAct() {
 }
 
 /*valida que los auxiliares especifiquen obligatoriamente el campo indicador verificable */
-function valIndVer(){
+function valIndVer() {
     let res = true;
-    let verificables = document.getElementsByClassName('verificable');
-    for(verificable of verificables){
-        if(verificable.disabled){
-           res = res && true; 
-        }else{
+    let verificables = document.getElementsByClassName("verificable");
+    for (verificable of verificables) {
+        if (verificable.disabled) {
+            res = res && true;
+        } else {
             //console.log("entra aqui");
-            if(verificable.value.length == 0){
-                id = verificable.id.replace('verificable',"");
-                document.getElementById("msgVer" + id).innerHTML = "es obligatorio especificar un indicador verificable"
+            if (verificable.value.length == 0) {
+                id = verificable.id.replace("verificable", "");
+                document.getElementById("msgVer" + id).innerHTML =
+                    "es obligatorio especificar un indicador verificable";
                 res = res && false;
-            }else{
+            } else {
                 res = res && true;
             }
         }
@@ -61,7 +62,6 @@ function valIndVer(){
 }
 
 /* habilita y deshabilita los textarea y el combobox de la planilla semanal de docente dependiendo del switch del formulario*/
-
 function habilitarDeshabilitar(codigo) {
     elementos = document.getElementsByClassName(codigo);
     select = document.getElementById("select" + codigo);
@@ -74,17 +74,34 @@ function habilitarDeshabilitar(codigo) {
         document.getElementById("asistenciaFalse" + codigo).value = true;
     } else {
         for (elemento of elementos) {
-            if(elemento.id !== ("observacion" + codigo)){
-                elemento.setAttribute("disabled", "");
-                elemento.value = "";
-                select.removeAttribute("disabled");
-            }
+            elemento.setAttribute("disabled", "");
+            elemento.value = "";
+            select.removeAttribute("disabled");
         }
         document.getElementById("msgAct" + codigo).innerHTML = "";
         document.getElementById("msgObs" + codigo).innerHTML = "";
         document.getElementById("asistenciaFalse" + codigo).value = false;
     }
 }
+
+function combo(index, codigo) {
+    elementos = document.getElementsByClassName(codigo);
+    for (elemento of elementos) {
+        if (elemento.id === "observacion" + codigo) {
+            if (index == 0) {
+                elemento.setAttribute("disabled", "");
+                elemento.value = "";
+            } else elemento.removeAttribute("disabled");
+        }
+        if (elemento.id === "documento_adicional" + codigo) {
+            if (index == 0) {
+                elemento.setAttribute("disabled", "");
+                elemento.value = "";
+            } else elemento.removeAttribute("disabled");
+        }
+    }
+}
+
 /*deshabilita el boton de horarios si existen horarios */
 function habilitarBotonRegistrar(horarios) {
     // console.log(horarios);
@@ -100,7 +117,9 @@ function validarBusquedaAsignar(buscadorId, msgObsId, aux) {
     let res = false;
     if (campoBusqueda.value.length == 0) {
         document.getElementById(msgObsId).innerHTML =
-            "debe especificar el codSis del " + (aux ? "auxiliar" : "docente") + " que desea asignar a este grupo";
+            "debe especificar el codSis del " +
+            (aux ? "auxiliar" : "docente") +
+            " que desea asignar a este grupo";
         res = false;
     } else if (!contieneSoloNumeros(campoBusqueda.value)) {
         document.getElementById(msgObsId).innerHTML =
@@ -109,8 +128,10 @@ function validarBusquedaAsignar(buscadorId, msgObsId, aux) {
     } else {
         res = true;
     }
-    if(res)
-        document.getElementById("asignar-" + (aux ? "auxiliar": "docente")).submit();
+    if (res)
+        document
+            .getElementById("asignar-" + (aux ? "auxiliar" : "docente"))
+            .submit();
 }
 
 function contieneSoloNumeros(texto) {
@@ -173,4 +194,3 @@ function confirmSubmit(fuerza) {
         return true;
     } else return false;
 }
-

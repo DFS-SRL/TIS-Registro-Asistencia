@@ -31,11 +31,12 @@ class RegistrarAsistenciaSemanalRequest extends FormRequest
             $reglas['asistencias.' . $key . '.asistencia'] = 'required';
             $reglas['asistencias.' . $key . '.fecha'] = 'required';
             if ($val['asistencia'] == "false") {
-                    $reglas['asistencias.' . $key . '.permiso'] = 'required';
-                $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
-                $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
-            }
-            else {
+                $reglas['asistencias.' . $key . '.permiso'] = 'nullable';
+                if (array_key_exists('permiso', $val)) {
+                    $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
+                    $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
+                }
+            } else {
                 $reglas['asistencias.' . $key . '.actividad_realizada'] = 'required|min:5|max:150';
                 $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
                 $horario = HorarioClase::find($val['horario_clase_id']);
