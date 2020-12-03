@@ -84,7 +84,6 @@ function validarSoloLetras(idCampoTexto, mensaje){
                || texto.charCodeAt(pos) == 218 //Ú
                || texto.charCodeAt(pos) == 193 //Á
                || texto.charCodeAt(pos) == 201; //É
-        console.log(texto.charCodeAt(pos));
     }
     if(!res){
         document.getElementById(mensaje).innerHTML = "Solo se puede insertar letras y espacios"
