@@ -95,3 +95,5 @@ Route::get('/personalAcademico/{unidad}/auxiliar/{usuario}', 'PersonalAcademicoC
 Route::post('/personalAcademico/{unidad}/buscar', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscar');
 Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoController@buscarPersonal')->name('personalAcademico.buscando');
 
+Route::get('/archivo/descargar/{nombre}', 'ArchivoController@descargarPorNombre')->name('descargarArchivo');
+Route::get('/archivo/eliminar/{nombre}', 'ArchivoController@eliminarDocumentoAdicional')->name('eliminarDocumento');
