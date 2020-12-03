@@ -30,11 +30,11 @@
                 <div class="col-12 opciones esquina-redondeada">
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="cambiarGrupos(true)" checked >
-                    <label class="form-check-label" for="inlineRadio1">grupos actuales</label>
+                    <label class="form-check-label" for="inlineRadio1">Grupos actuales</label>
                   </div>
                   <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="cambiarGrupos(false)">
-                    <label class="form-check-label" for="inlineRadio2">grupos antiguos</label>
+                    <label class="form-check-label" for="inlineRadio2">Grupos antiguos</label>
                   </div>
                 </div>
               </form>

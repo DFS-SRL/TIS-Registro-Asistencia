@@ -1,6 +1,6 @@
 @extends('personal.informacionMaster')
 @section('title', 'Información Auxiliar')
-
+@section('tipoPersonal','Auxiliar')
 @section('items')
 <div class="card mostaza">
   <div class="card-header" id="headingTwo">
@@ -18,11 +18,11 @@
           <div class="col-12 opciones esquina-redondeada">
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option1" onclick="cambiarItems(true)" checked >
-              <label class="form-check-label" for="inlineRadio3">items actuales</label>
+              <label class="form-check-label" for="inlineRadio3">Items actuales</label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option2" onclick="cambiarItems(false)">
-              <label class="form-check-label" for="inlineRadio4">items antiguos</label>
+              <label class="form-check-label" for="inlineRadio4">Items antiguos</label>
             </div>
           </div>
         </form>

@@ -82,7 +82,7 @@ function llenarTabla(asis) {
             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
             <th class="textoBlanco border border-dark">ASISTENCIA</th>
             <th class="textoBlanco border border-dark">PERSMISO</th>
-            <th class="textoBlanco border border-dark">OPCIONES</th>
+            <th class="textoBlanco border border-dark" style="text-align:center;">OPCIONES</th>
             </tr>
         `;
     
@@ -101,13 +101,12 @@ function llenarTabla(asis) {
                     `<td class = "border border-dark">` + cambiarTexto(elem.observaciones) + "</td>" +
                     `<td class = "border border-dark">` + cambiarTexto(elem.asistencia) + "</td>" +
                     `<td class = "border border-dark">` + cambiarTexto(elem.permiso) + "</td>" +
-                    `<td class = "border border-dark "  >
+                    `<td class = "border border-dark " style="width:180px;vertical-align:middle;">
                         <input type='image' 
                                 src='/icons/editar.png'
                                 width="30rem"
                                 height="30rem">
                         <input type="button" class="btn boton float-right" style="font-size:0.7em;"value="PERMISO EDICION">
-                        
                     </td>`+
                     "</tr>"
                     ;
