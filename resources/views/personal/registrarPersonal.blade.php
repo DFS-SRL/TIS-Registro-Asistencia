@@ -25,7 +25,8 @@
             </form>
         </div> 
         <div class="mx-5 mt-3">
-            <form action="" id="formulario" class="mx-5" onsubmit="return validarCamposNoVacios(this.id)">
+            <form method="POST" action="{{route('personalAcademico.registrar',$unidad->id)}}" id="formulario" class="mx-5" onsubmit="return validarCamposNoVacios(this.id)">
+                @csrf
                 @if ($despuesVerificar)
                     @if ($nombres == "")
                         <div class="row justify-content-center">
@@ -36,7 +37,7 @@
                                 <span class="textoBlanco mr-2">Nombres: </span>
                             </div>
                             <div class="col-4">
-                                <input id="nombres" type="text" class="form-control mb-4 ">
+                                <input id="nombres" type="text" class="form-control mb-4 " name="nombres">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -44,7 +45,7 @@
                                 <span class="textoBlanco mr-2">Apellido paterno: </span>
                             </div>
                             <div class="col-4">
-                                <input id="paterno" type="text" class="form-control mb-4 ">
+                                <input id="paterno" type="text" class="form-control mb-4" name="apellidoPaterno">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -52,7 +53,7 @@
                                 <span class="textoBlanco mr-2">Apellido materno: </span>
                             </div>
                             <div class="col-4">
-                                <input id="materno" type="text" class="form-control mb-4 ">
+                                <input id="materno" type="text" class="form-control mb-4 " name="apellidoMaterno">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -60,7 +61,7 @@
                                 <span class="textoBlanco mr-2">Correo electronico: </span>
                             </div>
                             <div class="col-4">
-                                <input id="correo" type="email" class="form-control mb-4 ">
+                                <input id="correo" type="email" class="form-control mb-4 " name="correo">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -69,19 +70,19 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-check" >
-                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')">
+                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')" name="docente">
                                     <label class="form-check-label textoBlanco">
                                     Docente
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')">
+                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" name="auxDoc">
                                     <label class="form-check-label textoBlanco">
                                     Auxiliar de docencia
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')">
+                                <div class="form-check"> 
+                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" name="auxLab">
                                     <label class="form-check-label textoBlanco" >
                                     Auxiliar de laboratorio
                                     </label>
@@ -98,7 +99,7 @@
                                 <span class="textoBlanco mr-2">Nombres: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 " value="{{$nombres}}" disabled>
+                                <input id="nombres" type="text" class="form-control mb-4 " value="{{$nombres}}" name = "nombres" readonly>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -106,7 +107,7 @@
                                 <span class="textoBlanco mr-2">Apellido paterno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 " value="{{$apellidoPaterno}}" disabled>
+                                <input id="paterno" type="text" class="form-control mb-4 " value="{{$apellidoPaterno}}" name="apellidoPaterno" readonly>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -114,7 +115,7 @@
                                 <span class="textoBlanco mr-2">Apellido materno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 " value="{{$apellidoMaterno}}" disabled>
+                                <input id="materno" type="text" class="form-control mb-4 " value="{{$apellidoMaterno}}" name="apellidoMaterno" readonly>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -122,7 +123,7 @@
                                 <span class="textoBlanco mr-2">Correo electronico: </span>
                             </div>
                             <div class="col-4">
-                                <input type="email" class="form-control mb-4 " value="{{$correo}}" disabled>
+                                <input id="correo" type="email" class="form-control mb-4 " value="{{$correo}}" name="correo" readonly>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -131,19 +132,19 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-check" >
-                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')" @if ($perteneceDepartamento) disabled @if(in_array('3',$roles)) checked @endif @endif>
+                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')" name="docente" @if ($perteneceDepartamento) readonly @if(in_array('3',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco">
                                     Docente
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" @if ($perteneceDepartamento) disabled @if(in_array('2',$roles)) checked @endif @endif>
+                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" name="auxDoc" @if ($perteneceDepartamento) readonly @if(in_array('2',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco">
                                     Auxiliar de docencia
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" @if ($perteneceDepartamento) disabled @if(in_array('1',$roles)) checked @endif @endif>
+                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" name="auxLab" @if ($perteneceDepartamento) readonly @if(in_array('1',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco" >
                                     Auxiliar de laboratorio
                                     </label>
