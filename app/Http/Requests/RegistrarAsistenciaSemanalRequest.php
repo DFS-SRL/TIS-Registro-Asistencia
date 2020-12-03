@@ -31,14 +31,16 @@ class RegistrarAsistenciaSemanalRequest extends FormRequest
             $reglas['asistencias.' . $key . '.asistencia'] = 'required';
             $reglas['asistencias.' . $key . '.fecha'] = 'required';
             if ($val['asistencia'] == "false") {
-                    $reglas['asistencias.' . $key . '.permiso'] = 'required';
-                $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
-            }
-            else {
+                $reglas['asistencias.' . $key . '.permiso'] = 'nullable';
+                if (array_key_exists('permiso', $val)) {
+                    $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
+                    $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
+                }
+            } else {
                 $reglas['asistencias.' . $key . '.actividad_realizada'] = 'required|min:5|max:150';
                 $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
                 $horario = HorarioClase::find($val['horario_clase_id']);
-                if (PersonalAcademicoController::esAuxDoc($horario->asignado_codSis, $horario->unidad_id))
+                if ($horario->rol_id == 2)
                     $reglas['asistencias.' . $key . '.indicador_verificable'] = 'required';
                 else
                     $reglas['asistencias.' . $key . '.indicador_verificable'] = 'nullable';
