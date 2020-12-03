@@ -69,15 +69,15 @@ function habilitarDeshabilitar(codigo) {
     if (elementos[0].disabled) {
         for (elemento of elementos) {
             elemento.removeAttribute("disabled");
-            select.setAttribute("disabled", "");
         }
+        select.setAttribute("disabled", "");
         document.getElementById("asistenciaFalse" + codigo).value = true;
     } else {
         for (elemento of elementos) {
             elemento.setAttribute("disabled", "");
             elemento.value = "";
-            select.removeAttribute("disabled");
         }
+        select.removeAttribute("disabled");
         document.getElementById("msgAct" + codigo).innerHTML = "";
         document.getElementById("msgObs" + codigo).innerHTML = "";
         document.getElementById("asistenciaFalse" + codigo).value = false;

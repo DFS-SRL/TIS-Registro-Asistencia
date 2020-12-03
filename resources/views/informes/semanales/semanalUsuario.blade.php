@@ -93,12 +93,36 @@
                                                 onsubmit="return validarCamposUsuario({{ $asistencia->horarioClase->rol_id }})"
                                             >
                                                 @csrf @method('PATCH')
-                                                <input id="actividad-form{{ $asistencia->id }}" type="text" name="actividad_realizada">
-                                                <input id="indicador-form{{ $asistencia->id }}" type="text" name="indicador_verificable">
-                                                <input id="observaciones-form{{ $asistencia->id }}" type="text" name="observaciones">
-                                                <input id="asistencia-form{{ $asistencia->id }}" type="text" name="asistencia">
-                                                <input id="permiso-form{{ $asistencia->id }}" type="text" name="permiso">
-                                                <input id="documento-form{{ $asistencia->id }}" type="file" name="documento_adicional">
+                                                <input 
+                                                    id="actividad-form{{ $asistencia->id }}" 
+                                                    type="text" name="actividad_realizada"
+                                                    class="form{{ $asistencia->id }} fa{{ $asistencia->id }}"
+                                                >
+                                                <input 
+                                                    id="indicador-form{{ $asistencia->id }}" 
+                                                    type="text" name="indicador_verificable"
+                                                    class="form{{ $asistencia->id }} fa{{ $asistencia->id }}"
+                                                >
+                                                <input 
+                                                    id="observaciones-form{{ $asistencia->id }}" 
+                                                    type="text" name="observaciones"
+                                                    class="form{{ $asistencia->id }} fa{{ $asistencia->id }}"
+                                                >
+                                                <input 
+                                                    id="asistenciaFalse{{ $asistencia->id }}" 
+                                                    type="text" name="asistencia"
+                                                    class="form{{ $asistencia->id }}"
+                                                >
+                                                <input 
+                                                    id="permiso-form{{ $asistencia->id }}"
+                                                    type="text" name="permiso"
+                                                    class="form{{ $asistencia->id }} fb{{ $asistencia->id }}"
+                                                >
+                                                <input 
+                                                    id="documento-form{{ $asistencia->id }}"
+                                                    type="file" name="documento_adicional"
+                                                    class="form{{ $asistencia->id }} fb{{ $asistencia->id }}"
+                                                >
                                                 <button>caca</button>
                                             </form>
                                         @endif

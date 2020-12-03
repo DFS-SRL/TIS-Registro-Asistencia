@@ -64,10 +64,10 @@
                                                 name="asistencias[{{ $key1.$key2 }}][permiso]" disabled
                                                 onchange="combo(this.selectedIndex, {{ $key1.$key2 }});" onfocus="this.selectedIndex = -1;"
                                             >
-                                                <option onselect="console.log('sin perma')" value="">Sin Permiso</option>
-                                                <option onclick="window.alert('licensa')" value="LICENCIA">Licencia</option>
-                                                <option onclick="window.alert('bashs')" value="BAJA_MEDICA">Baja medica</option>
-                                                <option onclick="window.alert('comisionado gordon')" value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+                                                <option value="">Sin Permiso</option>
+                                                <option value="LICENCIA">Licencia</option>
+                                                <option value="BAJA_MEDICA">Baja medica</option>
+                                                <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                             </select>
                                             <br>
                                             <input class="{{$key1}}{{$key2}} mt-4" type="file" id="documento_adicional{{$key1}}{{$key2}}" name="asistencias[{{ $key1.$key2 }}][documento_adicional]" disabled>

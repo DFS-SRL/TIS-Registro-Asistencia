@@ -1,120 +1,80 @@
 /**
  * Habilita las opciones para editar la informacion de una asistencia
  */
+var nombres = [
+    "actividad",
+    "indicador",
+    "observaciones",
+    "asistencia",
+    "permiso"
+];
 function camposEdicionAsitencia(asistenciaId, asistencia, rolId) {
     // Vaciamos los elementos de la fila y añadimos las opciones
-    window.alert("chipoyo");
-    $("#actividad" + asistenciaId)
-        .children()
-        .hide();
-    $("#indicador" + asistenciaId)
-        .children()
-        .hide();
-    $("#observaciones" + asistenciaId)
-        .children()
-        .hide();
-    $("#asistencia" + asistenciaId)
-        .children()
-        .hide();
-    $("#permiso" + asistenciaId)
-        .children()
-        .hide();
+    nombres.forEach(nombre => {
+        $("#" + nombre + asistenciaId)
+            .children()
+            .hide();
+    });
 
-    // <textarea name="actividad_realizada{{ $asistencia->id }}"
-    //     class = "actividad"
-    //     maxlength="150" id="actividad{{ $asistencia->id }}"
-    //     onkeypress="valLim(150, 'actividad{{ $asistencia->id }}', 'msgAct{{ $asistencia->id }}')"
-    //     onkeyup="valLim(150, 'actividad{{ $asistencia->id }}', 'msgAct{{ $asistencia->id }}')"
-    // ></textarea>
-    // <label class ="text-danger" id="msgAct{{ $asistencia->id }}" for="actividad{{ $asistencia->id }}"></label>
+    $("#actividad" + asistenciaId).append(
+        `
+        <textarea
+            class="borrar actividad ` + asistenciaId + `"
+            maxlength="150" id="actividadE` + asistenciaId + `"
+            onkeypress="valLim(150, 'actividadE` + asistenciaId + `', 'msgAct` + asistenciaId + `');"
+            onkeyup="valLim(150, 'actividadE` + asistenciaId + `', 'msgAct` + asistenciaId + `'); upAct(` + asistenciaId + `)"
+        ></textarea>
+        <label class ="borrar text-danger" id="msgAct` + asistenciaId + `" for="actividadE` + asistenciaId + `"></label>
+        `
+    );
+    
+    if (rolId != 1)
+        $("#indicador" + asistenciaId).append(
+            `
+            <textarea
+                class="borrar verificable ` + asistenciaId + `"
+                id="verificableE` + asistenciaId + `"
+                onkeyup="upVer(` + asistenciaId + `)"
+            ></textarea>
+            <label class ="borrar text-danger" id="msgVer` + asistenciaId + `" for="verificableE` + asistenciaId + `"></label>
+            `
+        );
 
-    // if (esMateria) {
-    //     $("#horario" + horarioId).append(
-    //         '<select id="dias' + horarioId + '"></select>'
-    //     );
-    // } else {
-    //     $("#dia" + horarioId).append(
-    //         '<select id="dias' + horarioId + '"></select>'
-    //     );
-    // }
-    // var dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
-    // dias.forEach(dia => {
-    //     $("#dias" + horarioId).append(
-    //         '<option value="' + dia + '">' + dia + "</option>"
-    //     );
-    //     if (dia == horario["dia"]) {
-    //         $("#dias" + horarioId + " :last-child").prop(
-    //             "selected",
-    //             "selected"
-    //         );
-    //     }
-    // });
+    $("#observaciones" + asistenciaId).append(
+        `
+        <textarea
+            class="borrar observacion ` + asistenciaId + `"
+            maxlength="200" id="observacion` + asistenciaId + `"
+            onkeypress="valLim(200, 'observacion` + asistenciaId + `', 'msgObs` + asistenciaId + `')"
+            onkeyup="valLim(200, 'observacion` + asistenciaId + `', 'msgObs` + asistenciaId + `'); upObs(` + asistenciaId + `)"
+        ></textarea>
+        <label class ="borrar text-danger" id="msgObs` + asistenciaId + `" for="observacion` + asistenciaId + `"></label>
+        `
+    );
+    
+    $("#asistencia" + asistenciaId).append(
+        `
+        <div class="borrar custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="asistenciaE` + asistenciaId + `" onclick='habilitarDeshabilitar(` + asistenciaId + `); habilitarDeshabilitarE(` + asistenciaId + `)' autocomplete="off" checked/>
+            <label class="custom-control-label" for="asistenciaE` + asistenciaId + `"></label>
+        </div>
+        `
+    );
 
-    // $("#horario" + horarioId).append(
-    //     '<input class="ml-1" type="time" id="horaInicio' +
-    //         horarioId +
-    //         '" value="' +
-    //         horario["hora_inicio"].substring(0, 5) +
-    //         '" onchange="setHoraFin(' +
-    //         horarioId +
-    //         ", " +
-    //         esMateria +
-    //         ')"></input>'
-    // );
-    // $("#horario" + horarioId).append(
-    //     '<input class="ml-1" type="time" id="horaFin' +
-    //         horarioId +
-    //         '" value="' +
-    //         horario["hora_fin"].substring(0, 5) +
-    //         '" disabled></input>'
-    // );
-
-    // Obtenemos la diferencia entre la hora de inicio y la hora fin
-    // y asignamos esa diferencia a los periodos
-    // var splitTimeInicio = horario["hora_inicio"].split(":");
-    // var horaInicio = parseInt(splitTimeInicio[0]);
-    // var minutosInicio = parseInt(splitTimeInicio[1]);
-
-    // var splitTimeFin = horario["hora_fin"].split(":");
-    // var horaFin = parseInt(splitTimeFin[0]);
-    // var minutosFin = parseInt(splitTimeFin[1]);
-
-    // var periodos = horaFin * 60 + minutosFin - horaInicio * 60 - minutosInicio;
-    // if (esMateria) periodos /= 45;
-    // else periodos /= 60;
-
-    // $("#horario" + horarioId).append(
-    //     '<input class="ml-1" type="number" name="" id="periodo' +
-    //         horarioId +
-    //         '" min="1" max="12" value="' +
-    //         periodos +
-    //         '" onchange="setHoraFin(' +
-    //         horarioId +
-    //         ", " +
-    //         esMateria +
-    //         ')">'
-    // );
-
-    // $("#cargo" + horarioId)
-    //     .children("p")
-    //     .hide();
-    // $("#cargo" + horarioId).append(
-    //     '<select id="cargos' + horarioId + '"></select>'
-    // );
-    // $("#cargos" + horarioId).append(
-    //     '<option value="DOCENCIA">DOCENCIA</option>'
-    // );
-    // $("#cargos" + horarioId).append(
-    //     '<option value="AUXILIATURA">AUXILIATURA</option>'
-    // );
-    // if (horario["rol_id"] == 3)
-    //     $("#cargos" + horarioId + " :first-child").prop("selected", "selected");
-    // else $("#cargos" + horarioId + " :last-child").prop("selected", "selected");
-
-    // $("#botonEditar" + horarioId).hide();
-    // $("[id^=botonEditar]").prop("disabled", true);
-    // $("[id^=botonEliminar]").prop("disabled", true);
-    // $("#botonEliminar" + horarioId).prop("disabled", false);
+    $("#permiso" + asistenciaId).append(
+        `
+        <select value="" id="select` + asistenciaId + `" disabled class="borrar"
+            onchange="combo(this.selectedIndex, ` + asistenciaId + `); comboE(` + asistenciaId + `); " onfocus="this.selectedIndex = -1;"
+        >
+            <option value="">Sin Permiso</option>
+            <option value="LICENCIA">Licencia</option>
+            <option value="BAJA_MEDICA">Baja medica</option>
+            <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+        </select>
+        <br>
+        <input class="` + asistenciaId + ` mt-4 borrar" type="file" id="documento_adicional` + asistenciaId + `" disabled>
+        `
+    );
 
     $("#botonEditar" + asistenciaId).hide();
     $("#botonEliminar" + asistenciaId).prop("disabled", false);
@@ -141,25 +101,18 @@ function camposEdicionAsitencia(asistenciaId, asistencia, rolId) {
 /**
  * Cancela la edicion de un horario
  */
-function cancelarEdicionAsistencia(horarioId) {
-    // Eliminamos los elemtnos para editar horario y mostramos los que tienen informacion
-    // $("#horario" + horarioId)
-    //     .children("p")
-    //     .show();
-    // $("#dia" + horarioId)
-    //     .children("p")
-    //     .show();
-    // $("#horario" + horarioId + " :not(:first-child)").remove();
-    // $("#dia" + horarioId + " :not(:first-child)").remove();
+function cancelarEdicionAsistencia(asistenciaId) {
+    nombres.forEach(nombre => {
+        $("#" + nombre + asistenciaId)
+            .children()
+            .show();
+    });
+    $(".borrar").remove();
+    $(".form" + asistenciaId).val('');
 
-    // $("#cargo" + horarioId)
-    //     .children("p")
-    //     .show();
-    // $("#cargo" + horarioId + " :not(:first-child)").remove();
-
-    $("#botonEditar" + horarioId).show();
-    $("#botonAceptar" + horarioId).remove();
-    $("#botonCancelar" + horarioId).remove();
+    $("#botonEditar" + asistenciaId).show();
+    $("#botonAceptar" + asistenciaId).remove();
+    $("#botonCancelar" + asistenciaId).remove();
 }
 
 /**
@@ -192,4 +145,31 @@ function validarCamposUsuario(rolId) {
     if (rolId == 2) res = validarCampos();
     else res = valMinAct();
     return res;
+}
+
+function comboE(codigo) {
+    document.getElementById(
+        "permiso-form" + codigo
+    ).value = document.getElementById("select" + codigo).value;
+}
+
+/* habilita y deshabilita los campos de editar asistencia dependiendo del switch del formulario*/
+function habilitarDeshabilitarE(codigo) {
+    elementos = document.getElementsByClassName(codigo);
+
+    if (elementos[0].disabled)
+        $(".fa" + codigo).val("");
+    else 
+        $(".fb" + codigo).val("");
+}
+
+function upAct(codigo)
+{
+    $("#actividad-form" + codigo).val($("#actividadE" + codigo).val());
+}
+function upVer(codigo) {
+    $("#indicador-form" + codigo).val($("#verificableE" + codigo).val());
+}
+function upObs(codigo) {
+    $("#observaciones-form" + codigo).val($("#observacion" + codigo).val());
 }
