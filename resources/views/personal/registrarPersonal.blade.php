@@ -8,7 +8,7 @@
         <br>
         <h3 class="text-center textoBlanco">Registrar Personal Academico </h3>
         <div class="row justify-content-center my-4">
-            <form method="GET" action="{{route('personalAcademico.verificar',$unidad->id)}}">
+            <form method="GET" action="{{route('personalAcademico.verificar',$unidad->id)}}" onsubmit="return validarSoloNumeros('codsis','mensaje') && validarNoVacio('codsis')">
                 @csrf
                 <div class="col-12 opciones esquina-redondeada cafe">
                     <div class="form-inline m-2">
@@ -16,23 +16,27 @@
                             <span class="textoBlanco mr-2">Codigo SIS: </span> <input type="text" class="form-control" name="codsis" value="{{$codSis}}" disabled>
                             <button type="submit" class="btn boton ml-2" disabled>VERIFICAR</button>
                         @else
-                            <span class="textoBlanco mr-2">Codigo SIS: </span> <input type="text" class="form-control" name="codsis">
+                            <span class="textoBlanco mr-2">Codigo SIS: </span> <input type="text" id="codsis" class="form-control" name="codsis">
                             <button type="submit" class="btn boton ml-2">VERIFICAR</button>
                         @endif
                     </div>
+                        <p id="mensaje"class="textoBlanco ml-1"></p>
                 </div>
             </form>
         </div> 
-        <div class="mx-5 mt-5">
-            <form action="" class="mx-5">
+        <div class="mx-5 mt-3">
+            <form action="" id="formulario" class="mx-5" onsubmit="return validarCamposNoVacios(this.id)">
                 @if ($despuesVerificar)
-                    @if (count($departamento) != 0)
+                    @if ($nombres == "")
+                        <div class="row justify-content-center">
+                            <p id="mensajeFormulario" class="textoBlanco"></p>
+                        </div>
                         <div class="row justify-content-center">
                             <div class="col-3">
                                 <span class="textoBlanco mr-2">Nombres: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado">
+                                <input id="nombres" type="text" class="form-control mb-4 ">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -40,7 +44,7 @@
                                 <span class="textoBlanco mr-2">Apellido paterno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado">
+                                <input id="paterno" type="text" class="form-control mb-4 ">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -48,7 +52,7 @@
                                 <span class="textoBlanco mr-2">Apellido materno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado">
+                                <input id="materno" type="text" class="form-control mb-4 ">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -56,7 +60,7 @@
                                 <span class="textoBlanco mr-2">Correo electronico: </span>
                             </div>
                             <div class="col-4">
-                                <input type="email" class="form-control mb-4 deshabilitado">
+                                <input id="correo" type="email" class="form-control mb-4 ">
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -65,19 +69,19 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-check" >
-                                    <input class="form-check-input deshabilitado" type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')">
+                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')">
                                     <label class="form-check-label textoBlanco">
                                     Docente
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input deshabilitado" type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')">
+                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')">
                                     <label class="form-check-label textoBlanco">
                                     Auxiliar de docencia
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input deshabilitado" type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')">
+                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')">
                                     <label class="form-check-label textoBlanco" >
                                     Auxiliar de laboratorio
                                     </label>
@@ -85,8 +89,8 @@
                             </div>
                         </div>
                         <div class="row justify-content-md-center mt-4">
-                            <button type="submit" class="btn boton mr-5 deshabilitado">REGISTRAR</button>
-                            <button class="btn btn-danger deshabilitado">CANCELAR</button>
+                            <button type="submit" class="btn boton mr-5 ">REGISTRAR</button>
+                            <button class="btn btn-danger ">CANCELAR</button>
                         </div>
                     @else
                         <div class="row justify-content-center">
@@ -94,7 +98,7 @@
                                 <span class="textoBlanco mr-2">Nombres: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado" value="{{$nombres}}">
+                                <input type="text" class="form-control mb-4 " value="{{$nombres}}" disabled>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -102,7 +106,7 @@
                                 <span class="textoBlanco mr-2">Apellido paterno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado" value="{{$apellidoPaterno}}">
+                                <input type="text" class="form-control mb-4 " value="{{$apellidoPaterno}}" disabled>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -110,7 +114,7 @@
                                 <span class="textoBlanco mr-2">Apellido materno: </span>
                             </div>
                             <div class="col-4">
-                                <input type="text" class="form-control mb-4 deshabilitado" value="{{$apellidoMaterno}}">
+                                <input type="text" class="form-control mb-4 " value="{{$apellidoMaterno}}" disabled>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -118,7 +122,7 @@
                                 <span class="textoBlanco mr-2">Correo electronico: </span>
                             </div>
                             <div class="col-4">
-                                <input type="email" class="form-control mb-4 deshabilitado" value="{{$correo}}">
+                                <input type="email" class="form-control mb-4 " value="{{$correo}}" disabled>
                             </div>
                         </div>
                         <div class="row justify-content-center">
@@ -127,19 +131,19 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-check" >
-                                    <input class="form-check-input deshabilitado" type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')">
+                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')" @if ($perteneceDepartamento) disabled @if(in_array('3',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco">
                                     Docente
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input deshabilitado" type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')">
+                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" @if ($perteneceDepartamento) disabled @if(in_array('2',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco">
                                     Auxiliar de docencia
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input deshabilitado" type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')">
+                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" @if ($perteneceDepartamento) disabled @if(in_array('1',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco" >
                                     Auxiliar de laboratorio
                                     </label>
@@ -147,8 +151,12 @@
                             </div>
                         </div>
                         <div class="row justify-content-md-center mt-4">
-                            <button type="submit" class="btn boton mr-5 deshabilitado">REGISTRAR</button>
-                            <button class="btn btn-danger deshabilitado">CANCELAR</button>
+                            @if ($perteneceDepartamento)
+                                <button class="btn boton">EDITAR</button>
+                            @else
+                                <button type="submit" class="btn boton mr-5 ">REGISTRAR</button>
+                                <button class="btn btn-danger">CANCELAR</button>
+                            @endif
                         </div>
                     @endif
                 @else
@@ -157,7 +165,7 @@
                             <span class="textoBlanco mr-2">Nombres: </span>
                         </div>
                         <div class="col-4">
-                            <input type="text" class="form-control mb-4 deshabilitado" disabled>
+                            <input type="text" class="form-control mb-4 " disabled>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -165,7 +173,7 @@
                             <span class="textoBlanco mr-2">Apellido paterno: </span>
                         </div>
                         <div class="col-4">
-                            <input type="text" class="form-control mb-4 deshabilitado" disabled>
+                            <input type="text" class="form-control mb-4 " disabled>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -173,7 +181,7 @@
                             <span class="textoBlanco mr-2">Apellido materno: </span>
                         </div>
                         <div class="col-4">
-                            <input type="text" class="form-control mb-4 deshabilitado" disabled>
+                            <input type="text" class="form-control mb-4 " disabled>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -181,7 +189,7 @@
                             <span class="textoBlanco mr-2">Correo electronico: </span>
                         </div>
                         <div class="col-4">
-                            <input type="email" class="form-control mb-4 deshabilitado" disabled>
+                            <input type="email" class="form-control mb-4 " disabled>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -190,19 +198,19 @@
                         </div>
                         <div class="col-4">
                             <div class="form-check" >
-                                <input class="form-check-input deshabilitado" type="checkbox" value="" id="docente" disabled onclick="verificarCheckBoxes('docente')">
+                                <input class="form-check-input " type="checkbox" value="" id="docente" disabled onclick="verificarCheckBoxes('docente')">
                                 <label class="form-check-label textoBlanco">
                                 Docente
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input deshabilitado" type="checkbox" value="" id="auxDocencia" disabled onclick="verificarCheckBoxes('auxDocencia')">
+                                <input class="form-check-input " type="checkbox" value="" id="auxDocencia" disabled onclick="verificarCheckBoxes('auxDocencia')">
                                 <label class="form-check-label textoBlanco">
                                 Auxiliar de docencia
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input deshabilitado" type="checkbox" value="" id="auxLaboratorio" disabled onclick="verificarCheckBoxes('auxLaboratorio')">
+                                <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" disabled onclick="verificarCheckBoxes('auxLaboratorio')">
                                 <label class="form-check-label textoBlanco" >
                                 Auxiliar de laboratorio
                                 </label>
@@ -210,8 +218,8 @@
                         </div>
                     </div>
                     <div class="row justify-content-md-center mt-4">
-                        <button type="submit" class="btn boton mr-5 deshabilitado" disabled>REGISTRAR</button>
-                        <button class="btn btn-danger deshabilitado" disabled>CANCELAR</button>
+                        <button type="submit" class="btn boton mr-5 " disabled>REGISTRAR</button>
+                        <button class="btn btn-danger " disabled>CANCELAR</button>
                     </div>
                 @endif
             </form>

@@ -299,7 +299,7 @@ class PersonalAcademicoController extends Controller
     public function verificarCodsis(Unidad $unidad){
         $codSis = request()->codsis;
         $personal = Usuario::where('codSis','=',$codSis)->get();
-        $departamento = [];
+        $perteneceDepartamento = false;
         $nombres = "";
         $apellidoPaterno="";
         $apellidoMaterno="";
@@ -310,11 +310,19 @@ class PersonalAcademicoController extends Controller
             $apellidoPaterno = str_replace("_", " ", $nombreSeparado[0]);
             $apellidoMaterno = str_replace("_", " ", $nombreSeparado[1]);
             $correo = $personal[0]->correo_electronico;
-            $departamento = UsuarioPerteneceUnidad :: where('usuario_codSis','=',$codSis)
+            $perteneceDepartamento = !UsuarioPerteneceUnidad :: where('usuario_codSis','=',$codSis)
                 ->where('unidad_id','=',$unidad->id)
-                ->get();
+                ->get()
+                ->isEmpty();
         }
-        //return $departamento;
+        $roles = [];
+        if($perteneceDepartamento){
+            request()->session()->flash('warning', 'El usuario especificado ya se encuentra registrado en este departamento, puede editar su informacion presionando el boton "EDITAR"');
+            $rolesBD = UsuarioTieneRol::where('usuario_codSis','=',$codSis)->select('rol_id')->get();
+            foreach($rolesBD as $rol){
+                array_push($roles,$rol->rol_id);
+            }
+        }
         return view('personal.registrarPersonal',[
             'unidad'=>$unidad,
             'despuesVerificar'=>true,
@@ -322,8 +330,9 @@ class PersonalAcademicoController extends Controller
             'apellidoPaterno'=>$apellidoPaterno,
             'apellidoMaterno'=>$apellidoMaterno,
             'correo'=>$correo,
-            'departamento'=>$departamento,
-            'codSis'=> $codSis
+            'perteneceDepartamento'=>$perteneceDepartamento,
+            'codSis'=> $codSis,
+            'roles'=>$roles
         ]);
     }
 }
