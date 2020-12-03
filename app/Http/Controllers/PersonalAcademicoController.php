@@ -335,4 +335,8 @@ class PersonalAcademicoController extends Controller
             'roles'=>$roles
         ]);
     }
+    //registra un nuevo personal academico en un departamento y en el sistema si es necesario
+    public function registrarPersonalAcademico(Request $request){
+        return $request;
+    }
 }
