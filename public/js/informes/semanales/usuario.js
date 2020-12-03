@@ -72,7 +72,7 @@ function camposEdicionAsitencia(asistenciaId, asistencia, rolId) {
             <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
         </select>
         <br>
-        <input class="` + asistenciaId + ` mt-4 borrar" type="file" id="documento_adicional` + asistenciaId + `" disabled>
+        <input class="` + asistenciaId + ` mt-4 borrar" type="file" id="documento_adicional` + asistenciaId + `" onchange="documentoE(` + asistenciaId + `)" disabled>
         `
     );
 
@@ -151,6 +151,13 @@ function comboE(codigo) {
     document.getElementById(
         "permiso-form" + codigo
     ).value = document.getElementById("select" + codigo).value;
+}
+
+function documentoE(codigo) {
+    console.log(document.getElementById("documento_adicional" + codigo));
+    document.getElementById(
+        "documento-form" + codigo
+    ).value = document.getElementById("documento_adicional" + codigo).value;
 }
 
 /* habilita y deshabilita los campos de editar asistencia dependiendo del switch del formulario*/
