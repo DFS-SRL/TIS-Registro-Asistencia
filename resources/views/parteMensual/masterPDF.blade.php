@@ -23,7 +23,7 @@
 </style>
     <h2 class = "textoBlanco">PARTE MENSUAL DE ASISTENCIA</h2>
     <h4 class = "textoBlanco" >@yield('tipoParte')</h4>
-    <h4 class = "textoBlanco">{{ $unidad->facultad . " / " . $unidad->nombre }}</h4>
+    <h4 class = "textoBlanco">{{ $unidad->facultad->nombre . " / " . $unidad->nombre }}</h4>
     <h4 class = "textoBlanco">{{ $gestion }}</h4>
     <br>
     <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>

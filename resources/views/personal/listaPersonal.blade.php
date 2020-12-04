@@ -11,7 +11,7 @@
         <div class="mx-3 my-4">
             <div class="row">
                 <div class="col-md-6">
-                    <h1 class="textoBlanco">{{ $unidad['facultad'] }}</h1>
+                    <h1 class="textoBlanco">{{ $unidad->facultad->nombre }}</h1>
                     <h1 class="textoBlanco">{{ $unidad['nombre'] }}</h1>
                 </div>
                 <div class="col-md-5">

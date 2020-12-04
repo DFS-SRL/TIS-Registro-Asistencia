@@ -15,8 +15,7 @@ class ListaMateriasController extends Controller
                             -> orderBy('nombre')
                             -> paginate(10);
         return view('informacion.listaMaterias',[
-            'nombreUnidad' => $unidad[0] -> nombre,
-            'facultad' => $unidad[0] -> facultad,
+            'unidad' => $unidad[0],
             'materias' => $materias
         ]);
     }
@@ -29,8 +28,7 @@ class ListaMateriasController extends Controller
         -> orderBy('nombre')
         -> paginate(10);
         return view('informacion.listaCargos',[
-        'nombreUnidad' => $unidad[0] -> nombre,
-        'facultad' => $unidad[0] -> facultad,
+        'unidad' => $unidad[0],
         'cargos' => $materias
         ]);
     }

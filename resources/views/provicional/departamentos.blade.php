@@ -8,12 +8,12 @@
     <table class="table table-bordered table-responsive">
         @forelse ($departamentos as $departamento)
         <tr>
-            <td class="col-2">{{$departamento->facultad}} - {{$departamento->nombre}}</td>
+            <td class="col-2">{{$departamento->facultad->nombre}} - {{$departamento->nombre}}</td>
             <td class="col-1">
-            <a href="parteMensual/docentes/{{$departamento->id}}/2020-10-27">Parte Docentes</a>
+            <a href="parteMensual/docentes/{{$departamento->id}}/{{ getFechaF() }}">Parte Docentes</a>
             </td>
             <td class="col-1">
-                <a href="parteMensual/auxiliares/{{$departamento->id}}/2020-10-27">Parte Auxiliares</a>
+                <a href="parteMensual/auxiliares/{{$departamento->id}}/{{ getFechaF() }}">Parte Auxiliares</a>
             </td>
             <td class="col-2">
                 <a href="/materias/{{$departamento->id}}">Materias</a>
