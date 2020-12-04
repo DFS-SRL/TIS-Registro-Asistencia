@@ -85,12 +85,13 @@
                                                 src="/icons/editar.png"
                                             @endif
                                             alt="Editar"
-                                            onclick="camposEdicionAsitencia({{ $asistencia->id }}, {{ $asistencia }}, {{ $asistencia->horarioClase->rol_id }}); desactivar()"
+                                            onclick="camposEdicionAsitencia({{ $asistencia->id }}, {{ $asistencia->horarioClase->rol_id }}); desactivar()"
                                         >
                                         @if($asistencia->nivel == 1)
                                             <form id="editar-asistencia{{ $asistencia->id }}" method="POST"
                                                 action="{{ route('asistencia.actualizar', $asistencia) }}" 
                                                 onsubmit="return validarCamposUsuario({{ $asistencia->horarioClase->rol_id }})"
+                                                style="display: none;"
                                             >
                                                 @csrf @method('PATCH')
                                                 <input 
@@ -150,7 +151,7 @@
 
 @section('script-footer')
     <script src="/js/main.js"></script>
-    <script src="/js/informes/semanales/usuario.js"></script>
+    <script src="/js/asistencias.js"></script>
     <script>
         function desactivar() {
             @foreach($asistencias as $key1 => $unidad)
@@ -170,7 +171,7 @@
                         editar.disabled = false;
                         editar.src = "/icons/editar.png";
                     @endif
-                @endforeach
+                @endforeach 
             @endforeach
         }
     </script>

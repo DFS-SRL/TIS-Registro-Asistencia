@@ -73,6 +73,7 @@
       
   @section('script-footer')
   <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
+  <script type="text/javascript" src='/js/asistencias.js'></script>
   <script>
     var sis = {{ $usuario->codSis }};
     var dep = {{ $unidad->id }};
@@ -85,5 +86,6 @@
       asis.push(a.data[i]);
     // console.log(asis);
     llenarTabla(asis);
+
   </script>
   @endsection
