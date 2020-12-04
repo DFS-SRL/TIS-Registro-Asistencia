@@ -8,6 +8,7 @@ use App\Asistencia;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
+use App\HorarioClase;
 use Illuminate\Validation\ValidationException;
 
 class InformesController extends Controller
@@ -217,6 +218,24 @@ class InformesController extends Controller
             'asistencias' => $asistencias,
             'asistenciasLabo' => $asistenciasLabo,
             'asistenciasDoc' => $asistenciasDoc
+        ]);
+    }
+
+    public function obtenerPlanillaExcepcionAuxiliares(Unidad $unidad, $fecha, Usuario $usuario, Usuario $jefe){
+        // obteniendo las fechas de la semana
+        $fechas = getFechasDeSemanaEnFecha($fecha);
+
+        $rol = 1;
+
+        // obteniendo asistencias correspondientes a fechas
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechas[0], $fechas[5])->get();
+
+        //devolver la vista de informe semanal de laboratorio
+        return view('informes.semanales.excepcionAuxiliar', [
+            'asistencias' => $asistencias,
+            'fechaInicio' => formatoFecha($fechas[0]),
+            'fechaFinal' => formatoFecha($fechas[5]),
+            'unidad' => $unidad
         ]);
     }
 }
