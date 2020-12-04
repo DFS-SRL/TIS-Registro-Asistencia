@@ -36,7 +36,7 @@ function dia()
 }
 
 //devuelve la fecha actual con formato
-function getFechaF($formato)
+function getFechaF($formato = null)
 {
     return date("Y-m-d");
 }
@@ -105,9 +105,10 @@ function getFechasDeSemanaEnFecha($fecha)
 }
 
 // cambia una fecha en formato d/m/Y en Y-m-d amigable con DB
-function convertirFechaDMYEnYMD($fecha) {
+function convertirFechaDMYEnYMD($fecha)
+{
     $separada = explode("/", $fecha);
-    $fechaFormateada = $separada[2]."-".$separada[1]."-".$separada[0];
+    $fechaFormateada = $separada[2] . "-" . $separada[1] . "-" . $separada[0];
     return date("Y-m-d", strtotime($fechaFormateada));
 }
 

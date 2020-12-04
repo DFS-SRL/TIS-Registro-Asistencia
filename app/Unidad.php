@@ -16,4 +16,9 @@ class Unidad extends Model
     protected $guarded = [];
     // quitar timestamps
     public $timestamps = false;
+
+    public function facultad()
+    {
+        return $this->belongsTo('App\Facultad');
+    }
 }

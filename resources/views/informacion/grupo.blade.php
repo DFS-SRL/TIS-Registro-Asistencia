@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <h2 class="textoBlanco">{{ $grupo->unidad->facultad }}</h4>
+                    <h2 class="textoBlanco">{{ $grupo->unidad->facultad->nombre }}</h4>
                         <h2 class="textoBlanco">{{ $grupo->unidad->nombre }}</h1>
                             <h4 class="textoBlanco">{{ $grupo->materia->nombre }}</h4>
                             <br>

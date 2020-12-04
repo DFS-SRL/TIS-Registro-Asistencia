@@ -65,13 +65,13 @@ function accionColapsar(idAccionado, idOtro1, idOtro2 = "") {
 
 function llenarTabla(asis) {
     var table;
-    
+    console.log(asis);
     if(asis.length === 0)
         table = "<h4 class='textoBlanco'><b>No se tienen asistencias registradas.</b></h3>"
     else{
         table =
             `
-        <table class="table table-responsive">
+        <table class="table table-responsive" id="asistencias">
             <tr>
             <th class="textoBlanco border border-dark">MATERIA` + (docente ? "" : "/CARGO") + `</th>
             <th class="textoBlanco border border-dark">GRUPO` + (docente? "" : "/ÍTEM") + `</th>
@@ -85,28 +85,29 @@ function llenarTabla(asis) {
             <th class="textoBlanco border border-dark" style="text-align:center;">OPCIONES</th>
             </tr>
         `;
-    
         asis.forEach(
             function callback(elem, index, array) {
                 esMat = elem.materia.es_materia;
                 link1 = window.location.host + "/" + (esMat ? "materia" : "cargo") + "/" + elem.materia.id;
                 link2 = window.location.host + "/" + (esMat ? "grupo" : "item") + "/" + elem.grupo.id;
-                table += "<tr>" +
+                table += "<tr id="+elem.id+">" +
                     `<td class = "border border-dark"> <a href="` + link1 + `">`+ elem.materia.nombre + "</a> </td>" +
                     `<td class = "border border-dark"> <a href="` + link2 + `">`+ elem.grupo.nombre + "</a> </td>" +
-                    `<td class = "border border-dark">` + elem.fecha + "</td>" +
-                    `<td class = "border border-dark">` + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</td>" +
-                    `<td class = "border border-dark">` + cambiarTexto(elem.actividad_realizada) + "</td>" +
-                    `<td class = "border border-dark">` + cambiarTexto(elem.indicador_verificable) + "</td>" +
-                    `<td class = "border border-dark">` + cambiarTexto(elem.observaciones) + "</td>" +
-                    `<td class = "border border-dark">` + cambiarTexto(elem.asistencia) + "</td>" +
-                    `<td class = "border border-dark">` + cambiarTexto(elem.permiso) + "</td>" +
-                    `<td class = "border border-dark " style="width:180px;vertical-align:middle;">
+                    `<td class = "border border-dark"><p>` + elem.fecha + "</p></td>" +
+                    `<td class = "border border-dark"><p>` + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</p></td>" +
+                    `<td id=actividad`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.actividad_realizada) + "</p></td>" +
+                    `<td id=indicador`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.indicador_verificable) + "</p></td>" +
+                    `<td id=observaciones`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.observaciones) + "</p></td>" +
+                    `<td id=asistencia`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.asistencia) + "</p></td>" +
+                    `<td id=permiso`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.permiso) + "</p></td>" +
+                    `<td id=opciones`+elem.id+` class = "border border-dark " style="width:180px;vertical-align:middle;">
                         <input type='image' 
                                 src='/icons/editar.png'
                                 width="30rem"
-                                height="30rem">
-                        <input type="button" class="btn boton float-right" style="font-size:0.7em;"value="PERMISO EDICION">
+                                height="30rem"
+                                id="botonEditar`+elem.id+`"
+                                onclick="camposEdicionAsitencia(`+elem.id+','+elem.horario_clase.rol_id+`);desactivar();">
+                        <input id="permisoEdicion`+elem.id+`" type="button" class="btn boton float-right" style="font-size:0.7em;"value="PERMISO EDICION">
                     </td>`+
                     "</tr>"
                     ;
@@ -118,6 +119,8 @@ function llenarTabla(asis) {
 
     var div = $('#asistencias-content').html(table);
 }
+
+
 
 function cambiarTexto(txt) {
     if (txt === null)
