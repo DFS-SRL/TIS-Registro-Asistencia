@@ -337,6 +337,10 @@ class PersonalAcademicoController extends Controller
     }
     //registra un nuevo personal academico en un departamento y en el sistema si es necesario
     public function registrarPersonalAcademico(Request $request){
-        return $request;
+        if($request->registrado == "true"){
+            return "registrado";
+        }else{
+            return "no registrado";
+        }
     }
 }

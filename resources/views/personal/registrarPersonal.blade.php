@@ -93,6 +93,7 @@
                             <button type="submit" class="btn boton mr-5 ">REGISTRAR</button>
                             <button class="btn btn-danger ">CANCELAR</button>
                         </div>
+                        <input type="text" class="d-none" name="registrado" value=false>
                     @else
                         <div class="row justify-content-center">
                             <div class="col-3">
@@ -159,7 +160,9 @@
                                 <button class="btn btn-danger">CANCELAR</button>
                             @endif
                         </div>
+                        <input type="text" class="d-none" name="registrado" value=true>
                     @endif
+                    <input type="text" class="d-none" name="codsis" value="{{$codSis}}">
                 @else
                     <div class="row justify-content-center">
                         <div class="col-3">
