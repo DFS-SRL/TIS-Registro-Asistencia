@@ -60,7 +60,7 @@ class PlanillaLaboController extends Controller
 
         // recorrer asistencias colocando datos extra y almacenando en bd
         foreach ($asistencias as $key => $asistencia) {
-            if ($registradas->contains('id', $asistencia['horario_clase_id']) || $asistencia['asistencia'] == 'false')
+            if ($registradas->contains('id', $asistencia['horario_clase_id']))
                 continue;
             $horario = HorarioClase::find($asistencia['horario_clase_id']);
             $asistencia['fecha'] = getFechaF("Y-m-d");
@@ -69,6 +69,17 @@ class PlanillaLaboController extends Controller
             $asistencia['materia_id'] = $horario->materia_id;
             $asistencia['grupo_id'] = $horario->grupo_id;
             $asistencia['unidad_id'] = $horario->unidad_id;
+
+
+            if (array_key_exists('documento_adicional', $asistencia)) {
+                $doc = $asistencia['documento_adicional'];
+                $docNombre = pathInfo($doc->getClientOriginalName(), PATHINFO_FILENAME);
+                $docExtension = $doc->getClientOriginalExtension();
+                $nombreAGuardar = $docNombre . '_' . time() . '.' . $docExtension;
+                $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
+                $asistencia['documento_adicional'] = $nombreAGuardar;
+            }
+
             Asistencia::create($asistencia);
         }
 

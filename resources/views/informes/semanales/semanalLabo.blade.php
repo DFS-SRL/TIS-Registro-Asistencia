@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="row">            
                 <div class="col-8"> 
-                    <h2 class = "textoBlanco" >PLANILLA SEMANAL DE ASISTENCIA AUXILIARES DE LABORATORIO</h2>
+                    <h2 class = "textoBlanco" >INFORME SEMANAL DE ASISTENCIA AUXILIARES DE LABORATORIO</h2>
                     <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <br>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             @if (!$asistencias->isEmpty())
-                <table class="table table-bordered table-responsive">
+                <table class="table table-responsive">
                     <tr>
                         <th class = "textoBlanco border border-dark" scope="col">CARGO</th>
                         <th class = "textoBlanco border border-dark" scope="col">ITEM</th>
