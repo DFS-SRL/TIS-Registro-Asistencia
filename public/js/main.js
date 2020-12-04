@@ -65,12 +65,15 @@ function valIndVer() {
 function habilitarDeshabilitar(codigo) {
     elementos = document.getElementsByClassName(codigo);
     select = document.getElementById("select" + codigo);
+    documento = document.getElementById("documento_adicional" + codigo);
 
     if (elementos[0].disabled) {
         for (elemento of elementos) {
             elemento.removeAttribute("disabled");
         }
+        select.getElementsByTagName("option")[0].selected = "selected";
         select.setAttribute("disabled", "");
+        documento.setAttribute("disabled", "");
         document.getElementById("asistenciaFalse" + codigo).value = true;
     } else {
         for (elemento of elementos) {

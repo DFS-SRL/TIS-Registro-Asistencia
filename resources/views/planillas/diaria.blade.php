@@ -26,7 +26,7 @@
                     <th class="textoBlanco border border-dark" scope="col">ASISTENCIA</th>
                     <th class="textoBlanco border border-dark" scope="col">PERMISO</th>
                 </tr>
-                <form method="POST" action="{{ route('planillas.diaria') }}" onsubmit="return valMinAct()">
+                <form method="POST" action="{{ route('planillas.diaria') }}" onsubmit="return valMinAct()" enctype="multipart/form-data">
                     @csrf
                     @foreach ($horarios as $key => $horario)
                         <tr>
@@ -61,6 +61,7 @@
                                     <option onclick="window.alert('bashs')" value="BAJA_MEDICA">Baja medica</option>
                                     <option onclick="window.alert('comisionado gordon')" value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                 </select>
+                                <input class="{{$key}} mt-4" type="file" id="documento_adicional{{$key}}" name="asistencias[{{ $key }}][documento_adicional]" disabled>
                             </td>
                         </tr>
                         <input id='asistenciaFalse{{ $key }}' type='hidden' name="asistencias[{{ $key }}][asistencia]"
