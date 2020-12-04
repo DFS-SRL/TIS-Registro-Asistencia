@@ -43,6 +43,11 @@ Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesCon
 Route::get('/informes/semanal/{unidad}/{fecha}/auxiliar/{usuario}/{jefe}', 'InformesController@obtenerPlanillaExcepcionAuxiliares')
     ->name('informes.semanales.excepcionAuxiliares');
 
+Route::get('/planillas/semanal/excepcion/auxiliar/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionAuxiliar')
+    ->name('planilla.excepcion.auxiliar');
+Route::get('/planillas/semanal/excepcion/docente/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionDocente')
+    ->name('planilla.excepcion.auxiliar');
+
 Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
 Route::post('/informes/subirFuerza', 'InformesController@subirInformesFuerza')->name('informes.subirFuerza');
@@ -91,7 +96,7 @@ Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaborator
 
 Route::get('/personalAcademico/registrar/{unidad}', 'PersonalAcademicoController@mostrarRegistro')->name('personalAcademico.mostrarRegistro');
 Route::get('/personalAcademico/registrar/{unidad}/verificar', 'PersonalAcademicoController@verificarCodsis')->name('personalAcademico.verificar');
-route::post('/personalAcademico/registrar/{unidad}','PersonalAcademicoController@registrarPersonalAcademico')->name('personalAcademico.registrar');
+route::post('/personalAcademico/registrar/{unidad}', 'PersonalAcademicoController@registrarPersonalAcademico')->name('personalAcademico.registrar');
 
 Route::get('/personalAcademico/{unidad}', 'PersonalAcademicoController@obtenerPersonal')->name('informacion.personalAcademico');
 Route::get('/personalAcademico/{unidad}/docente/{usuario}', 'PersonalAcademicoController@informacionDocente')->name('informacion.docente');

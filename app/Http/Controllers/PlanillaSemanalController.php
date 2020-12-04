@@ -27,6 +27,54 @@ class PlanillaSemanalController extends Controller
         return $this->obtenerPlanillaSemanal($user, 3);
     }
 
+    // para obtener la planilla de excepcion de docente
+    public function obtenerPlanillaExcepcionDocente(Unidad $unidad, Usuario $usuario)
+    {
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
+            ->where('activo', '=', 'true')
+            ->where('unidad_id', '=', $unidad->id)
+            ->orderBy('dia', 'ASC')
+            ->orderBy('hora_inicio', 'ASC')
+            ->get();
+
+        $fechasDeSemana = getFechasDeSemanaActual();
+
+        // devolver vista de planillas de excepxion
+        return view('planillas.excepcion.docente', [
+            'fechaInicio' => $fechasDeSemana["LUNES"],
+            'fechaFinal' => $fechasDeSemana["SABADO"],
+            'fechasDeSemana' => $fechasDeSemana,
+            'horarios' => $horarios,
+            'usuario' => $usuario,
+            'unidad' => $unidad,
+            'llenado' => false
+        ]);
+    }
+
+    // para obtener la planilla de excepcion de auxiliar
+    public function obtenerPlanillaExcepcionAuxiliar(Unidad $unidad, Usuario $usuario)
+    {
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
+            ->where('activo', '=', 'true')
+            ->where('unidad_id', '=', $unidad->id)
+            ->orderBy('dia', 'ASC')
+            ->orderBy('hora_inicio', 'ASC')
+            ->get();
+
+        $fechasDeSemana = getFechasDeSemanaActual();
+
+        // devolver vista de planillas de excepxion
+        return view('planillas.excepcion.auxiliar', [
+            'fechaInicio' => $fechasDeSemana["LUNES"],
+            'fechaFinal' => $fechasDeSemana["SABADO"],
+            'fechasDeSemana' => $fechasDeSemana,
+            'horarios' => $horarios,
+            'usuario' => $usuario,
+            'unidad' => $unidad,
+            'llenado' => false
+        ]);
+    }
+
     // para obtener la planilla semanal dado un rol
     private function obtenerPlanillaSemanal(Usuario $user, $rol)
     {

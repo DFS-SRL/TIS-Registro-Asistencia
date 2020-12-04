@@ -124,7 +124,7 @@ function llenarTabla(asis) {
 
 function cambiarTexto(txt) {
     if (txt === null)
-        return "-";
+        return "";
     if (txt === true)
         return "SI";
     if (txt === false)
