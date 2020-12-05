@@ -91,6 +91,19 @@ function llenarTabla(asis) {
                 esMat = elem.materia.es_materia;
                 link1 = window.location.host + "/" + (esMat ? "materia" : "cargo") + "/" + elem.materia.id;
                 link2 = window.location.host + "/" + (esMat ? "grupo" : "item") + "/" + elem.grupo.id;
+                descargarDocumento = "";
+                botonDescarga = "";
+                if (elem.documento_adicional != null) {
+                    descargarDocumento = "descargarDoc('"+elem.documento_adicional+"')";
+                    console.log('documento de ' + elem.id + ': ' + elem.documento_adicional);
+                    botonDescarga = `<button type="button" class="btn btn-success boton" onclick="`+descargarDocumento+`" >
+                                <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+                                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                                </svg>
+                            </button>`
+                }
                 table += "<tr id="+elem.id+">" +
                     `<td class = "border border-dark"> <a href="` + link1 + `">`+ elem.materia.nombre + "</a> </td>" +
                     `<td class = "border border-dark"> <a href="` + link2 + `">`+ elem.grupo.nombre + "</a> </td>" +
@@ -100,7 +113,10 @@ function llenarTabla(asis) {
                     `<td id=indicador`+elem.id+` class = "border border-dark">` + cambiarTexto(elem.indicador_verificable) + "</td>" +
                     `<td id=observaciones`+elem.id+` class = "border border-dark">` + cambiarTexto(elem.observaciones) + "</td>" +
                     `<td id=asistencia`+elem.id+` class = "border border-dark">` + cambiarTexto(elem.asistencia) + "</td>" +
-                    `<td id=permiso`+elem.id+` class = "border border-dark">` + cambiarTexto(elem.permiso) + "</td>" +
+                    `<td id=permiso`+elem.id+` class = "border border-dark">` + 
+                        botonDescarga +
+                        cambiarTexto(elem.permiso)
+                    + "</td>" +
                     `<td class = "border border-dark " style="width:180px;vertical-align:middle;">
                         <input type='image' 
                                 src='/icons/editar.png'
@@ -193,4 +209,9 @@ function cambiarTexto(txt) {
     if (txt.includes("_"))
         return txt.replaceAll("_", " ");
     return txt;
+}
+
+// descarga un documento adicional segun su nombre
+function descargarDoc(nombre) {
+    window.location.href = '/archivo/descargar/'+nombre;
 }
