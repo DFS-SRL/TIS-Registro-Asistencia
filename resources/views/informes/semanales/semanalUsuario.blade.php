@@ -19,7 +19,7 @@
             @if(!$asistencias->isEmpty())
                 @foreach ($asistencias as $key1 => $unidad)
                     <br>
-                    <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
+                    <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad->nombre}} / {{$unidad[0]->unidad->nombre}}</h4>
                         @csrf
                         <table class = "table table-responsive">
                             <tr>

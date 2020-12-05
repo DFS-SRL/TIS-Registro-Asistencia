@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-8">
                     <h2 class = "textoBlanco" >INFORME MENSUAL DE ASISTENCIA DE AUXILIAR</h2>
-                    <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
+                    <h4 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <h4 class="textoBlanco">NOMBRE: 
                         <a href="{{ route('informacion.auxiliar', ['unidad' => $unidad->id, 'usuario' => $usuario->codSis]) }}">

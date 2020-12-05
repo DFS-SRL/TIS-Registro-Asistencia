@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h2 class = "textoBlanco">PLANILLA SEMANAL DE ASISTENCIA</h2>
+                    <h2 class = "textoBlanco">PLANILLA SEMANAL DE EXCEPCION DE @yield('tipo_academico')</h2>
                 </div>
                 <div class = "col-6">
                     <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
@@ -26,8 +26,8 @@
                                 <tr>
                                     <th class = "textoBlanco border border-dark">FECHA</th>
                                     <th class = "textoBlanco border border-dark">HORARIO</th>
-                                    <th class = "textoBlanco border border-dark">GRUPO</th>
-                                    <th class = "textoBlanco border border-dark">MATERIA</th>
+                                    <th class = "textoBlanco border border-dark">@yield('tipoGrupo')</th>
+                                    <th class = "textoBlanco border border-dark">@yield('tipoCargo')</th>
                                     <th class = "textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
                                     <th class = "textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
                                     <th class = "textoBlanco border border-dark">OBSERVACIONES</th>

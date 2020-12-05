@@ -16,7 +16,7 @@
             <div class="row">            
                 <div class="col-8"> 
                     <h2 class = "textoBlanco" >INFORME SEMANAL DE ASISTENCIA AUXILIARES DE LABORATORIO</h2>
-                    <h4 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h4>
+                    <h4 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h4>
                     <h4 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h4>
                     <br>
                 </div>
