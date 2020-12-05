@@ -105,6 +105,7 @@
   </div>
 @endsection
 <script>
+
     function activar() {
         asis.forEach(elem => {
             editar = document.getElementById("botonEditar" + elem.id);
@@ -123,6 +124,7 @@
             editar.src = "/icons/editarDis.png";                        
             permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
             permisoEdicion.disabled = true;
+ 
         });      
     }
 </script>
