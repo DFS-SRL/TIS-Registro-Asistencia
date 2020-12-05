@@ -1,1 +1,4 @@
-<h1>Planilla semamal de excepcion de auxiliar</h1>
+@extends('planillas.excepcion.excepcionMaster')
+@section('tipo_academico', 'AUXILIAR')
+@section('tipoCargo', 'MATERIA/CARGO')
+@section('tipoGrupo', 'GRUPO/ÍTEM')

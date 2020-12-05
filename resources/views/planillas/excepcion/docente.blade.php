@@ -1,1 +1,4 @@
-<h1>Planilla semamal de excepcion de docente</h1>
+@extends('planillas.excepcion.excepcionMaster')
+@section('tipo_academico', 'DOCENTE')
+@section('tipoCargo', 'MATERIA')
+@section('tipoGrupo', 'GRUPO')

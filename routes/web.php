@@ -46,7 +46,7 @@ Route::get('/informes/semanal/{unidad}/{fecha}/auxiliar/{usuario}/{jefe}', 'Info
 Route::get('/planillas/semanal/excepcion/auxiliar/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionAuxiliar')
     ->name('planilla.excepcion.auxiliar');
 Route::get('/planillas/semanal/excepcion/docente/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionDocente')
-    ->name('planilla.excepcion.auxiliar');
+    ->name('planilla.excepcion.docente');
 
 Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
