@@ -7,10 +7,10 @@
 @section('content')
   <div class="container-fluid">
     <div class="text-white">
-      <h3>Facultad: {{ $unidad->facultad->nombre }}</h3>
-      <h3>Departamento: {{ $unidad->nombre }}</h3>
+      {{-- <h3>Facultad: {{ $unidad->facultad->nombre }}</h3> --}}
+      {{-- <h3>Departamento: {{ $unidad->nombre }}</h3> --}}
       <h1 class="text-center">Información de @yield('tipoPersonal')</h1>
-      <h4>Nombre: {{ $usuario->nombre() }}</h4>
+      {{-- <h4>Nombre: {{ $usuario->nombre() }}</h4> --}}
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
     </div>
     <div class="accordion" id="accordionExample">
@@ -98,12 +98,16 @@
           <div class="container">
             {{ $asistencias->links() }}
           </div>
-          <button style="float: right;">LLENAR INFORME SEMANAL</button>
+          <button style=" float: right;">LLENAR INFORME SEMANAL</button>
         </div>
       </div>
     </div>
+    
   </div>
+  
 @endsection
+
+
 <script>
 
     function activar() {
