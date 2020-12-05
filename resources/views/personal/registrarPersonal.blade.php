@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container">
-        <h3 class="textoBlanco">Facultad: {{ $unidad->facultad }}</h3>
+        <h3 class="textoBlanco">Facultad: {{ $unidad->facultad->nombre }}</h3>
         <h3 class="textoBlanco">Departamento: {{ $unidad->nombre }}</h3>
         <br>
         <h3 class="text-center textoBlanco">Registrar Personal Academico </h3>

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Planilla Mensual')
+@section('title', 'Parte Mensual')
 
 @section('content')
     <div class="m-3">
@@ -9,7 +9,7 @@
                 <div class="col-6">
                     <h2 class = "textoBlanco">PARTE MENSUAL DE ASISTENCIA</h2>
                     <h4 class = "textoBlanco">@yield('tipoParte')</h4>
-                    <h4 class = "textoBlanco">{{ $unidad->facultad . " / " . $unidad->nombre }}</h4>
+                    <h4 class = "textoBlanco">{{ $unidad->facultad->nombre . " / " . $unidad->nombre }}</h4>
                     <h4 class = "textoBlanco">{{ $gestion }}</h4>
                 </div>
                 <div class = "col-6">

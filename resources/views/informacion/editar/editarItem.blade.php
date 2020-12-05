@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <h2 class="textoBlanco" >{{ $item->unidad->facultad }}</h4>
+                    <h2 class="textoBlanco" >{{ $item->unidad->facultad->nombre }}</h4>
                         <h2 class="textoBlanco">{{ $item->unidad->nombre }}</h1>
                             <h4 class="textoBlanco">{{ $item ->materia->nombre}}</h4>
                             <br>

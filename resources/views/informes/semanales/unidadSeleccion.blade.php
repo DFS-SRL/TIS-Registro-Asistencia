@@ -17,7 +17,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h2>
+                <h2 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h2>
                 <h2 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h2>
                 <br>
             </div>

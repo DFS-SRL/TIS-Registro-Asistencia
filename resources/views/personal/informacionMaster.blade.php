@@ -7,7 +7,7 @@
 @section('content')
   <div class="container-fluid">
     <div class="text-white">
-      <h3>Facultad: {{ $unidad->facultad }}</h3>
+      <h3>Facultad: {{ $unidad->facultad->nombre }}</h3>
       <h3>Departamento: {{ $unidad->nombre }}</h3>
       <h1 class="text-center">Información de @yield('tipoPersonal')</h1>
       <h4>Nombre: {{ $usuario->nombre() }}</h4>
@@ -98,8 +98,32 @@
           <div class="container">
             {{ $asistencias->links() }}
           </div>
+          <button style="float: right;">LLENAR INFORME SEMANAL</button>
         </div>
       </div>
     </div>
   </div>
 @endsection
+<script>
+    function activar() {
+        asis.forEach(elem => {
+            editar = document.getElementById("botonEditar" + elem.id);
+            editar.disabled = false;
+            editar.src = "/icons/editar.png";
+            permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
+            permisoEdicion.style.display = "block";            
+            permisoEdicion.disabled = false;
+        });
+        
+    }
+    function desactivar() {
+        asis.forEach(elem => {
+            editar = document.getElementById("botonEditar" + elem.id);
+            editar.disabled = true;
+            editar.src = "/icons/editarDis.png";                        
+            permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
+            permisoEdicion.disabled = true;
+        });      
+    }
+</script>
+<script src="/js/main.js"></script>
