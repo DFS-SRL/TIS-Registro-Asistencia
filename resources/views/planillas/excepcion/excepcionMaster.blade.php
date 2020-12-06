@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Planilla Semanal de Asistencia')
+@section('title', 'Planilla Semanal de Excepción')
 
 @section('content')
     <div class="m-3">
@@ -42,11 +42,12 @@
                                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                                         <td class="border border-dark">
                                             <textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}} actividad" 
-                                            maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')" onkeyup="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"  ></textarea>                             
+                                            maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"
+                                            onkeyup="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"></textarea>                             
                                             <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                                         </td>
                                         <td class="border border-dark">
-                                            <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}  verificable" id="verificable{{$key1.$key2 }}"></textarea>
+                                            <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}} verificable" id="verificable{{$key1.$key2 }}"></textarea>
                                             <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
                                         </td>
                                         <td class="border border-dark">
@@ -104,5 +105,6 @@
     <script src="/js/main.js"></script>
     <script>
         $(window).on('load', habilitarBotonRegistrar({{sizeof($horarios)}}));
+        console.log(@json($usuario).codSis);
     </script>
 @endsection
