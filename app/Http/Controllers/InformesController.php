@@ -68,7 +68,7 @@ class InformesController extends Controller
             }
         }
         $this->subirNivel($asistencias);
-        return 'enviado correctamente :)';
+        return back()->with('success', 'Enviado correctamente :)');
     }
 
     private function subirNivel($asistencias)
@@ -221,7 +221,8 @@ class InformesController extends Controller
         ]);
     }
 
-    public function obtenerPlanillaExcepcionAuxiliares(Unidad $unidad, $fecha, Usuario $usuario, Usuario $jefe){
+    public function obtenerPlanillaExcepcionAuxiliares(Unidad $unidad, $fecha, Usuario $usuario, Usuario $jefe)
+    {
         // obteniendo las fechas de la semana
         $fechas = getFechasDeSemanaEnFecha($fecha);
 

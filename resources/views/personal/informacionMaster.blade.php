@@ -106,20 +106,24 @@
     </div>
     
   </div>
-  
 @endsection
-
-
+<meta name="_token" content='@csrf'>
 <script>
-
+  var url = window.location.href;
+  var arr = url.split("/");
+  var miHost = arr[0] + "//" + arr[2];
+  var csrf = document.querySelector('meta[name="_token"]').content;
     function activar() {
         asis.forEach(elem => {
-            editar = document.getElementById("botonEditar" + elem.id);
-            editar.disabled = false;
-            editar.src = "/icons/editar.png";
-            permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
-            permisoEdicion.style.display = "block";            
-            permisoEdicion.disabled = false;
+            if(elem.nivel === 2)
+            {
+              editar = document.getElementById("botonEditar" + elem.id);
+              editar.disabled = false;
+              editar.src = "/icons/editar.png";
+              permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
+              permisoEdicion.style.display = "block";            
+              permisoEdicion.disabled = false;
+            }
         });
         
     }

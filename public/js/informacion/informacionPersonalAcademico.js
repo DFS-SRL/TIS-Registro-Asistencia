@@ -117,14 +117,25 @@ function llenarTabla(asis) {
                         cambiarTexto(elem.permiso) + "</p></td>" +
                     `<td id=opciones`+elem.id+` class = "border border-dark " style="width:180px;vertical-align:middle;">
                         <input type='image' 
-                                src='/icons/editar.png'
-                                width="30rem"
-                                height="30rem"
-                                id="botonEditar`+elem.id+`"
-                                onclick="camposEdicionAsitencia(`+elem.id+','+elem.horario_clase.rol_id+`);desactivar();">
-                        <input id="permisoEdicion`+elem.id+`" type="button" class="btn boton float-right" style="font-size:0.7em;"value="PERMISO EDICION">
-                    </td>`+
-                    "</tr>"
+                            width="30rem"
+                            height="30rem"
+                            id="botonEditar`+elem.id+`"`
+                            + (elem.nivel == 2 ?
+                                `onclick="camposEdicionAsitencia(`+elem.id+','+elem.horario_clase.rol_id+`);desactivar();"
+                                src='/icons/editar.png'`
+                            : `src='/icons/editarDis.png' disabled` )
+                            +
+                            `> 
+                            `
+                            +
+                            (elem.nivel == 2 ? `<form method="POST" action="` + miHost + '/asistencia/' + elem.id + '/permiso' + `"  style="display: inline;">
+                            ` + csrf + `
+                                <input type="hidden" name="_method" value="PATCH">
+                                <button id="permisoEdicion`+elem.id+`" class="btn boton float-right" style="font-size:0.7em;">PERMISO EDICION</button>
+                            </form>`
+                            : `<button class="btn boton float-right" style="font-size:0.7em;" disabled >PERMISO EDICION</button>` ) 
+                            +
+                    `</tr>`
                     ;
             }
         );
