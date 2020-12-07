@@ -21,7 +21,4 @@
 @section('script-footer')
     <script src="/js/main.js"></script>
     <script src="/js/asistencias.js"></script>
-    <script>
-
-    </script>
 @endsection

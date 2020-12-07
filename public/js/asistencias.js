@@ -79,20 +79,19 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
             <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
         </select>
         <br>
-        <button id="comprobante`+asistenciaId+`" class="btn boton justify-content-center" style="font-size:0.7em;" `+buttonEnabled(asistenciaId)+`>COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
+        <button class="` + asistenciaId + ` borrar btn boton justify-content-center" id="documento_adicional`+asistenciaId+`"  style="font-size:0.7em;" >COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
                             <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                             <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                         </svg>
-        </button >
-        <input hidden class="` + asistenciaId + ` mt-4 borrar" type="file" id="documento_adicional` + asistenciaId + `" onchange="documentoE(` + asistenciaId + `)" disabled>
-        `
+        </button >`
     );
     $("#opciones" + asistenciaId).append(
       `<form id="editar-asistencia`+asistenciaId+`" method="POST"
-            action="('asistencia.actualizar', `+asistenciaId+`)" //ESTA WEA 
+            action="/asistencia/`+asistenciaId+`" 
             onsubmit="return validarCamposUsuario(`+rolId+`)"
+            enctype="multipart/form-data"
         >
-            @csrf 
+            <input type="hidden" name="_token" value=`+$('meta[name ="csrf-token"]').attr('content')+`> 
             <input type="hidden" name="_method" value="PATCH">
             <input 
                 id="actividad-form`+asistenciaId+`" 
@@ -152,19 +151,19 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
             '); activar()">'
     ).insertBefore("#botonEditar" + asistenciaId);
 
-    document.getElementById('comprobante'+asistenciaId).addEventListener('click', () => {
+    document.getElementById('documento_adicional'+asistenciaId).addEventListener('click', () => {
         // document.getElementById("documento-form" + asistenciaId).disabled = false;
         document.getElementById("documento-form" + asistenciaId).click()
     })
 }
-function buttonEnabled(asistenciaId){
-    valueSwitch = document.getElementById("asistenciaE"+asistenciaId );
-    if(valueSwitch.checked){
-        return "disabled"
-    }else{
-        return "enabled";
-    }
-}
+// function buttonEnabled(asistenciaId){
+//     valueSwitch = document.getElementById("asistenciaE"+asistenciaId );
+//     if(valueSwitch.checked){
+//         return "disabled"
+//     }else{
+//         return "enabled";
+//     }
+// }
 
 function setValueSwitchAsistencia(asistenciaId){
     asistio = $("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML;
