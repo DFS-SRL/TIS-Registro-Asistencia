@@ -6,7 +6,7 @@
     
     @forelse ($auxiliaresDoc as $auxDoc)
     <li class="list-group-item linkMateria lista">
-        <a href="/planillas/semanal/auxdoc/{{$auxDoc->usuario_codSis}}">{{$auxDoc->nombre}}</a>
+        <a href="{{ route('auxiliarDoc', $auxDoc->usuario_codSis) }}">{{$auxDoc->nombre}}</a>
     </li>
     @empty
     <h3 class="textoBlanco">No hay auxiliares registrados</h3>
