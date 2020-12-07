@@ -76,10 +76,10 @@ function llenarTabla(asis) {
             <th class="textoBlanco border border-dark">MATERIA` + (docente ? "" : "/CARGO") + `</th>
             <th class="textoBlanco border border-dark">GRUPO` + (docente? "" : "/ÍTEM") + `</th>
             <th class="textoBlanco border border-dark">FECHA</th>
-            <th class="textoBlanco border border-dark">HORARIO</th>
+            <th class="textoBlanco border border-dark" >HORARIO</th>
             <th class="textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
             <th class="textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
-            <th class="textoBlanco border border-dark">OBSERVACIONES</th>
+            <th class="textoBlanco border border-dark ">OBSERVACIONES</th>
             <th class="textoBlanco border border-dark">ASISTENCIA</th>
             <th class="textoBlanco border border-dark">PERSMISO</th>
             <th class="textoBlanco border border-dark" style="text-align:center;">OPCIONES</th>
@@ -108,7 +108,7 @@ function llenarTabla(asis) {
                     `<td class = "border border-dark"> <a href="` + link2 + `">`+ elem.grupo.nombre + "</a> </td>" +
                     `<td class = "border border-dark"><p>` + elem.fecha + "</p></td>" +
                     `<td class = "border border-dark"><p>` + elem.horario_clase.hora_inicio + " - " + elem.horario_clase.hora_fin + "</p></td>" +
-                    `<td id=actividad`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.actividad_realizada) + "</p></td>" +
+                    `<td id=actividad`+elem.id+` class = "border border-dark" style="text-align:justify"><p >` + cambiarTexto(elem.actividad_realizada) + "</p></td>" +
                     `<td id=indicador`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.indicador_verificable) + "</p></td>" +
                     `<td id=observaciones`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.observaciones) + "</p></td>" +
                     `<td id=asistencia`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.asistencia) + "</p></td>" +

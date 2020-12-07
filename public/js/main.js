@@ -62,7 +62,7 @@ function valIndVer() {
 }
 
 /* habilita y deshabilita los textarea y el combobox de la planilla semanal de docente dependiendo del switch del formulario*/
-function habilitarDeshabilitar(codigo) {
+function habilitarDeshabilitar(codigo) {//aumentar condicion para cuando inicia con un valor por defecto
     elementos = document.getElementsByClassName(codigo);
     select = document.getElementById("select" + codigo);
     documento = document.getElementById("documento_adicional" + codigo);

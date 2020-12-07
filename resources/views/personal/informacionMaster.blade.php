@@ -106,6 +106,7 @@
     </div>
     
   </div>
+  <meta name="csrf-token" content="{{csrf_token()}}">
 @endsection
 <meta name="_token" content='@csrf'>
 <script>

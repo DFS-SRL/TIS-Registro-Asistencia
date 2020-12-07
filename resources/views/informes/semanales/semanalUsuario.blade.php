@@ -96,7 +96,6 @@
                                             <form id="editar-asistencia{{ $asistencia->id }}" method="POST"
                                                 action="{{ route('asistencia.actualizar', $asistencia) }}" 
                                                 onsubmit="return validarCamposUsuario({{ $asistencia->horarioClase->rol_id }})"
-                                                style="display: none;"
                                             >
                                                 @csrf @method('PATCH')
                                                 <input 
