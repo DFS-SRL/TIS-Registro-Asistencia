@@ -31,7 +31,7 @@ class ActualizarAsistenciaRequest extends FormRequest
         if ($val['asistencia'] == "false") {
             $reglas['permiso'] = 'nullable';
             if (array_key_exists('permiso', $val)) {
-                $reglas['documento_adicional'] = 'nullable';
+                $reglas['documento_adicional'] = 'nullable|mimes:pdf,doc,docx,jpg,png,bmp,gif,svg,webp';
                 $reglas['observaciones'] = 'nullable|max:200';
             }
         } else {
