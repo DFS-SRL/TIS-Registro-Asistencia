@@ -55,7 +55,7 @@
                     <tr>
                         <td><a href="/materia/{{$itemPasado->materia_id}}">{{$itemPasado->nombre_materia }} </a></td>
                         <td>item: <a href="/grupo/{{$itemPasado->grupo_id}}">{{$itemPasado->nombre_grupo}}</a></td>
-                        <td><a href="">registro historico</a></td>
+                        <td><a href="">Registro historico</a></td>
                     </tr>
                 @endforeach 
             </tbody>
@@ -70,11 +70,22 @@
   </div>
 </div>
 @endsection
+
+@section('tipoPlanilla')    
+  <a id="excepcion" href="{{ url('/planillas/semanal/excepcion/auxiliar/' . $unidad->id . '/' . $usuario->codSis) }}" class="textoBlanco">
+    LLENAR INFORME SEMANAL
+  </a>
+@endsection
       
-  @section('script-footer')
+@section('script-footer')
   <script type="text/javascript" src='/js/informacion/informacionPersonalAcademico.js'></script>
   <script type="text/javascript" src='/js/asistencias.js'></script>
   <script>
+
+    $('#excepcionButton').on('click', function(){
+      $('#excepcion')[0].click();
+    });
+
     var sis = {{ $usuario->codSis }};
     var dep = {{ $unidad->id }};
     remember();
@@ -86,6 +97,7 @@
       asis.push(a.data[i]);
     // console.log(asis);
     llenarTabla(asis);
-
+    console.log(sis);
+    console.log(dep);
   </script>
   @endsection

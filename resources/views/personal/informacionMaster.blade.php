@@ -98,7 +98,9 @@
           <div class="container">
             {{ $asistencias->links() }}
           </div>
-          <button style=" float: right;">LLENAR INFORME SEMANAL</button>
+          <button id="excepcionButton" class="btn btn-success boton cafe m-3" style=" float: right;">
+            @yield('tipoPlanilla')
+          </button>
         </div>
       </div>
     </div>
