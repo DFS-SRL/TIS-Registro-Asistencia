@@ -21,4 +21,8 @@ class Unidad extends Model
     {
         return $this->belongsTo('App\Facultad');
     }
+    public function jefe()
+    {
+        return $this->belongsTo('App\Usuario');
+    }
 }
