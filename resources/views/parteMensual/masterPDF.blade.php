@@ -29,7 +29,15 @@
     <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
     <b class = "textoBlanco ml-4">AL: </b><span class = "textoBlanco"> {{$fechaFin}}</span>
     <br>
-    @yield('reporte')    
+    @yield('reporte') 
+    <div id="pie de firmas">
+        
+    </div>
+    {{$unidad->facultad->encargado->nombre }} <br> Encargado Facultativo    
+    {{$unidad->facultad->directorAcademico->nombre }} <br> Director Academico DPA
+    {{$unidad->facultad->decano->nombre }} <br> Decano de la {{$unidad->facultad->nombre}}
+    {{$unidad}}
+    pie de pagina
 <script type="text/php">
     if (isset($pdf)) {
         $x = 250;

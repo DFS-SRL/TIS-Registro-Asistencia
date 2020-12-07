@@ -108,12 +108,11 @@
   </div>
   <meta name="csrf-token" content="{{csrf_token()}}">
 @endsection
-<meta name="_token" content='@csrf'>
 <script>
   var url = window.location.href;
   var arr = url.split("/");
   var miHost = arr[0] + "//" + arr[2];
-  var csrf = document.querySelector('meta[name="_token"]').content;
+  var csrf = document.querySelector('meta[name="csrf-token"]').content;
     function activar() {
         asis.forEach(elem => {
             if(elem.nivel === 2)
