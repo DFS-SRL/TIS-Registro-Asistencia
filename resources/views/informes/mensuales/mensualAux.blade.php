@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Planilla semanal de asistencia')
+@section('title', 'Informe mensual de asistencia')
 
 @section('css')
     <style>

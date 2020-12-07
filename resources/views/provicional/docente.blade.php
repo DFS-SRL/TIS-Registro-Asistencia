@@ -19,7 +19,7 @@
             <h1 class="text-white">Vista provicional de Docente</h1>
 
             <div class="textoBlanco justify-content-center esquina-redondeada" style="background:#7C7365;">
-                <a class="boton btn textoNegro" href="{{ route('informes.semanales.personal', $usuario) }}">INFORMES SEMANALES</a>
+                <a class="boton btn textoNegro" href="{{ route('informes.semanales.personal', $usuario) }}">INFORMES PASADOS</a>
                 <hr>
                 <a class="boton btn textoNegro" href="{{ route('planillas.semanal.docente', $usuario) }}">LLENAR PLANILLA SEMANAL</a>
             </div>
