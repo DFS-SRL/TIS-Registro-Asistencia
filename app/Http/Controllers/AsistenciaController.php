@@ -43,4 +43,17 @@ class AsistenciaController extends Controller
         $asistencia->update($datosNuevos);
         return back()->with('success', 'Asistencia actualizada correctamente');
     }
+
+    // dar permiso de edicion de la asistencia al personal academico
+    public function permisoEdicion(Asistencia $asistencia)
+    {
+        if ($asistencia->nivel != 2)
+            throw ValidationException::withMessages([
+                'nivel' => ['No se puede otorgar permiso']
+            ]);
+        $asistencia->update([
+            'nivel' => 1
+        ]);
+        return back()->with('success', 'Permiso de edicion otorgado');
+    }
 }
