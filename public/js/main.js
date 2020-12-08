@@ -102,14 +102,23 @@ function combo(index, codigo) {
                 elemento.value = "";
             } else elemento.removeAttribute("disabled");
         }
-        if(elemento.id === "nombre_archivo" + codigo) {
-            // console.log("aqui");
+        if (elemento.id === "documento-form" + codigo) {
             if (index == 0) {
+                elemento.setAttribute("disabled", "");
+                elemento.value = "";
+            } else elemento.removeAttribute("disabled");
+        }
+        if(elemento.id === "nombre_archivo" + codigo) {
+            console.log(elemento);
+            if (index != 0 || elemento.innerHTML == "") {
                 elemento.innerHTML = "No se eligi&oacute archivo";
+            }else if (index == 0 ) {
+                elemento.innerHTML = "";
             } 
         }
     }
 }
+
 
 /*deshabilita el boton de horarios si existen horarios */
 function habilitarBotonRegistrar(horarios) {
