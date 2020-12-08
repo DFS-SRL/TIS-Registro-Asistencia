@@ -27,7 +27,9 @@ class PersonalAcademicoController extends Controller
             ->where('unidad_id', '=', $unidad->id)->select(
                 'Usuario.nombre',
                 'Usuario.codSis'
-            );
+            )
+            ->where('jefe_dept', '=', 'false')
+            ->distinct();
         if (is_array($codigos)) {
             $raw = 'case';
             foreach ($codigos as $key => $codSis) {
@@ -44,6 +46,7 @@ class PersonalAcademicoController extends Controller
                 ->where('rol_id', '>=', 1)
                 ->where('rol_id', '<=', 3)
                 ->join('Rol', 'Rol.id', '=', 'rol_id')
+                ->distinct()
                 ->select('nombre')
                 ->get();
         }
@@ -109,6 +112,8 @@ class PersonalAcademicoController extends Controller
             ->where('unidad_id', '=', $unidad->id)
             ->join('Usuario_tiene_rol', 'codSis', '=', 'Usuario_tiene_rol.usuario_codSis')
             ->where('rol_id', '=', $rol)
+            ->where('jefe_dept', '=', 'false')
+            ->distinct()
             ->select('Usuario.nombre', 'Usuario.codSis');
         if (is_array($codigos)) {
             $raw = 'case';
@@ -286,8 +291,9 @@ class PersonalAcademicoController extends Controller
     }
 
     //muestra la vista de registro de personal
-    public function mostrarRegistro( Unidad $unidad){
-        return view('personal.registrarPersonal',[
+    public function mostrarRegistro(Unidad $unidad)
+    {
+        return view('personal.registrarPersonal', [
             'unidad' => $unidad,
             'despuesVerificar' => false,
             'personal' => [],
@@ -296,51 +302,53 @@ class PersonalAcademicoController extends Controller
     }
 
     //verifica si existe el personal academico correspondiente al codsis en el departamento especificado o solo en el sistema o en ninguno
-    public function verificarCodsis(Unidad $unidad){
+    public function verificarCodsis(Unidad $unidad)
+    {
         $codSis = request()->codsis;
-        $personal = Usuario::where('codSis','=',$codSis)->get();
+        $personal = Usuario::where('codSis', '=', $codSis)->get();
         $perteneceDepartamento = false;
         $nombres = "";
-        $apellidoPaterno="";
-        $apellidoMaterno="";
-        $correo="";
-        if(count($personal) != 0){
-            $nombreSeparado = explode(" ",$personal[0]->nombre);
+        $apellidoPaterno = "";
+        $apellidoMaterno = "";
+        $correo = "";
+        if (count($personal) != 0) {
+            $nombreSeparado = explode(" ", $personal[0]->nombre);
             $nombres = str_replace("_", " ", $nombreSeparado[2]);
             $apellidoPaterno = str_replace("_", " ", $nombreSeparado[0]);
             $apellidoMaterno = str_replace("_", " ", $nombreSeparado[1]);
             $correo = $personal[0]->correo_electronico;
-            $perteneceDepartamento = !UsuarioPerteneceUnidad :: where('usuario_codSis','=',$codSis)
-                ->where('unidad_id','=',$unidad->id)
+            $perteneceDepartamento = !UsuarioPerteneceUnidad::where('usuario_codSis', '=', $codSis)
+                ->where('unidad_id', '=', $unidad->id)
                 ->get()
                 ->isEmpty();
         }
         $roles = [];
-        if($perteneceDepartamento){
+        if ($perteneceDepartamento) {
             request()->session()->flash('warning', 'El usuario especificado ya se encuentra registrado en este departamento, puede editar su informacion presionando el boton "EDITAR"');
-            $rolesBD = UsuarioTieneRol::where('usuario_codSis','=',$codSis)->select('rol_id')->get();
-            foreach($rolesBD as $rol){
-                array_push($roles,$rol->rol_id);
+            $rolesBD = UsuarioTieneRol::where('usuario_codSis', '=', $codSis)->select('rol_id')->get();
+            foreach ($rolesBD as $rol) {
+                array_push($roles, $rol->rol_id);
             }
         }
-        return view('personal.registrarPersonal',[
-            'unidad'=>$unidad,
-            'despuesVerificar'=>true,
-            'nombres'=>$nombres,
-            'apellidoPaterno'=>$apellidoPaterno,
-            'apellidoMaterno'=>$apellidoMaterno,
-            'correo'=>$correo,
-            'perteneceDepartamento'=>$perteneceDepartamento,
-            'codSis'=> $codSis,
-            'roles'=>$roles
+        return view('personal.registrarPersonal', [
+            'unidad' => $unidad,
+            'despuesVerificar' => true,
+            'nombres' => $nombres,
+            'apellidoPaterno' => $apellidoPaterno,
+            'apellidoMaterno' => $apellidoMaterno,
+            'correo' => $correo,
+            'perteneceDepartamento' => $perteneceDepartamento,
+            'codSis' => $codSis,
+            'roles' => $roles
         ]);
     }
     //registra un nuevo personal academico en un departamento y en el sistema si es necesario
-    public function registrarPersonalAcademico($idUnidad){
-        if(request('registrado') == "false"){
+    public function registrarPersonalAcademico($idUnidad)
+    {
+        if (request('registrado') == "false") {
             $nombre = str_replace("_", " ", request('apellidoPaterno')) . " ";
             $nombre = $nombre . str_replace("_", " ", request('apellidoMaterno')) . " ";
-            $nombre = $nombre. str_replace("_", " ", request('nombres'));
+            $nombre = $nombre . str_replace("_", " ", request('nombres'));
             $usuario = [];
             $usuario['codSis'] = request('codsis');
             $usuario['nombre'] = $nombre;
@@ -354,24 +362,24 @@ class PersonalAcademicoController extends Controller
             'unidad_id' => $idUnidad,
             'jefe_dept' => false
         ]);
-        
+
         $usuarioRol = [];
         $usuarioRol['usuario_codSis'] = request('codsis');
         $usuarioRol['departamento_id'] = $idUnidad;
-        if(request("docente") == "docente"){
+        if (request("docente") == "docente") {
             $usuarioRol['rol_id'] = 3;
             UsuarioTieneRol::create($usuarioRol);
-        }else{
-            if(request("auxDoc") == "auxDoc"){
+        } else {
+            if (request("auxDoc") == "auxDoc") {
                 $usuarioRol['rol_id'] = 2;
                 UsuarioTieneRol::create($usuarioRol);
             }
-            if(request("auxLab") == "auxLab"){
+            if (request("auxLab") == "auxLab") {
                 $usuarioRol['rol_id'] = 1;
                 UsuarioTieneRol::create($usuarioRol);
             }
         }
         request()->session()->flash('success', 'Usuario registrado');
-        return redirect()->route('personalAcademico.mostrarRegistro',$idUnidad);
+        return redirect()->route('personalAcademico.mostrarRegistro', $idUnidad);
     }
 }

@@ -27,6 +27,9 @@
             <td class="col-2">
                 <a href="{{ route('informacion.personalAcademico', $departamento->id )}}">Ver Personal Academico</a>
             </td>
+            <td class="col-2">
+                <a href="{{ route('personalAcademico.mostrarRegistro', $departamento->id )}}">Registrar Personal Academico</a>
+            </td>
         </tr>
         @empty
         <h3 class="textoBlanco">No hay departamentos registrados</h3>

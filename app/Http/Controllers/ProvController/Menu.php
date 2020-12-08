@@ -18,7 +18,9 @@ class Menu extends Controller
     {
         $docentes = UsuarioTieneRol::where('rol_id', '=', 3)
             ->join('public.Usuario', 'public.Usuario_tiene_rol.usuario_codSis', '=', 'public.Usuario.codSis')
-            ->select('public.Usuario_tiene_rol.usuario_codSis', 'public.Usuario.nombre')->paginate(10);
+            ->select('public.Usuario_tiene_rol.usuario_codSis', 'public.Usuario.nombre')
+            ->distinct()
+            ->paginate(10);
         // return $docentes;
         return view('provicional.docentes', [
             'docentes' => $docentes
@@ -46,7 +48,9 @@ class Menu extends Controller
     {
         $auxiliaresDoc = UsuarioTieneRol::where('rol_id', '=', 2)
             ->join('public.Usuario', 'public.Usuario_tiene_rol.usuario_codSis', '=', 'public.Usuario.codSis')
-            ->select('public.Usuario_tiene_rol.usuario_codSis', 'public.Usuario.nombre')->paginate(10);
+            ->select('public.Usuario_tiene_rol.usuario_codSis', 'public.Usuario.nombre')
+            ->distinct()
+            ->paginate(10);
         // return $docentes;
         return view('provicional.auxiliaresDoc', [
             'auxiliaresDoc' => $auxiliaresDoc
@@ -56,7 +60,9 @@ class Menu extends Controller
     {
         $auxiliaresLabo = UsuarioTieneRol::where('rol_id', '=', 1)
             ->join('public.Usuario', 'public.Usuario_tiene_rol.usuario_codSis', '=', 'public.Usuario.codSis')
-            ->select('public.Usuario_tiene_rol.usuario_codSis', 'public.Usuario.nombre')->paginate(10);
+            ->select('public.Usuario_tiene_rol.usuario_codSis', 'public.Usuario.nombre')
+            ->distinct()
+            ->paginate(10);
         // return $docentes;
         return view('provicional.auxiliaresLabo', [
             'auxiliaresLabo' => $auxiliaresLabo
