@@ -1,6 +1,5 @@
 
 @extends('layouts.master')
-@include('layouts.flash-message')
 @section('css')
     <link rel="stylesheet" href="/css/informacion/informacionDocente.css">
 @endsection
