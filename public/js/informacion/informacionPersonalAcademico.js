@@ -133,7 +133,7 @@ function llenarTabla(asis) {
                                 <input type="hidden" name="_method" value="PATCH">
                                 <button id="permisoEdicion`+elem.id+`" class="btn boton float-right" style="font-size:0.7em;">PERMISO EDICION</button>
                             </form>`
-                            : `<button class="btn boton float-right" style="font-size:0.7em;" disabled >PERMISO EDICION</button>` ) 
+                            : `<button id="permisoEdicion`+elem.id+`" class="btn boton float-right" style="font-size:0.7em;" disabled >PERMISO EDICION</button>` ) 
                             +
                     `</tr>`
                     ;
