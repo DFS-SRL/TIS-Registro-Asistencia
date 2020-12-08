@@ -10,7 +10,7 @@
     <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="textoBlanco">FACULTAD: {{ $unidad['facultad'] }}</h2>
+                    <h2 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h2>
                     <h2 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h2>
                     <br>
                 </div>
@@ -43,3 +43,26 @@
     </div>
 
 @endsection
+
+<script LANGUAGE="JavaScript">
+    <!--
+    function confirmSubmit(fuerza)
+    {
+        var agree = confirm("¿Estás seguro de subir los informes?, no habrá marcha atras",
+            function() {
+                alertify.success('Si');
+            },
+            function() {
+                alertify.error('No');
+            });
+        if (agree)
+        {
+            if(fuerza)
+                document.getElementById("formulario").action = "{{ route('informes.subirFuerza') }}";
+            return true ;
+        }
+        else
+            return false ;
+    }
+    // -->
+    </script>

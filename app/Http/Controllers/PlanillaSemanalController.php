@@ -36,12 +36,15 @@ class PlanillaSemanalController extends Controller
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
             ->where('activo', '=', 'true')
             ->where('rol_id', '=', $rol)
-            ->orderBy('dia', 'ASC')
+            ->orderBy(
+                'dia',
+                'ASC'
+            )
             ->orderBy('hora_inicio', 'ASC')
             ->get();
 
         // ver si no se lleno la planilla de esta semana
-        $registradas = $this->asistenciasRegistradas($user, $rol);
+        $registradas = $this->asistenciasRegistradas($user, [$rol]);
         $llenado = $registradas->count() == $horarios->count() && $horarios->count() > 0;
 
         foreach ($horarios as $key => $horario) {
@@ -65,15 +68,73 @@ class PlanillaSemanalController extends Controller
         ]);
     }
 
+    // para obtener la planilla de excepcion de docente
+    public function obtenerPlanillaExcepcionDocente(Unidad $unidad, Usuario $usuario)
+    {
+        return $this->obtenerPlanillaExcepcion($unidad, $usuario, [3]);
+    }
+
+    // para obtener la planilla de excepcion de auxiliar
+    public function obtenerPlanillaExcepcionAuxiliar(Unidad $unidad, Usuario $usuario)
+    {
+        return $this->obtenerPlanillaExcepcion($unidad, $usuario, [1, 2]);
+    }
+
+    // obtener planilla semanal de excepcion dado unidad usuario y roles
+    private function obtenerPlanillaExcepcion(Unidad $unidad, Usuario $usuario, $roles)
+    {
+        // obteniendo horarios asignados al auxiliar actual
+        $horarios =  HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
+            ->where('activo', '=', 'true')
+            ->whereIn('rol_id', $roles)
+            ->where('unidad_id', '=', $unidad->id)
+            ->orderBy('dia', 'ASC')
+            ->orderBy('hora_inicio', 'ASC')
+            ->get();
+
+        // ver si no se lleno la planilla de esta semana
+        $registradas = $this->asistenciasRegistradas($usuario, $roles, [$unidad->id]);
+        $llenado = $registradas->count() == $horarios->count() && $horarios->count() > 0;
+
+        foreach ($horarios as $key => $horario) {
+            if ($registradas->contains('id', $horario->id)) {
+                $horarios->forget($key);
+            }
+        }
+        $fechasDeSemana = getFechasDeSemanaActual();
+
+        $horarios = $horarios->groupBy('unidad_id');
+        // devolver vista de planilla de excepcion
+        return view('planillas.excepcion.' . ($roles[0] == 3 ? 'docente' : 'auxiliar'), [
+            'fechaInicio' => $fechasDeSemana["LUNES"],
+            'fechaFinal' => $fechasDeSemana["SABADO"],
+            'fechasDeSemana' => $fechasDeSemana,
+            'horarios' => $horarios,
+            'usuario' => $usuario,
+            'unidad' => $unidad,
+            'llenado' => $llenado
+        ]);
+    }
+
     // registrar asistencias de la semana
     public function registrarAsistenciasSemana(RegistrarAsistenciaSemanalRequest $request)
     {
         // validar
         $asistencias = array_values($request->validated()['asistencias']);
-        $horario0 = HorarioClase::find(array_values($asistencias)[0]['horario_clase_id']);
-        $usuario = Usuario::find($horario0->asignado_codSis);
-        $registradas = $this->asistenciasRegistradas($usuario, $horario0->rol_id);
-        if ($registradas->count() == $this->cuantosHorarios($usuario, $horario0->rol_id)) {
+
+        //ver si no se lleno la planilla de esta semana
+        $usuario = Usuario::find(HorarioClase::find($asistencias[0]['horario_clase_id'])->asignado_codSis);
+        $roles = [];
+        $unidades = [];
+        foreach ($asistencias as $asistencia) {
+            $horario = HorarioClase::find($asistencia['horario_clase_id']);
+            if (!in_array($horario->rol_id, $roles))
+                array_push($roles, $horario->rol_id);
+            if (!in_array($horario->unidad_id, $unidades))
+                array_push($unidades, $horario->unidad_id);
+        }
+        $registradas = $this->asistenciasRegistradas($usuario, $roles, $unidades);
+        if ($registradas->count() == $this->cuantosHorarios($usuario, $roles, $unidades)) {
             $error = ValidationException::withMessages([
                 'lleno' => ['LA PLANILLA YA FUE LLENADA']
             ]);
@@ -111,24 +172,27 @@ class PlanillaSemanalController extends Controller
     }
 
     // funcion auxiliar para ver si hay asistencias en la semana para no registrar 2 veces asistencias
-    private function asistenciasRegistradas($usuario, $rol)
+    private function asistenciasRegistradas($usuario, $roles, $unidades = null)
     {
         $fechas = getFechasDeSemanaEnFecha(date('Y-m-d'));
-        return Asistencia::where('fecha', '>=', $fechas[0])
+        $asistencias = Asistencia::where('fecha', '>=', $fechas[0])
             ->where('fecha', '<=', $fechas[5])
             ->join('Horario_clase', 'Horario_clase.id', '=', 'horario_clase_id')
-            ->where('rol_id', '=', $rol)
-            ->where('Horario_clase.asignado_codSis', '=', $usuario->codSis)
-            ->select('Horario_clase.id')
+            ->whereIn('rol_id', $roles)
+            ->where('Horario_clase.asignado_codSis', '=', $usuario->codSis);
+        if ($unidades != null)
+            $asistencias = $asistencias->whereIn('Horario_clase.unidad_id', $unidades);
+        return $asistencias->select('Horario_clase.id')
             ->get();
     }
 
     // contar horarios de la semana
-    private function cuantosHorarios($usuario, $rol)
+    private function cuantosHorarios($usuario, $roles, $unidades)
     {
         return HorarioClase::where('asignado_codSis', '=', $usuario->codSis)
             ->where('activo', '=', 'true')
-            ->where('rol_id', '=', $rol)
+            ->whereIn('rol_id', $roles)
+            ->whereIn('unidad_id', $unidades)
             ->count();
     }
 }

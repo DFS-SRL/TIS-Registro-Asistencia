@@ -1,16 +1,15 @@
 
 @extends('layouts.master')
-@include('layouts.flash-message')
 @section('css')
     <link rel="stylesheet" href="/css/informacion/informacionDocente.css">
 @endsection
 @section('content')
   <div class="container-fluid">
     <div class="text-white">
-      <h3>Facultad: {{ $unidad->facultad }}</h3>
-      <h3>Departamento: {{ $unidad->nombre }}</h3>
+      {{-- <h3>Facultad: {{ $unidad->facultad->nombre }}</h3> --}}
+      {{-- <h3>Departamento: {{ $unidad->nombre }}</h3> --}}
       <h1 class="text-center">Información de @yield('tipoPersonal')</h1>
-      <h4>Nombre: {{ $usuario->nombre() }}</h4>
+      {{-- <h4>Nombre: {{ $usuario->nombre() }}</h4> --}}
       <h4>Codigo SIS: {{ $usuario->codSis }}</h4>
     </div>
     <div class="accordion" id="accordionExample">
@@ -98,21 +97,33 @@
           <div class="container">
             {{ $asistencias->links() }}
           </div>
-          <button style="float: right;">LLENAR INFORME SEMANAL</button>
+          <button id="excepcionButton" class="btn btn-success boton cafe m-3" style=" float: right;">
+            @yield('tipoPlanilla')
+          </button>
         </div>
       </div>
     </div>
+    
   </div>
+  <meta name="csrf-token" content="{{csrf_token()}}">
 @endsection
+<meta name="_token" content='@csrf'>
 <script>
+  var url = window.location.href;
+  var arr = url.split("/");
+  var miHost = arr[0] + "//" + arr[2];
+  var csrf = document.querySelector('meta[name="_token"]').content;
     function activar() {
         asis.forEach(elem => {
-            editar = document.getElementById("botonEditar" + elem.id);
-            editar.disabled = false;
-            editar.src = "/icons/editar.png";
-            permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
-            permisoEdicion.style.display = "block";            
-            permisoEdicion.disabled = false;
+            if(elem.nivel === 2)
+            {
+              editar = document.getElementById("botonEditar" + elem.id);
+              editar.disabled = false;
+              editar.src = "/icons/editar.png";
+              permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
+              permisoEdicion.style.display = "block";            
+              permisoEdicion.disabled = false;
+            }
         });
         
     }
@@ -123,6 +134,7 @@
             editar.src = "/icons/editarDis.png";                        
             permisoEdicion = document.getElementById("permisoEdicion" + elem.id);
             permisoEdicion.disabled = true;
+ 
         });      
     }
 </script>

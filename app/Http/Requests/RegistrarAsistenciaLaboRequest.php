@@ -31,7 +31,7 @@ class RegistrarAsistenciaLaboRequest extends FormRequest
             if ($val['asistencia'] == "false") {
                 $reglas['asistencias.' . $key . '.permiso'] = 'nullable';
                 if (array_key_exists('permiso', $val)) {
-                    $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable';
+                    $reglas['asistencias.' . $key . '.documento_adicional'] = 'nullable|mimes:pdf,doc,docx,jpg,png,bmp,gif,svg,webp';
                     $reglas['asistencias.' . $key . '.observaciones'] = 'nullable|max:200';
                 }
             } else {

@@ -1,46 +1,3 @@
-function editarAsistencia(idFila){
-    let actividad = document.getElementById("actividad"+idFila);
-    let indicador = document.getElementById("indicador"+idFila);
-    let observaciones = document.getElementById("observaciones"+idFila);
-    let asistencia = document.getElementById("asistencia"+idFila);
-    let permiso = document.getElementById("permiso"+idFila);
-    let opciones = document.getElementById("opciones"+idFila);
-    actividad.innerHTML =  `<textarea maxlength='150' style="width:8rem;">`+actividad.firstChild.nodeValue+`</textarea>                             
-                            <label class ="text-danger" id="msgAct+ID" for="idTA"></label>`;
-    indicador.innerHTML =  `<textarea style="width:8rem;"></textarea>
-                            <label class ="text-danger" id="msgVer+ID" for="idTA"></label>`;
-    observaciones.innerHTML =  `<textarea maxlength="200" style="width:8rem;">`+observaciones.firstChild.nodeValue+`</textarea>
-                                <label class ="text-danger" id="msgObs+ID" for="idTA"></label>`;                    
-    asistencia.innerHTML = `<div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"  onclick='habilitarDeshabilitar()' autocomplete="off"/>
-                                <label class="custom-control-label" for="asistencia"></label>
-                            </div>`;
-    permiso.innerHTML =`<select style="width:6.8rem;" 
-                            onfocus="this.selectedIndex = -1;">
-                            
-                            <option value="">Sin Permiso</option>
-                            <option value="LICENCIA">Licencia</option>
-                            <option value="BAJA_MEDICA">Baja medica</option>
-                            <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
-                        </select>
-                        <br>
-                        <button class="btn boton float-right" style="padding:0px 4px 2px 6px"> COMPROBANTE
-                        <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                        </svg>
-                        </button >
-                        <input type="file"  hidden>`;
-    opciones.innerHTML = `<input type='image' 
-                            src='/icons/aceptar.png'
-                            width="30rem"
-                            height="30rem">
-                        <input type='image' 
-                            src='/icons/cancelar.png'
-                            width="30rem"
-                            height="30rem">
-                            `;
-}
 /**
  * Habilita las opciones para editar la informacion de una asistencia
  */
@@ -49,7 +6,8 @@ var nombres = [
     "indicador",
     "observaciones",
     "asistencia",
-    "permiso"
+    "permiso",
+    "opciones"
 ];
 function camposEdicionAsitencia(asistenciaId, rolId) {
     // Vaciamos los elementos de la fila y añadimos las opciones
@@ -101,7 +59,7 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
     $("#asistencia" + asistenciaId).append(
         `
         <div class="borrar custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="asistenciaE` + asistenciaId + `" onclick='habilitarDeshabilitar(` + asistenciaId + `); habilitarDeshabilitarE(` + asistenciaId + `)' autocomplete="off" checked/>
+            <input type="checkbox" class="custom-control-input" id="asistenciaE` + asistenciaId + `" onclick='habilitarDeshabilitar(` + asistenciaId + `); habilitarDeshabilitarE(` + asistenciaId + `)' autocomplete="off" `+setValueSwitchAsistencia(asistenciaId)+` />
             <label class="custom-control-label" for="asistenciaE` + asistenciaId + `"></label>
         </div>
         `
@@ -118,10 +76,58 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
             <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
         </select>
         <br>
-        <input class="` + asistenciaId + ` mt-4 borrar" type="file" id="documento_adicional` + asistenciaId + `" onchange="documentoE(` + asistenciaId + `)" disabled>
-        `
+        <button class="` + asistenciaId + ` borrar btn boton justify-content-center" id="documento_adicional`+asistenciaId+`"  style="font-size:0.7em;" >COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
+                            <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                        </svg>
+        </button >`
     );
-
+    $("#opciones" + asistenciaId).append(
+      `<form id="editar-asistencia`+asistenciaId+`" method="POST"
+            action="/asistencia/`+asistenciaId+`" 
+            onsubmit="return validarCamposUsuario(`+rolId+`)"
+            enctype="multipart/form-data"
+            style="display:none"
+        >
+            <input type="hidden" name="_token" value=`+$('meta[name ="csrf-token"]').attr('content')+`> 
+            <input type="hidden" name="_method" value="PATCH">
+            <input 
+                id="actividad-form`+asistenciaId+`" 
+                type="text" name="actividad_realizada"
+                class="form`+asistenciaId+` fa`+asistenciaId+`"
+                value="`+$("#actividad" + asistenciaId).first()[0].firstElementChild.innerHTML+`"
+            >
+            <input 
+                id="indicador-form`+asistenciaId+`" 
+                type="text" name="indicador_verificable"
+                class="form`+asistenciaId+` fa`+asistenciaId+`"
+                value="`+$("#indicador" + asistenciaId).first()[0].firstElementChild.innerHTML+`"
+            >
+            <input 
+                id="observaciones-form`+asistenciaId+`" 
+                type="text" name="observaciones"
+                class="form`+asistenciaId+` fa`+asistenciaId+`"
+                value="`+$("#observaciones" + asistenciaId).first()[0].firstElementChild.innerHTML+`"
+            >
+            <input 
+                id="asistenciaFalse`+asistenciaId+`" 
+                type="text" name="asistencia"
+                class="form`+asistenciaId+`"
+                value="`+document.getElementById("asistenciaE" + asistenciaId).checked+`"
+            >
+            <input 
+                id="permiso-form`+asistenciaId+`"
+                type="text" name="permiso"
+                class="form`+asistenciaId+` fb`+asistenciaId+`"
+            >
+            <input 
+                id="documento-form`+asistenciaId+`"
+                type="file" name="documento_adicional"
+                class="form`+asistenciaId+` fb`+asistenciaId+`"
+            >
+            <button id=enviarCambios`+asistenciaId+`>Enviar</button>
+        </form>`
+    )
     $("#botonEditar" + asistenciaId).hide();
     $("#botonEliminar" + asistenciaId).prop("disabled", false);
     $("#permisoEdicion" + asistenciaId).hide();
@@ -129,9 +135,7 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
         "<input id = botonAceptar" +
             asistenciaId +
             ' width="30rem" height="30rem" type="image" name="botonAceptar"' +
-            ' src="/icons/aceptar.png" alt="Aceptar"onclick="aceptarEdicionAsistencia(' +
-            asistenciaId +
-            ')">'
+            ' src="/icons/aceptar.png" alt="Aceptar">'
     ).insertBefore("#botonEditar" + asistenciaId);
 
     $(
@@ -142,6 +146,45 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
             asistenciaId +
             '); activar()">'
     ).insertBefore("#botonEditar" + asistenciaId);
+
+    document.getElementById('documento_adicional'+asistenciaId).addEventListener('click', () => {
+        // document.getElementById("documento-form" + asistenciaId).disabled = false;
+        document.getElementById("documento-form" + asistenciaId).click()
+    })
+    document.getElementById('botonAceptar'+asistenciaId).addEventListener('click', () => {
+        // document.getElementById("documento-form" + asistenciaId).disabled = false;
+        document.getElementById("enviarCambios" + asistenciaId).click()
+    })
+    setValueAsistencia(asistenciaId);
+}
+
+// function buttonEnabled(asistenciaId){
+//     valueSwitch = document.getElementById("asistenciaE"+asistenciaId );
+//     if(valueSwitch.checked){
+//         return "disabled"
+//     }else{
+//         return "enabled";
+//     }
+// }
+
+function setValueSwitchAsistencia(asistenciaId){
+    asistio = $("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML;
+    if(asistio == "SI"){
+        return "checked";
+    }else if(asistio =="NO"){
+        return "unchecked";
+    }
+    
+    // document.getElementById("asistenciaE" + asistenciaId).checked = true;
+}
+function setValueAsistencia(asistenciaId){
+    asistio = $("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML;
+    if(asistio == "NO"){
+        habilitarDeshabilitar(asistenciaId);
+    }else{
+        documento = document.getElementById("documento_adicional"+asistenciaId);
+        documento.setAttribute("disabled", "");
+    }
 }
 
 /**
@@ -158,30 +201,10 @@ function cancelarEdicionAsistencia(asistenciaId) {
 
     $("#botonEditar" + asistenciaId).show();
     $("#botonAceptar" + asistenciaId).remove();
-    $("#botonCancelar" + asistenciaId).remove();
+    $("#botonCancelar" + asistenciaId).remove();    
+    $("#editar-asistencia" + asistenciaId).remove();
 }
 
-function aceptarEdicionAsistencia(horarioId) {
-    // Llenamos el form de actualizacion con los datos ingresados
-    // $("#horaInicioForm" + horarioId).val($("#horaInicio" + horarioId).val());
-    // $("#horaFinForm" + horarioId).val($("#horaFin" + horarioId).val());
-    // $("#diaForm" + horarioId).val(
-    //     $("#dias" + horarioId + " option:selected").text()
-    // );
-    // var rol;
-    // if ($("#cargos" + horarioId + " option:selected").text() == "AUXILIATURA") {
-    //     rol = 2;
-    // } else {
-    //     rol = 3;
-    // }
-    // if (!$("#cargos" + horarioId).length) {
-    //     rol = 1;
-    // }
-    // $("#rolIdForm" + horarioId).val(rol);
-
-    // document.getElementById("editar-horario" + horarioId).submit();
-    window.alert("despedidoooo");
-}
 
 function validarCamposUsuario(rolId) {
     res = false;
@@ -206,7 +229,7 @@ function documentoE(codigo) {
 /* habilita y deshabilita los campos de editar asistencia dependiendo del switch del formulario*/
 function habilitarDeshabilitarE(codigo) {
     elementos = document.getElementsByClassName(codigo);
-
+    console.log(elementos);
     if (elementos[0].disabled)
         $(".fa" + codigo).val("");
     else 

@@ -25,9 +25,9 @@
  
         <div class="row">
             <div class="col-12">
-                <p class="textoBlanco">
+                <h4 class="textoBlanco">
                     Seleccion de semana para visualización de informes de asistencia semanales
-                </p>
+                </h4>
             </div>
         </div>
 

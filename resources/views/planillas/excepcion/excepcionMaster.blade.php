@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
-@section('title', 'Planilla Semanal de Asistencia')
+@section('title', 'Planilla Semanal de Excepción')
 
 @section('content')
     <div class="m-3">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h2 class = "textoBlanco">PLANILLA SEMANAL DE ASISTENCIA</h2>
+                    <h2 class = "textoBlanco">PLANILLA SEMANAL DE EXCEPCION DE @yield('tipo_academico')</h2>
                 </div>
                 <div class = "col-6">
                     <b class = "textoBlanco">DEL: </b><span class = "textoBlanco"> {{ $fechaInicio }}</span>
@@ -26,8 +26,8 @@
                                 <tr>
                                     <th class = "textoBlanco border border-dark">FECHA</th>
                                     <th class = "textoBlanco border border-dark">HORARIO</th>
-                                    <th class = "textoBlanco border border-dark">GRUPO</th>
-                                    <th class = "textoBlanco border border-dark">MATERIA</th>
+                                    <th class = "textoBlanco border border-dark">@yield('tipoGrupo')</th>
+                                    <th class = "textoBlanco border border-dark">@yield('tipoCargo')</th>
                                     <th class = "textoBlanco border border-dark">ACTIVIDAD REALIZADA</th>
                                     <th class = "textoBlanco border border-dark">INDICADOR VERIFICABLE</th>
                                     <th class = "textoBlanco border border-dark">OBSERVACIONES</th>
@@ -42,11 +42,12 @@
                                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                                         <td class="border border-dark">
                                             <textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}} actividad" 
-                                            maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')" onkeyup="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"  ></textarea>                             
+                                            maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"
+                                            onkeyup="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"></textarea>                             
                                             <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                                         </td>
                                         <td class="border border-dark">
-                                            <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}  verificable" id="verificable{{$key1.$key2 }}"></textarea>
+                                            <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}} verificable" id="verificable{{$key1.$key2 }}"></textarea>
                                             <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
                                         </td>
                                         <td class="border border-dark">
@@ -104,5 +105,6 @@
     <script src="/js/main.js"></script>
     <script>
         $(window).on('load', habilitarBotonRegistrar({{sizeof($horarios)}}));
+        console.log(@json($usuario).codSis);
     </script>
 @endsection

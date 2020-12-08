@@ -19,7 +19,7 @@
             @if(!$asistencias->isEmpty())
                 @foreach ($asistencias as $key1 => $unidad)
                     <br>
-                    <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad}} / {{$unidad[0]->unidad->nombre}}</h4>
+                    {{-- <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad->nombre}} / {{$unidad[0]->unidad->nombre}}</h4> --}}
                         @csrf
                         <table class = "table table-responsive">
                             <tr>
@@ -56,15 +56,20 @@
                                     <td class="border border-dark" id="permiso{{ $asistencia->id }}">
                                         <div>
                                             @if ( $asistencia->permiso )
-                                                <div class="col-12">
-                                                    <button type="button" class="btn btn-success boton" >
-                                                        <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
-                                                            <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
-                                                            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                                                        </svg>
-                                                    </button>
-                                                </div>
+                                                @if ( $asistencia->documento_adicional != null )
+                                                    <div class="col-12">
+                                                        <form id="doc{{$asistencia->id}}" action="{{ route('descargarArchivo', $asistencia->documento_adicional) }}">
+                                                            @csrf
+                                                            <button type="button" class="btn btn-success boton" onclick="document.getElementById('doc{{$asistencia->id}}').submit();" >
+                                                                <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+                                                                    <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+                                                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                                 <div class="text-center">
                                                     <?=str_replace('_', ' ', $asistencia->permiso)?>
                                                 </div>
@@ -91,7 +96,6 @@
                                             <form id="editar-asistencia{{ $asistencia->id }}" method="POST"
                                                 action="{{ route('asistencia.actualizar', $asistencia) }}" 
                                                 onsubmit="return validarCamposUsuario({{ $asistencia->horarioClase->rol_id }})"
-                                                style="display: none;"
                                             >
                                                 @csrf @method('PATCH')
                                                 <input 
