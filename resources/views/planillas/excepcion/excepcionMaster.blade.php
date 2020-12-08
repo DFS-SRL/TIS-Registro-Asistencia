@@ -72,8 +72,16 @@
                                                 <option value="BAJA_MEDICA">Baja medica</option>
                                                 <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
                                             </select>
-                                            <br>
-                                            <input class="{{$key1}}{{$key2}} mt-4" type="file" id="documento_adicional{{$key1}}{{$key2}}" name="asistencias[{{ $key1.$key2 }}][documento_adicional]" disabled>
+                                            <br class="borrar">
+                                            <button type="button" class="{{$key1.$key2 }} borrar btn boton justify-content-center" id="documento_adicional{{$key1.$key2 }}"  style="font-size:0.7em;" onclick="asistenciaEventButton({{$key1.$key2 }});" disabled>COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
+                                                <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                                <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                                </svg>
+                                            </button ><br>
+                                            <label class="{{$key1.$key2}} borrar" id="nombre_archivo{{$key1.$key2 }}"  for="documento_adicional{{$key1.$key2 }}"></label>
+                                        
+                                            <input class="{{$key1.$key2 }} mt-4" type="file" id="documento-form{{$key1.$key2 }}" name="asistencias[{{$key1.$key2  }}][documento_adicional]"style="display:none" 
+                                            onchange="setLabelFile({{$key1.$key2 }})">
                                         </td>
                                         <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
                                         <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">
@@ -108,5 +116,13 @@
     <script>
         $(window).on('load', habilitarBotonRegistrar({{sizeof($horarios)}}));
         console.log(@json($usuario).codSis);
+        function asistenciaEventButton(asistenciaId){
+            document.getElementById("documento-form" + asistenciaId).removeAttribute("disabled");
+            document.getElementById("documento-form" + asistenciaId).click();        
+        }
+        function setLabelFile(asistenciaId){
+            file = document.getElementById("documento-form"+asistenciaId).value.split('\\')[2];
+            document.getElementById("nombre_archivo"+asistenciaId).innerText=file;
+        }
     </script>
 @endsection
