@@ -11,5 +11,13 @@ class UsuarioPerteneceUnidad extends Model
      *
      * @var string
      */
+    protected $fillable = ['usuario_codSis','unidad_id','jefe_dept'];
+
+    public $timestamps = false;
+    
+    public $incrementing = false;
+
+    protected $primaryKey = ['usuario_codSis', 'unidad_id'];
+    
     protected $table = 'public.Usuario_pertenece_unidad';
 }

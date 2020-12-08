@@ -70,19 +70,19 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-check" >
-                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')" name="docente">
+                                    <input class="form-check-input " type="checkbox" value="docente" id="docente" onclick="verificarCheckBoxes('docente')" name="docente">
                                     <label class="form-check-label textoBlanco">
                                     Docente
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" name="auxDoc">
+                                    <input class="form-check-input " type="checkbox" value="auxDoc" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" name="auxDoc">
                                     <label class="form-check-label textoBlanco">
                                     Auxiliar de docencia
                                     </label>
                                 </div>
                                 <div class="form-check"> 
-                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" name="auxLab">
+                                    <input class="form-check-input " type="checkbox" value="auxLab" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" name="auxLab">
                                     <label class="form-check-label textoBlanco" >
                                     Auxiliar de laboratorio
                                     </label>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="row justify-content-md-center mt-4">
                             <button type="submit" class="btn boton mr-5 ">REGISTRAR</button>
-                            <button class="btn btn-danger ">CANCELAR</button>
+                            <a class="btn btn-danger " href="{{route('personalAcademico.mostrarRegistro',$unidad->id)}}">CANCELAR</a>
                         </div>
                         <input type="text" class="d-none" name="registrado" value=false>
                     @else
@@ -133,19 +133,19 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-check" >
-                                    <input class="form-check-input " type="checkbox" value="" id="docente" onclick="verificarCheckBoxes('docente')" name="docente" @if ($perteneceDepartamento) readonly @if(in_array('3',$roles)) checked @endif @endif>
+                                    <input class="form-check-input " type="checkbox" value="docente" id="docente" onclick="verificarCheckBoxes('docente')" name="docente" @if ($perteneceDepartamento) readonly @if(in_array('3',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco">
                                     Docente
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" name="auxDoc" @if ($perteneceDepartamento) readonly @if(in_array('2',$roles)) checked @endif @endif>
+                                    <input class="form-check-input " type="checkbox" value="auxDoc" id="auxDocencia" onclick="verificarCheckBoxes('auxDocencia')" name="auxDoc" @if ($perteneceDepartamento) readonly @if(in_array('2',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco">
                                     Auxiliar de docencia
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input " type="checkbox" value="" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" name="auxLab" @if ($perteneceDepartamento) readonly @if(in_array('1',$roles)) checked @endif @endif>
+                                    <input class="form-check-input " type="checkbox" value="auxLab" id="auxLaboratorio" onclick="verificarCheckBoxes('auxLaboratorio')" name="auxLab" @if ($perteneceDepartamento) readonly @if(in_array('1',$roles)) checked @endif @endif>
                                     <label class="form-check-label textoBlanco" >
                                     Auxiliar de laboratorio
                                     </label>
@@ -157,7 +157,7 @@
                                 <button class="btn boton">EDITAR</button>
                             @else
                                 <button type="submit" class="btn boton mr-5 ">REGISTRAR</button>
-                                <button class="btn btn-danger">CANCELAR</button>
+                                <a class="btn btn-danger" href="{{route('personalAcademico.mostrarRegistro',$unidad->id)}}">CANCELAR</a>
                             @endif
                         </div>
                         <input type="text" class="d-none" name="registrado" value=true>

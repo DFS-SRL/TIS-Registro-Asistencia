@@ -13,12 +13,18 @@ class Usuario extends Model
      */
     protected $table = 'public.Usuario';
 
+    public $incrementing = false;
+
+    protected $fillable = ['codSis','nombre','contrasenia','correo_electronico'];
+
     protected $primaryKey = 'codSis';
 
     protected $hidden = [
         'contrasenia'
     ];
 
+    public $timestamps = false;
+    
     public function getRouteKeyName()
     {
         return 'codSis';

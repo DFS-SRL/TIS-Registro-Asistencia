@@ -336,11 +336,42 @@ class PersonalAcademicoController extends Controller
         ]);
     }
     //registra un nuevo personal academico en un departamento y en el sistema si es necesario
-    public function registrarPersonalAcademico(Request $request){
-        if($request->registrado == "true"){
-            return "registrado";
-        }else{
-            return "no registrado";
+    public function registrarPersonalAcademico($idUnidad){
+        if(request('registrado') == "false"){
+            $nombre = str_replace("_", " ", request('apellidoPaterno')) . " ";
+            $nombre = $nombre . str_replace("_", " ", request('apellidoMaterno')) . " ";
+            $nombre = $nombre. str_replace("_", " ", request('nombres'));
+            $usuario = [];
+            $usuario['codSis'] = request('codsis');
+            $usuario['nombre'] = $nombre;
+            $usuario['contrasenia'] = "";
+            $usuario['correo_electronico'] = request('correo');
+            Usuario::create($usuario);
         }
+
+        UsuarioPerteneceUnidad::create([
+            'usuario_codSis' => request('codsis'),
+            'unidad_id' => $idUnidad,
+            'jefe_dept' => false
+        ]);
+        
+        $usuarioRol = [];
+        $usuarioRol['usuario_codSis'] = request('codsis');
+        $usuarioRol['departamento_id'] = $idUnidad;
+        if(request("docente") == "docente"){
+            $usuarioRol['rol_id'] = 3;
+            UsuarioTieneRol::create($usuarioRol);
+        }else{
+            if(request("auxDoc") == "auxDoc"){
+                $usuarioRol['rol_id'] = 2;
+                UsuarioTieneRol::create($usuarioRol);
+            }
+            if(request("auxLab") == "auxLab"){
+                $usuarioRol['rol_id'] = 1;
+                UsuarioTieneRol::create($usuarioRol);
+            }
+        }
+        request()->session()->flash('success', 'Usuario registrado');
+        return redirect()->route('personalAcademico.mostrarRegistro',$idUnidad);
     }
 }
