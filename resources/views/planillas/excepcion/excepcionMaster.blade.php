@@ -47,8 +47,10 @@
                                             <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
                                         </td>
                                         <td class="border border-dark">
-                                            <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}} verificable" id="verificable{{$key1.$key2 }}"></textarea>
-                                            <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
+                                            @if($horario->rol_id != 1)
+                                                <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}} verificable" id="verificable{{$key1.$key2 }}"></textarea>
+                                                <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
+                                            @endif
                                         </td>
                                         <td class="border border-dark">
                                             <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLim(200, 'observacion{{$key1.$key2}}', 'msgObs{{$key1.$key2}}')" onkeyup="valLim(200, 'observacion{{$key1.$key2}}', 'msgObs{{$key1.$key2}}')" ></textarea>                            

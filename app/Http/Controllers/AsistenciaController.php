@@ -45,8 +45,9 @@ class AsistenciaController extends Controller
                 $datosNuevos['documento_adicional'] = $nombreAGuardar;
             }
             $datosNuevos['actividad_realizada'] = null;
-            $datosNuevos['observaciones'] = null;
-            $darosNuevos['indicador_verificable'] = null;
+            if (!array_key_exists('observaciones', $datosNuevos))
+                $datosNuevos['observaciones'] = null;
+            $datosNuevos['indicador_verificable'] = null;
         }
         if ($asistencia->nivel == 1)
             $datosNuevos['nivel'] = 2;

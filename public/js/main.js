@@ -103,7 +103,7 @@ function combo(index, codigo) {
             } else elemento.removeAttribute("disabled");
         }
         if(elemento.id === "nombre_archivo" + codigo) {
-            console.log("aqui");
+            // console.log("aqui");
             if (index == 0) {
                 elemento.innerHTML = "No se eligi&oacute archivo";
             } 

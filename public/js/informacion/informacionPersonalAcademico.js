@@ -65,7 +65,7 @@ function accionColapsar(idAccionado, idOtro1, idOtro2 = "") {
 
 function llenarTabla(asis) {
     var table;
-    console.log(asis);
+    // console.log(asis);
     if(asis.length === 0)
         table = "<h4 class='textoBlanco'><b>No se tienen asistencias registradas.</b></h3>"
     else{
@@ -94,7 +94,7 @@ function llenarTabla(asis) {
                 botonDescarga = "";
                 if (elem.documento_adicional != null) {
                     descargarDocumento = "descargarDoc('"+elem.documento_adicional+"')";
-                    console.log('documento de ' + elem.id + ': ' + elem.documento_adicional);
+                    // console.log('documento de ' + elem.id + ': ' + elem.documento_adicional);
                     botonDescarga = `<button type="button" class="btn btn-success boton" onclick="`+descargarDocumento+`" >
                                 <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-text" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
@@ -114,7 +114,7 @@ function llenarTabla(asis) {
                     `<td id=asistencia`+elem.id+` class = "border border-dark"><p>` + cambiarTexto(elem.asistencia) + "</p></td>" +
                     `<td id=permiso`+elem.id+` class = "border border-dark"><p>` + 
                         botonDescarga + 
-                        cambiarTexto(elem.permiso) + "</p></td>" +
+                        '<div id="miPermiso' + elem.id + '">' + cambiarTexto(elem.permiso) + "</div></p></td>" +
                     `<td id=opciones`+elem.id+` class = "border border-dark " style="width:180px;vertical-align:middle;">
                         <input type='image' 
                             width="30rem"

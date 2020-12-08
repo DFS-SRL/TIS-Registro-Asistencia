@@ -154,11 +154,11 @@
                         </div>
                         <div class="row justify-content-md-center mt-4">
                             @if ($perteneceDepartamento)
-                                <button class="btn boton">EDITAR</button>
+                                <a class="btn boton mr-5" href="#">EDITAR</a>
                             @else
                                 <button type="submit" class="btn boton mr-5 ">REGISTRAR</button>
-                                <a class="btn btn-danger" href="{{route('personalAcademico.mostrarRegistro',$unidad->id)}}">CANCELAR</a>
                             @endif
+                            <a class="btn btn-danger" href="{{route('personalAcademico.registrar',$unidad->id)}}">CANCELAR</a>
                         </div>
                         <input type="text" class="d-none" name="registrado" value=true>
                     @endif

@@ -11,12 +11,12 @@ var nombres = [
 ];
 function camposEdicionAsitencia(asistenciaId, rolId) {
     // Vaciamos los elementos de la fila y añadimos las opciones
-    console.log("as");
+    // console.log("as");
     nombres.forEach(nombre => {
         $("#" + nombre + asistenciaId)
         .children()
         .hide();
-        console.log("#" + nombre + asistenciaId);
+        // console.log("#" + nombre + asistenciaId);
     }); 
 
     $("#actividad" + asistenciaId).append(
@@ -63,25 +63,29 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
         </div>
         `
     );
-
+    
+    per = document.getElementById("miPermiso" + asistenciaId).innerHTML;
+    console.log("|" + per + "|");
+    console.log(per === 'BAJA MEDICA' ? 'selected' : '');
     $("#permiso" + asistenciaId).append(
         `
-        <select value="" id="select` + asistenciaId + `" disabled class="borrar"
+        <select value="" disabled id="select` + asistenciaId + `" class="borrar"
             onchange="combo(this.selectedIndex, ` + asistenciaId + `); comboE(` + asistenciaId + `); " onfocus="this.selectedIndex = -1;"
         >
             <option value="">Sin Permiso</option>
-            <option value="LICENCIA">Licencia</option>
-            <option value="BAJA_MEDICA">Baja medica</option>
-            <option value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+            <option ` + (per === `LICENCIA` ? `selected` : ``) + `  value="LICENCIA">Licencia</option>
+            <option ` + (per === `BAJA MEDICA` ? `selected` : ``) + ` value="BAJA_MEDICA">Baja medica</option>
+            <option ` + (per === `DECLARATORIA EN COMISION` ? `selected` : ``) + `  value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
         </select>
-        <br>
+        <br class="borrar">
         <button class="` + asistenciaId + ` borrar btn boton justify-content-center" id="documento_adicional`+asistenciaId+`"  style="font-size:0.7em;" >COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
         <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
         </svg>
         </button >
-        <label class="` + asistenciaId + `" id="nombre_archivo` + asistenciaId + `"  for="documento_adicional` + asistenciaId + `"></label>`
+        <label class="` + asistenciaId + ` borrar" id="nombre_archivo` + asistenciaId + `"  for="documento_adicional` + asistenciaId + `"></label>`
     );
+    obsis = $("#observaciones" + asistenciaId).first()[0].firstElementChild.innerHTML;
     $("#opciones" + asistenciaId).append(
       `<form id="editar-asistencia`+asistenciaId+`" method="POST"
             action="/asistencia/`+asistenciaId+`" 
@@ -107,7 +111,7 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
                 id="observaciones-form`+asistenciaId+`" 
                 type="text" name="observaciones"
                 class="form`+asistenciaId+` fa`+asistenciaId+`"
-                value="`+$("#observaciones" + asistenciaId).first()[0].firstElementChild.innerHTML+`"
+                value="`+obsis+`"
             >
             <input 
                 id="asistenciaFalse`+asistenciaId+`" 
@@ -118,6 +122,7 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
             <input 
                 id="permiso-form`+asistenciaId+`"
                 type="text" name="permiso"
+                value="` + per.replace(" ", "_") + `"
                 class="form`+asistenciaId+` fb`+asistenciaId+`"
             >
             <input 
@@ -157,7 +162,11 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
         document.getElementById("enviarCambios" + asistenciaId).click()
     })
     setValueAsistencia(asistenciaId);
-    combo(0,asistenciaId);
+    if($("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML === "NO")
+    {
+        combo(per === "" ? 0 : per == "LICENCIA" ? 1 : per == "BAJA MEDICA" ? 2 : 3,asistenciaId);
+        $("#observacion" + asistenciaId).val(obsis)
+    }
 }
 
 // function buttonEnabled(asistenciaId){
@@ -176,14 +185,11 @@ function setLabelFile(asistenciaId){
 
 function setValueSwitchAsistencia(asistenciaId){
     asistio = $("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML;
-    if(asistio == "SI"){
+    if(asistio === "SI")
         return "checked";
-    }else if(asistio =="NO"){
-        return "unchecked";
-    }
-    
-    // document.getElementById("asistenciaE" + asistenciaId).checked = true;
+    return "unchecked";
 }
+
 function setValueAsistencia(asistenciaId){
     asistio = $("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML;
     if(asistio == "NO"){
@@ -227,7 +233,7 @@ function comboE(codigo) {
 }
 
 function documentoE(codigo) {
-    console.log(document.getElementById("documento_adicional" + codigo));
+    // console.log(document.getElementById("documento_adicional" + codigo));
     document.getElementById(
         "documento-form" + codigo
     ).value = document.getElementById("documento_adicional" + codigo).value;
@@ -236,7 +242,7 @@ function documentoE(codigo) {
 /* habilita y deshabilita los campos de editar asistencia dependiendo del switch del formulario*/
 function habilitarDeshabilitarE(codigo) {
     elementos = document.getElementsByClassName(codigo);
-    console.log(elementos);
+    // console.log(elementos);
     if (elementos[0].disabled)
         $(".fa" + codigo).val("");
     else 

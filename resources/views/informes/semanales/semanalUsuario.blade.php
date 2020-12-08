@@ -54,8 +54,8 @@
                                     </td>
                                     {{-- <td class = "border border-dark"> {{ $asistencia->permiso ? $asistencia->permiso : '' }} </td> --}}
                                     <td class="border border-dark" id="permiso{{ $asistencia->id }}">
-                                        <div>
                                             @if ( $asistencia->permiso )
+                                            <div>
                                                 @if ( $asistencia->documento_adicional != null )
                                                     <div class="col-12">
                                                         <form id="doc{{$asistencia->id}}" action="{{ route('descargarArchivo', $asistencia->documento_adicional) }}">
@@ -71,10 +71,12 @@
                                                     </div>
                                                 @endif
                                                 <div class="text-center">
-                                                    <?=str_replace('_', ' ', $asistencia->permiso)?>
+                                                    <p id="miPermiso{{ $asistencia->id }}">{{ str_replace('_', ' ', $asistencia->permiso) }}</p>
                                                 </div>
+                                            </div>
+                                            @else
+                                                <div id="miPermiso{{ $asistencia->id }}"></div>
                                             @endif
-                                        </div>
                                     </td>
                                     <td class="border border-dark" id="opciones{{ $asistencia->id }}">
                                         <input 
