@@ -21,7 +21,7 @@
                     <br>
                     {{-- <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad->nombre}} / {{$unidad[0]->unidad->nombre}}</h4> --}}
                         @csrf
-                        <table class = "table table-responsive">
+                        <table class = "table table-responsive" >
                             <tr>
                                 <th class = "textoBlanco border border-dark">@if($esDocente)MATERIA @else MATERIA/CARGO @endif</th>
                                 <th class = "textoBlanco border border-dark">@if($esDocente)GRUPO @else GRUPO/ÍTEM @endif</th>
@@ -76,7 +76,7 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="border border-dark">
+                                    <td class="border border-dark" id="opciones{{ $asistencia->id }}">
                                         <input 
                                             id = {{"botonEditar". $asistencia->id}}
                                             width="30rem"
@@ -92,10 +92,11 @@
                                             alt="Editar"
                                             onclick="camposEdicionAsitencia({{ $asistencia->id }}, {{ $asistencia->horarioClase->rol_id }}); desactivar()"
                                         >
-                                        @if($asistencia->nivel == 1)
+                                        {{-- @if($asistencia->nivel == 1)
                                             <form id="editar-asistencia{{ $asistencia->id }}" method="POST"
                                                 action="{{ route('asistencia.actualizar', $asistencia) }}" 
                                                 onsubmit="return validarCamposUsuario({{ $asistencia->horarioClase->rol_id }})"
+                                                style="display: none"
                                             >
                                                 @csrf @method('PATCH')
                                                 <input 
@@ -129,8 +130,8 @@
                                                     class="form{{ $asistencia->id }} fb{{ $asistencia->id }}"
                                                 >
                                                 <button>caca</button>
-                                            </form>
-                                        @endif
+                                            </form> 
+                                        @endif--}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -151,6 +152,8 @@
             </form>      
         </div>
     </div>
+    
+  <meta name="csrf-token" content="{{csrf_token()}}">
 @endsection
 
 @section('script-footer')

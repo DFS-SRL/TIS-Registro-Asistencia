@@ -18,7 +18,6 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
         .hide();
         console.log("#" + nombre + asistenciaId);
     }); 
-    console.log($("#actividad" + asistenciaId).first()[0].firstElementChild.innerHTML);
 
     $("#actividad" + asistenciaId).append(
         `
@@ -77,10 +76,11 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
         </select>
         <br>
         <button class="` + asistenciaId + ` borrar btn boton justify-content-center" id="documento_adicional`+asistenciaId+`"  style="font-size:0.7em;" >COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
-                            <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                            <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                        </svg>
-        </button >`
+        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+        <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+        </svg>
+        </button >
+        <label class="` + asistenciaId + `" id="nombre_archivo` + asistenciaId + `"  for="documento_adicional` + asistenciaId + `"></label>`
     );
     $("#opciones" + asistenciaId).append(
       `<form id="editar-asistencia`+asistenciaId+`" method="POST"
@@ -124,6 +124,7 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
                 id="documento-form`+asistenciaId+`"
                 type="file" name="documento_adicional"
                 class="form`+asistenciaId+` fb`+asistenciaId+`"
+                onchange="setLabelFile(`+asistenciaId+`)"
             >
             <button id=enviarCambios`+asistenciaId+`>Enviar</button>
         </form>`
@@ -156,6 +157,7 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
         document.getElementById("enviarCambios" + asistenciaId).click()
     })
     setValueAsistencia(asistenciaId);
+    combo(0,asistenciaId);
 }
 
 // function buttonEnabled(asistenciaId){
@@ -166,6 +168,11 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
 //         return "enabled";
 //     }
 // }
+
+function setLabelFile(asistenciaId){
+    file = document.getElementById("documento-form"+asistenciaId).value.split('\\')[2]
+    document.getElementById("nombre_archivo"+asistenciaId).innerText=file;
+}
 
 function setValueSwitchAsistencia(asistenciaId){
     asistio = $("#asistencia" + asistenciaId).first()[0].firstElementChild.innerHTML;
