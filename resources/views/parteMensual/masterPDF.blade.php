@@ -58,7 +58,7 @@
             </td>
             <td class="pieDeFirmas">
                 {{$unidad->facultad->directorAcademico->nombre }} <br> 
-                Director Academico DPA
+                Director Academico de {{$unidad->facultad->nombre}}
             </td>
             <td class="pieDeFirmas">
                 {{$unidad->facultad->decano->nombre }} <br> 
