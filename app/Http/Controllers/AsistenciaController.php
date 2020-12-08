@@ -22,21 +22,31 @@ class AsistenciaController extends Controller
                 'observaciones' => 'nullable',
                 'asistencia' => 'required'
             ])->validate();
-        if ($datosNuevos['asistencia'] == 'true' || !array_key_exists('permiso', $datosNuevos) || $datosNuevos['permiso'] == null || $datosNuevos['permiso'] == '') {
-            if ($asistencia->documento_adicional != null || $asistencia->documento_adicional != '') {
+        if ($datosNuevos['asistencia'] == 'true') {
+            if ($asistencia->documento_adicional != null || $asistencia->documento_adicional != '')
+                Storage::delete('/documentosAdicionales/' . $asistencia->documento_adicional);
+            $datosNuevos['documento_adicional'] = null;
+            $datosNuevos['permiso'] = null;
+            if (!array_key_exists('observaciones', $datosNuevos))
+                $datosNuevos['observaciones'] = null;
+            if (!array_key_exists('indicador_verificable', $datosNuevos))
+                $datosNuevos['indicador_verificable'] = null;
+        } else {
+            if (!array_key_exists('permiso', $datosNuevos) || $datosNuevos['permiso'] == null || $datosNuevos['permiso'] == '') {
                 Storage::delete('/documentosAdicionales/' . $asistencia->documento_adicional);
                 $datosNuevos['documento_adicional'] = null;
+            } else if (array_key_exists('documento_adicional', $datosNuevos)) {
+                Storage::delete('/documentosAdicionales/' . $asistencia->documento_adicional);
+                $doc = $datosNuevos['documento_adicional'];
+                $docNombre = pathInfo($doc->getClientOriginalName(), PATHINFO_FILENAME);
+                $docExtension = $doc->getClientOriginalExtension();
+                $nombreAGuardar = $docNombre . '_' . time() . '.' . $docExtension;
+                $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
+                $datosNuevos['documento_adicional'] = $nombreAGuardar;
             }
-        } else
-        if (array_key_exists('documento_adicional', $datosNuevos)) {
-            Storage::delete('/documentosAdicionales/' . $asistencia->documento_adicional);
-
-            $doc = $datosNuevos['documento_adicional'];
-            $docNombre = pathInfo($doc->getClientOriginalName(), PATHINFO_FILENAME);
-            $docExtension = $doc->getClientOriginalExtension();
-            $nombreAGuardar = $docNombre . '_' . time() . '.' . $docExtension;
-            $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
-            $datosNuevos['documento_adicional'] = $nombreAGuardar;
+            $datosNuevos['actividad_realizada'] = null;
+            $datosNuevos['observaciones'] = null;
+            $darosNuevos['indicador_verificable'] = null;
         }
         if ($asistencia->nivel == 1)
             $datosNuevos['nivel'] = 2;
