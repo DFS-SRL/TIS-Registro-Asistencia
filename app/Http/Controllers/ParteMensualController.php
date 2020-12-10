@@ -183,7 +183,7 @@ class ParteMensualController extends Controller
         }
         return 4 * $cargaNominal;
     }
-    //Obtener PDF Docentes
+    //Obtener PDF de parte mensual Docentes
     public function descargarPDFDocentes(Unidad $unidad, $fecha )
     {
         $respuesta = $this->generarParteDocentes($unidad, $fecha);
@@ -191,6 +191,7 @@ class ParteMensualController extends Controller
                     ->setPaper('letter', 'landscape')
                     ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
     }
+    //Obtener PDF de parte mensual Auxiliares
     public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
     {
         $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
@@ -198,4 +199,11 @@ class ParteMensualController extends Controller
                     ->setPaper('letter', 'landscape')
                     ->stream('Parte Auxiliares-'.$unidad->nombre.'.pdf');
     }
+
+    //obtener formulario para seleccionar parte mensual del departamento
+    public function formularioUnidad(Unidad $unidad)
+    {
+        return view('parteMensual.seleccion', ['unidad' => $unidad]);
+    }
+    
 }

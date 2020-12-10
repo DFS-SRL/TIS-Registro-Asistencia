@@ -97,6 +97,8 @@ route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad')->name('informes.semanales');
 Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
+Route::get('/partes/mensuales/{unidad}','ParteMensualController@formularioUnidad')->name('partes.mensuales');
+
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
