@@ -4,13 +4,6 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/informes/semanales.css">
-    <link rel="stylesheet" href="/css/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.min.css">
-@endsection
-
-@section('script-head')
-    <script type="text/javascript" src='/js/bootstrap-input-spinner.js'></script>
-    <script type="text/javascript" src='/js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.min.js'></script>
-    <script type="text/javascript" src='/js/bootstrap-datepicker-1.9.0-dist/bootstrap-datepicker.es.min.js'></script>
 @endsection
 
 @section('content')

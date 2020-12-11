@@ -200,10 +200,5 @@ class ParteMensualController extends Controller
                     ->stream('Parte Auxiliares-'.$unidad->nombre.'.pdf');
     }
 
-    //obtener formulario para seleccionar parte mensual del departamento
-    public function formularioUnidad(Unidad $unidad)
-    {
-        return view('parteMensual.seleccion', ['unidad' => $unidad]);
-    }
-    
+
 }
