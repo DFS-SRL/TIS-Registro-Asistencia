@@ -25,9 +25,9 @@
  
         <div class="row">
             <div class="col-12">
-                <p class="textoBlanco">
+                <h4 class="textoBlanco">
                     Seleccion de mes para visualizaci&oacuten de partes mensuales
-                </p>
+                </h4>
             </div>
         </div>
 
@@ -41,15 +41,15 @@
                 </div>
 
                 <div class="col-12 espaciado">
-                    <div class="input-group">
+                    <div class="">
                         <label for="startDate">Mes/Año:</label>
-                        <input id="startDate"type="month"  required> 
+                        <input id="startDate"type="month" onchange="setFechas()"required> 
                     </div>
                 </div>              
                 <div class="col-12 espaciado">
 
                     <div class="text-center">
-                        <p id="rangoMes">Del __/__ al __/__</p>
+                        <div>Del <span id="fechaIni">16/12/2020</span> al <span id="fechaFin">15/01/2021</span></div>
                     </div>
 
                 </div>
@@ -65,34 +65,44 @@
 
 @section('script-footer')
     <script>
+
         const monthControl = document.querySelector('input[type="month"]');
         const date= new Date()
         const month=("0" + (date.getMonth() + 1)).slice(-2)
         const year=date.getFullYear()
         monthControl.value = `${year}-${month}`;
+        
+        let fechaParte = "";
+        setFechas();
+        function setFechas(){            
+            mes = document.getElementById('startDate');
+            fechaIniSpan = document.getElementById("fechaIni");
+            fechaFinSpan = document.getElementById("fechaFin");
+
+            fechaIni = mes.value.split("-");
+            fechaIniSpan.innerHTML = "16/"+ fechaIni[1] +"/"+fechaIni[0];
+           
+            mes.stepUp();
+            
+            fechaFin = mes.value.split("-");
+            fechaFinSpan.innerHTML = "15/"+ fechaFin[1] +"/"+fechaFin[0];
+            
+            setFechaParte(mes); 
+
+            mes.stepDown();
+        }
+        function setFechaParte(mes){
+            fechaParte = mes.value + "-16";
+        }
 
         function verParteUnidad(unidad){
-            mes = document.getElementById('startDate').value;
-            console.log(mes);
-            //redireccionar a parte
-        }
-        function setRangoMes(mes) {
-            // var ini = primerDiaMes.addDays(
-            //     -(primerDiaMes.getDay() - 1) + (semana - 1) * 7
-            // );
-            // fin = ini.addDays(5);
-
-            // var $p = $("#rangoSemana");
-            // dia = fin.getDate();
-            // $p[0].innerHTML =
-            //     "Del " +
-            //     ini.getDate() +
-            //     "/" +
-            //     (ini.getMonth() + 1) +
-            //     " al " +
-            //     fin.getDate() +
-            //     "/" +
-            //     (fin.getMonth() + 1);
+            docencia = document.getElementById("docentes").checked;
+            if(docencia){
+                tipoParte = "docentes";
+            }else {
+                tipoParte = "auxiliares";
+            }
+            window.location.href = "/parteMensual/"+tipoParte+"/"+unidad+"/"+fechaParte;
         }
     </script>
 @endsection
