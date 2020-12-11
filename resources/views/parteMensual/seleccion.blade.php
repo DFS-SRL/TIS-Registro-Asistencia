@@ -17,17 +17,18 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h2>
-                <h2 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h2>
+                <h3 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h3>
+                <h3 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h3>
+                <h3 class="textoBlanco">JEFE DE DEPARTAMENTO: {{$unidad->jefe->nombre}}  </h3>                
                 <br>
             </div>
         </div>
  
         <div class="row">
             <div class="col-12">
-                <h4 class="textoBlanco">
+                <h5 class="textoBlanco">
                     Seleccion de mes para visualizaci&oacuten de partes mensuales
-                </h4>
+                </h5>
             </div>
         </div>
 
