@@ -73,7 +73,7 @@
             mesString = fecha.toLocaleDateString('es-MX', options).toUpperCase();
             return mesString;
         }
-        llenarTablaPartes()
+        llenarTablaPartes();
         function llenarTablaPartes(){
             var table = document.getElementById("ultimosPartes");
             for (var i = 0, row; row = table.rows[i]; i++) { 
@@ -83,7 +83,6 @@
                 monthControl.stepDown();
             }            
         }
-
     </script>
 @endsection
 

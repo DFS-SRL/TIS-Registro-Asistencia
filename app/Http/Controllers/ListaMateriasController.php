@@ -8,7 +8,7 @@ use App\Materia;
 class ListaMateriasController extends Controller
 {
     public function mostrarMaterias($unidadId){
-        $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad')->get();
+        $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId) 
                             ->where('es_materia', '=', true)
                             -> select('nombre', 'id') 
