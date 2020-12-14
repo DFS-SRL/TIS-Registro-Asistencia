@@ -17,7 +17,7 @@
                 <ul class="list-group">
                     @forelse ($facultades as $facultad)
                         <li class="list-group-item linkMateria lista"><a
-                                href="/facultad/{{ $facultad->id }}">{{ $facultad->nombre }}</a></li>
+                                href="/facultades/{{ $facultad->id }}">{{ $facultad->nombre }}</a></li>
                     @empty
                         <h3 class="textoBlanco">NO EXISTEN FACULTADES REGISTRADAS</h3>
                     @endforelse
