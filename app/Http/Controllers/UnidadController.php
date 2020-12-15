@@ -13,20 +13,9 @@ class UnidadController extends Controller
     {
         return view('parteMensual.seleccion', ['unidad' => $unidad]);
     }
+    //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales
     public function informacionDepartamento(Unidad $unidad){
+        //Agregar lista de ultimos partes mensuales
         return view('informacion.departamento', ['unidad' => $unidad]);
-    }
-    public function listaFacultades(){
-        $facultades = Facultad::orderBy('nombre')->paginate(10);
-        return view('informacion.listaFacultades',['facultades'=>$facultades]);
-    }
-    public function listaDepartamentos(Facultad $facultad){
-        $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')->paginate(5);
-        // return $departamentos;
-        return view('informacion.listaDepartamentos',
-                [
-                    'departamentos'=>$departamentos,
-                    'facultad'=>$facultad
-                ]);
     }
 }

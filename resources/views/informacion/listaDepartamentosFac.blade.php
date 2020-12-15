@@ -9,25 +9,23 @@
 @section('content')
     <div class="container">
         <div class="mx-3 my-4">
-            <div class="row">
                 <h3 class="textoBlanco">FACULTAD: {{ $facultad->nombre }}</h3>
-                <h3 class="textoBlanco">DECANO: {{ $facultad->decano->nombre }} </h3>
-                <h3 class="textoBlanco">DIRECTOR ACADEMICO: {{$facultad->directorAcademico->nombre}}  </h3>  
-                <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre}}  </h3>  
-            </div>
+                <h3 class="textoBlanco">DECANO: {{ $facultad->decano->nombre() }} </h3>
+                <h3 class="textoBlanco">DIRECTOR ACADEMICO: {{$facultad->directorAcademico->nombre()}}  </h3>  
+                <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3>  
             <div class="container mt-4">
-                <table class="table table-responsive">
+                <table class="table ">
                         <tr>                            
                             <th class="textoBlanco border border-dark" scope="col">DEPARTAMENTO</th>
                             <th class="textoBlanco border border-dark" scope="col">ULTIMO PARTE MENSUAL</th>
                             <th class="textoBlanco border border-dark" scope="col">APROBADO</th>
                         </tr>
                         @forelse ($departamentos as $departamento)
-                            <tr>
-                                <td class="border border-dark"><a
+                            <tr class="">
+                                <td class="border border-dark align-middle"><a
                                     href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a></td>
-                                <td class="border border-dark"><a href="">Parte Docentes</a> <a href="">Parte Auxiliares</a></td>
-                                <td class="border border-dark">
+                                <td class="border border-dark align-middle"><a href="" class="col">Ver parte docentes</a> <a href="" class="col">Ver parte auxiliares</a></td>
+                                <td class="border border-dark ">
                                     <label for="{{$departamento->id}}encargadoFac">Encargado facultativo</label>
                                     <input id="{{$departamento->id}}encargadoFac"type="checkbox"><br>
                                     <label for="{{$departamento->id}}dirAcademico">Director academico</label>
