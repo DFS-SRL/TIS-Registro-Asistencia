@@ -116,3 +116,24 @@ Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoCo
 
 Route::get('/archivo/descargar/{nombre}', 'ArchivoController@descargarPorNombre')->name('descargarArchivo');
 Route::get('/archivo/eliminar/{nombre}', 'ArchivoController@eliminarDocumentoAdicional')->name('eliminarDocumento');
+
+Route::get('/login', 'Auth\LoginController@showLoginform');
+Route::post('/login', 'Auth\LoginController@login');
+Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::get('/llenar', function() {
+    if (App\User::count() > 0) return "Ya hay usuarios de Laravel";
+    $usuarios = App\Usuario::all();
+    //dd($usuarios);
+    $users = [];
+    foreach ($usuarios as $usuario ) {
+        $user = new App\User;
+        $user->name = $usuario->nombre;
+        $user->email = $usuario->correo_electronico;
+        $user->password = bcrypt($usuario->contrasenia);
+        $user->usuario_codSis = $usuario->codSis;
+        $user->save();
+        array_push($users, $user);
+    }
+    return $users;
+});
