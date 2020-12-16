@@ -36,4 +36,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $table = 'public.users';
+
+    public function usuario() {
+        return $this->belongsTo('App\Usuario');
+    }
 }
