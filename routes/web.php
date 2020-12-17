@@ -119,7 +119,7 @@ Route::get('/archivo/eliminar/{nombre}', 'ArchivoController@eliminarDocumentoAdi
 
 Route::get('/login', 'Auth\LoginController@showLoginform');
 Route::post('/login', 'Auth\LoginController@login');
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/llenar', function() {
     if (App\User::count() > 0) return "Ya hay usuarios de Laravel";

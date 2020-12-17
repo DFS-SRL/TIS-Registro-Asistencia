@@ -34,6 +34,11 @@
                     Departamentos
                 </a>
             </li>
+            @auth
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="text-white btn btn-danger">Cerrar Sesión</a>
+                </li>
+            @endauth
         </ul>
         </div>
     </div>
