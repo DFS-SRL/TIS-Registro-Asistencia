@@ -71,3 +71,15 @@ textarea {
     padding: 5px;
     border-color: black;
 }
+
+ul.nav{
+    border-right:2px solid white;
+}
+ul.nav li a{
+    border-left:2px solid #fff;
+    color:#fff;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0 !important;
+}
