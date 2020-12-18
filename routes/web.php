@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'provicional.menu')->name('home');
+Route::view('/', 'provicional.menu')->middleware('auth')->name('home');
 
 Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 
@@ -117,9 +117,9 @@ Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoCo
 Route::get('/archivo/descargar/{nombre}', 'ArchivoController@descargarPorNombre')->name('descargarArchivo');
 Route::get('/archivo/eliminar/{nombre}', 'ArchivoController@eliminarDocumentoAdicional')->name('eliminarDocumento');
 
-Route::get('/login', 'Auth\LoginController@showLoginform');
+Route::get('/login', 'Auth\LoginController@showLoginform')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/llenar', function() {
     if (App\User::count() > 0) return "Ya hay usuarios de Laravel";

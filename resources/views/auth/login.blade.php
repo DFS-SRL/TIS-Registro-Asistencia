@@ -18,14 +18,14 @@
                         @csrf
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <span class="input-group-text justify-content-center"><i class="fas fa-user"></i></span>
                             </div>
                             <input type="text" class="form-control" name="usuario_codSis" placeholder="Codigo sis">
 
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <span class="input-group-text justify-content-center"><i class="fas fa-key"></i></span>
                             </div>
                             <input type="password" class="form-control" name="password" placeholder="Constraseña">
                         </div>
