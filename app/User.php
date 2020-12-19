@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\PersonalAcademicoController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $table = 'public.users';
+
+    public function usuario() {
+        return $this->belongsTo('App\Usuario');
+    }
+
+    public static function esJefeDepartamento($unidad_id){
+        return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);
+    }
 }

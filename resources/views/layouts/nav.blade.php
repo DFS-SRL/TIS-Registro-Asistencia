@@ -34,6 +34,18 @@
                     Departamentos
                 </a>
             </li>
+            @auth
+                <li class="nav-item">
+                    <a href="#" class="text-white btn btn-danger"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                        Cerrar Sesión
+                    </a>
+                </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            @endauth
         </ul>
         </div>
     </div>

@@ -5,8 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Unidad;
 use App\Materia;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 class ListaMateriasController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function mostrarMaterias($unidadId){
         $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId) 
@@ -21,7 +32,7 @@ class ListaMateriasController extends Controller
     }
 
     public function mostrarCargosDeLaboratorio($unidadId) {
-        $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad')->get();
+        $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId)
         ->where('es_materia', '=', false)
         -> select('nombre', 'id')
