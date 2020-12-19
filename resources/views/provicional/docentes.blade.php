@@ -3,15 +3,14 @@
     Docentes
 @endsection
 @section('usuarios')
-    
     @forelse ($docentes as $docente)
-    <li class="list-group-item linkMateria lista">
-        <a href="{{ route('docente', $docente->usuario_codSis) }}">{{$docente->nombre}}</a>
-    </li>
+        <li class="list-group-item linkMateria lista">
+            <a href="{{ route('docente', $docente->usuario_codSis) }}">{{$docente->nombre}}</a>
+        </li>
     @empty
-    <h3 class="textoBlanco">No hay docentes registrados</h3>
+        <h3 class="textoBlanco">No hay docentes registrados</h3>
     @endforelse
     <div class="mt-3">
-    {{$docentes->links()}}
+        {{$docentes->links()}}
     </div>
 @endsection

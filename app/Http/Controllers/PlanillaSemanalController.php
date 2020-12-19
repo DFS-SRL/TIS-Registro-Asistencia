@@ -10,11 +10,22 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\RegistrarAsistenciaDocenteRequest;
 use App\Http\Requests\RegistrarAsistenciaSemanalRequest;
+use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 
-class PlanillaSemanalController extends Controller
-{
+class PlanillaSemanalController extends Controller{
+
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     // para obtener la planilla semanal de auxiliar de docencia
     public function obtenerPlanillaSemanalAuxDoc(Usuario $user)
     {
@@ -24,7 +35,11 @@ class PlanillaSemanalController extends Controller
     // para obtener la planilla semanal de docente
     public function obtenerPlanillaSemanalDocente(Usuario $user)
     {
-        return $this->obtenerPlanillaSemanal($user, 3);
+        // return User::esDocente() ? 'true' : 'false';
+        if (User::esDocente() && User::inicioSesion($user)){
+            return $this->obtenerPlanillaSemanal($user, 3);
+        }
+        return view('/provicional/noAutorizado');
     }
 
     // para obtener la planilla semanal dado un rol
@@ -42,7 +57,6 @@ class PlanillaSemanalController extends Controller
             )
             ->orderBy('hora_inicio', 'ASC')
             ->get();
-
         // ver si no se lleno la planilla de esta semana
         $registradas = $this->asistenciasRegistradas($user, [$rol]);
         $llenado = $registradas->count() == $horarios->count() && $horarios->count() > 0;

@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <h1 class="textoBlanco">@yield('tipoUsuario')</h1>
     <div class="container mt-4">
-            @yield('usuarios')
+        <h1 class="textoBlanco">@yield('tipoUsuario')</h1>
+        @yield('usuarios')
     </div>
 @endsection
