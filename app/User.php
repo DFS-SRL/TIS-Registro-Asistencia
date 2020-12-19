@@ -44,7 +44,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Usuario');
     }
 
-    public static function esJefeDepartamento($codSis, $unidad_id){
-        return PersonalAcademicoController::esJefeDepartamento($codSis, $unidad_id);
+    public static function esJefeDepartamento($unidad_id){
+        return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);
     }
 }
