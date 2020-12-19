@@ -48,7 +48,6 @@ class Handler extends ExceptionHandler
     {
         if($exception instanceof \Illuminate\Auth\AuthenticationException){
             request()->session()->flash('error', 'Necesitas iniciar sesión para acceder a esta página.');
-            return redirect('/login');
         }
         return parent::render($request, $exception);
     }

@@ -255,18 +255,23 @@ class PersonalAcademicoController extends Controller
         return $carga / $periodo;
     }
 
+    // devuelve verdadero si el codSis es del Jefe de Departamento de la Unidad
+    public static function esJefeDepartamento($codSis, $unidad_id){
+        return self::esDelRol($codSis, $unidad_id, 4);
+    }
+
     // devuelve verdadero si el codSis es de un docente de la unidad_id
     public static function esDocente($codSis, $unidad_id)
     {
         return self::esDelRol($codSis, $unidad_id, 3);
     }
-
+    
     // devuelve verdadero si el codSis es de un auxiliar de docencia de la unidad_id
     public static function esAuxDoc($codSis, $unidad_id)
     {
         return self::esDelRol($codSis, $unidad_id, 2);
     }
-
+    
     // devuelve verdadero si el codSis es de un auxiliar de laboratorio de la unidad_id
     public static function esAuxLab($codSis, $unidad_id)
     {

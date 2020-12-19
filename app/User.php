@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\PersonalAcademicoController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,5 +42,9 @@ class User extends Authenticatable
 
     public function usuario() {
         return $this->belongsTo('App\Usuario');
+    }
+
+    public static function esJefeDepartamento($codSis, $unidad_id){
+        return PersonalAcademicoController::esJefeDepartamento($codSis, $unidad_id);
     }
 }

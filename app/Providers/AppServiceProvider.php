@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\PersonalAcademicoController;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
