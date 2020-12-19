@@ -17,8 +17,6 @@ Route::view('/', 'provicional.menu')->middleware('auth')->name('home');
 
 Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 
-// Route::view('/noAutorizado', 'provicional.noAutorizado')->name('noAutorizado');
-
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
