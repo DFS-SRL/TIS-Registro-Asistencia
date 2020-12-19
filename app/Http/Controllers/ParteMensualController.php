@@ -65,7 +65,7 @@ class ParteMensualController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [5];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidadId);
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -217,7 +217,7 @@ class ParteMensualController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [5];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidadId);
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
