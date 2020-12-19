@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Unidad;
 use App\Materia;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
+use Illuminate\Validation\ValidationException;
 
 class ListaMateriasController extends Controller
 {
@@ -19,6 +22,13 @@ class ListaMateriasController extends Controller
     }
 
     public function mostrarMaterias($unidadId){
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidadId);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId) 
                             ->where('es_materia', '=', true)
