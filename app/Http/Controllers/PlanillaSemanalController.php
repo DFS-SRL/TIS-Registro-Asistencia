@@ -34,8 +34,8 @@ class PlanillaSemanalController extends Controller{
     public function obtenerPlanillaSemanalAuxDoc(Usuario $user)
     {
         $rolesPermitidos = [2];
-        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos);
-        if ($acceso && User::inicioSesion($user)){
+        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos) && User::inicioSesion($user);
+        if ($acceso){
             return $this->obtenerPlanillaSemanal($user, 2);
         }
         return view('/provicional/noAutorizado');
@@ -45,8 +45,8 @@ class PlanillaSemanalController extends Controller{
     public function obtenerPlanillaSemanalDocente(Usuario $user)
     {
         $rolesPermitidos = [3];
-        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos);
-        if ($acceso && User::inicioSesion($user)){
+        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos) && User::inicioSesion($user);
+        if ($acceso){
             return $this->obtenerPlanillaSemanal($user, 3);
         }
         return view('/provicional/noAutorizado');

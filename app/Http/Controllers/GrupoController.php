@@ -192,6 +192,7 @@ class GrupoController extends Controller
     // asignar docente a un grupo
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
+        return $request;
         $datos = $request->validated();
 
         // Verificamos que el usuario tiene los roles permitidos
