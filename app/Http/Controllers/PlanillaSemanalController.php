@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Requests\RegistrarAsistenciaDocenteRequest;
 use App\Http\Requests\RegistrarAsistenciaSemanalRequest;
 use App\User;
+use App\UsuarioTieneRol;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -29,14 +30,20 @@ class PlanillaSemanalController extends Controller{
     // para obtener la planilla semanal de auxiliar de docencia
     public function obtenerPlanillaSemanalAuxDoc(Usuario $user)
     {
-        return $this->obtenerPlanillaSemanal($user, 2);
+        $rolesPermitidos = [2];
+        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos);
+        if ($acceso && User::inicioSesion($user)){
+            return $this->obtenerPlanillaSemanal($user, 2);
+        }
+        return view('/provicional/noAutorizado');
     }
 
     // para obtener la planilla semanal de docente
     public function obtenerPlanillaSemanalDocente(Usuario $user)
     {
-        // return User::esDocente() ? 'true' : 'false';
-        if (User::esDocente() && User::inicioSesion($user)){
+        $rolesPermitidos = [3];
+        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos);
+        if ($acceso && User::inicioSesion($user)){
             return $this->obtenerPlanillaSemanal($user, 3);
         }
         return view('/provicional/noAutorizado');
