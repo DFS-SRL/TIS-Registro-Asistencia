@@ -185,6 +185,7 @@ class GrupoController extends Controller
     // asignar docente a un grupo
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
+        return $request;
         $datos = $request->validated();
         if (!PersonalAcademicoController::esDocente($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
