@@ -48,14 +48,26 @@ class User extends Authenticatable
         return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);
     }
 
-    public static function esDocente(){
+    private static function esDelRol($rol){
         $user = auth()->user()->usuario;
         
         $codigoSis = $user->codSis;
 
-        $rol = 3;
-
         // obteniendo horarios asignados al auxiliar actual
+        $horarios =  self::getHorarios($codigoSis, $rol);
+
+        return !empty($horarios);
+    }
+
+    public static function esAuxDoc(){
+        return self::esDelRol(2);
+    }
+
+    public static function esDocente(){
+        return self::esDelRol(3);
+    }
+
+    private static function getHorarios($codigoSis, $rol){
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
             ->where('activo', '=', 'true')
             ->where('rol_id', '=', $rol)
@@ -67,8 +79,7 @@ class User extends Authenticatable
             ->get();
 
         $horarios = $horarios->groupBy('unidad_id');
-
-        return !empty($horarios);
+        return $horarios;
     }
 
     public static function inicioSesion($user){
