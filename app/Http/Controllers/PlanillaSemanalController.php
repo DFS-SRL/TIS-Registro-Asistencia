@@ -157,6 +157,12 @@ class PlanillaSemanalController extends Controller{
     // registrar asistencias de la semana
     public function registrarAsistenciasSemana(RegistrarAsistenciaSemanalRequest $request)
     {
+        $rolesPermitidos = [2,3];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         // validar
         $asistencias = array_values($request->validated()['asistencias']);
 

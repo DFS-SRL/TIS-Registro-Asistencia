@@ -8,13 +8,33 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\ActualizarAsistenciaRequest;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
 
 class AsistenciaController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }	
+
     // actualiza en la base de datos la asistencia otorgada
     public function actualizar(Asistencia $asistencia, ActualizarAsistenciaRequest $request)
     {
         $datosNuevos = $request->validated();
+
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [1,2,3,4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         if ($asistencia->horarioClase->rol_id == 2 && $datosNuevos['asistencia'] == 'true')
             $datosNuevos = Validator::make($datosNuevos, [
                 'actividad_realizada' => 'required',
@@ -58,6 +78,13 @@ class AsistenciaController extends Controller
     // dar permiso de edicion de la asistencia al personal academico
     public function permisoEdicion(Asistencia $asistencia)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         if ($asistencia->nivel != 2)
             throw ValidationException::withMessages([
                 'nivel' => ['No se puede otorgar permiso']

@@ -6,12 +6,32 @@ use App\HorarioClase;
 use Illuminate\Http\Request;
 use App\Http\Requests\GuardarHorarioRequest;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
 
 class HorarioClaseController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function guardar(GuardarHorarioRequest $request)
     {
         $horario = $request->validated();
+
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         if ($horario['hora_inicio'] == ":00") {
             $error = ValidationException::withMessages([
                 'horario' => ['debe añadir las horas del nuevo horario para guardar los cambios']
@@ -90,6 +110,14 @@ class HorarioClaseController extends Controller
     public function actualizar(HorarioClase $horario, GuardarHorarioRequest $request)
     {
         $horarioNuevo = $request->validated();
+
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         $horarioNuevo['hora_inicio'] .= ":00";
         $horarioNuevo['hora_fin'] .= ":00";
         $horarioNuevo['activo'] = true;
@@ -109,6 +137,13 @@ class HorarioClaseController extends Controller
     // elimina de la base de datos el horario otorgado
     public function eliminar(HorarioClase $horario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         $horario->update([
             'activo' => false
         ]);

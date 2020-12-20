@@ -7,9 +7,21 @@ use App\Usuario;
 use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
 
 class Menu extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }	
+    
     //Para cada tipo de usuario 
     //se deben mostrar sus nombres completos
     //en un enlace
@@ -28,18 +40,60 @@ class Menu extends Controller
     }
     public function docente(Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [3,4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        // Un docente solo puede entrar a su propio menu
+        $rolesPermitidos = [3]
+        if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
+            if ($usuario->codSis != Auth::user()->usuario->codSis) {
+                return view('provicional.noAutorizado'); 
+            }
+        }
+        
         return view('provicional.docente', [
             'usuario' => $usuario
         ]);
     }
     public function auxiliarDoc(Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [2,4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        // Un auxiliar solo puede entrar a su propio menu
+        $rolesPermitidos = [2]
+        if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
+            if ($usuario->codSis != Auth::user()->usuario->codSis) {
+                return view('provicional.noAutorizado'); 
+            }
+        }
+
         return view('provicional.auxiliarDoc', [
             'usuario' => $usuario
         ]);
     }
     public function auxiliarLabo(Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [1,4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        // Un auxiliar solo puede entrar a su propio menu
+        $rolesPermitidos = [1]
+        if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
+            if ($usuario->codSis != Auth::user()->usuario->codSis) {
+                return view('provicional.noAutorizado'); 
+            }
+        }
+
         return view('provicional.auxiliarLabo', [
             'usuario' => $usuario
         ]);

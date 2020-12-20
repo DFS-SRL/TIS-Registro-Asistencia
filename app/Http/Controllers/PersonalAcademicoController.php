@@ -17,9 +17,20 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class PersonalAcademicoController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }		
+
     // devuelve la vista de todo el personal academico de la unidad correspondiente
     public function obtenerPersonal(Unidad $unidad, $codigos = null)
     {
@@ -298,6 +309,13 @@ class PersonalAcademicoController extends Controller
     //muestra la vista de registro de personal
     public function mostrarRegistro(Unidad $unidad)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+       
         return view('personal.registrarPersonal', [
             'unidad' => $unidad,
             'despuesVerificar' => false,
@@ -309,6 +327,13 @@ class PersonalAcademicoController extends Controller
     //verifica si existe el personal academico correspondiente al codsis en el departamento especificado o solo en el sistema o en ninguno
     public function verificarCodsis(Unidad $unidad)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+       
         $codSis = request()->codsis;
         $personal = Usuario::where('codSis', '=', $codSis)->get();
         $perteneceDepartamento = false;
@@ -350,6 +375,13 @@ class PersonalAcademicoController extends Controller
     //registra un nuevo personal academico en un departamento y en el sistema si es necesario
     public function registrarPersonalAcademico($idUnidad)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $idUnidad);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+       
         if (request('registrado') == "false") {
             $nombre = str_replace("_", " ", request('apellidoPaterno')) . " ";
             $nombre = $nombre . str_replace("_", " ", request('apellidoMaterno')) . " ";

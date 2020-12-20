@@ -115,6 +115,13 @@ class InformesController extends Controller
     //obtener formulario para seleccionar informes semanales en el departamento
     public function formularioUnidad(Unidad $unidad)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4,5];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return view('informes.semanales.unidadSeleccion', ['unidad' => $unidad]);
     }
 
