@@ -155,6 +155,11 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de editar item
     public function editarInformacionItem(Grupo $grupo)
     {
+        $rolesPermitidos = [4];
+        $acceso = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        if(!$acceso){
+            return view('/provicional/noAutorizado');
+        }
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             abort(404);
