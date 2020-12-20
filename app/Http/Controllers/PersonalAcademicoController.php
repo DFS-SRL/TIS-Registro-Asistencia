@@ -167,6 +167,13 @@ class PersonalAcademicoController extends Controller
     //devuelve la vista de la informacion del auxiliar
     public function informacionAuxiliar(Unidad $unidad, Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+       
         $this->validarUsuarioDeUnidad($unidad, $usuario, [1, 2]);
         $codSis = $usuario->codSis;
         $unidadId = $unidad->id;
@@ -194,6 +201,13 @@ class PersonalAcademicoController extends Controller
     // devuelve la vista de la informacion del docente
     public function informacionDocente(Unidad $unidad, Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+       
         $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
         $gruposActuales = $this->buscarGruposAsignadosActuales($unidad->id, $codSis, 'true');

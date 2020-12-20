@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use App\UsuarioTieneRol;
 
 class Menu extends Controller
 {
@@ -47,7 +46,7 @@ class Menu extends Controller
             return view('provicional.noAutorizado');
         }
         // Un docente solo puede entrar a su propio menu
-        $rolesPermitidos = [3]
+        $rolesPermitidos = [3];
         if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
             if ($usuario->codSis != Auth::user()->usuario->codSis) {
                 return view('provicional.noAutorizado'); 
@@ -67,7 +66,7 @@ class Menu extends Controller
             return view('provicional.noAutorizado');
         }
         // Un auxiliar solo puede entrar a su propio menu
-        $rolesPermitidos = [2]
+        $rolesPermitidos = [2];
         if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
             if ($usuario->codSis != Auth::user()->usuario->codSis) {
                 return view('provicional.noAutorizado'); 
@@ -87,7 +86,7 @@ class Menu extends Controller
             return view('provicional.noAutorizado');
         }
         // Un auxiliar solo puede entrar a su propio menu
-        $rolesPermitidos = [1]
+        $rolesPermitidos = [1];
         if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
             if ($usuario->codSis != Auth::user()->usuario->codSis) {
                 return view('provicional.noAutorizado'); 
