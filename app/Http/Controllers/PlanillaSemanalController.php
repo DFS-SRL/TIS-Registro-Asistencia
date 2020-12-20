@@ -15,6 +15,9 @@ use App\UsuarioTieneRol;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
+
 
 class PlanillaSemanalController extends Controller{
 
@@ -92,12 +95,26 @@ class PlanillaSemanalController extends Controller{
     // para obtener la planilla de excepcion de docente
     public function obtenerPlanillaExcepcionDocente(Unidad $unidad, Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return $this->obtenerPlanillaExcepcion($unidad, $usuario, [3]);
     }
 
     // para obtener la planilla de excepcion de auxiliar
     public function obtenerPlanillaExcepcionAuxiliar(Unidad $unidad, Usuario $usuario)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return $this->obtenerPlanillaExcepcion($unidad, $usuario, [1, 2]);
     }
 
