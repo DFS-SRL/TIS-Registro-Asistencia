@@ -13,9 +13,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'provicional.menu')->name('home');
+Route::view('/', 'provicional.menu')->middleware('auth')->name('home');
 
 Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
+
+// Route::view('/noAutorizado', 'provicional.noAutorizado')->name('noAutorizado');
 
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
@@ -122,3 +124,24 @@ Route::get('/personalAcademico/{unidad}/buscar/{buscando}', 'PersonalAcademicoCo
 
 Route::get('/archivo/descargar/{nombre}', 'ArchivoController@descargarPorNombre')->name('descargarArchivo');
 Route::get('/archivo/eliminar/{nombre}', 'ArchivoController@eliminarDocumentoAdicional')->name('eliminarDocumento');
+
+Route::get('/login', 'Auth\LoginController@showLoginform')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('/llenar', function() {
+    if (App\User::count() > 0) return "Ya hay usuarios de Laravel";
+    $usuarios = App\Usuario::all();
+    //dd($usuarios);
+    $users = [];
+    foreach ($usuarios as $usuario ) {
+        $user = new App\User;
+        $user->name = $usuario->nombre;
+        $user->email = $usuario->correo_electronico;
+        $user->password = bcrypt($usuario->contrasenia);
+        $user->usuario_codSis = $usuario->codSis;
+        $user->save();
+        array_push($users, $user);
+    }
+    return $users;
+});

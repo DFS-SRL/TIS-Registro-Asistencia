@@ -46,6 +46,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($exception instanceof \Illuminate\Auth\AuthenticationException){
+            request()->session()->flash('error', 'Necesitas iniciar sesión para acceder a esta página.');
+        }
         return parent::render($request, $exception);
     }
 }

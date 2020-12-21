@@ -10,10 +10,21 @@ use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsuarioGrupoRequest;
 use App\Http\Controllers\PersonalAcademicoController;
+use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class GrupoController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Las clases de docencia y auxiliatura son Materia en la BD
      * Tanto los grupos como los items son Grupo en la BD
@@ -122,6 +133,9 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de editar grupo
     public function editarInformacion(Grupo $grupo)
     {
+        if(!User::esJefeDepartamento(auth()->user()->usuario->codSis, $grupo->unidad->id)){
+            return view('/provicional/noAutorizado');
+        }
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             return view('informacion.editar.editarGrupo', $informacion);
