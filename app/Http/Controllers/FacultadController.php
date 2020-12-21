@@ -23,25 +23,11 @@ class FacultadController extends Controller
 
     //Obtener lista de todas las facultades que estan registradas paginadas en 10
     public function listaFacultades(){
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [5,6,7,8];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-        
         $facultades = Facultad::orderBy('nombre')->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
     //Obtener la lista de departamentos pertenecientes a una facultad 
     public function listaDepartamentos(Facultad $facultad){
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [5,6,7,8];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-        
         $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')->paginate(5);
         // return $departamentos;
         //Agregar lista de ultimos partes mensuales por departamento
