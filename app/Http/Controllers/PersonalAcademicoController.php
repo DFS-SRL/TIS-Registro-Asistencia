@@ -19,6 +19,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class PersonalAcademicoController extends Controller
 {
@@ -401,11 +402,17 @@ class PersonalAcademicoController extends Controller
             $nombre = $nombre . str_replace("_", " ", request('apellidoMaterno')) . " ";
             $nombre = $nombre . str_replace("_", " ", request('nombres'));
             $usuario = [];
+            $user = new User;
             $usuario['codSis'] = request('codsis');
+            $user->usuario_codSis = request('codsis');
             $usuario['nombre'] = $nombre;
+            $user->name = $nombre;
             $usuario['contrasenia'] = "";
+            $user->password = bcrypt("");
             $usuario['correo_electronico'] = request('correo');
+            $user->email = request('correo');
             Usuario::create($usuario);
+            $user->save();
         }
 
         UsuarioPerteneceUnidad::create([
