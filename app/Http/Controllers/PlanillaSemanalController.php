@@ -16,7 +16,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use App\UsuarioTieneRol;
 
 
 class PlanillaSemanalController extends Controller{

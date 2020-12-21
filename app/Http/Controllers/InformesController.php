@@ -12,7 +12,6 @@ use App\HorarioClase;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use App\UsuarioTieneRol;
 
 class InformesController extends Controller
 {
