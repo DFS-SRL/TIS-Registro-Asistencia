@@ -24,7 +24,7 @@ class UnidadController extends Controller
     public function obtenerParte(Unidad $unidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [5];
+        $rolesPermitidos = [4,5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
@@ -34,13 +34,6 @@ class UnidadController extends Controller
     }
     //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales
     public function informacionDepartamento(Unidad $unidad){
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-        
         //Agregar lista de ultimos partes mensuales
         return view('informacion.departamento', ['unidad' => $unidad]);
     }

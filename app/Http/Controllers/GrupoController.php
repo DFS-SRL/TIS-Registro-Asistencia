@@ -113,13 +113,6 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de grupo
     public function mostrarInformacion(Grupo $grupo)
     {
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-        
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             return view('informacion.grupo', $informacion);

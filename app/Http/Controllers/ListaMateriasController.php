@@ -22,13 +22,6 @@ class ListaMateriasController extends Controller
     }
 
     public function mostrarMaterias($unidadId){
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidadId);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-
         $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId) 
                             ->where('es_materia', '=', true)
@@ -42,13 +35,6 @@ class ListaMateriasController extends Controller
     }
 
     public function mostrarCargosDeLaboratorio($unidadId) {
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidadId);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-
         $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId)
         ->where('es_materia', '=', false)
