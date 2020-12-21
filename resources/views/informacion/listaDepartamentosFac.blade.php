@@ -24,7 +24,7 @@
                             <tr class="">
                                 <td class="border border-dark align-middle"><a
                                     href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a></td>
-                                <td class="border border-dark align-middle"><a href="" class="col">Ver parte docentes</a> <a href="" class="col">Ver parte auxiliares</a></td>
+                                <td class="border border-dark align-middle"><strong>{{$departamento->mes}} </strong> <a href="" class="col">Ver parte docentes</a> <a href="" class="col">Ver parte auxiliares</a></td>
                                 <td class="border border-dark ">
                                     <label for="{{$departamento->id}}encargadoFac">Encargado facultativo</label>
                                     <input id="{{$departamento->id}}encargadoFac"type="checkbox"><br>
@@ -34,8 +34,6 @@
                                     <input id="{{$departamento->id}}decano"type="checkbox"><br>
                                     <label for="{{$departamento->id}}jefeDept">Jefe de departamento</label>
                                     <input id="{{$departamento->id}}jefeDept"type="checkbox">
-
-
                                 </td>
                             </tr>
                         @empty
@@ -49,4 +47,19 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script-footer')
+ <script>
+     var depts=@json($departamentos).data;
+     depts.forEach(dept => {
+        document.getElementById(dept.id+'encargadoFac').checked = dept.encargado_fac;
+        document.getElementById(dept.id+'encargadoFac').disabled = true;
+        document.getElementById(dept.id+'dirAcademico').checked = dept.dir_academico;
+        document.getElementById(dept.id+'dirAcademico').disabled = true;
+        document.getElementById(dept.id+'decano').checked = dept.decano;
+        document.getElementById(dept.id+'decano').disabled = true;
+        document.getElementById(dept.id+'jefeDept').checked = dept.jefe_dept;
+        document.getElementById(dept.id+'jefeDept').disabled = true;
+     });
+ </script>
 @endsection

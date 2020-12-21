@@ -6,6 +6,7 @@ use App\Unidad;
 use App\Usuario;
 use App\Asistencia;
 use App\UsuarioTieneRol;
+use App\ParteMensual;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
 use App\HorarioClase;
@@ -21,7 +22,16 @@ class InformesController extends Controller
         ]);
     }
 
-    // sube de nivel a las asistencias de los informes
+    private function registrarParteMensual($unidad_id,$fecha_ini,$fecha_fin)
+    {
+        $parte = [];
+        $parte['fecha_ini'] = $fecha_ini;
+        $parte['fecha_fin'] = $fecha_fin;
+        $parte['unidad_id'] = $unidad_id;
+        ParteMensual::create($parte);
+    } 
+
+    // sube de nivel a las asistencias de los informes y almacena dentro de la tabla Parte_mensual
     public function subirInformes()
     {
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
@@ -45,11 +55,12 @@ class InformesController extends Controller
                 throw $error;
             }
         }
+        $this->registrarParteMensual(request()['unidad_id'],$fechaInicio,$fechaFin);
         $this->subirNivel($asistencias);
         return back()->with('success', 'Enviado correctamente :)');
     }
 
-    // subir asistencias sin importar que se habilito edicion al personal
+    // subir asistencias sin importar que se habilito edicion al personal y almacena dentro de la tabla Parte_mensual
     public function subirInformesFuerza()
     {
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);

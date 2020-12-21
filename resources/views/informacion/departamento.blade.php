@@ -2,9 +2,6 @@
 
 @section('title', 'Informacion Dept')
 
-@section('css')
-
-@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -19,70 +16,38 @@
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/{{$unidad->id}}'" >PERSONAL ACADEMICO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/partes/mensuales/{{$unidad->id}}'">BUSCAR PARTE MENSUAL</button>
                 </div>
+                @if (!$ultimosPartes->isEmpty())
                 <br><strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong><br>
                 <div >
                     <table class = "table " id="ultimosPartes">
-                            <tr>
-                                <td class="border border-dark"><strong ></strong></td>
-                                <td class="border border-dark"><a href="">Ver parte docentes</a></td>
-                                <td class="border border-dark"><a href="">Ver parte auxiliares</a></td>
-                            </tr>
-                            <tr>
-                                <td class="border border-dark"><strong></strong></td>
-                                <td class="border border-dark"><a href="">Ver parte docentes</a></td>
-                                <td class="border border-dark"><a href="">Ver parte auxiliares</a></td>
-                            </tr>
-                            <tr>
-                                <td class="border border-dark"><strong></strong></td>
-                                <td class="border border-dark"><a href="">Ver parte docentes</a></td>
-                                <td class="border border-dark"><a href="">Ver parte auxiliares</a></td>
-                            </tr>
-                            <tr>
-                                <td class="border border-dark"><strong></strong></td>
-                                <td class="border border-dark"><a href="">Ver parte docentes</a></td>
-                                <td class="border border-dark"><a href="">Ver parte auxiliares</a></td>
-                            </tr>
-                            <tr>
-                                <td class="border border-dark"><strong></strong></td>
-                                <td class="border border-dark"><a href="">Ver parte docentes</a></td>
-                                <td class="border border-dark"><a href="">Ver parte auxiliares</a></td>
-                            </tr>
+                            @foreach ($ultimosPartes as $values => $parte)
+                                <tr>
+                                    <td class="border border-dark"><strong >{{$parte->mes}}</strong></td>
+                                    <td class="border border-dark"><a href="/" id="doc{{$parte->id}}">Ver parte docentes</a></td>
+                                    <td class="border border-dark"><a href="/" id="aux{{$parte->id}}">Ver parte auxiliares</a></td>
+                                </tr>
+                        @endforeach
                     </table>       
-                    <input id="meses" type="month" style="display: none">
                 </div>
+                @else
+                    <h3 class="textoBlanco">A&UacuteN NO HAY PARTES MENSUALES DISPONIBLES</h3>
+                @endif
             </div>
         </div>
         
     </div>
 @endsection
-
 @section('script-footer')
     <script>
-        const monthControl = document.getElementById('meses');
-        const date= new Date()
-        const month=("0" + (date.getMonth() + 1)).slice(-2)
-        const year=date.getFullYear()
-        monthControl.value = `${year}-${month}`;
-        let fechaParte = "";
-        function getNombreMes() {
-            añoMesSplit = monthControl.value.split("-");
-            let fecha = new Date(añoMesSplit[0],añoMesSplit[1]-1,16);
-            let options = {
-                month: 'long',
-            };
-            mesString = fecha.toLocaleDateString('es-MX', options).toUpperCase();
-            return mesString;
-        }
         llenarTablaPartes();
-        function llenarTablaPartes(){
-            var table = document.getElementById("ultimosPartes");
-            for (var i = 0, row; row = table.rows[i]; i++) { 
-                row.cells[0].firstChild.innerText = getNombreMes();
-                row.cells[1].firstChild.href ="/parteMensual/docentes/"+{{$unidad->id}}+"/"+ monthControl.value+"-16"
-                row.cells[2].firstChild.href ="/parteMensual/auxiliares/"+{{$unidad->id}}+"/"+ monthControl.value+"-16"
-                monthControl.stepDown();
-            }            
+        function llenarTablaPartes(){            
+            var partesMensuales = @json($ultimosPartes);
+            partesMensuales.forEach(parte => {
+                fechaParte  = parte.fecha_fin.split("-")
+                document.getElementById("doc"+parte.id).href = "/parteMensual/docentes/"+{{$unidad->id}}+"/"+fechaParte[0]+"-"+fechaParte[1]+"-16";
+                document.getElementById("aux"+parte.id).href = "/parteMensual/auxiliares/"+{{$unidad->id}}+"/"+fechaParte[0]+"-"+fechaParte[1]+"-16";
+
+            });
         }
     </script>
 @endsection
-

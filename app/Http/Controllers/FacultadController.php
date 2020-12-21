@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Facultad;
 use App\Unidad;
+use App\Helpers\FechasPartesMensualesHelper;
+
 class FacultadController extends Controller
 {
     //
@@ -13,15 +15,28 @@ class FacultadController extends Controller
         $facultades = Facultad::orderBy('nombre')->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
-    //Obtener la lista de departamentos pertenecientes a una facultad 
+    //Obtener la lista de departamentos pertenecientes a una facultad  
     public function listaDepartamentos(Facultad $facultad){
-        $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')->paginate(5);
-        // return $departamentos;
-        //Agregar lista de ultimos partes mensuales por departamento
+        //Vista Facultativo
+        $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')
+                                ->join('Parte_mensual', function ($join){
+                                    $join->on('Unidad.id', '=', 'Parte_mensual.unidad_id')
+                                         ->orderBy('fecha_ini','desc')
+                                         ->limit(1);
+                                })
+                                ->paginate(5);
+        $departamentos = FechasPartesMensualesHelper::añadirMesPartes($departamentos);
         return view('informacion.listaDepartamentosFac',
                 [
                     'departamentos'=>$departamentos,
                     'facultad'=>$facultad
                 ]);
+        //Vista DPA
+        return view('informacion.listaDepartamentosDPA',
+                [
+                    'departamentos'=>$departamentos,
+                    'facultad'=>$facultad
+                ]);
+
     }
 }

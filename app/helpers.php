@@ -141,7 +141,7 @@ function tiempoFecha($fecha)
 
 // parametro por referencia, devuelve fecha 16 a 15 del ultimo mes e instancia Carbon de la inicial
 function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
-{
+{ 
     $t = tiempoFecha($fecha);
     if ($t->day <= 15)
         $t->subMonth();

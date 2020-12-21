@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Unidad;
 use App\Facultad;
 use App\Asistencia;
+use App\ParteMensual;
 use App\Helpers\FechasPartesMensualesHelper;
 class UnidadController extends Controller
 {
@@ -16,16 +17,10 @@ class UnidadController extends Controller
     }
     //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales
     public function informacionDepartamento(Unidad $unidad){
-        //Agregar lista de ultimos partes mensuales
-        $nivel = 3;//Para Facultativo - 4 para DPA
-        $fechaParte = FechasPartesMensualesHelper::getFechaUltimoParte();
-        //si existe
-        $asistenciasParte = Asistencia::where('unidad_id','=',$unidad->id)
-                                      ->where('nivel','>=',$nivel)
-                                      ->where('fecha', '>=',$fechaParte["fecha"])->get();
-        //=> ahi empieza el ultimo parte y  buscar los demas
-        // return [$date,$mes];
-        // return $asistenciasParte;
-        return view('informacion.departamento', ['unidad' => $unidad]);
+        $ultimosPartes = ParteMensual::where('unidad_id','=',$unidad->id)
+                                      ->orderBy('fecha_ini','desc')->limit(5)->get();
+
+        $ultimosPartes = FechasPartesMensualesHelper::añadirMesPartes($ultimosPartes);
+        return view('informacion.departamento', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes]);
     }
 }
