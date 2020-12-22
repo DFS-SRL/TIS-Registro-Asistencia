@@ -45,10 +45,6 @@
                     <div class="mt-3">
                         {{ $departamentos->links() }}
                     </div>
-                @else
-                    <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
-                @endif
-
                 @esEncargadoFac($facultad->id)
                     <button class="boton btn btn-success textoNegro" onclick="document.getElementById('enviarDPA').submit();">ENVIAR A DPA</button>
                     {{-- <button class="boton btn btn-success textoNegro">SOLICITAR APROBACION</button>  --}}
@@ -58,6 +54,11 @@
                         <input type="hidden" name="fechaIni" value="{{$departamentos[0]->fecha_ini}}">
                     </form>
                 @endesEncargadoFac
+                @else
+                    <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
+                @endif
+
+
             </div>
         </div>
     </div>
