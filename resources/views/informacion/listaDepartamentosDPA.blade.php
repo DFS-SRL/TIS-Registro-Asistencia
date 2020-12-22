@@ -15,6 +15,8 @@
                 <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3>  
             <div class="container mt-4">
                 <table class="table ">
+                    
+                @if (!$departamentos->isEmpty())
                         <tr>                            
                             <th class="textoBlanco border border-dark" scope="col">DEPARTAMENTO</th>
                             <th class="textoBlanco border border-dark" scope="col">ULTIMO PARTE MENSUAL</th>
@@ -28,13 +30,17 @@
                                     <a id="aux{{$departamento->id}}" href="">Parte Auxiliares</a></td>
                                 
                             </tr>
-                        @empty
-                            <h3 class="textoBlanco">ESTA FACULTAD NO TIENE REGISTRADO NINGUN DEPARTAMENTO</h3>
+                        @empty            
+                            <h3 class="textoBlanco">ESTA FACULTAD NO TIENE REGISTRADO NINGUN PARTE MENSUAL DE ALGUN DEPARTAMENTO</h3>
                         @endforelse
                     </table>
                     <div class="mt-3">
                         {{ $departamentos->links() }}
                     </div>
+                    
+                @else
+                    <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
+                @endif
             </div>
         </div>
     </div>

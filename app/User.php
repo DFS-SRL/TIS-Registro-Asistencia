@@ -45,9 +45,11 @@ class User extends Authenticatable
     }
 
     public static function esJefeDepartamento($unidad_id){
-        return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);
+        return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);        
     }
-
+    public static function aproboParte($idParte){
+        return PersonalAcademicoController::personalAproboParte(auth()->user()->usuario->codSis, $idParte);     
+    }
     private static function esDelRol($rol){
         $user = auth()->user()->usuario;
         

@@ -15,12 +15,14 @@
                 <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3>  
             <div class="container mt-4">
                 <table class="table ">
+                    
+                @if (!$departamentos->isEmpty())
                         <tr>                            
                             <th class="textoBlanco border border-dark" scope="col">DEPARTAMENTO</th>
                             <th class="textoBlanco border border-dark" scope="col">ULTIMO PARTE MENSUAL</th>
                             <th class="textoBlanco border border-dark" scope="col">APROBADO</th>
                         </tr>
-                        @forelse ($departamentos as $departamento)
+                        @foreach ($departamentos as $departamento)
                             <tr class="">
                                 <td class="border border-dark align-middle"><a
                                     href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a></td>
@@ -38,13 +40,14 @@
                                     <input id="{{$departamento->id}}jefeDept"type="checkbox" disabled>
                                 </td>
                             </tr>
-                        @empty
-                            <h3 class="textoBlanco">ESTA FACULTAD NO TIENE REGISTRADO NINGUN DEPARTAMENTO</h3>
                         @endforelse
                     </table>
                     <div class="mt-3">
                         {{ $departamentos->links() }}
                     </div>
+                @else
+                    <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
+                @endif
                 <button class="boton btn btn-success textoNegro">ENVIAR A DPA</button>
             </div>
         </div>

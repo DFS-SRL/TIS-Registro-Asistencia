@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Asistencia;
 use App\HorarioClase;
 use App\UsuarioTieneRol;
+use App\ParteMensual;
 use Illuminate\Http\Request;
 use App\helpers\BuscadorHelper;
 use App\UsuarioPerteneceUnidad;
@@ -439,5 +440,32 @@ class PersonalAcademicoController extends Controller
         }
         request()->session()->flash('success', 'Usuario registrado');
         return redirect()->route('personalAcademico.mostrarRegistro', $idUnidad);
+    }
+    //devuelve verdadero si el personalAcademicoAproboElParte
+    public static function personalAproboParte($codSis,$idParte){
+        $rolesUsuario = UsuarioTieneRol::where("usuario_codSis","=",$codSis)->get();
+        $aprobado = false;
+        $parte = ParteMensual::where("id","=",$idParte)->first();
+        foreach ($rolesUsuario as $key => $rol) {
+            switch ($rol->rol_id) {
+                case 4:
+                    $aprobado = $parte->jefe_dept;
+                    break;
+                case 5:
+                    $aprobado = $parte->encargado_fac;
+                    break;
+                case 6:
+                    $aprobado = $parte->decano;
+                    break;
+                case 7:
+                    $aprobado = $parte->dir_academico;
+                    break;
+            }
+        }
+        return $aprobado;
+        //obtener el rol del codsis 
+        //comparar con la tabla parteMensual
+        //jefe esta en Unidad
+        //encargado decano y director estan en Facultad
     }
 }
