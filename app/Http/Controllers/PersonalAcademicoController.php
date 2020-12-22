@@ -464,4 +464,12 @@ class PersonalAcademicoController extends Controller
         }
         return $aprobado;
     }
+    //devuelve verdadero si el usuario es encargadoFacultativo
+    public static function esEncargadoFac($codigoSis,$facultad_id){
+        return !UsuarioTieneRol::where('rol_id', '=', 5)
+            ->where('Usuario_tiene_rol.usuario_codSis', '=', $codigoSis)
+            ->where('facultad_id', '=', $facultad_id)
+            ->get()
+            ->isEmpty();
+    }
 }

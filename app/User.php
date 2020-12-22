@@ -88,4 +88,9 @@ class User extends Authenticatable
         $autenticado = auth()->user()->usuario;
         return $user->codSis === $autenticado->codSis;
     }
+    public static function esEncargadoFac($facultad_id){
+        $user = auth()->user()->usuario;
+        $codigoSis = $user->codSis;
+        return PersonalAcademicoController::esEncargadoFac($codigoSis,$facultad_id);
+    }
 }

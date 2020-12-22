@@ -22,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('aproboParte', function($parteId){
             return User::aproboParte($parteId);
         });
+        Blade::if('esEncargadoFac', function($facultad_id){
+            return User::esEncargadoFac($facultad_id);
+        });
     }
 
     /**

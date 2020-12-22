@@ -48,7 +48,16 @@
                 @else
                     <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
                 @endif
-                <button class="boton btn btn-success textoNegro">ENVIAR A DPA</button>
+
+                @esEncargadoFac($facultad->id)
+                    <button class="boton btn btn-success textoNegro" onclick="document.getElementById('enviarDPA').submit();">ENVIAR A DPA</button>
+                    {{-- <button class="boton btn btn-success textoNegro">SOLICITAR APROBACION</button>  --}}
+                    <form action="{{route('enviarPartesDPA')}}" method="post" id="enviarDPA">
+                        @csrf @method('PATCH')
+                        <input type="hidden" name="facultad_id" value="{{$facultad->id}}">
+                        <input type="hidden" name="fechaIni" value="{{$departamentos[0]->fecha_ini}}">
+                    </form>
+                @endesEncargadoFac
             </div>
         </div>
     </div>

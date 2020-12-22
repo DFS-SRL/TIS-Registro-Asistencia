@@ -280,6 +280,15 @@ class ParteMensualController extends Controller
         }
         return back()->with('success', 'Aprobacion exitosa');
     }
-
+    //Enviar los ultimos partes a DPA
+    public function enviarDPA(Request $request){
+        $depts = Unidad::where('facultad_id','=',$request->facultad_id)->get();
+        foreach ($depts as $key => $dept) {
+            $partes = ParteMensual::where('unidad_id','=',$dept->id)
+                                  ->where('fecha_ini','=',$request->fechaIni)
+                                  ->update(['aprobado'=>true]);
+        }
+        return back()->with('success', 'Aprobacion exitosa');
+    }
 
 }

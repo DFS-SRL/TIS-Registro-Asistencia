@@ -29,7 +29,7 @@ class FacultadController extends Controller
     }
     //Obtener la lista de departamentos pertenecientes a una facultad  
     public function listaDepartamentos(Facultad $facultad){
-        $rolesPermitidos = [4,5,6,7];
+        $rolesPermitidos = [5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
         if ($accesoOtorgado) {
             $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')
@@ -43,9 +43,30 @@ class FacultadController extends Controller
             $departamentos = FechasPartesMensualesHelper::añadirMesPartes($departamentos);
             return view('informacion.listaDepartamentosFac',
             [
-            'departamentos'=>$departamentos,
-            'facultad'=>$facultad
+                'departamentos'=>$departamentos,
+                'facultad'=>$facultad
             ]);
+        }else{
+            $rolesPermitidos = [4,6,7];
+            $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+            if($accesoOtorgado){
+                $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')
+                            ->join('Parte_mensual', function ($join){
+                                $join->on('Unidad.id', '=', 'Parte_mensual.unidad_id')
+                                    ->where('Parte_mensual.encargado_fac','=',true)
+                                    ->orderBy('fecha_ini','desc')
+                                    ->limit(1);
+                            })
+                            ->paginate(5);
+                            
+                $departamentos = FechasPartesMensualesHelper::añadirMesPartes($departamentos);
+                return view('informacion.listaDepartamentosFac',
+                [
+                    'departamentos'=>$departamentos,
+                    'facultad'=>$facultad
+                ]);
+            }
+
         }
         //Jefe DPA
         $rolesPermitidos = [8];

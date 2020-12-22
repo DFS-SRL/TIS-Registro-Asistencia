@@ -7,6 +7,7 @@ use App\Unidad;
 use App\Facultad;
 use App\Asistencia;
 use App\ParteMensual;
+use App\User;
 use App\Helpers\FechasPartesMensualesHelper;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -42,12 +43,6 @@ class UnidadController extends Controller
     //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales
     public function informacionDepartamento(Unidad $unidad){
 
-        //separar vista facultativos y dpa
-        //facultativos
-        
-        // $rolUsuario = UsuarioTieneRol::where("usuario_codSis","=",3)->get();
-        // return $rolUsuario;
-        
         $rolesPermitidos = [4,5,6,7];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
         if ($accesoOtorgado) {
