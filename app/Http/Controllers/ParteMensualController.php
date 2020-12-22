@@ -12,8 +12,22 @@ use Illuminate\Http\Request;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
+use Illuminate\Validation\ValidationException;
+
 class ParteMensualController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     //Generar parte auxiliares
     private function generarParteAuxiliares(Unidad $unidad,$fecha){
         // obtener fechas inicio y fin del mes
@@ -49,6 +63,13 @@ class ParteMensualController extends Controller
     // dada unidad y fecha devuelve vista de parte de auxiliares
     public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4,5];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         $parteAuxiliares = $this->generarParteAuxiliares($unidad,$fecha);
 
         // devolver la vista de parte mensual de auxiliares
@@ -82,6 +103,13 @@ class ParteMensualController extends Controller
     // dada unidad y fecha devuelve vista de parte de docentes
     public function obtenerParteDocentes(Unidad $unidad, $fecha)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4,5];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         $parteDocentes = $this->generarParteDocentes($unidad,$fecha);
 
         // devolver la vista de parte mensual de auxiliares
@@ -186,6 +214,13 @@ class ParteMensualController extends Controller
     //Obtener PDF de parte mensual Docentes
     public function descargarPDFDocentes(Unidad $unidad, $fecha )
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4,5];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         $respuesta = $this->generarParteDocentes($unidad, $fecha);
         return PDF::loadView('parteMensual.docentesPDF',$respuesta)
                     ->setPaper('letter', 'landscape')
@@ -194,6 +229,13 @@ class ParteMensualController extends Controller
     //Obtener PDF de parte mensual Auxiliares
     public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4,5];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
         return PDF::loadView('parteMensual.auxiliaresPDF',$respuesta)
                     ->setPaper('letter', 'landscape')

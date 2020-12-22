@@ -8,11 +8,31 @@ use App\Facultad;
 use App\Asistencia;
 use App\ParteMensual;
 use App\Helpers\FechasPartesMensualesHelper;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
+
 class UnidadController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     //obtener formulario para seleccionar parte mensual del departamento 
     public function obtenerParte(Unidad $unidad)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4,5];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return view('parteMensual.seleccion', ['unidad' => $unidad]);
     }
     //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales

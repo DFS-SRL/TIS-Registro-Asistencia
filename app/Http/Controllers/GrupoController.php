@@ -133,7 +133,9 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de editar grupo
     public function editarInformacion(Grupo $grupo)
     {
-        if(!User::esJefeDepartamento(auth()->user()->usuario->codSis, $grupo->unidad->id)){
+        $rolesPermitidos = [4];
+        $acceso = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        if(!$acceso){
             return view('/provicional/noAutorizado');
         }
         $informacion = $this->informacionGrupo($grupo);
@@ -146,6 +148,11 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de editar item
     public function editarInformacionItem(Grupo $grupo)
     {
+        $rolesPermitidos = [4];
+        $acceso = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        if(!$acceso){
+            return view('/provicional/noAutorizado');
+        }
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
             abort(404);
@@ -183,7 +190,16 @@ class GrupoController extends Controller
     // asignar docente a un grupo
     public function asignarDocente(UsuarioGrupoRequest $request)
     {
+        return $request;
         $datos = $request->validated();
+
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, Grupo::find($datos['grupo_id'])->unidad_id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         if (!PersonalAcademicoController::esDocente($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
@@ -197,6 +213,14 @@ class GrupoController extends Controller
     public function asignarAuxDoc(UsuarioGrupoRequest $request)
     {
         $datos = $request->validated();
+        
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, Grupo::find($datos['grupo_id'])->unidad_id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         if (!PersonalAcademicoController::esAuxDoc($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un auxiliar de docencia de la unidad']
@@ -207,8 +231,15 @@ class GrupoController extends Controller
     }
     public function asignarAuxLabo(UsuarioGrupoRequest $request)
     {
-
         $datos = $request->validated();
+        
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, Grupo::find($datos['grupo_id'])->unidad_id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
         if (!PersonalAcademicoController::esAuxLab($datos['codSis'], Grupo::find($datos['grupo_id'])->unidad_id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un auxiliar de laboratorio de la unidad']
@@ -235,14 +266,35 @@ class GrupoController extends Controller
     // designar docente a un grupo
     public function desasignarDocente(Grupo $grupo)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return $this->desasignarUsuarioRol($grupo->id, 3);
     }
     public function desasignarAuxiliar(Grupo $grupo)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return $this->desasignarUsuarioRol($grupo->id, 2);
     }
     public function desasignarAuxiliarDeLaboratorio(Grupo $grupo)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         return $this->desasignarUsuarioRol($grupo->id, 1);
     }
 

@@ -3,9 +3,11 @@
 @section('title', 'Informes')
 
 @section('content')
-    <br>
-    <br>
-    <h2 class="text-white text-center">SOMOS DESARROLLO DE FUERTES SOLUCIONES</h2>
-    <br>
-    <br>
+    <div class="container">
+        <h2 class="text-white">
+            SOMOS DESARROLLO DE FUERTES SOLUCIONES.
+        </h2>
+        <img src="/icons/nosotros.jpg" class="rounded mx-auto d-block" alt="Responsive image"
+        style="max-height: 360px; max-width: auto;">
+    </div>
 @endsection

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Unidad;
 use App\Materia;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
+use Illuminate\Validation\ValidationException;
 
 class ListaMateriasController extends Controller
 {

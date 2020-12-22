@@ -3,6 +3,12 @@
         <a class="navbar-brand text-white" href="{{ route('home') }}">
             {{ config('app.name') }}
         </a>
+        @auth
+            <div class="col-3 ml-auto">
+                <a class="navbar-brand text-white text-right">{{ auth()->user()->name }}</a>
+            </div>
+        @endauth
+
         <ul class="nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link text-white {{ setActive('home') }}" href="{{ route('home') }}">

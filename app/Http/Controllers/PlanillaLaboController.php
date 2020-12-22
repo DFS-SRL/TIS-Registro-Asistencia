@@ -10,11 +10,30 @@ use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\RegistrarAsistenciaLaboRequest;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\UsuarioTieneRol;
 
 class PlanillaLaboController extends Controller
 {
+    use AuthenticatesUsers;
+    
+    protected $redirectTo = '/';
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }		
+
     public function obtenerPlanillaDia(Usuario $user)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [1];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado || Auth::user()->usuario->codSis != $user->codSis) {
+            return view('provicional.noAutorizado');
+        }
+        
         // obteniendo horarios asignados en el dia actual
         $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
             ->where('activo', '=', 'true')
@@ -44,11 +63,24 @@ class PlanillaLaboController extends Controller
 
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [1];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
         // validar
         $asistencias = array_values($request->validated()['asistencias']);
 
         // ver si no se lleno la planilla de hoy
         $usuario = Usuario::find(HorarioClase::find($asistencias[0]['horario_clase_id'])->asignado_codSis);
+
+        // validar que la asistencia es del usuario que envia el formulario
+        if ($usuario->codSis != Auth::user()->usuario->codSis) {
+            return view('provicional.noAutorizado');
+        }
+
         $registradas = $this->asistenciasRegistradas($usuario);
         if ($registradas->count() == $this->cuantosHorarios($usuario)) {
             $error = ValidationException::withMessages([
