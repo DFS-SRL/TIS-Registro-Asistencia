@@ -20,5 +20,6 @@
         <a href="auxiliaresLabo">Auxiliares de laboratorio</a><br>
         {{-- <a href="encargadosAsist">Encargados de asistencias</a><br> --}}
         <a href="departamentos">Departamentos</a><br>
+        <a href="facultades">Facultades</a><br>
     </div>
 @endsection
