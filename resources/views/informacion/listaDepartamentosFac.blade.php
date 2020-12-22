@@ -24,16 +24,18 @@
                             <tr class="">
                                 <td class="border border-dark align-middle"><a
                                     href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a></td>
-                                <td class="border border-dark align-middle"><strong>{{$departamento->mes}} </strong> <a href="" class="col">Ver parte docentes</a> <a href="" class="col">Ver parte auxiliares</a></td>
+                                <td class="border border-dark align-middle"><strong>{{$departamento->mes}} </strong> 
+                                                                            <a href="" id="doc{{$departamento->id}}">Ver parte docentes</a>
+                                                                            <a href="" id="aux{{$departamento->id}}" >Ver parte auxiliares</a></td>
                                 <td class="border border-dark ">
                                     <label for="{{$departamento->id}}encargadoFac">Encargado facultativo</label>
-                                    <input id="{{$departamento->id}}encargadoFac"type="checkbox"><br>
+                                    <input id="{{$departamento->id}}encargadoFac"type="checkbox" disabled><br>
                                     <label for="{{$departamento->id}}dirAcademico">Director academico</label>
-                                    <input id="{{$departamento->id}}dirAcademico"type="checkbox"><br>
+                                    <input id="{{$departamento->id}}dirAcademico"type="checkbox" disabled><br>
                                     <label for="{{$departamento->id}}decano">Decano</label>
-                                    <input id="{{$departamento->id}}decano"type="checkbox"><br>
+                                    <input id="{{$departamento->id}}decano"type="checkbox" disabled><br>
                                     <label for="{{$departamento->id}}jefeDept">Jefe de departamento</label>
-                                    <input id="{{$departamento->id}}jefeDept"type="checkbox">
+                                    <input id="{{$departamento->id}}jefeDept"type="checkbox" disabled>
                                 </td>
                             </tr>
                         @empty
@@ -51,15 +53,14 @@
 @section('script-footer')
  <script>
      var depts=@json($departamentos).data;
-     depts.forEach(dept => {
+     depts.forEach(dept => { 
+        fechaParte  = dept.fecha_fin.split("-")
+        document.getElementById("doc"+dept.id).href = "/parteMensual/docentes/"+dept.id+"/"+fechaParte[0]+"-"+fechaParte[1]+"-16";
+        document.getElementById("aux"+dept.id).href = "/parteMensual/auxiliares/"+dept.id+"/"+fechaParte[0]+"-"+fechaParte[1]+"-16";
         document.getElementById(dept.id+'encargadoFac').checked = dept.encargado_fac;
-        document.getElementById(dept.id+'encargadoFac').disabled = true;
         document.getElementById(dept.id+'dirAcademico').checked = dept.dir_academico;
-        document.getElementById(dept.id+'dirAcademico').disabled = true;
         document.getElementById(dept.id+'decano').checked = dept.decano;
-        document.getElementById(dept.id+'decano').disabled = true;
         document.getElementById(dept.id+'jefeDept').checked = dept.jefe_dept;
-        document.getElementById(dept.id+'jefeDept').disabled = true;
      });
  </script>
 @endsection

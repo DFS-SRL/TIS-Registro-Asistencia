@@ -9,14 +9,12 @@
 @section('content')
     <div class="container">
         <div class="mx-3 my-4">
-            <div class="row">
                 <h3 class="textoBlanco">FACULTAD: {{ $facultad->nombre }}</h3>
                 <h3 class="textoBlanco">DECANO: {{ $facultad->decano->nombre() }} </h3>
                 <h3 class="textoBlanco">DIRECTOR ACADEMICO: {{$facultad->directorAcademico->nombre()}}  </h3>  
                 <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3>  
-            </div>
             <div class="container mt-4">
-                <table class="table table-responsive">
+                <table class="table ">
                         <tr>                            
                             <th class="textoBlanco border border-dark" scope="col">DEPARTAMENTO</th>
                             <th class="textoBlanco border border-dark" scope="col">ULTIMO PARTE MENSUAL</th>
@@ -25,7 +23,9 @@
                             <tr>
                                 <td class="border border-dark"><a
                                     href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a></td>
-                                <td class="border border-dark"><a href="">Parte Docentes</a> <a href="">Parte Auxiliares</a></td>
+                                <td class="border border-dark"><strong>{{$departamento->mes}} </strong>
+                                    <a id="doc{{$departamento->id}}" href="">Parte Docentes</a>
+                                    <a id="aux{{$departamento->id}}" href="">Parte Auxiliares</a></td>
                                 
                             </tr>
                         @empty
@@ -38,4 +38,14 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script-footer')
+ <script>
+     var depts=@json($departamentos).data;
+     depts.forEach(dept => { 
+        fechaParte  = dept.fecha_fin.split("-")
+        document.getElementById("doc"+dept.id).href = "/parteMensual/docentes/"+dept.id+"/"+fechaParte[0]+"-"+fechaParte[1]+"-16";
+        document.getElementById("aux"+dept.id).href = "/parteMensual/auxiliares/"+dept.id+"/"+fechaParte[0]+"-"+fechaParte[1]+"-16";
+     });
+ </script>
 @endsection
