@@ -463,9 +463,5 @@ class PersonalAcademicoController extends Controller
             }
         }
         return $aprobado;
-        //obtener el rol del codsis 
-        //comparar con la tabla parteMensual
-        //jefe esta en Unidad
-        //encargado decano y director estan en Facultad
     }
 }

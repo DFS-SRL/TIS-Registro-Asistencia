@@ -104,6 +104,7 @@ Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formula
 
 Route::get('/departamento/{unidad}','UnidadController@informacionDepartamento');
 Route::get('/partes/mensuales/{unidad}','UnidadController@obtenerParte')->name('partes.mensuales');
+Route::patch('/aprobarParteMensualRol','ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 

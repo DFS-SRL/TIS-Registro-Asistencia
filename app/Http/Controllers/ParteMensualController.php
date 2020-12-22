@@ -8,6 +8,7 @@ use App\Usuario;
 use Carbon\Carbon;
 use App\Asistencia;
 use App\HorarioClase;
+use App\ParteMensual;
 use Illuminate\Http\Request;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
@@ -253,6 +254,31 @@ class ParteMensualController extends Controller
         return PDF::loadView('parteMensual.auxiliaresPDF',$respuesta)
                     ->setPaper('letter', 'landscape')
                     ->stream('Parte Auxiliares-'.$unidad->nombre.'.pdf');
+    }
+    //Aprueba el parte de acuerdo al rol
+    public function aprobarPartePorRol(Request $request){
+        $idParte = $request->parte_id;
+        $user = auth()->user()->usuario;        
+        $codSis = $user->codSis;
+        $rolesUsuario = UsuarioTieneRol::where("usuario_codSis","=",$codSis)->get();
+        $parte = ParteMensual::where("id","=",$idParte)->first();
+        foreach ($rolesUsuario as $key => $rol) {
+            switch ($rol->rol_id) {
+                case 4:
+                    $parte = ParteMensual::where("id","=",$idParte)->update(['jefe_dept'=>true]);
+                    break;
+                case 5:
+                    $parte = ParteMensual::where("id","=",$idParte)->update(['encargado_fac'=>true]);
+                    break;
+                case 6:
+                    $parte = ParteMensual::where("id","=",$idParte)->update(['decano'=>true]);
+                    break;
+                case 7:
+                    $parte = ParteMensual::where("id","=",$idParte)->update(['dir_academico'=>true]);
+                    break;
+            }
+        }
+        return back()->with('success', 'Aprobacion exitosa');
     }
 
 

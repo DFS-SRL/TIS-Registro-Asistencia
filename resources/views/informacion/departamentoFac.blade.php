@@ -28,7 +28,13 @@
                                     @aproboParte($parte->id)
                                         <td class="border border-dark"><input class="boton btn textoNegro" type="button" value="APROBAR PARTES" disabled></td>    
                                     @else
-                                        <td class="border border-dark"><input class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
+                                        <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                            class="form-inline my-2 my-lg-0 d-inline"
+                                        >
+                                            @csrf @method('PATCH')
+                                            <input type="hidden" name = 'parte_id' value = '{{$parte->id}}'>
+                                        </form>
+                                        <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
                                     @endif
                                 </tr>
                         @endforeach

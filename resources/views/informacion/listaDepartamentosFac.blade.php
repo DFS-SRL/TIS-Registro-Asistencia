@@ -40,7 +40,7 @@
                                     <input id="{{$departamento->id}}jefeDept"type="checkbox" disabled>
                                 </td>
                             </tr>
-                        @endforelse
+                        @endforeach
                     </table>
                     <div class="mt-3">
                         {{ $departamentos->links() }}
