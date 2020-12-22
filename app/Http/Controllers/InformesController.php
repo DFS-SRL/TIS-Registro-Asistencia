@@ -262,8 +262,10 @@ class InformesController extends Controller
         }
         $rolesPermitidos = [3];
         if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)) {
-            if ($usuario->codSis != Auth::user()->usuario->codSis) {
-                return view('provicional.noAutorizado');
+            if (!UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [4], $unidad->id)) {
+                if ($usuario->codSis != Auth::user()->usuario->codSis) {
+                    return view('provicional.noAutorizado');
+                }
             }
         }
 
