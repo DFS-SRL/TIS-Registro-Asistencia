@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ActivationToken;
 use App\Unidad;
 use App\Usuario;
 use Carbon\Carbon;
@@ -11,6 +12,7 @@ use App\UsuarioTieneRol;
 use App\ParteMensual;
 use Illuminate\Http\Request;
 use App\helpers\BuscadorHelper;
+use App\Http\Controllers\Auth\RegisterController;
 use App\UsuarioPerteneceUnidad;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
@@ -21,6 +23,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 
 class PersonalAcademicoController extends Controller
 {
@@ -408,12 +412,20 @@ class PersonalAcademicoController extends Controller
             $user->usuario_codSis = request('codsis');
             $usuario['nombre'] = $nombre;
             $user->name = $nombre;
-            $usuario['contrasenia'] = "";
-            $user->password = bcrypt("");
+            $usuario['contrasenia'] = Str::random(8);
+            $user->password = bcrypt($usuario['contrasenia']);
             $usuario['correo_electronico'] = request('correo');
             $user->email = request('correo');
+            $user['active'] = 'false';
             Usuario::create($usuario);
             $user->save();
+
+            ActivationToken::create([
+                'user_id' => $user->id,
+                'token' => Str::random(60),
+            ]);
+
+            event(new Registered($user));
         }
 
         UsuarioPerteneceUnidad::create([
@@ -438,7 +450,7 @@ class PersonalAcademicoController extends Controller
                 UsuarioTieneRol::create($usuarioRol);
             }
         }
-        request()->session()->flash('success', 'Usuario registrado');
+        request()->session()->flash('success', 'Se ha enviado un link de activación al usuario con los datos de su cuenta.');
         return redirect()->route('personalAcademico.mostrarRegistro', $idUnidad);
     }
     //devuelve verdadero si el personalAcademicoAproboElParte

@@ -129,6 +129,8 @@ Route::get('/login', 'Auth\LoginController@showLoginform')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('activar/{token}', 'ActivationTokenController@activate')->name('activation');
+
 Route::get('/llenar', function() {
     if (App\User::count() > 0) return "Ya hay usuarios de Laravel";
     $usuarios = App\Usuario::all();
@@ -139,6 +141,7 @@ Route::get('/llenar', function() {
         $user->name = $usuario->nombre;
         $user->email = $usuario->correo_electronico;
         $user->password = bcrypt($usuario->contrasenia);
+        $user->active = true;
         $user->usuario_codSis = $usuario->codSis;
         $user->save();
         array_push($users, $user);

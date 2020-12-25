@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\ActivationToken;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -52,6 +54,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'usuario_codSis' => ['required', 'integer'],
+            'active' => ['required', 'boolean']
         ]);
     }
 
@@ -61,12 +65,21 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    public static function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'usuario_codSis' => $data['usuario_codSis'],
+            'active' => 'false'
         ]);
+
+        ActivationToken::create([
+            'user_id' => $user->id,
+            'token' => Str::random(60),
+        ]);
+
+        return $user;
     }
 }

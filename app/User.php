@@ -6,6 +6,7 @@ use App\Http\Controllers\PersonalAcademicoController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active'
     ];
 
     /**
@@ -39,6 +40,19 @@ class User extends Authenticatable
     ];
 
     protected $table = 'public.users';
+
+    public function activate(){
+        $this->update(['active' => true]);
+
+        Auth::login($this);
+
+        $this->token->delete();
+
+    }
+
+    public function token(){
+        return $this->hasOne(ActivationToken::class);
+    }
 
     public function usuario() {
         return $this->belongsTo('App\Usuario');
