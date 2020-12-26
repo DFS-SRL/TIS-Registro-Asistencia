@@ -24,6 +24,10 @@ class FacultadController extends Controller
 
     //Obtener lista de todas las facultades que estan registradas paginadas en 10
     public function listaFacultades(){
+        $rolesPermitidos = [8];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+        if (!$accesoOtorgado) {
+        }
         $facultades = Facultad::orderBy('nombre')->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
