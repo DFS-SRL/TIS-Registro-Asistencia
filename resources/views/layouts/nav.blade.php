@@ -36,8 +36,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('departamentos') }}" href="{{ route('departamentos') }}">
-                    Departamentos
+                <a class="nav-link text-white {{ setActive('facultades') }}" href="{{ route('facultades') }}">
+                    Facultades
                 </a>
             </li>
             @auth
