@@ -17,7 +17,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             'App\Listeners\SendActivationLink',
-        ],
+        ]
     ];
 
     /**
