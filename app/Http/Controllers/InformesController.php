@@ -17,37 +17,37 @@ use Illuminate\Support\Facades\Auth;
 class InformesController extends Controller
 {
     use AuthenticatesUsers;
-    
+
     protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('auth');
-    }		
+    }
 
     // muestra la vista al jefe de departamento para acceder a informes semanales
     public function index(Unidad $unidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5];
+        $rolesPermitidos = [4, 5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         return view('informes.index', [
             'unidad' => $unidad
         ]);
     }
 
-    private function registrarParteMensual($unidad_id,$fecha_ini,$fecha_fin)
+    private function registrarParteMensual($unidad_id, $fecha_ini, $fecha_fin)
     {
         $parte = [];
         $parte['fecha_ini'] = $fecha_ini;
         $parte['fecha_fin'] = $fecha_fin;
         $parte['unidad_id'] = $unidad_id;
         ParteMensual::create($parte);
-    } 
+    }
 
     // sube de nivel a las asistencias de los informes y almacena dentro de la tabla Parte_mensual
     public function subirInformes()
@@ -58,7 +58,7 @@ class InformesController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
         $asistencias = AsistenciaHelper::obtenerAsistenciasUnidad(
             Unidad::find(request()['unidad_id']),
@@ -69,18 +69,18 @@ class InformesController extends Controller
         foreach ($asistencias as $key => $asistencia) {
             if ($asistencia->nivel == 1) {
                 $error = ValidationException::withMessages([
-                    'nivel1' => ['algun docente o auxiliar se encuentra editando sus asistencias']
+                    'nivel1' => ['Algún docente o auxiliar se encuentra editando sus asistencias.']
                 ]);
                 throw $error;
             }
             if ($asistencia->nivel == 3) {
                 $error = ValidationException::withMessages([
-                    'nivel3' => ['los informes ya fueron enviados a facultativo']
+                    'nivel3' => ['Las asistencias ya fueron enviadas a decanatura.']
                 ]);
                 throw $error;
             }
         }
-        $this->registrarParteMensual(request()['unidad_id'],$fechaInicio,$fechaFin);
+        $this->registrarParteMensual(request()['unidad_id'], $fechaInicio, $fechaFin);
         $this->subirNivel($asistencias);
         return back()->with('success', 'Enviado correctamente :)');
     }
@@ -93,7 +93,7 @@ class InformesController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         calcularFechasMes(request()['fecha'], $t, $fechaInicio, $fechaFin);
         $asistencias = AsistenciaHelper::obtenerAsistenciasUnidad(
             Unidad::find(request()['unidad_id']),
@@ -126,12 +126,12 @@ class InformesController extends Controller
     public function formularioUnidad(Unidad $unidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5];
+        $rolesPermitidos = [4, 5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         return view('informes.semanales.unidadSeleccion', ['unidad' => $unidad]);
     }
 
@@ -146,19 +146,19 @@ class InformesController extends Controller
     public function obtenerInformeSemanalUsuario(Usuario $usuario, $fecha)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [1,2,3,4];
+        $rolesPermitidos = [1, 2, 3, 4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
         // Si es personal academico, solo puede ver su informe semanal
-        $rolesPermitidos = [1,2,3];
+        $rolesPermitidos = [1, 2, 3];
         if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null)) {
             if ($usuario->codSis != Auth::user()->usuario->codSis) {
                 return view('provicional.noAutorizado');
             }
         }
-        
+
         // obteniendo las fechas de la semana
         $fechas = getFechasDeSemanaEnFecha($fecha);
 
@@ -189,7 +189,7 @@ class InformesController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-       
+
         return $this->obtenerInformeSemanal($unidad, $fecha, 3);
     }
 
@@ -202,7 +202,7 @@ class InformesController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-       
+
         return $this->obtenerInformeSemanal($unidad, $fecha, 2);
     }
 
@@ -215,7 +215,7 @@ class InformesController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-       
+
         return $this->obtenerInformeSemanal($unidad, $fecha, 1);
     }
 
@@ -248,12 +248,12 @@ class InformesController extends Controller
     public function obtenerInformeMensualDocente(Unidad $unidad, $fecha, Usuario $usuario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [3,4];
+        $rolesPermitidos = [3, 4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         if (!PersonalAcademicoController::esDocente($usuario->codSis, $unidad->id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un docente de la unidad']
@@ -290,12 +290,12 @@ class InformesController extends Controller
     public function obtenerInformeMensualAuxiliar(Unidad $unidad, $fecha, Usuario $usuario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [1,2,4];
+        $rolesPermitidos = [1, 2, 4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         if (!PersonalAcademicoController::esAuxiliar($usuario->codSis, $unidad->id)) {
             $error = ValidationException::withMessages([
                 'codSis' => ['el codigo sis no pertenece a un auxilar de la unidad']
@@ -303,7 +303,7 @@ class InformesController extends Controller
             throw $error;
         }
 
-        $rolesPermitidos = [1,2];
+        $rolesPermitidos = [1, 2];
         if (UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)) {
             if ($usuario->id != Auth::user()->usuario->codSis) {
                 return view('provicional.noAutorizado');
