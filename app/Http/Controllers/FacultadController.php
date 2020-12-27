@@ -27,6 +27,13 @@ class FacultadController extends Controller
         $facultades = Facultad::orderBy('nombre')->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
+
+    //Obtener la lista de todos los departamentos de la universidad
+    public function listaTodosDepartamentos() {
+        $departamentos = Unidad::orderBy('nombre')->paginate(10);
+        return view('informacion.listaDepartamentos', ['departamentos'=>$departamentos]);
+    }
+
     //Obtener la lista de departamentos pertenecientes a una facultad  
     public function listaDepartamentos(Facultad $facultad){
         $rolesPermitidos = [5];
