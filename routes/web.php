@@ -129,7 +129,10 @@ Route::get('/login', 'Auth\LoginController@showLoginform')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('activar/{token}', 'ActivationTokenController@activate')->name('activation');
+Route::get('/activar/{token}', 'ActivationTokenController@activate')->name('activation');
+
+Route::get('/reset-password', 'Auth\ResetPasswordController@index')->name('reset-password');
+Route::post('/reset-password', 'Auth\ResetPasswordController@reset');
 
 Route::get('/llenar', function() {
     if (App\User::count() > 0) return "Ya hay usuarios de Laravel";
