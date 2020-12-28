@@ -20,7 +20,7 @@ Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
-Route::get('/facultades','FacultadController@listaFacultades');
+Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
 Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
 Route::get('/facultades/{facultad}/{fecha}','ParteMensualController@partesMesFacultad');
 
@@ -72,8 +72,8 @@ Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxil
 Route::get('/auxiliarLabo/{usuario}', 'ProvController\Menu@auxiliarLabo')->name('auxiliarLabo');
 Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
 Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
-//Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
-//Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
+// Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
+Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');

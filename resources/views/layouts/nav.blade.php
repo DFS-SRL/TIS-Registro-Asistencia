@@ -35,11 +35,11 @@
                     Auxiliares de laboratorio
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link text-white {{ setActive('facultades') }}" href="{{ route('facultades') }}">
                     Facultades
                 </a>
-            </li> --}}
+            </li>
             @auth
                 <li class="nav-item">
                     <a href="#" class="text-white btn btn-danger"

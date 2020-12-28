@@ -22,7 +22,7 @@
                 @if (!$departamentos->isEmpty())
                         <tr>                            
                             <th class="textoBlanco border border-dark" scope="col">DEPARTAMENTO</th>
-                            <th class="textoBlanco border border-dark" scope="col">ULTIMO PARTE MENSUAL</th>
+                            <th class="textoBlanco border border-dark" scope="col">PARTES MENSUALES</th>
                             <th class="textoBlanco border border-dark" scope="col">ESTADO</th>
                             <th class="textoBlanco border border-dark" scope="col">APROBAR</th>
                         </tr>
@@ -52,7 +52,7 @@
                                                     @csrf @method('PATCH')
                                                     <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
                                                 </form>
-                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES">
+                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
                                                 @endif
                                             @else 
                                                 POR APROBAR
