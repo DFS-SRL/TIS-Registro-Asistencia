@@ -83,6 +83,10 @@ class User extends Authenticatable
         return self::esDelRol(3);
     }
 
+    public static function tieneAlMenosUnRol($roles) {
+        return UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario_codSis, $roles);
+    }
+
     private static function getHorarios($codigoSis, $rol){
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
             ->where('activo', '=', 'true')

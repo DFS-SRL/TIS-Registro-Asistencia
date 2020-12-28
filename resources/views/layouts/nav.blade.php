@@ -21,18 +21,30 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('docentes') }}" href="{{ route('docentes') }}">
-                    Docentes
+                @if (Auth::check() && App\User::tieneAlMenosUnRol([3]))
+                    <a class="nav-link text-white {{ setActive('docente') }}" href="{{ route('docente', auth()->user()->usuario_codSis) }}">
+                @else
+                    <a class="nav-link text-white {{ setActive('docente') }}">
+                @endif
+                    Docente
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('auxiliaresDoc') }}" href="{{ route('auxiliaresDoc') }}">
-                    Auxiliares de docencia
+                @if (Auth::check() && App\User::tieneAlMenosUnRol([2]))
+                    <a class="nav-link text-white {{ setActive('auxiliarDoc') }}" href="{{ route('auxiliarDoc', auth()->user()->usuario_codSis) }}">
+                @else
+                    <a class="nav-link text-white {{ setActive('auxiliarDoc') }}">
+                @endif
+                    Auxiliar de docencia
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('auxiliaresLabo') }}" href="{{ route('auxiliaresLabo') }}">
-                    Auxiliares de laboratorio
+                @if (Auth::check() && App\User::tieneAlMenosUnRol([1]))
+                    <a class="nav-link text-white {{ setActive('auxiliarLabo') }}" href="{{ route('auxiliarLabo', auth()->user()->usuario_codSis) }}">
+                @else
+                    <a class="nav-link text-white {{ setActive('auxiliarLabo') }}">
+                @endif
+                    Auxiliar de laboratorio
                 </a>
             </li>
             <li class="nav-item">
