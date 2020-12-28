@@ -102,6 +102,13 @@ class User extends Authenticatable
         return $horarios;
     }
 
+    // Devuelve el id del departamento del que el usuario es jefe, si es que es jefe de departamento
+    public function deparatmentoEncargado() {
+        $codSis = $this->usuario_codSis;
+        $unidad = Unidad::where('jefe_codSis', $codSis)->get();
+        return $unidad->first();
+    }
+
     public static function inicioSesion($user){
         $autenticado = auth()->user()->usuario;
         return $user->codSis === $autenticado->codSis;

@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle {{ setActive('auxiliarDoc') }} {{ setActive('auxiliarLabo') }}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle {{ setActive('auxiliarDoc') }} {{ setActive('auxiliarLabo') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Auxiliar
                 </a>
                 <div class="dropdown-menu mostaza" aria-labelledby="navbarDropdown">
@@ -51,7 +51,11 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{-- setActive('departamento') --}}" href="#{{-- route('facultades') --}}">
+                @if (Auth::check() && auth()->user()->deparatmentoEncargado() != null)
+                <a class="nav-link text-white {{-- setActive('departamento') --}}" href="{{ route('departamento', auth()->user()->deparatmentoEncargado()) }}">
+                @else
+                <a class="nav-link text-white {{-- setActive('departamento') --}}">
+                @endif
                     Jefe de departamento
                 </a>
             </li>
