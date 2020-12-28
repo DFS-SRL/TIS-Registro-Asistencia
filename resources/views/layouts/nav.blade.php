@@ -21,18 +21,42 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('docentes') }}" href="{{ route('docentes') }}">
-                    Docentes
+                @if (Auth::check() && App\User::tieneAlMenosUnRol([3]))
+                    <a class="nav-link text-white {{ setActive('docente') }}" href="{{ route('docente', auth()->user()->usuario_codSis) }}">
+                @else
+                    <a class="nav-link text-white {{ setActive('docente') }}">
+                @endif
+                    Docente
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('auxiliaresDoc') }}" href="{{ route('auxiliaresDoc') }}">
-                    Auxiliares de docencia
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {{ setActive('auxiliarDoc') }} {{ setActive('auxiliarLabo') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Auxiliar
                 </a>
+                <div class="dropdown-menu mostaza" aria-labelledby="navbarDropdown">
+                    @if (Auth::check() && App\User::tieneAlMenosUnRol([2]))
+                        <a class="dropdown-item nav-link text-white {{ setActive('auxiliarDoc') }}" href="{{ route('auxiliarDoc', auth()->user()->usuario_codSis) }}">
+                    @else
+                        <a class="dropdown-item nav-link text-white {{ setActive('auxiliarDoc') }}">
+                    @endif
+                        Auxiliar de docencia
+                    </a>
+                    @if (Auth::check() && App\User::tieneAlMenosUnRol([1]))
+                        <a class="dropdown-item nav-link text-white {{ setActive('auxiliarLabo') }}" href="{{ route('auxiliarLabo', auth()->user()->usuario_codSis) }}">
+                    @else
+                        <a class="dropdown-item nav-link text-white {{ setActive('auxiliarLabo') }}">
+                    @endif
+                        Auxiliar de laboratorio
+                    </a>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ setActive('auxiliaresLabo') }}" href="{{ route('auxiliaresLabo') }}">
-                    Auxiliares de laboratorio
+                @if (Auth::check() && auth()->user()->deparatmentoEncargado() != null)
+                <a class="nav-link text-white {{-- setActive('departamento') --}}" href="{{ route('departamento', auth()->user()->deparatmentoEncargado()) }}">
+                @else
+                <a class="nav-link text-white {{-- setActive('departamento') --}}">
+                @endif
+                    Jefe de departamento
                 </a>
             </li>
             <li class="nav-item">

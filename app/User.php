@@ -83,6 +83,10 @@ class User extends Authenticatable
         return self::esDelRol(3);
     }
 
+    public static function tieneAlMenosUnRol($roles) {
+        return UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario_codSis, $roles);
+    }
+
     private static function getHorarios($codigoSis, $rol){
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
             ->where('activo', '=', 'true')
@@ -96,6 +100,13 @@ class User extends Authenticatable
 
         $horarios = $horarios->groupBy('unidad_id');
         return $horarios;
+    }
+
+    // Devuelve el id del departamento del que el usuario es jefe, si es que es jefe de departamento
+    public function deparatmentoEncargado() {
+        $codSis = $this->usuario_codSis;
+        $unidad = Unidad::where('jefe_codSis', $codSis)->get();
+        return $unidad->first();
     }
 
     public static function inicioSesion($user){

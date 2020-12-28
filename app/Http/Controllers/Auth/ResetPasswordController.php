@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class ResetPasswordController extends Controller
 {
@@ -43,7 +44,7 @@ class ResetPasswordController extends Controller
     }
 
     public function reset(Request $request){
-        $user = (User::class)(auth()->user());
+        $user = User::find(auth()->user()->id);
         $user->update([
             'password' => Hash::make($request->new_password)
         ]);

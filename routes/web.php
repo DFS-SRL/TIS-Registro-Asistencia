@@ -104,7 +104,7 @@ Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad'
 Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
 
-Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento');
+Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento')->name('departamento');
 Route::get('/partes/mensuales/{unidad}', 'UnidadController@obtenerParte')->name('partes.mensuales');
 Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
 Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');
