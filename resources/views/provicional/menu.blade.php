@@ -21,5 +21,6 @@
         {{-- <a href="encargadosAsist">Encargados de asistencias</a><br> --}}
         <a href="departamentos">Departamentos</a><br>
         <a href="facultades">Facultades</a><br>
+        <a href="reset-password">Cambia tu contraseña</a>
     </div>
 @endsection

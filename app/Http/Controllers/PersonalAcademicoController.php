@@ -54,7 +54,7 @@ class PersonalAcademicoController extends Controller
             }
             $raw .= ' end';
             $todos = $todos->whereIn('codSis', $codigos)
-                ->orderByRaw($raw);
+                ;//->orderByRaw($raw);
         } else
             $todos = $todos->orderBy('nombre', 'asc');
         $todos = $todos->paginate(10, ['*'], 'todos-pag');
@@ -139,7 +139,7 @@ class PersonalAcademicoController extends Controller
             }
             $raw .= ' end';
             $usuarios = $usuarios->whereIn('codSis', $codigos)
-                ->orderByRaw($raw);
+                ;//->orderByRaw($raw);
         } else
             $usuarios = $usuarios->orderBy('nombre', 'asc');
         return

@@ -57,7 +57,7 @@ Route::get('/planillas/semanal/excepcion/docente/{unidad}/{usuario}', 'PlanillaS
 Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
 Route::post('/informes/subirFuerza', 'InformesController@subirInformesFuerza')->name('informes.subirFuerza');
- 
+
 Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalAuxDoc')
     ->name('planillas.semanal.auxdoc');;
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalDocente')
@@ -72,7 +72,8 @@ Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxil
 Route::get('/auxiliarLabo/{usuario}', 'ProvController\Menu@auxiliarLabo')->name('auxiliarLabo');
 Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
 Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
-Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
+//Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
+//Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');
@@ -103,10 +104,10 @@ Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad'
 Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
 
-Route::get('/departamento/{unidad}','UnidadController@informacionDepartamento');
-Route::get('/partes/mensuales/{unidad}','UnidadController@obtenerParte')->name('partes.mensuales');
-Route::patch('/aprobarParteMensualRol','ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
-Route::patch('/enviarDPA','ParteMensualController@enviarDPA')->name('enviarPartesDPA');
+Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento');
+Route::get('/partes/mensuales/{unidad}', 'UnidadController@obtenerParte')->name('partes.mensuales');
+Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
+Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 
@@ -130,14 +131,17 @@ Route::get('/login', 'Auth\LoginController@showLoginform')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('activar/{token}', 'ActivationTokenController@activate')->name('activation');
+Route::get('/activar/{token}', 'ActivationTokenController@activate')->name('activation');
 
-Route::get('/llenar', function() {
-    if (App\User::count() > 0) return "Ya hay usuarios de Laravel";
+Route::get('/reset-password', 'Auth\ResetPasswordController@index')->name('reset-password');
+Route::post('/reset-password', 'Auth\ResetPasswordController@reset');
+
+Route::get('/llenar', function () {
+    if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
     $usuarios = App\Usuario::all();
     //dd($usuarios);
     $users = [];
-    foreach ($usuarios as $usuario ) {
+    foreach ($usuarios as $usuario) {
         $user = new App\User;
         $user->name = $usuario->nombre;
         $user->email = $usuario->correo_electronico;
@@ -147,5 +151,5 @@ Route::get('/llenar', function() {
         $user->save();
         array_push($users, $user);
     }
-    return $users;
+    return back()->with('success', 'usuarios llenados :3');
 });

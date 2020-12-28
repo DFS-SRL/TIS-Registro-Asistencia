@@ -31,7 +31,18 @@ class FacultadController extends Controller
         $facultades = Facultad::orderBy('nombre')->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
+<<<<<<< HEAD
     //Obtener la lista de departamentos pertenecientes a una facultad  que ya han enviado un parte mensual
+=======
+
+    //Obtener la lista de todos los departamentos de la universidad
+    public function listaTodosDepartamentos() {
+        $departamentos = Unidad::orderBy('nombre')->paginate(10);
+        return view('informacion.listaDepartamentos', ['departamentos'=>$departamentos]);
+    }
+
+    //Obtener la lista de departamentos pertenecientes a una facultad  
+>>>>>>> efe7e235d7abf11506a35bfceacfcec9a873de63
     public function listaDepartamentos(Facultad $facultad){
         $rolesPermitidos = [5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
