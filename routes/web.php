@@ -20,8 +20,8 @@ Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
-Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
-Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
+Route::get('/facultades', 'FacultadController@listaFacultades')->name('facultades');
+Route::get('/facultades/{facultad}', 'FacultadController@listaDepartamentos');
 
 
 //http://localhost:8000/parteMensual/docentes/1/2020-10-19 
@@ -56,7 +56,7 @@ Route::get('/planillas/semanal/excepcion/docente/{unidad}/{usuario}', 'PlanillaS
 Route::get('/informes/{unidad}', 'InformesController@index')->name('informes');
 Route::post('/informes/subir', 'InformesController@subirInformes')->name('informes.subir');
 Route::post('/informes/subirFuerza', 'InformesController@subirInformesFuerza')->name('informes.subirFuerza');
- 
+
 Route::get('/planillas/semanal/auxdoc/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalAuxDoc')
     ->name('planillas.semanal.auxdoc');;
 Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obtenerPlanillaSemanalDocente')
@@ -103,10 +103,10 @@ Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad'
 Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
 
-Route::get('/departamento/{unidad}','UnidadController@informacionDepartamento');
-Route::get('/partes/mensuales/{unidad}','UnidadController@obtenerParte')->name('partes.mensuales');
-Route::patch('/aprobarParteMensualRol','ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
-Route::patch('/enviarDPA','ParteMensualController@enviarDPA')->name('enviarPartesDPA');
+Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento');
+Route::get('/partes/mensuales/{unidad}', 'UnidadController@obtenerParte')->name('partes.mensuales');
+Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
+Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 
@@ -135,12 +135,12 @@ Route::get('/activar/{token}', 'ActivationTokenController@activate')->name('acti
 Route::get('/reset-password', 'Auth\ResetPasswordController@index')->name('reset-password');
 Route::post('/reset-password', 'Auth\ResetPasswordController@reset');
 
-Route::get('/llenar', function() {
-    if (App\User::count() > 0) return "Ya hay usuarios de Laravel";
+Route::get('/llenar', function () {
+    if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
     $usuarios = App\Usuario::all();
     //dd($usuarios);
     $users = [];
-    foreach ($usuarios as $usuario ) {
+    foreach ($usuarios as $usuario) {
         $user = new App\User;
         $user->name = $usuario->nombre;
         $user->email = $usuario->correo_electronico;
@@ -150,5 +150,5 @@ Route::get('/llenar', function() {
         $user->save();
         array_push($users, $user);
     }
-    return $users;
+    return back()->with('success', 'usuarios llenados :3');
 });
