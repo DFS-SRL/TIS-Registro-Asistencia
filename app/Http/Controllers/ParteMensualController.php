@@ -11,6 +11,7 @@ use App\HorarioClase;
 use App\ParteMensual;
 use App\Facultad;
 use Illuminate\Http\Request;
+use App\Helpers\FechasPartesMensualesHelper;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -283,18 +284,22 @@ class ParteMensualController extends Controller
         }
         return back()->with('success', 'Aprobacion exitosa');
     }
-    public function partesMesFacultad(Facultad $facultad, $mes){
+    public function partesMesFacultad(Facultad $facultad, $fecha){
         //Obtener departamentos
         //Obtener Partes
         //Hacer join
-        $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')
-                        ->leftJoin('Parte_mensual', function ($join){
-                            $join->on('Unidad.id', '=', 'Parte_mensual.unidad_id')
-                                ->orderBy('fecha_ini','desc')
-                                ->limit(1);
-                        })->select('Unidad.id','Parte_mensual.id as parteID','nombre','aprobado','fecha_ini','fecha_fin','encargado_fac','dir_academico','decano','jefe_dept')
+        $fecha = explode("-",$fecha);
+        $mes =$fecha[1].'-'.$fecha[0];
+        $fecha[1] = FechasPartesMensualesHelper::getMesNum($fecha[1]);
+        $fecha = $fecha[0]."-".$fecha[1] . "-16";
+        $partesMensuales = ParteMensual::where("fecha_ini",'=',$fecha);
+        $departamentos = Unidad::where('Unidad.facultad_id','=',$facultad->id)
+                        ->orderBy('Unidad.nombre')
+                        ->leftJoinSub($partesMensuales,'partesMensuales',function($join){
+                            $join->on('Unidad.id', '=', 'partesMensuales.unidad_id');
+                        })
+                        ->select('Unidad.id','partesMensuales.id as parteID','Unidad.nombre','partesMensuales.aprobado','partesMensuales.fecha_ini','partesMensuales.fecha_fin','partesMensuales.encargado_fac','partesMensuales.dir_academico','partesMensuales.decano','partesMensuales.jefe_dept')
                         ->get();
-        return $departamentos;
-        return view('parteMensual.partesMesFacultad',['mes'=>$mes]);
+        return view('parteMensual.partesMesFacultad',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
     }
 }

@@ -22,7 +22,7 @@ Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensu
 
 Route::get('/facultades','FacultadController@listaFacultades');
 Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
-Route::get('/facultades/{facultad}/{mes}','ParteMensualController@partesMesFacultad');
+Route::get('/facultades/{facultad}/{fecha}','ParteMensualController@partesMesFacultad');
 
 
 //http://localhost:8000/parteMensual/docentes/1/2020-10-19 
