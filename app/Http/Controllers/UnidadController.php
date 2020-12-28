@@ -43,7 +43,7 @@ class UnidadController extends Controller
     //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales
     public function informacionDepartamento(Unidad $unidad){
 
-        $rolesPermitidos = [4,5,6,7];
+        $rolesPermitidos = [1,2,3,4,5,6,7];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
         if ($accesoOtorgado) {
             $ultimosPartes = ParteMensual::where('unidad_id','=',$unidad->id)

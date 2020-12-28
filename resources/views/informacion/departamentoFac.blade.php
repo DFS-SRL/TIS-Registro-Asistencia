@@ -15,44 +15,48 @@
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/materias/{{$unidad->id}}'">MATERIAS</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/cargos/{{$unidad->id}}'">CARGOS DE LABORATORIO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/{{$unidad->id}}'" >PERSONAL ACADEMICO</button>
+                    @esJefeDepartamento($unidad->id)
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/registrar/{{$unidad->id}}'" >REGISTRAR PERSONAL ACADEMICO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/partes/mensuales/{{$unidad->id}}'">BUSCAR PARTE MENSUAL</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/informes/{{$unidad->id}}'">INFORMES SEMANALES</button>
+                    @endesJefeDepartamento
                     
                 </div>
-                @if (!$ultimosPartes->isEmpty())
-                <br><strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong><br>
-                <div >
-                    <table class = "table " id="ultimosPartes">
+                @if ($unidad->jefe->codSis == auth()->user()->usuario_codSis)
+                    @if (!$ultimosPartes->isEmpty())
+                    <br><strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong><br>
+                    <div >
+                        <table class = "table " id="ultimosPartes">
                             @foreach ($ultimosPartes as $values => $parte)
-                                <tr>
-                                    <td class="border border-dark"><strong >{{$parte->mes}}</strong></td>
-                                    <td class="border border-dark"><a href="/" id="doc{{$parte->id}}">Ver parte docentes</a></td>
-                                    <td class="border border-dark"><a href="/" id="aux{{$parte->id}}">Ver parte auxiliares</a></td>
-                                    @aproboParte($parte->id)
-                                        <td class="border border-dark"><input class="boton btn textoNegro" type="button" value="APROBAR PARTES" disabled></td>    
-                                    @else
-                                        <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
-                                            class="form-inline my-2 my-lg-0 d-inline"
-                                        >
-                                            @csrf @method('PATCH')
-                                            <input type="hidden" name = 'parte_id' value = '{{$parte->id}}'>
-                                        </form>
-                                        <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
-                                    @endif
-                                </tr>
+                            <tr>
+                                <td class="border border-dark"><strong >{{$parte->mes}}</strong></td>
+                                <td class="border border-dark"><a href="/" id="doc{{$parte->id}}">Ver parte docentes</a></td>
+                                <td class="border border-dark"><a href="/" id="aux{{$parte->id}}">Ver parte auxiliares</a></td>
+                                @aproboParte($parte->id)
+                                <td class="border border-dark"><input class="boton btn textoNegro" type="button" value="APROBAR PARTES" disabled></td>    
+                                @else
+                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                class="form-inline my-2 my-lg-0 d-inline"
+                                >
+                                @csrf @method('PATCH')
+                                <input type="hidden" name = 'parte_id' value = '{{$parte->id}}'>
+                            </form>
+                            <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
+                            @endif
+                        </tr>
                         @endforeach
                     </table>       
                 </div>
                 @else
-                    <h3 class="textoBlanco">A&UacuteN NO HAY PARTES MENSUALES DISPONIBLES</h3>
-                @endif
-            </div>
+                <h3 class="textoBlanco">A&UacuteN NO HAY PARTES MENSUALES DISPONIBLES</h3>
+                    @endif
+                </div>
+            @endif
         </div>
         
     </div>
-@endsection
-@section('script-footer')
+    @endsection
+    @section('script-footer')
     <script>
         llenarTablaPartes();
         function llenarTablaPartes(){            
