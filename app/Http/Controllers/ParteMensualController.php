@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Asistencia;
 use App\HorarioClase;
 use App\ParteMensual;
+use App\Facultad;
 use Illuminate\Http\Request;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
@@ -282,5 +283,18 @@ class ParteMensualController extends Controller
         }
         return back()->with('success', 'Aprobacion exitosa');
     }
-
+    public function partesMesFacultad(Facultad $facultad, $mes){
+        //Obtener departamentos
+        //Obtener Partes
+        //Hacer join
+        $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')
+                        ->leftJoin('Parte_mensual', function ($join){
+                            $join->on('Unidad.id', '=', 'Parte_mensual.unidad_id')
+                                ->orderBy('fecha_ini','desc')
+                                ->limit(1);
+                        })->select('Unidad.id','Parte_mensual.id as parteID','nombre','aprobado','fecha_ini','fecha_fin','encargado_fac','dir_academico','decano','jefe_dept')
+                        ->get();
+        return $departamentos;
+        return view('parteMensual.partesMesFacultad',['mes'=>$mes]);
+    }
 }

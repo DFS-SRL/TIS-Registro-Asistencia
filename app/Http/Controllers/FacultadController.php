@@ -31,13 +31,13 @@ class FacultadController extends Controller
         $facultades = Facultad::orderBy('nombre')->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
-    //Obtener la lista de departamentos pertenecientes a una facultad  
+    //Obtener la lista de departamentos pertenecientes a una facultad  que ya han enviado un parte mensual
     public function listaDepartamentos(Facultad $facultad){
         $rolesPermitidos = [5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
         if ($accesoOtorgado) {
             $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre')
-                        ->join('Parte_mensual', function ($join){
+                        ->leftJoin('Parte_mensual', function ($join){
                             $join->on('Unidad.id', '=', 'Parte_mensual.unidad_id')
                                 ->orderBy('fecha_ini','desc')
                                 ->limit(1);
