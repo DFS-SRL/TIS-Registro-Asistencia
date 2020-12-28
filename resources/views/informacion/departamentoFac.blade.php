@@ -13,8 +13,12 @@
                 <strong class="textoBlanco">INFORMACION DEL DEPARTAMENTO</strong><br><br>
                 <div class="d-flex justify-content-around"> 
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/materias/{{$unidad->id}}'">MATERIAS</button>
+                    <button class="boton btn btn-success textoNegro" onclick="window.location.href='/cargos/{{$unidad->id}}'">CARGOS DE LABORATORIO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/{{$unidad->id}}'" >PERSONAL ACADEMICO</button>
+                    <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/registrar/{{$unidad->id}}'" >REGISTRAR PERSONAL ACADEMICO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/partes/mensuales/{{$unidad->id}}'">BUSCAR PARTE MENSUAL</button>
+                    <button class="boton btn btn-success textoNegro" onclick="window.location.href='/informes/{{$unidad->id}}'">INFORMES SEMANALES</button>
+                    
                 </div>
                 @if (!$ultimosPartes->isEmpty())
                 <br><strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong><br>
