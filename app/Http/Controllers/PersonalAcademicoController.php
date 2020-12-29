@@ -10,6 +10,7 @@ use App\Asistencia;
 use App\HorarioClase;
 use App\UsuarioTieneRol;
 use App\ParteMensual;
+use App\Facultad;
 use Illuminate\Http\Request;
 use App\helpers\BuscadorHelper;
 use App\Http\Controllers\Auth\RegisterController;
@@ -487,13 +488,22 @@ class PersonalAcademicoController extends Controller
     }
     //devuelve verdadero si el usuario es encargadoFacultativo
     public static function esEncargadoFac($codigoSis,$facultad_id){
-        return !UsuarioTieneRol::where('rol_id', '=', 5)
-            ->where('Usuario_tiene_rol.usuario_codSis', '=', $codigoSis)
-            ->where('facultad_id', '=', $facultad_id)
-            ->get()
-            ->isEmpty();
+        return Facultad::where('id','=',$facultad_id)
+                       ->where('encargado_codSis','=',$codigoSis)
+                       ->exists();
     }
-
+    //devuelve verdadero si el usuario es director Academico
+    public static function esDirAcademico($codigoSis,$facultad_id){
+        return Facultad::where('id','=',$facultad_id)
+                       ->where('director_codSis','=',$codigoSis)
+                       ->exists();
+    }
+    //devuelve verdadero si el usuario es director Academico
+    public static function esDecano($codigoSis,$facultad_id){
+        return Facultad::where('id','=',$facultad_id)
+                        ->where('decano_codSis','=',$codigoSis)
+                        ->exists();
+    }
     //devuelve verdadero si el usuario pertenece a la facultad
     public static function perteneceAFacultad($codigoSis, $facultad_id) {
         return !UsuarioTieneRol::where('usuario_codSis', $codigoSis)

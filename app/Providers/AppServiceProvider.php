@@ -25,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('esEncargadoFac', function($facultad_id){
             return User::esEncargadoFac($facultad_id);
         });
+        Blade::if('esDecano', function($facultad_id){
+            return User::esDecano($facultad_id);
+        });
+        Blade::if('esDirAcademico', function($facultad_id){
+            return User::esDirAcademico($facultad_id);
+        });
     }
 
     /**

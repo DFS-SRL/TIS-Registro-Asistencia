@@ -118,4 +118,14 @@ class User extends Authenticatable
         $codigoSis = $user->codSis;
         return PersonalAcademicoController::esEncargadoFac($codigoSis,$facultad_id);
     }
+    public static function esDirAcademico($facultad_id){
+        $user = auth()->user()->usuario;
+        $codigoSis = $user->codSis;
+        return PersonalAcademicoController::esDirAcademico($codigoSis,$facultad_id);
+    }
+    public static function esDecano($facultad_id){
+        $user = auth()->user()->usuario;
+        $codigoSis = $user->codSis;
+        return PersonalAcademicoController::esDecano($codigoSis,$facultad_id);
+    }
 }

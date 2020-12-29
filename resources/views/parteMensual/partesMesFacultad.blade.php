@@ -42,6 +42,22 @@
                                             <p>Jefe de departamento: @if($departamento->jefe_dept)SI @else NO @endif</p>
                                         </td>
                                         <td class="border border-dark ">
+                                            @esJefeDepartamento($departamento->id) 
+                                                @if ($departamento->encargado_fac)
+                                                    APROBADOS                                                    
+                                                @else
+                                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                                    class="form-inline my-2 my-lg-0 d-inline"
+                                                >
+                                                    @csrf @method('PATCH')
+                                                    <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                    <input type="hidden" name = 'rol' value ='4'>
+                                                </form>
+                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
+                                                @endif
+                                            @else 
+                                                POR APROBAR
+                                            @endesEncargadoFac
                                             @esEncargadoFac($facultad->id) 
                                                 @if ($departamento->encargado_fac)
                                                     APROBADOS                                                    
@@ -51,12 +67,46 @@
                                                 >
                                                     @csrf @method('PATCH')
                                                     <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                    <input type="hidden" name = 'rol' value ='5'>
                                                 </form>
                                                     <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
                                                 @endif
                                             @else 
                                                 POR APROBAR
                                             @endesEncargadoFac
+                                            @esDecano($facultad->id) 
+                                                @if ($departamento->encargado_fac)
+                                                    APROBADOS                                                    
+                                                @else
+                                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                                    class="form-inline my-2 my-lg-0 d-inline"
+                                                >
+                                                    @csrf @method('PATCH')
+                                                    <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                    <input type="hidden" name = 'rol' value ='6'>
+                                                </form>
+                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
+                                                @endif
+                                            @else 
+                                                POR APROBAR
+                                            @endesDecano
+                                            @esDirAcademico($facultad->id) 
+                                                @if ($departamento->encargado_fac)
+                                                    APROBADOS                                                    
+                                                @else
+                                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                                    class="form-inline my-2 my-lg-0 d-inline"
+                                                >
+                                                    @csrf @method('PATCH')
+                                                    <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                    <input type="hidden" name = 'rol' value ='7'>
+                                                </form>
+                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
+                                                @endif
+                                            @else 
+                                                POR APROBAR
+                                            @endesDirAcademico
+                                            
                                         </td>
                                     @else
                                         <td class="border border-dark ">NO HAY PARTES MENSUALES DISPONIBLES </td>
@@ -69,22 +119,21 @@
                         @endforeach
                     </table>
                 @esEncargadoFac($facultad->id)
-                @if (!$departamentos[0]->aprobado)
-                    <button class="boton btn btn-success textoNegro" onclick="enviarDPA({{$departamentos}})">ENVIAR A DPA</button>
-                    {{-- <button class="boton btn btn-success textoNegro">SOLICITAR APROBACION</button>  --}}
-                    <form action="{{route('enviarPartesDPA')}}" method="post" id="enviarDPA">
-                        @csrf @method('PATCH')
-                        <input type="hidden" name="facultad_id" value="{{$facultad->id}}">
-                        <input type="hidden" name="fechaIni" value="{{$departamentos[0]->fecha_ini}}">
-                    </form>
-                @endif
-                    
+                    @if (!$departamentos[0]->aprobado)
+                        <button class="boton btn btn-success textoNegro" onclick="enviarDPA({{$departamentos}})">ENVIAR A DPA</button>
+                        {{-- <button class="boton btn btn-success textoNegro">SOLICITAR APROBACION</button>  --}}
+                        <form action="{{route('enviarPartesDPA')}}" method="post" id="enviarDPA">
+                            @csrf @method('PATCH')
+                            <input type="hidden" name="facultad_id" value="{{$facultad->id}}">
+                            <input type="hidden" name="fechaIni" value="{{$departamentos[0]->fecha_ini}}">
+                        </form>
+                    @endif                        
                 @endesEncargadoFac
                 @else
                     <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
                 @endif
 
-
+{{$departamentos}}
             </div>
         </div>
     </div>
@@ -113,7 +162,7 @@
         deptsSinPartes = deptsSinPartesMensuales(departamentos);
         partesSinAprobar = partesMensualesNoAprobados(departamentos);
         if(deptsSinPartes.length == 0 && partesSinAprobar.length==0 ){
-            var agree = confirm("¿Estás seguro de enviar todos los partes mensuales a DPA?, no habrá marcha atrás",
+            var agree = confirm("¿Estás seguro de enviar todos los partes mensuales a DPA?, no habrá marcha atrás.",
             function() {
                 alertify.success('Aceptar');
             },
@@ -124,9 +173,9 @@
                 document.getElementById('enviarDPA').submit();
             }
         }else if(deptsSinPartes.length > 0){
-            alert("No se pueden enviar los partes mensuales. Los siguientes departamentos aun no han enviado sus asistencias para generar los partes mensuales:"+ deptsSinPartes);
+            alert("No se pueden enviar los partes mensuales. Los siguientes departamentos aun no han enviado sus asistencias para generar los partes mensuales:"+ deptsSinPartes+'.');
         }else if(partesSinAprobar.length > 0 ){
-            var agree = confirm("Algunos encargados de revisar los partes aun no han aprobado sus partes mensuales:"+partesSinAprobar+". ¿Estás seguro de enviar todos los partes mensuales a DPA?, no habrá marcha atrás",
+            var agree = confirm("Algunos encargados de revisar los partes aun no han aprobado sus partes mensuales:"+partesSinAprobar+". ¿Estás seguro de enviar todos los partes mensuales a DPA?, no habrá marcha atrás.",
             function() {
                 alertify.success('Aceptar');
             },

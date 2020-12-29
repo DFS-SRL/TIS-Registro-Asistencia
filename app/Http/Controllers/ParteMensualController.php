@@ -252,12 +252,9 @@ class ParteMensualController extends Controller
     //Aprueba el parte de acuerdo al rol
     public function aprobarPartePorRol(Request $request){
         $idParte = $request->parte_id;
-        $user = auth()->user()->usuario;        
-        $codSis = $user->codSis;
-        $rolesUsuario = UsuarioTieneRol::where("usuario_codSis","=",$codSis)->get();
+        $rol = $request->rol;
         $parte = ParteMensual::where("id","=",$idParte)->first();
-        foreach ($rolesUsuario as $key => $rol) {
-            switch ($rol->rol_id) {
+            switch ($rol) {
                 case 4:
                     $parte = ParteMensual::where("id","=",$idParte)->update(['jefe_dept'=>true]);
                     break;
@@ -271,7 +268,6 @@ class ParteMensualController extends Controller
                     $parte = ParteMensual::where("id","=",$idParte)->update(['dir_academico'=>true]);
                     break;
             }
-        }
         return back()->with('success', 'Aprobacion exitosa');
     }
     //Enviar los ultimos partes a DPA
