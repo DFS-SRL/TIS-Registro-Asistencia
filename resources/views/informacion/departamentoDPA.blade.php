@@ -13,7 +13,7 @@
                 <strong class="textoBlanco">INFORMACION DEL DEPARTAMENTO</strong><br><br>
                 <div class="d-flex justify-content-around"> 
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/materias/{{$unidad->id}}'">MATERIAS</button>
-                    <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/{{$unidad->id}}'" >PERSONAL ACADEMICO</button>
+                    <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/{{$unidad->id}}'" >PERSONAL ACADÉMICO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/partes/mensuales/{{$unidad->id}}'">BUSCAR PARTE MENSUAL</button>
                 </div>
                 @if (!$ultimosPartes->isEmpty())

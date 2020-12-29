@@ -332,7 +332,10 @@ class PersonalAcademicoController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        if (!$accesoOtorgado) {
+        $rolesFac = [5,6,7,8];
+        // Falta verificacion que sea de la misma facultad
+        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
+        if (!$accesoOtorgado && !$accesoFac) {
             return view('provicional.noAutorizado');
         }
        
@@ -350,7 +353,10 @@ class PersonalAcademicoController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        if (!$accesoOtorgado) {
+        $rolesFac = [5,6,7,8];
+        // Falta verificacion que sea de la misma facultad
+        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
+        if (!$accesoOtorgado && !$accesoFac) {
             return view('provicional.noAutorizado');
         }
        
@@ -397,8 +403,11 @@ class PersonalAcademicoController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $idUnidad);
-        if (!$accesoOtorgado) {
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $rolesFac = [5,6,7,8];
+        // Falta verificacion que sea de la misma facultad
+        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
+        if (!$accesoOtorgado && !$accesoFac) {
             return view('provicional.noAutorizado');
         }
        
@@ -481,6 +490,14 @@ class PersonalAcademicoController extends Controller
         return !UsuarioTieneRol::where('rol_id', '=', 5)
             ->where('Usuario_tiene_rol.usuario_codSis', '=', $codigoSis)
             ->where('facultad_id', '=', $facultad_id)
+            ->get()
+            ->isEmpty();
+    }
+
+    //devuelve verdadero si el usuario pertenece a la facultad
+    public static function perteneceAFacultad($codigoSis, $facultad_id) {
+        return !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+            ->where('facultad_id', $facultad_id)
             ->get()
             ->isEmpty();
     }

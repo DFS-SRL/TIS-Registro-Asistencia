@@ -20,8 +20,9 @@ Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
-Route::get('/facultades', 'FacultadController@listaFacultades')->name('facultades');
-Route::get('/facultades/{facultad}', 'FacultadController@listaDepartamentos');
+Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
+Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
+Route::get('/facultades/{facultad}/{fecha}','ParteMensualController@partesMesFacultad');
 
 
 //http://localhost:8000/parteMensual/docentes/1/2020-10-19 
@@ -71,8 +72,8 @@ Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxil
 Route::get('/auxiliarLabo/{usuario}', 'ProvController\Menu@auxiliarLabo')->name('auxiliarLabo');
 Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
 Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
-//Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
-//Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
+// Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
+Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');
@@ -103,7 +104,7 @@ Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad'
 Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
 
 
-Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento');
+Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento')->name('departamento');
 Route::get('/partes/mensuales/{unidad}', 'UnidadController@obtenerParte')->name('partes.mensuales');
 Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
 Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');

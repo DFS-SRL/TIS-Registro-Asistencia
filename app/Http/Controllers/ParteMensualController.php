@@ -9,7 +9,9 @@ use Carbon\Carbon;
 use App\Asistencia;
 use App\HorarioClase;
 use App\ParteMensual;
+use App\Facultad;
 use Illuminate\Http\Request;
+use App\Helpers\FechasPartesMensualesHelper;
 use App\Helpers\AsistenciaHelper;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -214,10 +216,10 @@ class ParteMensualController extends Controller
     public function descargarPDFDocentes(Unidad $unidad, $fecha )
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5,6,7];
+        $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
-            $rolesPermitidos = [8];
+            $rolesPermitidos = [5,6,7,8];
             $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if (!$accesoOtorgado) {
                 return view('provicional.noAutorizado');
@@ -232,10 +234,10 @@ class ParteMensualController extends Controller
     public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5,6,7];
+        $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
         if (!$accesoOtorgado) {
-            $rolesPermitidos = [8];
+            $rolesPermitidos = [5,6,7,8];
             $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if (!$accesoOtorgado) {
                 return view('provicional.noAutorizado');
@@ -280,7 +282,21 @@ class ParteMensualController extends Controller
                                   ->where('fecha_ini','=',$request->fechaIni)
                                   ->update(['aprobado'=>true]);
         }
-        return back()->with('success', 'Aprobacion exitosa');
+        return back()->with('success', 'Partes mensuales enviados a DPA correctamente.');
     }
-
+    public function partesMesFacultad(Facultad $facultad, $fecha){
+        $fecha = explode("-",$fecha);
+        $mes =$fecha[1].'-'.$fecha[0];
+        $fecha[1] = FechasPartesMensualesHelper::getMesNum($fecha[1]);
+        $fecha = $fecha[0]."-".$fecha[1] . "-16";
+        $partesMensuales = ParteMensual::where("fecha_ini",'=',$fecha);
+        $departamentos = Unidad::where('Unidad.facultad_id','=',$facultad->id)
+                        ->orderBy('Unidad.nombre')
+                        ->leftJoinSub($partesMensuales,'partesMensuales',function($join){
+                            $join->on('Unidad.id', '=', 'partesMensuales.unidad_id');
+                        })
+                        ->select('Unidad.id','partesMensuales.id as parteID','Unidad.nombre','partesMensuales.aprobado','partesMensuales.fecha_ini','partesMensuales.fecha_fin','partesMensuales.encargado_fac','partesMensuales.dir_academico','partesMensuales.decano','partesMensuales.jefe_dept')
+                        ->get();
+        return view('parteMensual.partesMesFacultad',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
+    }
 }
