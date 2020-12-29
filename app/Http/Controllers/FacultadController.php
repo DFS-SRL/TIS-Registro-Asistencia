@@ -42,7 +42,7 @@ class FacultadController extends Controller
     //Obtener la lista de departamentos pertenecientes a una facultad  
     public function listaDepartamentos(Facultad $facultad){
         $rolesPermitidos = [4,5,6,7];
-        $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+        $rolAceptado = true;//UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             
         //Falta restringir acceso por facultades (los miembros de otra facultad distinta a la ingresada solo ven los
         //                                        partes aprobados)
@@ -58,7 +58,7 @@ class FacultadController extends Controller
                                         ->paginate(5);
         }else{
             $rolesPermitidos = [4,5,6,7,8];//esto por que es para otras facultades y para DPA
-            $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+            $accesoOtorgado = true;//UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if($accesoOtorgado){
                 $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre');
                 $mesesPartes = ParteMensual::where('aprobado','=',true)//es esta linea la que cambia
