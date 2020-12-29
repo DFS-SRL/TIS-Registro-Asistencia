@@ -11,6 +11,7 @@
 |
 */
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'provicional.menu')->middleware('auth')->name('home');
@@ -152,6 +153,7 @@ Route::get('/llenar', function () {
         $user->password = bcrypt($usuario->contrasenia);
         $user->active = true;
         $user->usuario_codSis = $usuario->codSis;
+        $user->email_verified_at = Carbon::now();
         $user->save();
         array_push($users, $user);
     }

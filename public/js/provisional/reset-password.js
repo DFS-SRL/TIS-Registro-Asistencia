@@ -10,9 +10,9 @@ function validate(){
     }else if(pass.val().length < 8){
         msg.removeClass("d-none");
         msg.text("Por seguridad ingresa una contraseña de al menos 8 caracteres.");
-    }else if(!esSegura(pass.val())){
+    /*}else if(!esSegura(pass.val())){
         msg.removeClass("d-none");
-        msg.text("Tu contraseña debería tener al menos 3 dígitos y 1 mayúscula.");
+        msg.text("Tu contraseña debería tener al menos 3 dígitos y 1 mayúscula.");*/
     }else{
         form.submit();
         // console.log('Listo para el submit');

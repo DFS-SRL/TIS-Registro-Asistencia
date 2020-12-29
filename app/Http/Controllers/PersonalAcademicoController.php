@@ -403,7 +403,7 @@ class PersonalAcademicoController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $idUnidad);
         $rolesFac = [5,6,7,8];
         // Falta verificacion que sea de la misma facultad
         $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);

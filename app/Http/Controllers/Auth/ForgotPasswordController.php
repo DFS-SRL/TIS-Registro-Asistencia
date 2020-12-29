@@ -65,7 +65,7 @@ class ForgotPasswordController extends Controller
         // return $token;
 
         Mail::to($user->email)->send(new ForgotPassword($user));
-        return redirect('/login')->withInfo('Se ha enviado un correo con instrucciones para la recuperación.');
+        return redirect('/login')->withInfo('Se ha enviado un correo con instrucciones para la recuperación. Tiene un plazo de 24 horas para usar el enlace.');
     }
 
     public function authUser($token){

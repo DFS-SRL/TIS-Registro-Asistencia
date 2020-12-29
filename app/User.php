@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Controllers\PersonalAcademicoController;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'active'
+        'name', 'email', 'password', 'active', 'email_verified_at'
     ];
 
     /**
@@ -42,7 +43,10 @@ class User extends Authenticatable
     protected $table = 'public.users';
 
     public function activate(){
-        $this->update(['active' => true]);
+        $this->update([
+            'active' => true,
+            'email_verified_at' => Carbon::now()
+            ]);
 
         Auth::login($this);
 
