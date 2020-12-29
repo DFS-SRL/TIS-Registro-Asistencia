@@ -19,7 +19,7 @@ class ActivationTokenController extends Controller
         if( !ActivationToken::where('token', $token)->get()->isEmpty() ){
             ActivationToken::where('token', $token)->first()->user->activate();
         }else{
-            return redirect('/login')->withInfo('El enlace que utilizaste ya fue utilizado o ya expiró.');
+            return redirect('/login')->withInfo('El enlace que seguiste ya fue utilizado o ya expiró.');
         }
 
 

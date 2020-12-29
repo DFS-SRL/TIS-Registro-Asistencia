@@ -54,6 +54,10 @@ class User extends Authenticatable
         return $this->hasOne(ActivationToken::class);
     }
 
+    public function forgotPasswordToken(){
+        return $this->hasOne(ForgotPasswordToken::class);
+    }
+
     public function usuario() {
         return $this->belongsTo('App\Usuario');
     }

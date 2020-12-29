@@ -135,6 +135,10 @@ Route::get('/activar/{token}', 'ActivationTokenController@activate')->name('acti
 Route::get('/reset-password', 'Auth\ResetPasswordController@index')->name('reset-password');
 Route::post('/reset-password', 'Auth\ResetPasswordController@reset');
 
+Route::get('/forgot-password', 'Auth\ForgotPasswordController@index')->name('forgot-password');
+Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('recover');
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
+
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
     $usuarios = App\Usuario::all();

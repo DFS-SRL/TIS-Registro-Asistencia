@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -40,6 +41,24 @@ class LoginController extends Controller
 
     public function username() {
         return 'usuario_codSis';
+    }
+
+    public function login(){
+        $credentials = $this->validate(
+            request(),
+            [
+                'usuario_codSis' => 'required|integer',
+                'password' => 'required|string'
+            ]
+        );
+
+        if(Auth::attempt($credentials)){
+            return redirect()->intended('/');
+        }
+        
+        return back()
+            ->withErrors('Estas credenciales no concuerdan con nuestros registros o falta activación.')
+            ->withInput(request(['usuario_codSis']));
     }
     
     /**
