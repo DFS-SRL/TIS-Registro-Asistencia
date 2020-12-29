@@ -11,6 +11,7 @@
 |
 */
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'provicional.menu')->middleware('auth')->name('home');
@@ -136,6 +137,10 @@ Route::get('/activar/{token}', 'ActivationTokenController@activate')->name('acti
 Route::get('/reset-password', 'Auth\ResetPasswordController@index')->name('reset-password');
 Route::post('/reset-password', 'Auth\ResetPasswordController@reset');
 
+Route::get('/forgot-password', 'Auth\ForgotPasswordController@index')->name('forgot-password');
+Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('recover');
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
+
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
     $usuarios = App\Usuario::all();
@@ -148,6 +153,7 @@ Route::get('/llenar', function () {
         $user->password = bcrypt($usuario->contrasenia);
         $user->active = true;
         $user->usuario_codSis = $usuario->codSis;
+        $user->email_verified_at = Carbon::now();
         $user->save();
         array_push($users, $user);
     }

@@ -20,7 +20,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text justify-content-center"><i class="fas fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" name="usuario_codSis" placeholder="Codigo sis">
+                            <input type="text" class="form-control" name="usuario_codSis" placeholder="Codigo sis" value={{old('usuario_codSis')}}>
 
                         </div>
                         <div class="input-group form-group">
@@ -39,7 +39,7 @@
                         En caso de no tener cuenta, contacte con el jefe de su departamento.
                     </div>
                     <div class="d-flex justify-content-center">
-                        <a href="#">¿Olvidaste la contraseña?</a>
+                        <a href="/forgot-password">¿Olvidaste la contraseña?</a>
                     </div>
                 </div>
             </div>

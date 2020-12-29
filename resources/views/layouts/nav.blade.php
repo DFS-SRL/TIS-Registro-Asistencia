@@ -43,7 +43,7 @@
             @endif
             @if (Auth::check() && auth()->user()->deparatmentoEncargado() != null)
             <li class="nav-item">
-                <a class="nav-link text-white {{-- setActive('departamento') --}}" href="{{ route('departamento', auth()->user()->deparatmentoEncargado()) }}">
+                <a class="nav-link text-white {{ setActive('departamento') }}" href="{{ route('departamento', auth()->user()->deparatmentoEncargado()) }}">
                     Jefe de departamento
                 </a>
             </li>
