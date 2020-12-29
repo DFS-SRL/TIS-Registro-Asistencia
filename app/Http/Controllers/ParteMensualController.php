@@ -293,6 +293,25 @@ class ParteMensualController extends Controller
                         })
                         ->select('Unidad.id','partesMensuales.id as parteID','Unidad.nombre','partesMensuales.aprobado','partesMensuales.fecha_ini','partesMensuales.fecha_fin','partesMensuales.encargado_fac','partesMensuales.dir_academico','partesMensuales.decano','partesMensuales.jefe_dept')
                         ->get();
-        return view('parteMensual.partesMesFacultad',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
+
+        
+        $rolesPermitidos = [4,5,6,7];
+        $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+            
+        //Falta restringir acceso por facultades (los miembros de otra facultad distinta a la ingresada solo ven los
+        //                                        partes aprobados)
+        $usuarioPerteneceFacultad = PersonalAcademicoController::perteneceAFacultad(Auth::user()->usuario->codSis, $facultad->id);
+        if ($rolAceptado&&$usuarioPerteneceFacultad) {   
+            return view('parteMensual.partesMesFacultad',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
+        }else{
+            $rolesPermitidos = [1,2,3,4,5,6,7,8];
+            $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);    
+            if ($rolAceptado) {
+                return view('parteMensual.partesMesFacultadDPA',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
+            }else{
+                return view('provicional.noAutorizado');
+            }
+        }
+        
     }
 }
