@@ -46,7 +46,7 @@ class FacultadController extends Controller
             
         //Falta restringir acceso por facultades (los miembros de otra facultad distinta a la ingresada solo ven los
         //                                        partes aprobados)
-        $usuarioPerteneceFacultad = true;
+        $usuarioPerteneceFacultad = PersonalAcademicoController::perteneceAFacultad(Auth::user()->usuario->codSis, $facultad->id);
         if ($rolAceptado&&$usuarioPerteneceFacultad) {            
             $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre');
             $mesesPartes = ParteMensual::orderBy('fecha_ini','desc')
