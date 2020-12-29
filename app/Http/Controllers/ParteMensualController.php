@@ -285,9 +285,6 @@ class ParteMensualController extends Controller
         return back()->with('success', 'Aprobacion exitosa');
     }
     public function partesMesFacultad(Facultad $facultad, $fecha){
-        //Obtener departamentos
-        //Obtener Partes
-        //Hacer join
         $fecha = explode("-",$fecha);
         $mes =$fecha[1].'-'.$fecha[0];
         $fecha[1] = FechasPartesMensualesHelper::getMesNum($fecha[1]);

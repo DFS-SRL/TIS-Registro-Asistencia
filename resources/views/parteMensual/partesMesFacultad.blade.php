@@ -69,7 +69,7 @@
                         @endforeach
                     </table>
                 @esEncargadoFac($facultad->id)
-                    <button class="boton btn btn-success textoNegro" onclick="document.getElementById('enviarDPA').submit();">ENVIAR A DPA</button>
+                    <button class="boton btn btn-success textoNegro" onclick="enviarDPA({{$departamentos}})">ENVIAR A DPA</button>
                     {{-- <button class="boton btn btn-success textoNegro">SOLICITAR APROBACION</button>  --}}
                     <form action="{{route('enviarPartesDPA')}}" method="post" id="enviarDPA">
                         @csrf @method('PATCH')
@@ -88,5 +88,43 @@
 @endsection
 @section('script-footer')
  <script>
+     function deptsSinPartesMensuales(departamentos){
+         res = "";
+         departamentos.forEach(departamento => {
+             if(departamento.parteID == null){
+                res = res + " " +departamento.nombre+",";
+             }
+         });
+        return res.substring(0, res.length - 1);
+     }
+     function partesMensualesNoAprobados(departamentos){
+        res = "";
+         departamentos.forEach(departamento => {
+             if(!(departamento.jefe_dept && departamento.dir_academico && departamento.encargado_fac && departamento.decano)){
+                res = res + " " +departamento.nombre+",";
+             }
+         });
+        return res.substring(0, res.length - 1);
+     }
+     function enviarDPA(departamentos){
+        deptsSinPartes = deptsSinPartesMensuales(departamentos);
+        partesSinAprobar = partesMensualesNoAprobados(departamentos);
+        if(deptsSinPartes.length == 0 && partesSinAprobar.length==0 ){
+            document.getElementById('enviarDPA').submit();
+        }else if(deptsSinPartes.length > 0){
+            alert("No se pueden enviar los partes mensuales. Los siguientes departamentos aun no han enviado sus asistencias para generar los partes mensuales:"+ deptsSinPartes);
+        }else if(partesSinAprobar.length > 0 ){
+            var agree = confirm("Algunos encargados de revisar los partes aun no han aprobado sus partes mensuales:"+partesSinAprobar+". ¿Estás seguro de enviar todos los partes mensuales a DPA?, no habrá marcha atrás",
+            function() {
+                alertify.success('Aceptar');
+            },
+            function() {
+                alertify.error('Cancelar');
+            });
+            if(agree){
+                document.getElementById('enviarDPA').submit();
+            }
+        }
+     }
  </script>
 @endsection
