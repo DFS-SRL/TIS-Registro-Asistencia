@@ -69,6 +69,7 @@
                         @endforeach
                     </table>
                 @esEncargadoFac($facultad->id)
+                @if (!$departamentos[0]->aprobado)
                     <button class="boton btn btn-success textoNegro" onclick="enviarDPA({{$departamentos}})">ENVIAR A DPA</button>
                     {{-- <button class="boton btn btn-success textoNegro">SOLICITAR APROBACION</button>  --}}
                     <form action="{{route('enviarPartesDPA')}}" method="post" id="enviarDPA">
@@ -76,6 +77,8 @@
                         <input type="hidden" name="facultad_id" value="{{$facultad->id}}">
                         <input type="hidden" name="fechaIni" value="{{$departamentos[0]->fecha_ini}}">
                     </form>
+                @endif
+                    
                 @endesEncargadoFac
                 @else
                     <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
@@ -110,7 +113,16 @@
         deptsSinPartes = deptsSinPartesMensuales(departamentos);
         partesSinAprobar = partesMensualesNoAprobados(departamentos);
         if(deptsSinPartes.length == 0 && partesSinAprobar.length==0 ){
-            document.getElementById('enviarDPA').submit();
+            var agree = confirm("¿Estás seguro de enviar todos los partes mensuales a DPA?, no habrá marcha atrás",
+            function() {
+                alertify.success('Aceptar');
+            },
+            function() {
+                alertify.error('Cancelar');
+            });
+            if(agree){
+                document.getElementById('enviarDPA').submit();
+            }
         }else if(deptsSinPartes.length > 0){
             alert("No se pueden enviar los partes mensuales. Los siguientes departamentos aun no han enviado sus asistencias para generar los partes mensuales:"+ deptsSinPartes);
         }else if(partesSinAprobar.length > 0 ){

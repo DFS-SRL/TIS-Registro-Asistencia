@@ -282,7 +282,7 @@ class ParteMensualController extends Controller
                                   ->where('fecha_ini','=',$request->fechaIni)
                                   ->update(['aprobado'=>true]);
         }
-        return back()->with('success', 'Aprobacion exitosa');
+        return back()->with('success', 'Partes mensuales enviados a DPA correctamente.');
     }
     public function partesMesFacultad(Facultad $facultad, $fecha){
         $fecha = explode("-",$fecha);
