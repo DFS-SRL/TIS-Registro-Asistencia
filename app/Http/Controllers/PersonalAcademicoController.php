@@ -484,4 +484,12 @@ class PersonalAcademicoController extends Controller
             ->get()
             ->isEmpty();
     }
+
+    //devuelve verdadero si el usuario pertenece a la facultad
+    public static function perteneceAFacultad($codigoSis, $facultad_id) {
+        return !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+            ->where('facultad_id', $facultad_id)
+            ->get()
+            ->isEmpty();
+    }
 }
