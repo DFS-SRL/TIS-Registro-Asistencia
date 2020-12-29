@@ -30,7 +30,10 @@ class UnidadController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4,5,6,7];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        if (!$accesoOtorgado) {
+        $rolesFac = [5,6,7,8];
+        // Falta verificar si son de la misma facultad
+        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
+        if (!$accesoOtorgado && !$rolesFac) {
             $rolesPermitidos = [8];
             $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if (!$accesoOtorgado) {
