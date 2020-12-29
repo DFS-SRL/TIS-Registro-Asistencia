@@ -32,19 +32,20 @@
                                 <td class="border border-dark"><strong >{{$parte->mes}}</strong></td>
                                 <td class="border border-dark"><a href="/" id="doc{{$parte->id}}">Ver parte docentes</a></td>
                                 <td class="border border-dark"><a href="/" id="aux{{$parte->id}}">Ver parte auxiliares</a></td>
-                                @aproboParte($parte->id)
-                                <td class="border border-dark"><input class="boton btn textoNegro" type="button" value="APROBAR PARTES" disabled></td>    
+                                @if($parte->jefe_dept)
+                                   <td class="border border-dark">APROBADOS   </td>  
                                 @else
-                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
-                                class="form-inline my-2 my-lg-0 d-inline"
-                                >
-                                @csrf @method('PATCH')
-                                <input type="hidden" name = 'parte_id' value = '{{$parte->id}}'>
-                            </form>
-                            <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
-                            @endif
-                        </tr>
-                        @endforeach
+                                    <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                        class="form-inline my-2 my-lg-0 d-inline"
+                                        >
+                                        @csrf @method('PATCH')
+                                        <input type="hidden" name = 'parte_id' value = '{{$parte->id}}'>
+                                        <input type="hidden" name = 'rol' value = '4'>
+                                    </form>
+                                    <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
+                                @endif
+                            </tr>
+                            @endforeach
                     </table>       
                 </div>
                 @else

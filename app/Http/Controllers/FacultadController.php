@@ -42,23 +42,11 @@ class FacultadController extends Controller
     //Obtener la lista de departamentos pertenecientes a una facultad  
     public function listaDepartamentos(Facultad $facultad){
         $rolesPermitidos = [4,5,6,7];
-        $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+        $rolAceptado = true;//UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             
         //Falta restringir acceso por facultades (los miembros de otra facultad distinta a la ingresada solo ven los
         //                                        partes aprobados)
-        $codigoSis = Auth::user()->usuario->codSis;
-        // $perteneceUnidadFacultad=Unidad::where('facultad_id','=',$facultad->id)
-        //                                 ->join('Usuario_pertenece_unidad','Unidad.id','=','Usuario_pertenece_unidad.unidad_id')
-        //                                 ->join('Usuario_tiene_rol','','=',)
-        //                                 ->exists();
-        // $pertenecePersonalFacultad= Facultad::where('id','=',$facultad->id)
-        //                                     ->where('encargado_codSis','=',$codigoSis)
-        //                                     ->orWhere('decano_codSis','=',$codigoSis)
-        //                                     ->orWhere('director_codSis','=',$codigoSis)->exists();
-        $usuarioPerteneceFacultad = UsuarioTieneRol::where('facultad_id','=',$facultad->id)
-                                                   ->where('usuario_codSis','=',$codigoSis)
-                                                   ->exists();
-        return ["res"=>$usuarioPerteneceFacultad];
+        $usuarioPerteneceFacultad = PersonalAcademicoController::perteneceAFacultad(Auth::user()->usuario->codSis, $facultad->id);
         if ($rolAceptado&&$usuarioPerteneceFacultad) {            
             $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre');
             $mesesPartes = ParteMensual::orderBy('fecha_ini','desc')
@@ -70,7 +58,7 @@ class FacultadController extends Controller
                                         ->paginate(5);
         }else{
             $rolesPermitidos = [4,5,6,7,8];//esto por que es para otras facultades y para DPA
-            $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+            $accesoOtorgado = true;//UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if($accesoOtorgado){
                 $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre');
                 $mesesPartes = ParteMensual::where('aprobado','=',true)//es esta linea la que cambia

@@ -43,7 +43,7 @@
                                         </td>
                                         <td class="border border-dark ">
                                             @esJefeDepartamento($departamento->id) 
-                                                @if ($departamento->encargado_fac)
+                                                @if ($departamento->jefe_dept)
                                                     APROBADOS                                                    
                                                 @else
                                                 <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
@@ -55,58 +55,55 @@
                                                 </form>
                                                     <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
                                                 @endif
-                                            @else 
-                                                POR APROBAR
+                                                
+                                            @else
+                                                @esEncargadoFac($facultad->id) 
+                                                    @if ($departamento->encargado_fac)
+                                                        APROBADOS                                                    
+                                                    @else
+                                                    <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                                        class="form-inline my-2 my-lg-0 d-inline"
+                                                    >
+                                                        @csrf @method('PATCH')
+                                                        <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                        <input type="hidden" name = 'rol' value ='5'>
+                                                    </form>
+                                                        <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
+                                                    @endif
+                                                @else 
+                                                    @esDecano($facultad->id) 
+                                                        @if ($departamento->decano)
+                                                            APROBADOS                                                    
+                                                        @else
+                                                        <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                                            class="form-inline my-2 my-lg-0 d-inline"
+                                                        >
+                                                            @csrf @method('PATCH')
+                                                            <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                            <input type="hidden" name = 'rol' value ='6'>
+                                                        </form>
+                                                            <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
+                                                        @endif
+                                                    @else 
+                                                        @esDirAcademico($facultad->id) 
+                                                            @if ($departamento->dir_academico)
+                                                                APROBADOS                                                    
+                                                            @else
+                                                            <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
+                                                                class="form-inline my-2 my-lg-0 d-inline"
+                                                            >
+                                                                @csrf @method('PATCH')
+                                                                <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
+                                                                <input type="hidden" name = 'rol' value ='7'>
+                                                            </form>
+                                                                <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
+                                                            @endif
+                                                        @else 
+                                                            POR APROBAR
+                                                        @endesDirAcademico
+                                                    @endesDecano
+                                                @endesEncargadoFac 
                                             @endesEncargadoFac
-                                            @esEncargadoFac($facultad->id) 
-                                                @if ($departamento->encargado_fac)
-                                                    APROBADOS                                                    
-                                                @else
-                                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
-                                                    class="form-inline my-2 my-lg-0 d-inline"
-                                                >
-                                                    @csrf @method('PATCH')
-                                                    <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
-                                                    <input type="hidden" name = 'rol' value ='5'>
-                                                </form>
-                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
-                                                @endif
-                                            @else 
-                                                POR APROBAR
-                                            @endesEncargadoFac
-                                            @esDecano($facultad->id) 
-                                                @if ($departamento->encargado_fac)
-                                                    APROBADOS                                                    
-                                                @else
-                                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
-                                                    class="form-inline my-2 my-lg-0 d-inline"
-                                                >
-                                                    @csrf @method('PATCH')
-                                                    <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
-                                                    <input type="hidden" name = 'rol' value ='6'>
-                                                </form>
-                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
-                                                @endif
-                                            @else 
-                                                POR APROBAR
-                                            @endesDecano
-                                            @esDirAcademico($facultad->id) 
-                                                @if ($departamento->encargado_fac)
-                                                    APROBADOS                                                    
-                                                @else
-                                                <form method="POST" action="{{ route('aprobarParteRol') }}" id='aprobarParteRol'
-                                                    class="form-inline my-2 my-lg-0 d-inline"
-                                                >
-                                                    @csrf @method('PATCH')
-                                                    <input type="hidden" name = 'parte_id' value = '{{$departamento->parteID}}'>
-                                                    <input type="hidden" name = 'rol' value ='7'>
-                                                </form>
-                                                    <input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR">
-                                                @endif
-                                            @else 
-                                                POR APROBAR
-                                            @endesDirAcademico
-                                            
                                         </td>
                                     @else
                                         <td class="border border-dark ">NO HAY PARTES MENSUALES DISPONIBLES </td>
@@ -132,8 +129,6 @@
                 @else
                     <h3 class="textoBlanco">ESTA FACULTAD AUN NO TIENE REGISTRADO PARTES MENSUALES</h3>
                 @endif
-
-{{$departamentos}}
             </div>
         </div>
     </div>

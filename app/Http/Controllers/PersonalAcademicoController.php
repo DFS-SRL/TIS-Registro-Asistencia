@@ -506,9 +506,12 @@ class PersonalAcademicoController extends Controller
     }
     //devuelve verdadero si el usuario pertenece a la facultad
     public static function perteneceAFacultad($codigoSis, $facultad_id) {
-        return !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
-            ->where('facultad_id', $facultad_id)
-            ->get()
-            ->isEmpty();
+        $usuarioEsJefeDept = Unidad::where('facultad_id',$facultad_id)
+                                    ->where('jefe_codSis',$codigoSis)
+                                    ->exists();
+        return $usuarioEsJefeDept || !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+                                        ->where('facultad_id', $facultad_id)
+                                        ->get()
+                                        ->isEmpty();
     }
 }
