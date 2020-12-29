@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            <h1 class="text-white">Vista provicional de Docente</h1>
+            <h1 class="text-white">Operaciones Docente</h1>
 
             <div class="textoBlanco justify-content-center esquina-redondeada" style="background:#7C7365;">
                 <a class="boton btn textoNegro" href="{{ route('informes.semanales.personal', $usuario) }}">INFORMES PASADOS</a>

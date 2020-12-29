@@ -22,7 +22,7 @@
                     @endif
                     
                 </div>
-                @if ($unidad->jefe->codSis == auth()->user()->usuario_codSis)
+                @if (App\User::tieneAlMenosUnRol([4,5,6,7,8]))
                     @if (!$ultimosPartes->isEmpty())
                     <br><strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong><br>
                     <div >
