@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,13 @@ class LoginController extends Controller
             ]
         );
 
+        $remember_me = ( !empty( request()->remember_me ) )? TRUE : FALSE;
+
         if(Auth::attempt($credentials)){
+            $user = User::where(["usuario_codSis" => $credentials['usuario_codSis']])->first();
+    
+            Auth::login($user, $remember_me);
+
             return redirect()->intended('/');
         }
         
