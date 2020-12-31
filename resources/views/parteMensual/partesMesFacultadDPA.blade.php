@@ -28,8 +28,8 @@
                                     href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a></td>
                                     @if ($departamento->parteID!=null)
                                         <td class="border border-dark align-middle ">
-                                            <a href="/parteMensual/auxiliares/{{ $departamento->id}}/{{$departamento->fecha_ini}}">Ver parte auxiliares</a>
-                                            <a href="/parteMensual/docentes/{{ $departamento->id}}/{{$departamento->fecha_ini}}">Ver parte docentes</a>                                        
+                                            <a href="/parteMensual/auxiliares/{{ $departamento->id}}/{{aumentarMes($departamento->fecha_ini)}}">Ver parte auxiliares</a>
+                                            <a href="/parteMensual/docentes/{{ $departamento->id}}/{{aumentarMes($departamento->fecha_ini)}}">Ver parte docentes</a>                                        
                                         </td>
                                     @else
                                         <td class="border border-dark ">NO HAY PARTES MENSUALES DISPONIBLES </td>

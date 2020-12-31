@@ -141,7 +141,7 @@ function tiempoFecha($fecha)
 
 // parametro por referencia, devuelve fecha 16 a 15 del ultimo mes e instancia Carbon de la inicial
 function calcularFechasMes($fecha, &$t, &$fechaInicio, &$fechaFin)
-{ 
+{
     $t = tiempoFecha($fecha);
     if ($t->day <= 15)
         $t->subMonth();
@@ -175,4 +175,11 @@ function paginate($items, $perPage = 10, $page = null, $options = [])
             'pageName' => 'page',
         ]
     );
+}
+
+function aumentarMes($fecha)
+{
+    $fecha = Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
+    $fecha->addMonth();
+    return $fecha->toDateString();
 }
