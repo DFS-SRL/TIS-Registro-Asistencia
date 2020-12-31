@@ -27,7 +27,19 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text justify-content-center"><i class="fas fa-key"></i></span>
                             </div>
-                            <input type="password" class="form-control" name="password" placeholder="Constraseña">
+                            <input type="password" id="pwd" class="form-control" name="password" placeholder="Constraseña">
+                        </div>
+                        <div class="input-group form-group form-check textoBlanco">
+                            <input type="checkbox" onclick="revelar()" name="revelar_check">
+                            <label class="form-check-label" for="revelar_check">
+                               Mostrar Contraseña
+                            </label>
+                        </div>
+                        <div class="input-group form-group form-check textoBlanco">
+                            <input type="checkbox" name="remember_me">
+                            <label class="form-check-label" for="remember_me">
+                              Recuerdame
+                            </label>
                         </div>
                         <div class="form-group text-center">
                           <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
@@ -45,4 +57,17 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script-footer')
+    <script>
+        function revelar() {
+            var x = document.getElementById("pwd");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 @endsection
