@@ -30,13 +30,13 @@ use Illuminate\Support\Str;
 class PersonalAcademicoController extends Controller
 {
     use AuthenticatesUsers;
-    
+
     protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('auth');
-    }		
+    }
 
     // devuelve la vista de todo el personal academico de la unidad correspondiente
     public function obtenerPersonal(Unidad $unidad, $codigos = null)
@@ -54,8 +54,7 @@ class PersonalAcademicoController extends Controller
                 $raw .= ' when "Usuario"."codSis"=' . $codSis . ' then ' . $key;
             }
             $raw .= ' end';
-            $todos = $todos->whereIn('codSis', $codigos)
-                ;//->orderByRaw($raw);
+            $todos = $todos->whereIn('codSis', $codigos); //->orderByRaw($raw);
         } else
             $todos = $todos->orderBy('nombre', 'asc');
         $todos = $todos->paginate(10, ['*'], 'todos-pag');
@@ -139,8 +138,7 @@ class PersonalAcademicoController extends Controller
                 $raw .= ' when "Usuario"."codSis"=' . $codSis . ' then ' . $key;
             }
             $raw .= ' end';
-            $usuarios = $usuarios->whereIn('codSis', $codigos)
-                ;//->orderByRaw($raw);
+            $usuarios = $usuarios->whereIn('codSis', $codigos); //->orderByRaw($raw);
         } else
             $usuarios = $usuarios->orderBy('nombre', 'asc');
         return
@@ -180,7 +178,7 @@ class PersonalAcademicoController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-       
+
         $this->validarUsuarioDeUnidad($unidad, $usuario, [1, 2]);
         $codSis = $usuario->codSis;
         $unidadId = $unidad->id;
@@ -214,7 +212,7 @@ class PersonalAcademicoController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-       
+
         $this->validarUsuarioDeUnidad($unidad, $usuario, [3]);
         $codSis = $usuario->codSis;
         $gruposActuales = $this->buscarGruposAsignadosActuales($unidad->id, $codSis, 'true');
@@ -288,7 +286,8 @@ class PersonalAcademicoController extends Controller
     }
 
     // devuelve verdadero si el codSis es del Jefe de Departamento de la Unidad
-    public static function esJefeDepartamento($codSis, $unidad_id){
+    public static function esJefeDepartamento($codSis, $unidad_id)
+    {
         return self::esDelRol($codSis, $unidad_id, 4);
     }
 
@@ -297,13 +296,13 @@ class PersonalAcademicoController extends Controller
     {
         return self::esDelRol($codSis, $unidad_id, 3);
     }
-    
+
     // devuelve verdadero si el codSis es de un auxiliar de docencia de la unidad_id
     public static function esAuxDoc($codSis, $unidad_id)
     {
         return self::esDelRol($codSis, $unidad_id, 2);
     }
-    
+
     // devuelve verdadero si el codSis es de un auxiliar de laboratorio de la unidad_id
     public static function esAuxLab($codSis, $unidad_id)
     {
@@ -333,13 +332,13 @@ class PersonalAcademicoController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        $rolesFac = [5,6,7,8];
+        $rolesFac = [5, 6, 7, 8];
         // Falta verificacion que sea de la misma facultad
         $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
         if (!$accesoOtorgado && !$accesoFac) {
             return view('provicional.noAutorizado');
         }
-       
+
         return view('personal.registrarPersonal', [
             'unidad' => $unidad,
             'despuesVerificar' => false,
@@ -354,13 +353,13 @@ class PersonalAcademicoController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        $rolesFac = [5,6,7,8];
+        $rolesFac = [5, 6, 7, 8];
         // Falta verificacion que sea de la misma facultad
         $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
         if (!$accesoOtorgado && !$accesoFac) {
             return view('provicional.noAutorizado');
         }
-       
+
         $codSis = request()->codsis;
         $personal = Usuario::where('codSis', '=', $codSis)->get();
         $perteneceDepartamento = false;
@@ -405,13 +404,13 @@ class PersonalAcademicoController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $idUnidad);
-        $rolesFac = [5,6,7,8];
+        $rolesFac = [5, 6, 7, 8];
         // Falta verificacion que sea de la misma facultad
         $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
         if (!$accesoOtorgado && !$accesoFac) {
             return view('provicional.noAutorizado');
         }
-       
+
         if (request('registrado') == "false") {
             $nombre = str_replace("_", " ", request('apellidoPaterno')) . " ";
             $nombre = $nombre . str_replace("_", " ", request('apellidoMaterno')) . " ";
@@ -460,14 +459,15 @@ class PersonalAcademicoController extends Controller
                 UsuarioTieneRol::create($usuarioRol);
             }
         }
-        request()->session()->flash('success', 'Se ha enviado un link de activación al usuario con los datos de su cuenta.');
+        request()->session()->flash('success', request('registrado') == "false" ? 'Se ha enviado un link de activación al usuario con los datos de su cuenta.' : 'Registro exitoso!');
         return redirect()->route('personalAcademico.mostrarRegistro', $idUnidad);
     }
     //devuelve verdadero si el personalAcademicoAproboElParte
-    public static function personalAproboParte($codSis,$idParte){
-        $rolesUsuario = UsuarioTieneRol::where("usuario_codSis","=",$codSis)->get();
+    public static function personalAproboParte($codSis, $idParte)
+    {
+        $rolesUsuario = UsuarioTieneRol::where("usuario_codSis", "=", $codSis)->get();
         $aprobado = false;
-        $parte = ParteMensual::where("id","=",$idParte)->first();
+        $parte = ParteMensual::where("id", "=", $idParte)->first();
         foreach ($rolesUsuario as $key => $rol) {
             switch ($rol->rol_id) {
                 case 4:
@@ -487,31 +487,35 @@ class PersonalAcademicoController extends Controller
         return $aprobado;
     }
     //devuelve verdadero si el usuario es encargadoFacultativo
-    public static function esEncargadoFac($codigoSis,$facultad_id){
-        return Facultad::where('id','=',$facultad_id)
-                       ->where('encargado_codSis','=',$codigoSis)
-                       ->exists();
+    public static function esEncargadoFac($codigoSis, $facultad_id)
+    {
+        return Facultad::where('id', '=', $facultad_id)
+            ->where('encargado_codSis', '=', $codigoSis)
+            ->exists();
     }
     //devuelve verdadero si el usuario es director Academico
-    public static function esDirAcademico($codigoSis,$facultad_id){
-        return Facultad::where('id','=',$facultad_id)
-                       ->where('director_codSis','=',$codigoSis)
-                       ->exists();
+    public static function esDirAcademico($codigoSis, $facultad_id)
+    {
+        return Facultad::where('id', '=', $facultad_id)
+            ->where('director_codSis', '=', $codigoSis)
+            ->exists();
     }
     //devuelve verdadero si el usuario es director Academico
-    public static function esDecano($codigoSis,$facultad_id){
-        return Facultad::where('id','=',$facultad_id)
-                        ->where('decano_codSis','=',$codigoSis)
-                        ->exists();
+    public static function esDecano($codigoSis, $facultad_id)
+    {
+        return Facultad::where('id', '=', $facultad_id)
+            ->where('decano_codSis', '=', $codigoSis)
+            ->exists();
     }
     //devuelve verdadero si el usuario pertenece a la facultad
-    public static function perteneceAFacultad($codigoSis, $facultad_id) {
-        $usuarioEsJefeDept = Unidad::where('facultad_id',$facultad_id)
-                                    ->where('jefe_codSis',$codigoSis)
-                                    ->exists();
+    public static function perteneceAFacultad($codigoSis, $facultad_id)
+    {
+        $usuarioEsJefeDept = Unidad::where('facultad_id', $facultad_id)
+            ->where('jefe_codSis', $codigoSis)
+            ->exists();
         return $usuarioEsJefeDept || !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
-                                        ->where('facultad_id', $facultad_id)
-                                        ->get()
-                                        ->isEmpty();
+            ->where('facultad_id', $facultad_id)
+            ->get()
+            ->isEmpty();
     }
 }
