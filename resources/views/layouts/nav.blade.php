@@ -1,10 +1,10 @@
 <nav class="boton navbar mb-4">
-    <div class="container justify-content-start">
+    <div class="container">
         <a class="navbar-brand text-white" href="{{ route('home') }}">
             {{ config('app.name') }}
         </a>
         @auth
-            <div class="col-3 ml-auto">
+            <div class="float-right">
                 <a class="navbar-brand text-white text-right">{{ auth()->user()->name }}</a>
             </div>
         @endauth
