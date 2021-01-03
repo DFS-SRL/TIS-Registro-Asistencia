@@ -11,6 +11,8 @@
         <div class="mx-3 my-4">
                 <h3 class="textoBlanco">FACULTAD: {{ $facultad->nombre }}</h3>
                 <h3 class="textoBlanco">DECANO: {{ $facultad->decano->nombre() }} </h3>
+                <h3 class="textoBlanco">DIRECTOR ACADEMICO: {{$facultad->directorAcademico->nombre()}}  </h3>  
+                <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3> 
                 <br> 
                 <h3 class="textoBlanco"> {{strtoupper($mes)}}  </h3>  
                 

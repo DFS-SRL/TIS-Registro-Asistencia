@@ -29,6 +29,29 @@ class GrupoController extends Controller
      * Las clases de docencia y auxiliatura son Materia en la BD
      * Tanto los grupos como los items son Grupo en la BD
      */
+    public function guardar(GuardarGrupoRequest $request)
+    {
+        $horario = $request->validated();
+
+        // Verificamos que el usuario tiene los roles permitidos
+        $rolesPermitidos = [4];
+        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+
+        if ($horario['hora_inicio'] == ":00") {
+            $error = ValidationException::withMessages([
+                'horario' => ['debe añadir las horas del nuevo horario para guardar los cambios']
+            ]);
+            throw $error;
+        }
+        $this->validarHoras($horario, $horario['rol_id'] == 1 ? 60 : 45);
+        $this->asignarPersonal($horario);
+        $horario['activo'] = true;
+        HorarioClase::create($horario);
+        return back()->with('success', 'Registro existoso');
+    }
     private function informacionGrupo(Grupo $grupo)
     {
         //* Obtener horarios y personal es igual para docencia y laboratorio
