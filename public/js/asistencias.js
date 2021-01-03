@@ -69,21 +69,24 @@ function camposEdicionAsitencia(asistenciaId, rolId) {
     console.log(per === 'BAJA MEDICA' ? 'selected' : '');
     $("#permiso" + asistenciaId).append(
         `
-        <select value="" disabled id="select` + asistenciaId + `" class="borrar"
-            onchange="combo(this.selectedIndex, ` + asistenciaId + `); comboE(` + asistenciaId + `); " onfocus="this.selectedIndex = -1;"
-        >
-            <option value="">Sin Permiso</option>
-            <option ` + (per === `LICENCIA` ? `selected` : ``) + `  value="LICENCIA">Licencia</option>
-            <option ` + (per === `BAJA MEDICA` ? `selected` : ``) + ` value="BAJA_MEDICA">Baja medica</option>
-            <option ` + (per === `DECLARATORIA EN COMISION` ? `selected` : ``) + `  value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
-        </select>
-        <br class="borrar">
-        <button class="` + asistenciaId + ` borrar btn boton justify-content-center" id="documento_adicional`+asistenciaId+`"  style="font-size:0.7em;" >COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
-        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-        <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-        </svg>
-        </button >
-        <label class="` + asistenciaId + ` borrar" id="nombre_archivo` + asistenciaId + `"  for="documento_adicional` + asistenciaId + `"></label>`
+        <div class="input-group form-group">
+            <select value="" disabled id="select` + asistenciaId + `" class="borrar"
+                onchange="combo(this.selectedIndex, ` + asistenciaId + `); comboE(` + asistenciaId + `); " onfocus="this.selectedIndex = -1;"
+            >
+                <option value="">Sin Permiso</option>
+                <option ` + (per === `LICENCIA` ? `selected` : ``) + `  value="LICENCIA">Licencia</option>
+                <option ` + (per === `BAJA MEDICA` ? `selected` : ``) + ` value="BAJA_MEDICA">Baja medica</option>
+                <option ` + (per === `DECLARATORIA EN COMISION` ? `selected` : ``) + `  value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
+            </select>
+        </div>
+        <div class="input-group form-group">
+            <button class="` + asistenciaId + ` borrar btn btn block boton justify-content-center" id="documento_adicional`+asistenciaId+`"  style="font-size:0.7em;" >COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
+            <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+            </svg>
+            </button >
+            <label class="` + asistenciaId + ` borrar" id="nombre_archivo` + asistenciaId + `"  for="documento_adicional` + asistenciaId + `"></label>
+        </div>`
     );
     obsis = $("#observaciones" + asistenciaId).first()[0].firstElementChild.innerHTML;
     $("#opciones" + asistenciaId).append(

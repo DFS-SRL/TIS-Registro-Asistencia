@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\NotificacionPlanillasDiarias;
+use App\Console\Commands\NotificacionPlanillasSemanales;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\RegistroFaltasDiario;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -18,7 +20,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         RegistroFaltasDiario::class,
         RegistroFaltasSemanalDocente::class,
-        RegistroFaltasSemanalAuxiliar::class
+        RegistroFaltasSemanalAuxiliar::class,
+        NotificacionPlanillasSemanales::class,
+        NotificacionPlanillasDiarias::class
     ];
 
     /**
@@ -41,6 +45,15 @@ class Kernel extends ConsoleKernel
         $schedule->command('faltas:semanalauxiliar')
                     ->sundays()
                     ->at('00:01')
+                    ->timezone('America/La_Paz');
+
+        $schedule->command('notificacion:planillas-semanales')
+                    ->saturdays()
+                    ->at('12:00')
+                    ->timezone('America/La_Paz');
+
+        $schedule->command('notificacion:planillas-diarias')
+                    ->dailyAt('19:00')
                     ->timezone('America/La_Paz');
     }
 

@@ -1,15 +1,30 @@
-<nav class="boton navbar mb-4">
-    <div class="container justify-content-start">
-        <a class="navbar-brand text-white" href="{{ route('home') }}">
-            {{ config('app.name') }}
-        </a>
+<nav class="boton nav mb-4">
+    <div class="container">
+        <div class="d-inline-flex navbar-right mb-2">
+            <a class="navbar-brand text-white" href="{{ route('home') }}">
+                {{ config('app.name') }}
+            </a>
+        </div>
         @auth
-            <div class="col-3 ml-auto">
-                <a class="navbar-brand text-white text-right">{{ auth()->user()->name }}</a>
+            <div class="d-inline-flex float-right nav navbar-nav navbar-right mb-2">
+                <div class="">
+                    <a class="navbar-brand text-white text-right" href={{ route('notificaciones') }}>Notificaciones
+                        {{-- @if ($count =  App\Notificaciones::where('user_id', '=', auth()->user()->usuario->codSis)->count()) --}}
+                            <span class="badge badge-pill badge-dark
+                            {{ App\Notificaciones::where('user_id', '=', auth()->user()->usuario->codSis)->count() ? '' : 'd-none'}}">
+                                {{-- {{ $count }} --}}
+                                {{ App\Notificaciones::where('user_id', '=', auth()->user()->usuario->codSis)->count() }}
+                            </span>
+                        {{-- @else --}}
+                            {{-- <br> --}}
+                        {{-- @endif --}}
+                    </a>
+                    <a class="navbar-brand text-white text-right">{{ auth()->user()->name }}</a>
+                </div>
             </div>
         @endauth
-
-        <ul class="nav nav-pills">
+            
+        <ul class="d-inline-flex nav nav-pills">
             <li class="nav-item">
                 <a class="nav-link text-white {{ setActive('home') }}" href="{{ route('home') }}">
                     @lang('Home')
@@ -66,6 +81,5 @@
                 </form>
             @endauth
         </ul>
-        </div>
     </div>
 </nav>

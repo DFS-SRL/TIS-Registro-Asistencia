@@ -5,10 +5,14 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <h3 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h3>
-                <h3 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h3>
-                <h3 class="textoBlanco">JEFE DE DEPARTAMENTO: {{$unidad->jefe->nombre}}  </h3>                
+                <div class="col-10 ">
+                    <h3 class="textoBlanco">FACULTAD: {{ $unidad->facultad->nombre }}</h3>
+                    <h3 class="textoBlanco">DEPARTAMENTO: {{ $unidad['nombre'] }} </h3>
+                    <h3 class="textoBlanco">JEFE DE DEPARTAMENTO: {{$unidad->jefe->nombre}}  </h3> 
+                </div>
+
+                     
+            <div class="col-12">          
                 <br>
                 <strong class="textoBlanco">INFORMACION DEL DEPARTAMENTO</strong><br><br>
                 <div class="d-flex justify-content-around"> 
@@ -46,7 +50,7 @@
                                 @endif
                             </tr>
                             @endforeach
-                    </table>       
+                    </table>     
                 </div>
                 @else
                 <h3 class="textoBlanco">A&UacuteN NO HAY PARTES MENSUALES DISPONIBLES</h3>

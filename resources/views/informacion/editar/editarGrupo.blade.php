@@ -257,7 +257,7 @@
                 eliminar.src = "/icons/eliminar.png";
             }
 
-            eliminar = document.getElementById("desasignarAuxiliar");
+            eliminar = document.getElementById("desasignarAuxiliar"); 
             if (eliminar) {
                 eliminar.disabled = false;
                 eliminar.src = "/icons/eliminar.png";
