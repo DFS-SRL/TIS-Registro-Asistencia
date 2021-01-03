@@ -35,6 +35,10 @@ class Usuario extends Model
         return $this->belongsTo('App\Rol');
     }
 
+    public function roles() {
+        return $this->belongsToMany(Rol::class, 'Usuario_tiene_rol');
+    }
+
     public function unidad()
     {
         return $this->belongsTo('App\Unidad');
@@ -43,5 +47,24 @@ class Usuario extends Model
     public function nombre()
     {
         return str_replace("_", " ", $this->nombre);
+    }
+
+    public function permisosPropios() {
+        return $this->belongsToMany(Permiso::class, 'usuario_tiene_permiso');
+    }
+
+    public function tienePermisoNombre($permisoNombre) {
+        // Primero revisamos si su rol tiene los permisos
+        $roles = $this->roles;
+        foreach ($roles as $rol ) {
+            if ($rol->tienePermisoNombre($permisoNombre)) return true;
+        }
+        // Ahora revisamos si el usuario tiene el permiso asignado
+        $permisos = $this->permisosPropios;
+        foreach ($permisos as $permiso ) {
+            if ($permiso->nombre == $permisoNombre) return true;
+        }
+
+        return false;
     }
 }

@@ -65,16 +65,16 @@ Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obten
     ->name('planillas.semanal.docente');
 Route::post('/planillas/semanal/', 'PlanillaSemanalController@registrarAsistenciasSemana')->name('planillas.semanal');
 
-Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
+//Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
 Route::get('/docente/{usuario}', 'ProvController\Menu@docente')->name('docente');
-Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
+//Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
 Route::get('/auxiliarDoc/{usuario}', 'ProvController\Menu@auxiliarDoc')->name('auxiliarDoc');
-Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxiliaresLabo');
+//Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxiliaresLabo');
 Route::get('/auxiliarLabo/{usuario}', 'ProvController\Menu@auxiliarLabo')->name('auxiliarLabo');
-Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
-Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
+//Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
+//Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
 // Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
-Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
+//Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');
@@ -140,6 +140,11 @@ Route::post('/reset-password', 'Auth\ResetPasswordController@reset');
 Route::get('/forgot-password', 'Auth\ForgotPasswordController@index')->name('forgot-password');
 Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('recover');
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
+
+Route::get('/test', function () {
+    //dd(App\Rol::all()->first()->permisos->first()->nombre);
+    dd(App\Usuario::where('codSis', 3)->get()->first()->roles);
+});
 
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
