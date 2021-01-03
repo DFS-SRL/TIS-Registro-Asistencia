@@ -40,6 +40,10 @@ class Usuario extends Model
         return $this->belongsTo('App\Unidad');
     }
 
+    public function notificaciones(){
+        return $this->belongsTo('App\Notificaciones');
+    }
+
     public function nombre()
     {
         return str_replace("_", " ", $this->nombre);

@@ -141,6 +141,8 @@ Route::get('/forgot-password', 'Auth\ForgotPasswordController@index')->name('for
 Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('recover');
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 
+Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
+
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
     $usuarios = App\Usuario::all();
@@ -156,6 +158,18 @@ Route::get('/llenar', function () {
         $user->email_verified_at = Carbon::now();
         $user->save();
         array_push($users, $user);
+    }
+    return back()->with('success', 'usuarios llenados :3');
+});
+
+Route::get('/llenar2', function () {
+    if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
+    for($i = 0; $i < 10; $i++){
+        $noti = new App\Notificaciones;
+        $noti->id = $i;
+        $noti->user_id = 5;
+        $noti->text = 'Notificacion ' . $i;
+        $noti->save();
     }
     return back()->with('success', 'usuarios llenados :3');
 });
