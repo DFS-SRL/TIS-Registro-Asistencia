@@ -28,9 +28,9 @@ class PlanillaLaboController extends Controller
     public function obtenerPlanillaDia(Usuario $user)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [1];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
-        if (!$accesoOtorgado || Auth::user()->usuario->codSis != $user->codSis) {
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla diaria')
+                        & (Auth::user()->usuario->codSis == $user->codSis);
+        if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
         
@@ -64,8 +64,7 @@ class PlanillaLaboController extends Controller
     public function registrarAsistencia(RegistrarAsistenciaLaboRequest $request)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [1];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla diaria');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

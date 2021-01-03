@@ -67,4 +67,12 @@ class Usuario extends Model
 
         return false;
     }
+
+    public function perteneceAFacultad($facultad_id) {
+        return Http\Controllers\PersonalAcademicoController::perteneceAFacultad($this->codSis, $facultad_id);
+    }
+
+    public function perteneceAUnidad($unidad_id) {
+        return Http\Controllers\PersonalAcademicoController::perteneceAUnidad($this->codSis, $unidad_id);
+    }
 }

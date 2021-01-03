@@ -518,4 +518,19 @@ class PersonalAcademicoController extends Controller
             ->get()
             ->isEmpty();
     }
+    //devuelve verdadero si el usuario pertenece a la unidad
+    public static function perteneceAUnidad($codigoSis, $unidad_id) {
+        $usuarioEsJefeDept = Unidad::where('id', $unidad_id)
+            ->where('jefe_codSis', $codigoSis)
+            ->exists();
+        $tieneRolEnUnidad = !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+            ->where('departamento_id', $unidad_id)
+            ->get()
+            ->isEmpty();
+        $tieneRolEnFacultad = !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+            ->where('facultad_id', Unidad::find($unidad_id)->facultad_id)
+            ->get()
+            ->isEmpty();
+        return $usuarioEsJefeDept || $tieneRolEnUnidad || $tieneRolEnFacultad;
+    }
 }

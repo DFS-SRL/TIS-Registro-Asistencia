@@ -67,8 +67,8 @@ class ParteMensualController extends Controller
     public function obtenerParteAuxiliares(Unidad $unidad, $fecha)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5,6,7,8];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
                 return view('provicional.noAutorizado');
         }
@@ -106,8 +106,8 @@ class ParteMensualController extends Controller
     public function obtenerParteDocentes(Unidad $unidad, $fecha)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5,6,7,8];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
                 return view('provicional.noAutorizado');
         }
@@ -216,14 +216,10 @@ class ParteMensualController extends Controller
     public function descargarPDFDocentes(Unidad $unidad, $fecha )
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
-            $rolesPermitidos = [5,6,7,8];
-            $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
-            if (!$accesoOtorgado) {
-                return view('provicional.noAutorizado');
-            }
+            return view('provicional.noAutorizado');
         }
         $respuesta = $this->generarParteDocentes($unidad, $fecha);
         return PDF::loadView('parteMensual.docentesPDF',$respuesta)
@@ -234,14 +230,10 @@ class ParteMensualController extends Controller
     public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
-            $rolesPermitidos = [5,6,7,8];
-            $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
-            if (!$accesoOtorgado) {
-                return view('provicional.noAutorizado');
-            }
+            return view('provicional.noAutorizado');
         }
         
         $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
@@ -305,7 +297,7 @@ class ParteMensualController extends Controller
             return view('parteMensual.partesMesFacultad',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
         }else{
             $rolesPermitidos = [1,2,3,4,5,6,7,8];
-            $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);    
+            $rolAceptado = UsuarioTieneRol::alMenosUnRol(ADuth::user()->usuario->codSis, $rolesPermitidos);    
             if ($rolAceptado) {
                 return view('parteMensual.partesMesFacultadDPA',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
             }else{
