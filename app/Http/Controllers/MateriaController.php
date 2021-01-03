@@ -37,4 +37,20 @@ class MateriaController extends Controller
             ]);
         }
     }
+    public function eliminarMateria(Materia $materia){
+        $materia->update(['activo' => false]);
+        return back()->with('success', 'Materia eliminada');
+    }
+    public function guardarMateria(Materia $materia){
+        $materia = Materia::where('id', '=', $materia->id);
+        return back()->with('success', 'Materia guardada');
+    }
+    public function eliminarCargo(Materia $cargo){
+        $cargo->update(['activo' => false]);
+        return back()->with('success', 'Cargo de laboratorio eliminado');
+    }
+    public function guardarCargo(Materia $cargo){
+        $cargo = Materia::where('id', '=', $cargo->id);
+        return back()->with('success', 'Cargo de laboratorio guardado');
+    }
 }

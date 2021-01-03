@@ -98,8 +98,11 @@ Route::patch('/asistencia/{asistencia}', 'AsistenciaController@actualizar')->nam
 Route::patch('/asistencia/{asistencia}/permiso', 'AsistenciaController@permisoEdicion')->name('asistencia.permiso');
 
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
+Route::delete('/materia/{materia}', 'MateriaController@eliminarMateria')->name('materia.eliminar');
+Route::patch('/materia/{materia}', 'MateriaController@guardarMateria')->name('materia.guardar');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
+route::get('/materias/{unidadId}/editar', 'ListaMateriasController@editarListaMaterias');
 
 Route::get('/informes/semanales/{unidad}', 'InformesController@formularioUnidad')->name('informes.semanales');
 Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formularioUsuario')->name('informes.semanales.personal');
@@ -111,8 +114,12 @@ Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorR
 Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
+Route::delete('/cargo/{cargo}', 'MateriaController@eliminarCargo')->name('cargo.eliminar');
+Route::patch('/cargo/{cargo}', 'MateriaController@guardarCargo')->name('cargo.guardar');
+
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
+route::get('/cargos/{unidad}/editar', 'ListaMateriasController@editarListaCargosDeLabo');
 
 Route::get('/personalAcademico/registrar/{unidad}', 'PersonalAcademicoController@mostrarRegistro')->name('personalAcademico.mostrarRegistro');
 Route::get('/personalAcademico/registrar/{unidad}/verificar', 'PersonalAcademicoController@verificarCodsis')->name('personalAcademico.verificar');
