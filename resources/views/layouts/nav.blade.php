@@ -10,11 +10,11 @@
                 <div class="">
                     <a class="navbar-brand text-white text-right" href={{ route('notificaciones') }}>Notificaciones
                         {{-- @if ($count =  App\Notificaciones::where('user_id', '=', auth()->user()->usuario->codSis)->count()) --}}
-                            <span class="badge badge-pill badge-dark
-                            {{ App\Notificaciones::where('user_id', '=', auth()->user()->usuario->codSis)->count() ? '' : 'd-none'}}">
+                        <span class="badge badge-pill badge-dark
+                            {{ Auth::user()->usuario->notificacionesNoLeidas()->count() ? '' : 'd-none'}}">
                                 {{-- {{ $count }} --}}
-                                {{ App\Notificaciones::where('user_id', '=', auth()->user()->usuario->codSis)->count() }}
-                            </span>
+                                {{ Auth::user()->usuario->notificacionesNoLeidas()->count() }}
+                        </span>
                         {{-- @else --}}
                             {{-- <br> --}}
                         {{-- @endif --}}

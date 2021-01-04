@@ -41,7 +41,11 @@ class Usuario extends Model
     }
 
     public function notificaciones(){
-        return $this->belongsTo('App\Notificaciones');
+        return $this->hasMany('App\Notificaciones', 'user_id', 'codSis');
+    }
+
+    public function notificacionesNoLeidas(){
+        return Notificaciones::notificacionesNoLeidas($this->codSis);
     }
 
     public function nombre()

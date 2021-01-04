@@ -149,6 +149,7 @@ Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 
 Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
+Route::patch('/notificaciones/{id}', 'NotificationController@leer')->name('notificaciones.leer');
 
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
@@ -173,10 +174,9 @@ Route::get('/llenar2', function () {
     if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
     for($i = 0; $i < 10; $i++){
         $noti = new App\Notificaciones;
-        $noti->id = $i;
         $noti->user_id = 5;
         $noti->text = 'Notificacion ' . $i;
         $noti->save();
     }
-    return back()->with('success', 'usuarios llenados :3');
+    return redirect('/')->with('success', 'usuarios llenados :3');
 });
