@@ -33,6 +33,12 @@ class GrupoController extends Controller
 
     public function eliminarGrupo(Grupo $grupo){
         // return $grupo;
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
+        if (!$acceso || !Auth::user()->usuario->perteneceAUnidad($grupo->unidad_id)) {
+            return view('provicional.noAutorizado');
+        }
+
         $grupo->update(['activo' => false]);
         if($grupo->materia->es_materia){
             return back()->with('success', 'grupo eliminado');
@@ -41,6 +47,12 @@ class GrupoController extends Controller
     }
     public function guardarGrupo(Request $grupo){
         // return $grupo;
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
+        if (!$acceso || !Auth::user()->usuario->perteneceAUnidad($grupo->unidad_id)) {
+            return view('provicional.noAutorizado');
+        }
+
         Grupo::insert(["unidad_id"=>$grupo->unidad_id,"nombre"=>$grupo->nombre,"materia_id"=>$grupo->materia_id,"activo"=>$grupo->activo]);
         $es_materia = Materia::where("id",'=',$grupo->materia_id)->get();
         // return $es_materia;
