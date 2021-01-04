@@ -98,6 +98,7 @@ Route::patch('/asistencia/{asistencia}', 'AsistenciaController@actualizar')->nam
 Route::patch('/asistencia/{asistencia}/permiso', 'AsistenciaController@permisoEdicion')->name('asistencia.permiso');
 
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
+Route::post('/materia/guardar', 'MateriaController@guardarMateria')->name('materia.guardar');
 Route::delete('/materia/{materia}', 'MateriaController@eliminarMateria');
 Route::get('/materia/{materia}/editar', 'MateriaController@editarListaGrupos');
 route::get('/materias/{unidadId}/editar', 'ListaMateriasController@editarListaMaterias');

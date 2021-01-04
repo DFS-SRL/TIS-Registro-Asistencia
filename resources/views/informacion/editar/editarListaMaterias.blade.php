@@ -61,7 +61,7 @@
         @csrf  
         <input  type="hidden" name="activo" value="true">
         <input  type="hidden" name="unidad_id" value="{{$unidad->id}}">
-        <input  type="hidden" name="es_materia" value="true">
+        <input  type="hidden" name="es_materia" value=true>
         <input id="nombreMateriaNueva" type="hidden" name="nombre">
     </form>
 @endsection
