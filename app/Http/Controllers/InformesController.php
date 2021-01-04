@@ -31,7 +31,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4, 5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -81,6 +81,14 @@ class InformesController extends Controller
                 throw $error;
             }
         }
+        if (ParteMensual::where('fecha_ini', '=', $fechaInicio)
+            ->where('fecha_fin', '=', $fechaFin)
+            ->where('unidad_id', '=', request()['unidad_id'])
+            ->count() == 0
+        )
+            throw ValidationException::withMessages([
+                'nivel3' => ['Las asistencias ya fueron enviadas a decanatura.']
+            ]);
         $this->registrarParteMensual(request()['unidad_id'], $fechaInicio, $fechaFin);
         $this->subirNivel($asistencias);
         return back()->with('success', 'Enviado correctamente :)');
@@ -129,7 +137,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4, 5];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -188,7 +196,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -202,7 +210,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -216,7 +224,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -255,7 +263,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [3, 4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -298,7 +306,7 @@ class InformesController extends Controller
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [1, 2, 4];
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id)
-                        | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5,6,7,8]);
+            | UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, [5, 6, 7, 8]);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

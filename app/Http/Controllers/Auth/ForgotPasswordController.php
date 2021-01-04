@@ -85,7 +85,7 @@ class ForgotPasswordController extends Controller
             Auth::login($user);
             return redirect('/reset-password')->withInfo('Se ha habilitado el cambio de tu contraseña.');
         }else{
-            return redirect('/login')->withInfo('El enlace que seguiste ya fue utilizado o ya expiró.');
+            return redirect('/login')->with('error', 'El enlace que seguiste ya fue utilizado o ya expiró.');
         }
         // Auth::login($token->user);
         // return redirect('/reset-password')->withInfo('Se ha habilitado el cambio de tu contraseña.');
