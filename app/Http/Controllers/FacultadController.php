@@ -98,8 +98,17 @@ class FacultadController extends Controller
         return back()->with('success', 'Facultad eliminada');
     }
     public function guardarFacultad(Request $facultad){
-
         Facultad::insert(["nombre"=>$facultad->nombre,"activo"=>$facultad->activo,"encargado_codSis"=>$facultad->encargado_codSis,"decano_codSis"=>$facultad->decano_codSis,"director_codSis"=>$facultad->director_codSis]);
+        $facultad = Facultad::where("nombre",$facultad->nombre)    
+                                ->where("activo",$facultad->activo)
+                                ->where("encargado_codSis",$facultad->encargado_codSis)
+                                ->where("decano_codSis",$facultad->decano_codSis)
+                                ->where("director_codSis",$facultad->director_codSis)
+                                ->first();
+        
+        UsuarioTieneRol::insert(["usuario_codSis"=>$facultad->encargado_codSis,"rol_id"=>5,"facultad_id"=>$facultad->id ]);
+        UsuarioTieneRol::insert(["usuario_codSis"=>$facultad->decano_codSis,"rol_id"=>6,"facultad_id"=>$facultad->id]);
+        UsuarioTieneRol::insert(["usuario_codSis"=>$facultad->director_codSis,"rol_id"=>7,"facultad_id"=>$facultad->id]);
         return back()->with('success', 'Facultad guardada');
     }
 
