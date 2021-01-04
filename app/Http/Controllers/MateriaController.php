@@ -23,7 +23,8 @@ class MateriaController extends Controller
     public function mostrarInformacion(Materia $materia) {
         // Obtener gupos de la materia
         $grupos = Grupo::where('materia_id', '=', $materia->id)
-                            ->get();
+                        ->where('activo','=',true)
+                        ->get();
         
         if ($materia->es_materia) {
             return view('informacion.materia', [
@@ -37,20 +38,45 @@ class MateriaController extends Controller
             ]);
         }
     }
-    public function eliminarMateria(Materia $materia){
-        $materia->update(['activo' => false]);
-        return back()->with('success', 'Materia eliminada');
+    public function editarListaGrupos(Materia $materia){
+        $grupos = Grupo::where('materia_id', '=', $materia->id)
+                        ->where('activo','=',true)
+                        ->get();
+        
+        if ($materia->es_materia) {
+            return view('informacion.editar.editarMateria', [
+                "materia" => $materia,
+                "grupos" => $grupos
+            ]);
+        } else {
+            return view('informacion.editar.editarCargo', [
+                "cargo" => $materia,
+                "items" => $grupos
+            ]);
+        }
     }
-    public function guardarMateria(Materia $materia){
-        $materia = Materia::where('id', '=', $materia->id);
+    public function eliminarMateria(Materia $materia){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
+        $materia->update(['activo' => false]);
+        if($materia->es_materia){
+            return back()->with('success', 'Materia eliminada');
+        }
+        return back()->with('success', 'Cargo eliminado');
+    }
+    public function guardarMateria(Request $materia){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
+        
+        Materia::insert(["unidad_id"=>$materia->unidad_id,"nombre"=>$materia->nombre,"es_materia"=>$materia->es_materia,"activo"=>$materia->activo]);
         return back()->with('success', 'Materia guardada');
     }
-    public function eliminarCargo(Materia $cargo){
-        $cargo->update(['activo' => false]);
-        return back()->with('success', 'Cargo de laboratorio eliminado');
-    }
-    public function guardarCargo(Materia $cargo){
-        $cargo = Materia::where('id', '=', $cargo->id);
-        return back()->with('success', 'Cargo de laboratorio guardado');
-    }
+    
 }

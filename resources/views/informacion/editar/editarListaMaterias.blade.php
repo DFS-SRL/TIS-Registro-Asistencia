@@ -11,18 +11,19 @@
         <div class="mx-3 my-4">
             <div class="row">
                 <div class="col-md-4">
-                    {{-- <h4 class="textoBlanco">{{ $unidad->facultad->nombre }}</h4> --}}
+                    <h4 class="textoBlanco">{{ $unidad->facultad->nombre }}</h4>
                     <h1 class="textoBlanco">{{ $unidad->nombre }}</h1>
                 </div>
             </div>
             <div class="container mt-4">
-                <table class="table table-responsive">
+                <table id="materias" class="table table-responsive">
                     @forelse ($materias as $materia)
-                    <tr class="">
-                        <td class="col ">
+                    <tr id="materia{{ $materia->id }}">
+                        <td class="col-9">
                             <a href="/materia/{{ $materia->id }}">{{ $materia->nombre }}</a>
                         </td>
-                        <td class="col "><input 
+                        <td class="col"></td>
+                        <td class="col-3"><input 
                                 {{-- id = {{"botonEliminar".$horario->id}} --}}
                                 width="30rem" height="30rem" 
                                 type="image" name="botonEliminar" 
@@ -37,10 +38,11 @@
                     @empty
                         <h3 class="textoBlanco">Este unidad no tiene materias asignadas</h3>
                     @endforelse
+                    <tr id="materiaNueva"><tr>
                 </table>
                 
             </div>
-            <button type="button" class="btn boton ml-2">AÑADIR MATERIA <svg width="2em" height="2em"
+            <button type="button" class="btn boton ml-2" onclick="añadirMateria();">AÑADIR MATERIA <svg width="2em" height="2em"
                 viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -53,6 +55,15 @@
         </div>
 
     </div>
+    
+    <form id="guardar-materia" class="d-none" method="POST"
+            action="/materia/guardar">
+        @csrf  
+        <input  type="hidden" name="activo" value="true">
+        <input  type="hidden" name="unidad_id" value="{{$unidad->id}}">
+        <input  type="hidden" name="es_materia" value="true">
+        <input id="nombreMateriaNueva" type="hidden" name="nombre">
+    </form>
 @endsection
 @section('script-footer')
 
@@ -63,5 +74,26 @@
             document.getElementById("eliminar-materia" + materiaId).submit();
     }
     
+    function añadirMateria(){
+        $("#materiaNueva").append(`<td class="col-9">
+                                        <label for="iMateriaNueva"><strong>Nombre de la materia:</strong></label>
+                                        <input type="text" name="" id="iMateriaNueva">
+                                    </td>
+                                    <td class="col-2">
+                                        <input width="30rem" height="30rem" type="image" src="/icons/aceptar.png"
+                                        alt="Aceptar" onclick="confirmarAñadirMateria()">
+                                    </td>
+                                    <td class="col-1">
+                                        <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png"
+                                        alt="Cancelar" onclick = "cancelarFila()">
+                                    </td>`);
+    }
+    function cancelarFila(){
+        document.getElementById("materiaNueva").innerHTML ="";
+    }
+    function confirmarAñadirMateria(){
+        document.getElementById("nombreMateriaNueva").value = document.getElementById("iMateriaNueva").value;
+        document.getElementById("guardar-materia").submit();
+    }
 </script>    
 @endsection

@@ -26,8 +26,8 @@ class HorarioClaseController extends Controller
         $horario = $request->validated();
 
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -112,8 +112,8 @@ class HorarioClaseController extends Controller
         $horarioNuevo = $request->validated();
 
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -138,8 +138,8 @@ class HorarioClaseController extends Controller
     public function eliminar(HorarioClase $horario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

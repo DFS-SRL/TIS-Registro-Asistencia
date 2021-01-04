@@ -28,46 +28,30 @@ class UnidadController extends Controller
     public function obtenerParte(Unidad $unidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4,5,6,7];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        $rolesFac = [5,6,7,8];
-        // Falta verificar si son de la misma facultad
-        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
-        if (!$accesoOtorgado && !$rolesFac) {
-            $rolesPermitidos = [8];
-            $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
-            if (!$accesoOtorgado) {
-                return view('provicional.noAutorizado');
-            }
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
         }
         
         return view('parteMensual.seleccion', ['unidad' => $unidad]);
     }
     //Obtener informacion de un departamento y la lista de sus ultimos 5 partes mensuales
     public function informacionDepartamento(Unidad $unidad){
-
-        $rolesPermitidos = [1,2,3,4,5,6,7];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
-        if ($accesoOtorgado) {
-            $ultimosPartes = ParteMensual::where('unidad_id','=',$unidad->id)
-                                          ->orderBy('fecha_ini','desc')->limit(5)->get();
-    
-            $ultimosPartes = FechasPartesMensualesHelper::añadirMesPartes($ultimosPartes);
-            return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes]);
-        }
-        //Jefe DPA
-        $rolesPermitidos = [8];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
-        if ($accesoOtorgado) {
+        // Al jefe de dpa se le mostraran solo los partes que ya fueron aprobados
+        // Los demas usuarios podran ver los partes si tienen el permiso
+        if (Auth::user()->usuario->tienePermisoNombre('ver solo partes completos')) {
             $ultimosPartes = ParteMensual::where('unidad_id','=',$unidad->id)
                                           ->where('aprobado','=',true)
                                           ->orderBy('fecha_ini','desc')->limit(5)->get();
     
             $ultimosPartes = FechasPartesMensualesHelper::añadirMesPartes($ultimosPartes);
             return view('informacion.departamentoDPA', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes]);
-        }else{
-            return view('provicional.noAutorizado');
         }
+        $ultimosPartes = ParteMensual::where('unidad_id','=',$unidad->id)
+                                        ->orderBy('fecha_ini','desc')->limit(5)->get();
 
+        $ultimosPartes = FechasPartesMensualesHelper::añadirMesPartes($ultimosPartes);
+        return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes]);
     }
 }

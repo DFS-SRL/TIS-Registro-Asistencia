@@ -302,3 +302,12 @@ function aceptarEdicionHorarioDeGrupo(horarioId) {
 
     document.getElementById("editar-horario" + horarioId).submit();
 }
+function añadirItem(){
+    $("#items").append();
+}
+function aceptarAñadirMateria(){
+
+}
+function cancelarAñadirMateria(){
+
+}
