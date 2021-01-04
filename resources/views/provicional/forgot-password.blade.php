@@ -18,7 +18,7 @@
                         @csrf
                         <div class="input-group form-group">
                             <div class="input-group form-group">
-                                <input type="password" class="form-control" id="codSis" name="codSis" placeholder="Codigo SIS">
+                                <input type="password" class="form-control" id="codSis" name="codSis" placeholder="Código SIS">
                             </div>
                         </div>
                         <div class="form-group text-center">
