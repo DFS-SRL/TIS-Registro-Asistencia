@@ -22,5 +22,33 @@
         {{-- <a href="departamentos">Departamentos</a><br> --}}
         {{-- <a href="facultades">Facultades</a><br> --}}
         <a href="reset-password">Cambia tu contraseña</a>
+        <div class="container mt-4">
+            <h2 class="textoBlanco">Roles:</h2>
+            <ul class="list-group">
+                @forelse (Auth::user()->usuario->roles as $rol)
+                    <li class="list-group-item lista">
+                        <a>
+                            {{ $rol->nombre }}
+                        </a>
+                    </li>
+                @empty
+                    <h1 class="textoBlanco">No tiene ningun rol asignado</h1>
+                @endforelse
+            </ul>
+        </div>
+        <div class="container mt-4">
+            <h2 class="textoBlanco">Permisos:</h2>
+            <ul class="list-group">
+                @forelse (Auth::user()->usuario->todosLosPermisos() as $permiso)
+                    <li class="list-group-item lista">
+                        <a>
+                            {{ $permiso->nombre }}
+                        </a>
+                    </li>
+                @empty
+                    <h1 class="textoBlanco">No tiene ningun permiso asignado</h1>
+                @endforelse
+            </ul>
+        </div>
     </div>
 @endsection

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class Usuario extends Model
 {
@@ -74,6 +75,17 @@ class Usuario extends Model
         }
 
         return false;
+    }
+
+    public function todosLosPermisos() {
+        $permisos = new Collection;
+        $roles = $this->roles;
+        foreach ($roles as $rol ) {
+            return $rol->permisos;
+            $permisos = $permisos->merge($rol->permisos);
+        }
+        $permisos = $permisos->merge($this->permisosPropios);
+        return $permisos;
     }
 
     public function perteneceAFacultad($facultad_id) {
