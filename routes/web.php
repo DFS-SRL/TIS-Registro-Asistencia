@@ -18,18 +18,16 @@ Route::view('/', 'provicional.menu')->middleware('auth')->name('home');
 
 Route::view('/acerca-de', 'provicional.acerca-de')->name('about');
 
+/* Partes mensuales */
+//http://localhost:8000/parteMensual/docentes/1/2020-10-19 
+Route::get('/parteMensual/docentes/{unidad}/{fecha}', 'ParteMensualController@obtenerParteDocentes');
+Route::get('/parteMensual/docentes/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFDocentes');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
 Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
 Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
 Route::get('/facultades/{facultad}/{fecha}','ParteMensualController@partesMesFacultad');
-
-
-//http://localhost:8000/parteMensual/docentes/1/2020-10-19 
-Route::get('/parteMensual/docentes/{unidad}/{fecha}', 'ParteMensualController@obtenerParteDocentes');
-Route::get('/parteMensual/docentes/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFDocentes');
-
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia')
     ->name('planillas.diaria.obtener');
@@ -65,16 +63,16 @@ Route::get('/planillas/semanal/docente/{user}', 'PlanillaSemanalController@obten
     ->name('planillas.semanal.docente');
 Route::post('/planillas/semanal/', 'PlanillaSemanalController@registrarAsistenciasSemana')->name('planillas.semanal');
 
-Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
+//Route::get('/docentes', 'ProvController\Menu@docentes')->name('docentes');
 Route::get('/docente/{usuario}', 'ProvController\Menu@docente')->name('docente');
-Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
+//Route::get('/auxiliaresDoc', 'ProvController\Menu@auxiliaresDoc')->name('auxiliaresDoc');
 Route::get('/auxiliarDoc/{usuario}', 'ProvController\Menu@auxiliarDoc')->name('auxiliarDoc');
-Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxiliaresLabo');
+//Route::get('/auxiliaresLabo', 'ProvController\Menu@auxiliaresLabo')->name('auxiliaresLabo');
 Route::get('/auxiliarLabo/{usuario}', 'ProvController\Menu@auxiliarLabo')->name('auxiliarLabo');
-Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
-Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
+//Route::get('/encargadosAsist', 'ProvController\Menu@encargadosAsist');
+//Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
 // Route::get('/departamentos', 'ProvController\Menu@departamentos')->name('departamentos');
-Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
+//Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
 Route::delete('/grupo/{grupo}', 'GrupoController@eliminarGrupo');
@@ -155,6 +153,11 @@ Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
 Route::patch('/notificaciones/{id}', 'NotificationController@leer')->name('notificaciones.leer');
 
+Route::get('/test', function () {
+    //dd(App\Rol::all()->first()->permisos->first()->nombre);
+    dd(App\Grupo::all()->first()->unidad);
+});
+
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
     $usuarios = App\Usuario::all();
@@ -175,12 +178,12 @@ Route::get('/llenar', function () {
 });
 
 Route::get('/llenar2', function () {
-    if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
+    //if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
     for($i = 0; $i < 10; $i++){
         $noti = new App\Notificaciones;
         $noti->user_id = 5;
         $noti->text = 'Notificacion ' . $i;
         $noti->save();
     }
-    return redirect('/')->with('success', 'usuarios llenados :3');
+    return redirect('/')->with('success', 'notificaciones llenadas :3');
 });

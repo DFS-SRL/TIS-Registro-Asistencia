@@ -153,7 +153,8 @@ class PersonalAcademicoController extends Controller
             ->where('Grupo.unidad_id', '=', $unidadId)
             ->where('asignado_codSis', '=', $codSis)
             ->where('Materia.es_materia', $esMateria)
-            ->where('activo', '=', 'true')
+            ->where('Grupo.activo', '=', 'true')
+            ->where('Materia.activo', '=', 'true')
             ->distinct()
             ->select('Horario_clase.grupo_id', 'Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
     }
@@ -173,8 +174,8 @@ class PersonalAcademicoController extends Controller
     public function informacionAuxiliar(Unidad $unidad, Usuario $usuario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informacion de personal academico')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -207,8 +208,8 @@ class PersonalAcademicoController extends Controller
     public function informacionDocente(Unidad $unidad, Usuario $usuario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informacion de personal academico')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -330,12 +331,9 @@ class PersonalAcademicoController extends Controller
     public function mostrarRegistro(Unidad $unidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        $rolesFac = [5, 6, 7, 8];
-        // Falta verificacion que sea de la misma facultad
-        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
-        if (!$accesoOtorgado && !$accesoFac) {
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('registrar personal academico')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+        if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
 
@@ -351,12 +349,9 @@ class PersonalAcademicoController extends Controller
     public function verificarCodsis(Unidad $unidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
-        $rolesFac = [5, 6, 7, 8];
-        // Falta verificacion que sea de la misma facultad
-        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
-        if (!$accesoOtorgado && !$accesoFac) {
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('registrar personal academico')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+        if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
 
@@ -402,12 +397,9 @@ class PersonalAcademicoController extends Controller
     public function registrarPersonalAcademico($idUnidad)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $idUnidad);
-        $rolesFac = [5, 6, 7, 8];
-        // Falta verificacion que sea de la misma facultad
-        $accesoFac = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesFac);
-        if (!$accesoOtorgado && !$accesoFac) {
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('registrar personal academico')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+        if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
 
@@ -517,5 +509,20 @@ class PersonalAcademicoController extends Controller
             ->where('facultad_id', $facultad_id)
             ->get()
             ->isEmpty();
+    }
+    //devuelve verdadero si el usuario pertenece a la unidad
+    public static function perteneceAUnidad($codigoSis, $unidad_id) {
+        $usuarioEsJefeDept = Unidad::where('id', $unidad_id)
+            ->where('jefe_codSis', $codigoSis)
+            ->exists();
+        $tieneRolEnUnidad = !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+            ->where('departamento_id', $unidad_id)
+            ->get()
+            ->isEmpty();
+        $tieneRolEnFacultad = !UsuarioTieneRol::where('usuario_codSis', $codigoSis)
+            ->where('facultad_id', Unidad::find($unidad_id)->facultad_id)
+            ->get()
+            ->isEmpty();
+        return $usuarioEsJefeDept || $tieneRolEnUnidad || $tieneRolEnFacultad;
     }
 }

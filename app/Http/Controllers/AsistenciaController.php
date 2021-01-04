@@ -29,8 +29,7 @@ class AsistenciaController extends Controller
         $datosNuevos = $request->validated();
 
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [1,2,3,4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar asistencia');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -79,8 +78,7 @@ class AsistenciaController extends Controller
     public function permisoEdicion(Asistencia $asistencia)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('otorgar permiso de edicion de asistencia');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

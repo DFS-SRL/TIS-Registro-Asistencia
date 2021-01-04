@@ -21,8 +21,7 @@ class NotificationController extends Controller
         $codSis = auth()->user()->usuario->codSis;
 
         return view('personal.notificaciones', [
-            'notificacionesLeidas' => Notificaciones::notificacionesLeidas($codSis),
-            'notificacionesNoLeidas' => Notificaciones::notificacionesNoLeidas($codSis)
+            'notificaciones' => Notificaciones::notificacionesNoLeidas($codSis)->unionAll(Notificaciones::notificacionesLeidas($codSis))->paginate(5)
         ]);
     }
 

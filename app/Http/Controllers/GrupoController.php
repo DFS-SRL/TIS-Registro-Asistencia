@@ -154,8 +154,8 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de editar grupo
     public function editarInformacion(Grupo $grupo)
     {
-        $rolesPermitidos = [4];
-        $acceso = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
         if(!$acceso){
             return view('/provicional/noAutorizado');
         }
@@ -169,10 +169,10 @@ class GrupoController extends Controller
     //Esta funcion se usa al momento de entrar a la vista de editar item
     public function editarInformacionItem(Grupo $grupo)
     {
-        $rolesPermitidos = [4];
-        $acceso = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
-        if(!$acceso){
-            return view('/provicional/noAutorizado');
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar item/cargo')
+                        & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
         }
         $informacion = $this->informacionGrupo($grupo);
         if ($informacion['esGrupoDeDocencia']) {
@@ -185,6 +185,11 @@ class GrupoController extends Controller
     // funcion para preguntar si un codsis es de docente y devuelve la vista de edicion del grupo
     public function esDocente(Grupo $grupo, Request $request)
     {
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
+        if(!$acceso){
+            return view('/provicional/noAutorizado');
+        }
         $informacion = $this->informacionGrupo($grupo);
         $informacion['asignarDocente'] = true;
         $usuario = null;
@@ -199,6 +204,11 @@ class GrupoController extends Controller
     // funcion para preguntar si un codsis es de docente y devuelve la vista de edicion del grupo
     public function esAuxDoc(Grupo $grupo, Request $request)
     {
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
+        if(!$acceso){
+            return view('/provicional/noAutorizado');
+        }
         $informacion = $this->informacionGrupo($grupo);
         $informacion['asignarAuxiliar'] = true;
         $usuario = null;
@@ -215,8 +225,8 @@ class GrupoController extends Controller
         $datos = $request->validated();
 
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, Grupo::find($datos['grupo_id'])->unidad_id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        & Auth::user()->usuario->perteneceAUnidad(Grupo::find($datos['grupo_id'])->unidad_id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -237,7 +247,8 @@ class GrupoController extends Controller
         
         // Verificamos que el usuario tiene los roles permitidos
         $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, Grupo::find($datos['grupo_id'])->unidad_id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        & Auth::user()->usuario->perteneceAUnidad(Grupo::find($datos['grupo_id'])->unidad_id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -255,8 +266,8 @@ class GrupoController extends Controller
         $datos = $request->validated();
         
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, Grupo::find($datos['grupo_id'])->unidad_id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar item/cargo')
+                        & Auth::user()->usuario->perteneceAUnidad(Grupo::find($datos['grupo_id'])->unidad_id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -288,8 +299,8 @@ class GrupoController extends Controller
     public function desasignarDocente(Grupo $grupo)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -299,8 +310,8 @@ class GrupoController extends Controller
     public function desasignarAuxiliar(Grupo $grupo)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                        & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -310,8 +321,8 @@ class GrupoController extends Controller
     public function desasignarAuxiliarDeLaboratorio(Grupo $grupo)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $grupo->unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar item/cargo')
+                        & Auth::user()->usuario->perteneceAUnidad($grupo->unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

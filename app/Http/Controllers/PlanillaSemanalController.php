@@ -32,8 +32,8 @@ class PlanillaSemanalController extends Controller{
     // para obtener la planilla semanal de auxiliar de docencia
     public function obtenerPlanillaSemanalAuxDoc(Usuario $user)
     {
-        $rolesPermitidos = [2];
-        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos) && User::inicioSesion($user);
+        $acceso = Auth::user()->usuario->tienePermisoNombre('llenar planilla semanal')
+                & (Auth::user()->usuario->codSis == $user->codSis);
         if ($acceso){
             return $this->obtenerPlanillaSemanal($user, 2);
         }
@@ -43,8 +43,8 @@ class PlanillaSemanalController extends Controller{
     // para obtener la planilla semanal de docente
     public function obtenerPlanillaSemanalDocente(Usuario $user)
     {
-        $rolesPermitidos = [3];
-        $acceso = UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario->codSis, $rolesPermitidos) && User::inicioSesion($user);
+        $acceso = Auth::user()->usuario->tienePermisoNombre('llenar planilla semanal')
+                & (Auth::user()->usuario->codSis == $user->codSis);
         if ($acceso){
             return $this->obtenerPlanillaSemanal($user, 3);
         }
@@ -95,8 +95,8 @@ class PlanillaSemanalController extends Controller{
     public function obtenerPlanillaExcepcionDocente(Unidad $unidad, Usuario $usuario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla de excepcion')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -108,8 +108,8 @@ class PlanillaSemanalController extends Controller{
     public function obtenerPlanillaExcepcionAuxiliar(Unidad $unidad, Usuario $usuario)
     {
         // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, $unidad->id);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla de excepcion')
+                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -156,8 +156,7 @@ class PlanillaSemanalController extends Controller{
     // registrar asistencias de la semana
     public function registrarAsistenciasSemana(RegistrarAsistenciaSemanalRequest $request)
     {
-        $rolesPermitidos = [2,3];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planila semanal');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

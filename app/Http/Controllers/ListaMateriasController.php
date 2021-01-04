@@ -35,6 +35,12 @@ class ListaMateriasController extends Controller
         ]);
     }
     public function editarListaMaterias($unidadId){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                & Auth::user()->usuario->perteneceAUnidad($unidadId);
+        if (!$acceso) {
+            return view('provicional.noAutorizado');
+        }
+
         $unidad = Unidad::where('id','=',$unidadId) -> select('id','nombre','facultad_id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId) 
                             ->where('es_materia', '=', true)
@@ -61,6 +67,12 @@ class ListaMateriasController extends Controller
         ]);
     }
     public function editarListaCargosDeLabo($unidadId) {
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar item/cargo')
+                & Auth::user()->usuario->perteneceAUnidad($unidadId);
+        if (!$acceso) {
+            return view('provicional.noAutorizado');
+        }
+
         $unidad = Unidad::where('id','=',$unidadId) -> select('nombre','facultad_id','id')->get();
         $materias = Materia::where('unidad_id', '=', $unidadId)
         ->where('es_materia', '=', false)
