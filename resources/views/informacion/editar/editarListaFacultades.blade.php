@@ -59,8 +59,11 @@
     <form id="guardar-facultad" class="d-none" method="POST"
             action="/facultades/guardar">
         @csrf  
-        <input  type="hidden" name="activo" value="true">
-        <input id="nombreFacultadNueva" type="hidden" name="nombre">
+        <input  type="hidden" name="activo" value="true" required>
+        <input id="nombreFacultadNueva" type="hidden" name="nombre" required>
+        <input type="hidden" name="encargado_codSis" id="encargado" required>
+        <input type="hidden" name="decano_codSis" id="decano" required>
+        <input type="hidden" name="director_codSis" id="director" required>
     </form>
 @endsection
 @section('script-footer')
@@ -75,7 +78,13 @@
     function añadirFacultad(){
         $("#facultadNueva").append(`<td class="col-9">
                                         <label for="iFacultadNueva"><strong>Nombre de la facultad:</strong></label>
-                                        <input type="text" name="" id="iFacultadNueva">
+                                        <input type="text" name="" id="iFacultadNueva" required> <br>
+                                        <label for="iEncargado"><strong>Codigo sis encargado Facultativo:</strong></label>
+                                        <input type="text" name="" id="iEncargado" required><br>
+                                        <label for="iDecano"><strong>Codigo sis decano:</strong></label>
+                                        <input type="text" name="" id="iDecano" required><br>
+                                        <label for="iDirector"><strong>Codigo director academico:</strong></label>
+                                        <input type="text" name="" id="iDirector" required>
                                     </td>
                                     <td class="col-2">
                                         <input width="30rem" height="30rem" type="image" src="/icons/aceptar.png"
@@ -91,6 +100,9 @@
     }
     function confirmarAñadirFacultad(){
         document.getElementById("nombreFacultadNueva").value = document.getElementById("iFacultadNueva").value;
+        document.getElementById("encargado").value = document.getElementById("iEncargado").value;
+        document.getElementById("decano").value = document.getElementById("iDecano").value;
+        document.getElementById("director").value = document.getElementById("iDirector").value;
         document.getElementById("guardar-facultad").submit();
     }
 </script>    

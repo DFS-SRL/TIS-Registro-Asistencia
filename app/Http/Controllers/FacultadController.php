@@ -99,7 +99,7 @@ class FacultadController extends Controller
     }
     public function guardarFacultad(Request $facultad){
 
-        Facultad::insert(["nombre"=>$facultad->nombre,"activo"=>$facultad->activo]);
+        Facultad::insert(["nombre"=>$facultad->nombre,"activo"=>$facultad->activo,"encargado_codSis"=>$facultad->encargado_codSis,"decano_codSis"=>$facultad->decano_codSis,"director_codSis"=>$facultad->director_codSis]);
         return back()->with('success', 'Facultad guardada');
     }
 
