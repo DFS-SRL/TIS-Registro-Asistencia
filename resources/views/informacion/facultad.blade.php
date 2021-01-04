@@ -33,10 +33,12 @@
                         <a class="nav-link active" id="departamentos-tab" data-toggle="tab" href="#departamentos" role="tab" aria-controls="departamentos"
                             aria-selected="true">DEPARTAMENTOS</a>
                     </li>
-                    <li class="nav-item tab-item">
-                        <a class="nav-link" id="mesesPartes-tab" data-toggle="tab" href="#mesesPartes" role="tab" aria-controls="mesesPartes"
-                            aria-selected="false">PARTES MENSUALES</a>
-                    </li>
+                    @if (Auth::user()->usuario->tienePermisoNombre('ver partes mensuales'))
+                        <li class="nav-item tab-item">
+                            <a class="nav-link" id="mesesPartes-tab" data-toggle="tab" href="#mesesPartes" role="tab" aria-controls="mesesPartes"
+                                aria-selected="false">PARTES MENSUALES</a>
+                        </li>
+                    @endif
                 </ul>
                 
                 <div class="tab-content" id="myTabContent">

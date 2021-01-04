@@ -66,12 +66,12 @@ class Usuario extends Model
         // Primero revisamos si su rol tiene los permisos
         $roles = $this->roles;
         foreach ($roles as $rol ) {
-            if ($rol->tienePermisoNombre($permisoNombre)) return true;
+            if ($rol->tienePermisoNombre($permisoNombre) || $rol->tienePermisoNombre('administracion')) return true;
         }
         // Ahora revisamos si el usuario tiene el permiso asignado
         $permisos = $this->permisosPropios;
         foreach ($permisos as $permiso ) {
-            if ($permiso->nombre == $permisoNombre) return true;
+            if ($permiso->nombre == $permisoNombre || $permiso->nombre == 'administracion') return true;
         }
 
         return false;
