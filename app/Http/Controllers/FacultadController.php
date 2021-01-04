@@ -29,7 +29,9 @@ class FacultadController extends Controller
         $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
         if (!$accesoOtorgado) {
         }
-        $facultades = Facultad::orderBy('nombre')->paginate(10);
+        $facultades = Facultad::orderBy('nombre')
+                            ->where('activo','=',true)
+                            ->paginate(10);
         return view('informacion.listaFacultades',['facultades'=>$facultades]);
     }
 
@@ -84,4 +86,21 @@ class FacultadController extends Controller
             'mesesPartes'=>$mesesPartes
         ]);    
     }
+    public function editarListaFacultades(){
+        $facultades = Facultad::orderBy('nombre')
+                                ->where('activo','=',true)
+                                ->get();
+        return view('informacion.editar.editarListaFacultades',['facultades'=>$facultades]); 
+    }
+    public function eliminarFacultad(Facultad $facultad){
+
+        $facultad->update(['activo' => false]);
+        return back()->with('success', 'Facultad eliminada');
+    }
+    public function guardarFacultad(Request $facultad){
+
+        Facultad::insert(["nombre"=>$facultad->nombre,"activo"=>$facultad->activo]);
+        return back()->with('success', 'Facultad guardada');
+    }
+
 }
