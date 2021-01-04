@@ -23,7 +23,8 @@ class MateriaController extends Controller
     public function mostrarInformacion(Materia $materia) {
         // Obtener gupos de la materia
         $grupos = Grupo::where('materia_id', '=', $materia->id)
-                            ->get();
+                        ->where('activo','=',true)
+                        ->get();
         
         if ($materia->es_materia) {
             return view('informacion.materia', [
@@ -32,6 +33,23 @@ class MateriaController extends Controller
             ]);
         } else {
             return view('informacion.cargo', [
+                "cargo" => $materia,
+                "items" => $grupos
+            ]);
+        }
+    }
+    public function editarListaGrupos(Materia $materia){
+        $grupos = Grupo::where('materia_id', '=', $materia->id)
+                        ->where('activo','=',true)
+                        ->get();
+        
+        if ($materia->es_materia) {
+            return view('informacion.editar.editarMateria', [
+                "materia" => $materia,
+                "grupos" => $grupos
+            ]);
+        } else {
+            return view('informacion.editar.editarCargo', [
                 "cargo" => $materia,
                 "items" => $grupos
             ]);

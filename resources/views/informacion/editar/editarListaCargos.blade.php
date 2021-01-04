@@ -11,7 +11,7 @@
         <div class="mx-3 my-4">
             <div class="row">
                 <div class="col-md-4">
-                    {{-- <h4 class="textoBlanco">{{ $unidad->facultad->nombre }}</h4> --}}
+                    <h4 class="textoBlanco">{{ $unidad->facultad->nombre }}</h4>
                     <h1 class="textoBlanco">{{ $unidad->nombre }}</h1>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                     @forelse ($cargos as $cargo)
                     <tr class="">
                         <td class="col ">
-                            <a href="/materia/{{ $cargo->id }}">{{ $cargo->nombre }}</a>
+                            <a href="/cargo/{{ $cargo->id }}">{{ $cargo->nombre }}</a>
                         </td>
                         <td></td>
                         <td class="col "><input 

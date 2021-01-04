@@ -77,6 +77,8 @@ Route::get('/jefesDept', 'ProvController\Menu@jefesDept');
 Route::get('/departamentos', 'FacultadController@listaTodosDepartamentos')->name('departamentos');
 
 Route::get('/grupo/{grupo}/editar', 'GrupoController@editarInformacion');
+Route::delete('/grupo/{grupo}', 'GrupoController@eliminarGrupo');
+Route::post('/grupo/guardar', 'GrupoController@guardarGrupo')->name('grupo.guardar');
 Route::post('/grupo/{grupo}/editar/esDocente', 'GrupoController@esDocente')->name('grupo.editar.esDocente');
 Route::post('/grupo/{grupo}/editar/esAuxDoc', 'GrupoController@esAuxDoc')->name('grupo.editar.esAuxDoc');
 Route::get('/grupo/{grupo}', 'GrupoController@mostrarInformacion')->name('grupo.informacion');
@@ -99,7 +101,8 @@ Route::patch('/asistencia/{asistencia}/permiso', 'AsistenciaController@permisoEd
 
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
 Route::delete('/materia/{materia}', 'MateriaController@eliminarMateria');
-Route::post('/materia/guardar', 'MateriaController@guardarMateria')->name('materia.guardar');
+Route::get('/materia/{materia}/editar', 'MateriaController@editarListaGrupos');
+route::get('/materias/{unidadId}/editar', 'ListaMateriasController@editarListaMaterias');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 route::get('/materias/{unidadId}/editar', 'ListaMateriasController@editarListaMaterias');
@@ -115,6 +118,7 @@ Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPart
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
 Route::delete('/cargo/{materia}', 'MateriaController@eliminarMateria');
+Route::get('/cargo/{materia}/editar', 'MateriaController@editarListaGrupos');
 Route::post('/cargo/guardar', 'MateriaController@guardarMateria')->name('cargo.guardar');
 
 

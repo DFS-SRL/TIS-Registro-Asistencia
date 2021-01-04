@@ -12,7 +12,8 @@ class Grupo extends Model
      * @var string
      */
     protected $table = 'public.Grupo';
-
+    protected $fillable = ['activo'];
+    public $timestamps = false;
     public function materia() {
         return $this->belongsTo('App\Materia');
     }

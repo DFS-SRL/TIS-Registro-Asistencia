@@ -7,6 +7,7 @@ use App\Grupo;
 use App\Usuario;
 use App\HorarioClase;
 use App\UsuarioTieneRol;
+use App\Materia;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsuarioGrupoRequest;
 use App\Http\Controllers\PersonalAcademicoController;
@@ -29,29 +30,26 @@ class GrupoController extends Controller
      * Las clases de docencia y auxiliatura son Materia en la BD
      * Tanto los grupos como los items son Grupo en la BD
      */
-    public function guardar(GuardarGrupoRequest $request)
-    {
-        $horario = $request->validated();
 
-        // Verificamos que el usuario tiene los roles permitidos
-        $rolesPermitidos = [4];
-        $accesoOtorgado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos, null);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
+    public function eliminarGrupo(Grupo $grupo){
+        // return $grupo;
+        $grupo->update(['activo' => false]);
+        if($grupo->materia->es_materia){
+            return back()->with('success', 'grupo eliminado');
         }
-
-        if ($horario['hora_inicio'] == ":00") {
-            $error = ValidationException::withMessages([
-                'horario' => ['debe añadir las horas del nuevo horario para guardar los cambios']
-            ]);
-            throw $error;
-        }
-        $this->validarHoras($horario, $horario['rol_id'] == 1 ? 60 : 45);
-        $this->asignarPersonal($horario);
-        $horario['activo'] = true;
-        HorarioClase::create($horario);
-        return back()->with('success', 'Registro existoso');
+        return back()->with('success', 'Item eliminado');
     }
+    public function guardarGrupo(Request $grupo){
+        // return $grupo;
+        Grupo::insert(["unidad_id"=>$grupo->unidad_id,"nombre"=>$grupo->nombre,"materia_id"=>$grupo->materia_id,"activo"=>$grupo->activo]);
+        $es_materia = Materia::where("id",'=',$grupo->materia_id)->get();
+        // return $es_materia;
+        if($es_materia[0]->es_materia){
+            return back()->with('success', 'Grupo guardado');
+        }
+        return back()->with('success', 'Item guardado');
+    }
+
     private function informacionGrupo(Grupo $grupo)
     {
         //* Obtener horarios y personal es igual para docencia y laboratorio
