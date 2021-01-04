@@ -157,9 +157,13 @@ Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
 Route::patch('/notificaciones/{id}', 'NotificationController@leer')->name('notificaciones.leer');
 
+Route::get('/administracion/permisos/usuarios', 'AdministracionPermisosController@listaDeUsuarios');
+Route::get('/administracion/permisos/asignar/{usuario}', 'AdministracionPermisosController@vistaDePermisos')->name('asignarPermisos');
+Route::post('/administracion/permisos/actualizar/{usuario}', 'AdministracionPermisosController@actualizarPermisos')->name('actualizarPermisos');
+
 Route::get('/test', function () {
     //dd(App\Rol::all()->first()->permisos->first()->nombre);
-    dd(App\Grupo::all()->first()->unidad);
+    dd(App\Usuario::find(3)->todosLosPermisos());
 });
 
 Route::get('/llenar', function () {
