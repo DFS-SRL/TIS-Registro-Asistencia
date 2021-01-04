@@ -58,7 +58,7 @@ class Usuario extends Model
     }
 
     public function permisosPropios() {
-        return $this->belongsToMany(Permiso::class, 'usuario_tiene_permiso');
+        return $this->belongsToMany(Permiso::class, 'usuario_tiene_permiso', 'usuario_codsis', 'permiso_id');
     }
 
     public function tienePermisoNombre($permisoNombre) {
