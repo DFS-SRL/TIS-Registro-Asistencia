@@ -26,7 +26,7 @@ Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
 Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
-Route::get('/facultades/editar','FacultadController@editarListaFacultades')->name('facultades');
+Route::get('/facultades/editar','FacultadController@editarListaFacultades')->name('facultades.editar');
 Route::post('/facultades/guardar', 'FacultadController@guardarFacultad')->name('facultad.guardar');
 Route::delete('/facultades/{facultad}', 'FacultadController@eliminarFacultad');
 Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
