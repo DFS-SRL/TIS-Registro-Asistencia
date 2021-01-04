@@ -77,12 +77,15 @@ class MateriaController extends Controller
     public function guardarMateria(Request $materia){
         $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
                 | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
-        if (!$accesoOtorgado) {
+        if (!$acceso) {
             return view('provicional.noAutorizado');
         }
-        
         Materia::insert(["unidad_id"=>$materia->unidad_id,"nombre"=>$materia->nombre,"es_materia"=>$materia->es_materia,"activo"=>$materia->activo]);
-        return back()->with('success', 'Materia guardada');
+        if($materia->es_materia == "true"){
+            return back()->with('success', 'Materia guardada');
+        }
+        return back()->with('success', 'Cargo guardado');
+        
     }
     
 }
