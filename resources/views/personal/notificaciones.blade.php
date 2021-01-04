@@ -6,38 +6,32 @@
 @endsection
 @section('content')
     <div class="container">
-    @if ($notificacionesLeidas->isEmpty() && $notificacionesNoLeidas->isEmpty())
+    @if ($notificaciones->isEmpty())
             <h4 class='textoBlanco'>No ha recibido ninguna notificacion de momento</h4>
         @else
         <ul class="list-group">
-                @foreach ($notificacionesNoLeidas as $noti)
-                    <li class="list-group-item list-group-item-info">
-                        <a href="{{ $noti->link }}">
+                @foreach ($notificaciones as $key => $noti)
+                    <li class="list-group-item 
+                    {{ $noti->leida() ? 'list-group-item-dark' : 'list-group-item-info'}}">
+                        <a href="{{ $noti->link }}" onclick="$('#form-{{$key}}').submit()">
                             {{ $noti->text }}
                         </a>
                         <div class="float-right">
-                            <form class="float-right" action="{{ route('notificaciones.leer', $noti->id) }}" method="POST">
-                                {{-- {{ method_field('PATCH') }} --}}
-                                @method('PATCH')
-                                @csrf
-                                <button class="btn btn-danger boton">X</button>
-                            </form>
+                            @if (!$noti->leida())
+                                <form id="form-{{ $key }}" class="float-right ml-2" action="{{ route('notificaciones.leer', $noti->id) }}" method="POST">
+                                    @method('PATCH')
+                                    @csrf
+                                    <button class="btn btn-danger">X</button>
+                                </form>
+                            @endif
                             {{ \Carbon\Carbon::parse($noti->created_at)->format('d/m/Y H:i')}}
-                        </div>
-                    </li>
-                @endforeach
-
-                @foreach ($notificacionesLeidas as $noti)
-                    <li class="list-group-item list-group-item-dark">
-                        <a href="{{ $noti->link }}">
-                            {{ $noti->text }}
-                        </a>
-                        <div class="float-right">
-                            {{ \Carbon\Carbon::parse($noti->created_at)->format('d/m/Y h:m')}}
                         </div>
                     </li>
                 @endforeach
             </ul>
         @endif
+        <div class="mt-2 d-flex justify-content-center">
+            {{ $notificaciones->links() }}
+        </div>
     </div>
 @endsection

@@ -20,12 +20,17 @@ class Notificaciones extends Model
         }
     }
 
+    public function leida(){
+        return $this->read_at !== null;
+    }
+
     public static function notificacionesNoLeidas($usuario){
         return Notificaciones::
             where('user_id', '=', $usuario)
             ->whereNull('read_at')
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->orderBy('text', 'ASC');
+            //->get();
     }
 
     public static function notificacionesLeidas($usuario){
@@ -33,6 +38,7 @@ class Notificaciones extends Model
             where('user_id', '=', $usuario)
             ->whereNotNull('read_at')
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->orderBy('text', 'ASC');
+            //->get();
     }
 }
