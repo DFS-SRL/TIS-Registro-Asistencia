@@ -26,11 +26,12 @@ Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
 Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
-Route::get('/facultades/editar','FacultadController@editarListaFacultades')->name('facultades');
+Route::get('/facultades/editar','FacultadController@editarListaFacultades')->name('facultades.editar');
 Route::post('/facultades/guardar', 'FacultadController@guardarFacultad')->name('facultad.guardar');
 Route::delete('/facultades/{facultad}', 'FacultadController@eliminarFacultad');
 Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
-Route::get('/facultades/{facultad}/{fecha}','ParteMensualController@partesMesFacultad');
+Route::get('/facultades/{facultad}/partesMensuales/{fecha}','ParteMensualController@partesMesFacultad');
+Route::get('/facultades/{facultad}/editar', 'UnidadController@editarListaDepartamentos');
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia')
     ->name('planillas.diaria.obtener');
@@ -114,6 +115,8 @@ Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formula
 
 
 Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento')->name('departamento');
+Route::post('/departamento/guardar', 'UnidadController@guardarDepartamento')->name('facultad.guardar');
+Route::delete('/departamento/{unidad}', 'UnidadController@eliminarDepartamento');
 Route::get('/partes/mensuales/{unidad}', 'UnidadController@obtenerParte')->name('partes.mensuales');
 Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorRol')->name('aprobarParteRol');
 Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');
