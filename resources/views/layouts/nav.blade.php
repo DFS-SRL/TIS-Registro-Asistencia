@@ -1,6 +1,6 @@
 <nav class="boton nav mb-4">
     <div class="container">
-        <div class="d-inline-flex navbar-right mb-2">
+        <div class="d-inline-flex navbar-right mb-2 {{ auth()->user() ? 'col-6' : '' }}">
             <a class="navbar-brand text-white" href="{{ route('home') }}">
                 {{ config('app.name') }}
             </a>
