@@ -44,6 +44,9 @@
                         <a>
                             {{ $permiso->nombre }}
                         </a>
+                        @if ($permiso->descripcion != null)
+                            <a>- {{$permiso->descripcion}}</a>
+                        @endif
                     </li>
                 @empty
                     <h1 class="textoBlanco">No tiene ningun permiso asignado</h1>
