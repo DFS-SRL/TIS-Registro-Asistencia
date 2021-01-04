@@ -243,6 +243,11 @@ class ParteMensualController extends Controller
     }
     //Aprueba el parte de acuerdo al rol
     public function aprobarPartePorRol(Request $request){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('aprobar partes mensuales');
+        if (!$acceso) {
+            return view('provicional.noAutorizado');
+        }
+        
         $idParte = $request->parte_id;
         $rol = $request->rol;
         $parte = ParteMensual::where("id","=",$idParte)->first();
@@ -264,6 +269,11 @@ class ParteMensualController extends Controller
     }
     //Enviar los ultimos partes a DPA
     public function enviarDPA(Request $request){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('enviar partes mensuales a dpa');
+        if (!$acceso) {
+            return view ('provicional.noAutorizado');
+        }
+        
         $depts = Unidad::where('facultad_id','=',$request->facultad_id)->get();
         foreach ($depts as $key => $dept) {
             $partes = ParteMensual::where('unidad_id','=',$dept->id)
