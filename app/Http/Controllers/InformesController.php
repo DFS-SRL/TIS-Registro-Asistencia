@@ -30,9 +30,9 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes semanales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         $accesoOtorgado |= (Auth::user()->usuario->tienePermisoNombre('enviar asistencias para aprobacion')
-                         &  Auth::user()->usuario->perteneceAUnidad($unidad->id));
+            &  Auth::user()->usuario->perteneceAUnidad($unidad->id));
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -81,6 +81,14 @@ class InformesController extends Controller
                 throw $error;
             }
         }
+        if (ParteMensual::where('fecha_ini', '=', $fechaInicio)
+            ->where('fecha_fin', '=', $fechaFin)
+            ->where('unidad_id', '=', request()['unidad_id'])
+            ->count() == 0
+        )
+            throw ValidationException::withMessages([
+                'nivel3' => ['Las asistencias ya fueron enviadas a decanatura.']
+            ]);
         $this->registrarParteMensual(request()['unidad_id'], $fechaInicio, $fechaFin);
         $this->subirNivel($asistencias);
         return back()->with('success', 'Enviado correctamente :)');
@@ -127,7 +135,7 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes semanales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -139,8 +147,8 @@ class InformesController extends Controller
     public function formularioUsuario(Usuario $usuario)
     {
         $acceso = Auth::user()->usuario->tienePermisoNombre('ver informes semanales propios')
-                & (Auth::user()->usuario->codSis == $usuario->codSis);
-                
+            & (Auth::user()->usuario->codSis == $usuario->codSis);
+
         return view('informes.semanales.usuarioSeleccion', ['usuario' => $usuario]);
     }
 
@@ -150,10 +158,10 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes semanales propios')
-                        & (Auth::user()->usuario->codSis == $usuario->codSis);
+            & (Auth::user()->usuario->codSis == $usuario->codSis);
         // Solo autoridades de la misma unidad/facultad pueden ver informes semanales del personal
         $accesoOtorgado |= (Auth::user()->usuario->tienePermisoNombre('ver informes semanales')
-                         & Auth::user()->usuario->mismoDepartamento($usuario));
+            & Auth::user()->usuario->mismoDepartamento($usuario));
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -184,7 +192,7 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes semanales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -197,7 +205,7 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes semanales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -210,7 +218,7 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes semanales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -248,7 +256,7 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes mensuales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -259,7 +267,7 @@ class InformesController extends Controller
             ]);
             throw $error;
         }
-        
+
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 
@@ -282,7 +290,7 @@ class InformesController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver informes mensuales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
@@ -323,7 +331,7 @@ class InformesController extends Controller
     {
         //Verificamos que se tengan los permisos necesarios
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla de excepcion')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }

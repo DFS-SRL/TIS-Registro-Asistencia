@@ -50,6 +50,6 @@ class ResetPasswordController extends Controller
         ]);
         $user->usuario->contrasenia = $request->new_password;
         $user->usuario->update();
-        return redirect('/')->withInfo('Se ha cambiado la contraseña exitosamente.');
+        return redirect('/')->with('success', 'Se ha cambiado la contraseña exitosamente.');
     }
 }

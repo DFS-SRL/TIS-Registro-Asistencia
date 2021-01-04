@@ -39,6 +39,12 @@ class MateriaController extends Controller
         }
     }
     public function editarListaGrupos(Materia $materia){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
+        if (!$acceso || !Auth::user()->usuario->perteneceAUnidad($materia->unidad_id)) {
+            return view('provicional.noAutorizado');
+        }
+
         $grupos = Grupo::where('materia_id', '=', $materia->id)
                         ->where('activo','=',true)
                         ->get();
