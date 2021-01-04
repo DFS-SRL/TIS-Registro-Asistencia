@@ -174,12 +174,12 @@ Route::get('/llenar', function () {
 });
 
 Route::get('/llenar2', function () {
-    if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
+    //if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
     for($i = 0; $i < 10; $i++){
         $noti = new App\Notificaciones;
         $noti->user_id = 5;
         $noti->text = 'Notificacion ' . $i;
         $noti->save();
     }
-    return redirect('/')->with('success', 'usuarios llenados :3');
+    return redirect('/')->with('success', 'notificaciones llenadas :3');
 });
