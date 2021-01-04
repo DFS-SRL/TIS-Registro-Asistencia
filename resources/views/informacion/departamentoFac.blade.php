@@ -19,14 +19,18 @@
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/materias/{{$unidad->id}}'">MATERIAS</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/cargos/{{$unidad->id}}'">CARGOS DE LABORATORIO</button>
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/{{$unidad->id}}'" >PERSONAL ACADÉMICO</button>
-                    @if(App\User::tieneAlMenosUnRol([4,5,6,7,8]))
+                    @if(Auth::user()->usuario->tienePermisoNombre('registrar personal academico') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/personalAcademico/registrar/{{$unidad->id}}'" >REGISTRAR PERSONAL ACADÉMICO</button>
+                    @endif
+                    @if(Auth::user()->usuario->tienePermisoNombre('ver partes mensuales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/partes/mensuales/{{$unidad->id}}'">BUSCAR PARTE MENSUAL</button>
+                    @endif
+                    @if(Auth::user()->usuario->tienePermisoNombre('ver informes semanales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/informes/{{$unidad->id}}'">INFORMES SEMANALES</button>
                     @endif
                     
                 </div>
-                @if (App\User::tieneAlMenosUnRol([4,5,6,7,8]))
+                @if (Auth::user()->usuario->tienePermisoNombre('ver partes mensuales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
                     @if (!$ultimosPartes->isEmpty())
                     <br><strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong><br>
                     <div >
