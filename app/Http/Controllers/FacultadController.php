@@ -50,7 +50,7 @@ class FacultadController extends Controller
         //                                        partes aprobados)
         $usuarioPerteneceFacultad = PersonalAcademicoController::perteneceAFacultad(Auth::user()->usuario->codSis, $facultad->id);
         if ($rolAceptado&&$usuarioPerteneceFacultad) {            
-            $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre');
+            $departamentos = Unidad::where('facultad_id','=',$facultad->id)->where('activo',true)->orderBy('nombre');
             $mesesPartes = ParteMensual::orderBy('fecha_ini','desc')
                                         ->joinSub($departamentos,'departamentos',function($join){
                                             $join->on('departamentos.id', '=', 'unidad_id');
@@ -62,7 +62,7 @@ class FacultadController extends Controller
             $rolesPermitidos = [4,5,6,7,8];//esto por que es para otras facultades y para DPA
             $accesoOtorgado = true;//UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if($accesoOtorgado){
-                $departamentos = Unidad::where('facultad_id','=',$facultad->id)->orderBy('nombre');
+                $departamentos = Unidad::where('facultad_id','=',$facultad->id)->where('activo',true)->orderBy('nombre');
                 $mesesPartes = ParteMensual::where('aprobado','=',true)//es esta linea la que cambia
                                             ->orderBy('fecha_ini','desc')
                                             ->joinSub($departamentos,'departamentos',function($join){
@@ -105,7 +105,6 @@ class FacultadController extends Controller
                                 ->where("decano_codSis",$facultad->decano_codSis)
                                 ->where("director_codSis",$facultad->director_codSis)
                                 ->first();
-        
         UsuarioTieneRol::insert(["usuario_codSis"=>$facultad->encargado_codSis,"rol_id"=>5,"facultad_id"=>$facultad->id ]);
         UsuarioTieneRol::insert(["usuario_codSis"=>$facultad->decano_codSis,"rol_id"=>6,"facultad_id"=>$facultad->id]);
         UsuarioTieneRol::insert(["usuario_codSis"=>$facultad->director_codSis,"rol_id"=>7,"facultad_id"=>$facultad->id]);

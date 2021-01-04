@@ -18,7 +18,7 @@
                 <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn boton my-3" onclick="">EDITAR<svg
+                    <button type="button" class="btn boton my-3" onclick="window.location.href='{{$facultad->id}}/editar'">EDITAR<svg
                             width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -61,7 +61,7 @@
                                 <ul class="list-group">
                                     @forelse ($mesesPartes as $mesPartes)
                                         <li class="list-group-item linkMateria lista"><a
-                                                href="/facultades/{{$facultad->id}}/{{ $mesPartes->año }}-{{ $mesPartes->mes }}">{{ $mesPartes->mes }} - {{ $mesPartes->año }}</a></li>
+                                                href="/facultades/{{$facultad->id}}/partesMensuales/{{ $mesPartes->año }}-{{ $mesPartes->mes }}">{{ $mesPartes->mes }} - {{ $mesPartes->año }}</a></li>
                                     @empty
                                         <h5>NO EXISTEN PARTES MENSUALES REGISTRADOS</h5>
                                     @endforelse

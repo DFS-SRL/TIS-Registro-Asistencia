@@ -40,6 +40,9 @@ class UnidadController extends Controller
     public function informacionDepartamento(Unidad $unidad){
         // Al jefe de dpa se le mostraran solo los partes que ya fueron aprobados
         // Los demas usuarios podran ver los partes si tienen el permiso
+
+
+        //Aqui falta añadir lo de departamentos Activos
         if (Auth::user()->usuario->tienePermisoNombre('ver solo partes completos')) {
             $ultimosPartes = ParteMensual::where('unidad_id','=',$unidad->id)
                                           ->where('aprobado','=',true)
@@ -53,5 +56,28 @@ class UnidadController extends Controller
 
         $ultimosPartes = FechasPartesMensualesHelper::añadirMesPartes($ultimosPartes);
         return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes]);
+    }
+    public function editarListaDepartamentos(Facultad $facultad){
+        $departamentos = Unidad::where('facultad_id','=',$facultad->id)->where('activo',true)->orderBy('nombre');
+        return view('informacion.editar.editarListaDepartamentos',
+        [
+            'departamentos'=>$departamentos->get(),
+            'facultad'=>$facultad
+        ]); 
+    }
+    public function eliminarDepartamento(Unidad $unidad){
+
+        $unidad->update(['activo' => false]);
+        return back()->with('success', 'Departamento eliminado');
+    }
+    public function guardarDepartamento(Request $unidad){
+        Unidad::insert(["nombre"=>$unidad->nombre,"activo"=>$unidad->activo,"jefe_codSis"=>$unidad->jefe_codSis,"facultad_id"=>$unidad->facultad_id]);
+        $unidad = Unidad::where("nombre",$unidad->nombre)    
+                                ->where("activo",$unidad->activo)
+                                ->where("jefe_codSis",$unidad->jefe_codSis)
+                                ->where("facultad_id",$unidad->facultad_id)
+                                ->first();
+        UsuarioTieneRol::insert(["usuario_codSis"=>$unidad->jefe_codSis,"rol_id"=>4,"departamento_id"=>$unidad->id ]);
+        return back()->with('success', 'Departamento guardado');
     }
 }
