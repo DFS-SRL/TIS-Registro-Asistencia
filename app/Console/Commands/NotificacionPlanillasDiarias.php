@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Asistencia;
 use App\HorarioClase;
 use App\Mail\NotifiacionPlanillaDiaria;
+use App\Notificaciones;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -64,9 +65,14 @@ class NotificacionPlanillasDiarias extends Command
             $auxiliares = array_unique($auxiliares);
 
             foreach($auxiliares as $auxi){
-                if($auxi->codSis === 3){
+                // if($auxi->codSis === 3){
                     Mail::to($auxi->correo_electronico)->send(new NotifiacionPlanillaDiaria($auxi));
-                }
+                    Notificaciones::create([
+                        'user_id' => $auxi->codSis,
+                        'text' => 'Llena tus planillas semanales de auxiliatura de laboratorio.',
+                        'link' => route('planillas.diaria.obtener', $auxi->codSis)
+                    ]);
+                // }
             }
         }
     }

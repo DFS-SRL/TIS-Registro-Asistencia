@@ -48,8 +48,8 @@ class Kernel extends ConsoleKernel
                     ->timezone('America/La_Paz');
 
         $schedule->command('notificacion:planillas-semanales')
-                    ->saturdays()
-                    ->at('12:00')
+                    ->sundays()
+                    ->at('20:49')
                     ->timezone('America/La_Paz');
 
         $schedule->command('notificacion:planillas-diarias')

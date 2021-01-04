@@ -30,13 +30,13 @@
                             <input type="password" id="pwd" class="form-control" name="password" placeholder="Constraseña">
                         </div>
                         <div class="input-group form-group form-check textoBlanco">
-                            <input type="checkbox" onclick="revelar()" name="revelar_check">
+                            <input type="checkbox" class="form-check-input" onclick="revelar()" name="revelar_check">
                             <label class="form-check-label" for="revelar_check">
                                Mostrar Contraseña
                             </label>
                         </div>
                         <div class="input-group form-group form-check textoBlanco">
-                            <input type="checkbox" name="remember_me">
+                            <input type="checkbox" class="form-check-input" name="remember_me">
                             <label class="form-check-label" for="remember_me">
                               Recuerdame
                             </label>

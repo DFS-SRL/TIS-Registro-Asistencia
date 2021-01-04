@@ -20,10 +20,15 @@ class NotificationController extends Controller
     public function index(){
         $codSis = auth()->user()->usuario->codSis;
 
-        $noti = Notificaciones::where('user_id', '=', $codSis)->get();
-
         return view('personal.notificaciones', [
-            'notificaciones' => $noti
+            'notificacionesLeidas' => Notificaciones::notificacionesLeidas($codSis),
+            'notificacionesNoLeidas' => Notificaciones::notificacionesNoLeidas($codSis)
         ]);
+    }
+
+    public function leer(Notificaciones $id){
+        $id->marcarComoLeida();
+
+        return back()->withInfo('Notificacion marcada como leída.');
     }
 }

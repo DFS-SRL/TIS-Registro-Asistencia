@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Asistencia;
 use App\HorarioClase;
 use App\Mail\NotificacionPlanillaSemanal;
+use App\Notificaciones;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -79,6 +80,11 @@ class NotificacionPlanillasSemanales extends Command
         foreach($auxiliares as $auxi){
             // if($auxi->codSis === 5){
                 Mail::to($auxi->correo_electronico)->send(new NotificacionPlanillaSemanal($auxi, $type));
+                Notificaciones::create([
+                    'user_id' => $auxi->codSis,
+                    'text' => 'Llena tus planillas semanales ' . ($rol == 2 ? 'de auxiliatura de docencia.' : 'de docencia.'),
+                    'link' => route('planillas.semanal.' . $type, $auxi->codSis)
+                ]);
             // }
         }
     }

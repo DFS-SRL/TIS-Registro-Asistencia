@@ -38,39 +38,27 @@ class MateriaController extends Controller
         }
     }
     public function eliminarMateria(Materia $materia){
-        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia');
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
         
         $materia->update(['activo' => false]);
-        return back()->with('success', 'Materia eliminada');
+        if($materia->es_materia){
+            return back()->with('success', 'Materia eliminada');
+        }
+        return back()->with('success', 'Cargo eliminado');
     }
-    public function guardarMateria(Materia $materia){
-        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia');
+    public function guardarMateria(Request $materia){
+        $acceso = Auth::user()->usuario->tienePermisoNombre('editar grupo/materia')
+                | Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-
-        $materia = Materia::where('id', '=', $materia->id);
+        
+        Materia::insert(["unidad_id"=>$materia->unidad_id,"nombre"=>$materia->nombre,"es_materia"=>$materia->es_materia,"activo"=>$materia->activo]);
         return back()->with('success', 'Materia guardada');
     }
-    public function eliminarCargo(Materia $cargo){
-        $acceso = Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-        
-        $cargo->update(['activo' => false]);
-        return back()->with('success', 'Cargo de laboratorio eliminado');
-    }
-    public function guardarCargo(Materia $cargo){
-        $acceso = Auth::user()->usuario->tienePermisoNombre('editar item/cargo');
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-        
-        $cargo = Materia::where('id', '=', $cargo->id);
-        return back()->with('success', 'Cargo de laboratorio guardado');
-    }
+    
 }

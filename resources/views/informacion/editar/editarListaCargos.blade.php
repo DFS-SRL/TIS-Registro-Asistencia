@@ -16,12 +16,13 @@
                 </div>
             </div>
             <div class="container mt-4">
-                <table class="table table-responsive">
+                <table  id="materias" class="table table-responsive">
                     @forelse ($cargos as $cargo)
                     <tr class="">
                         <td class="col ">
                             <a href="/materia/{{ $cargo->id }}">{{ $cargo->nombre }}</a>
                         </td>
+                        <td></td>
                         <td class="col "><input 
                                 {{-- id = {{"botonEliminar".$horario->id}} --}}
                                 width="30rem" height="30rem" 
@@ -37,10 +38,12 @@
                     @empty
                         <h3 class="textoBlanco">Este unidad no tiene materias asignadas</h3>
                     @endforelse
+                    
+                    <tr id="materiaNueva"><tr>
                 </table>
                 
             </div>
-            <button type="button" class="btn boton ml-2">AÑADIR CARGO DE LABORATORIO <svg width="2em" height="2em"
+            <button type="button" class="btn boton ml-2" onclick="añadirMateria()">AÑADIR CARGO DE LABORATORIO <svg width="2em" height="2em"
                 viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -53,6 +56,14 @@
         </div>
 
     </div>
+    <form id="guardar-cargo" class="d-none" method="POST"
+        action={{route("cargo.guardar")}}>
+    @csrf  
+    <input  type="hidden" name="activo" value="true">
+    <input  type="hidden" name="unidad_id" value="{{$unidad->id}}">
+    <input  type="hidden" name="es_materia" value="false">
+    <input id="nombreMateriaNueva" type="hidden" name="nombre">
+    </form>
 @endsection
 @section('script-footer')
 
@@ -62,7 +73,30 @@
         if (confirm("¿Estás seguro de eliminar este cargo de laboratorio?"))
             document.getElementById("eliminar-cargo" + cargoId).submit();
     }
-    
+    function añadirMateria(){
+        $("#materiaNueva").append(`<td class="col-9">
+                                        <label for="iMateriaNueva"><strong>Nombre del cargo de laboratorio:</strong></label>
+                                        <input type="text" name="" id="iMateriaNueva">
+                                    </td>
+                                    <td class="col-2">
+                                        <input width="30rem" height="30rem" type="image" src="/icons/aceptar.png"
+                                        alt="Aceptar" onclick="confirmarAñadirMateria()">
+                                    </td>
+                                    <td class="col-1">
+                                        <input width="30rem" height="30rem" type="image" name="botonCancelar" src="/icons/cancelar.png"
+                                        alt="Cancelar" onclick = "cancelarFila()">
+                                    </td>`);
+    }
+    function cancelarFila(){
+        document.getElementById("materiaNueva").innerHTML ="";
+    }
+    function confirmarAñadirMateria(){
+        document.getElementById("nombreMateriaNueva").value = document.getElementById("iMateriaNueva").value;
+        document.getElementById("guardar-cargo").submit();
+    }
+    function cancelarFila(){
+        document.getElementById("materiaNueva").innerHTML ="";
+    }
 </script>    
 @endsection
 

@@ -96,8 +96,8 @@ Route::patch('/asistencia/{asistencia}', 'AsistenciaController@actualizar')->nam
 Route::patch('/asistencia/{asistencia}/permiso', 'AsistenciaController@permisoEdicion')->name('asistencia.permiso');
 
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
-Route::delete('/materia/{materia}', 'MateriaController@eliminarMateria')->name('materia.eliminar');
-Route::patch('/materia/{materia}', 'MateriaController@guardarMateria')->name('materia.guardar');
+Route::delete('/materia/{materia}', 'MateriaController@eliminarMateria');
+Route::post('/materia/guardar', 'MateriaController@guardarMateria')->name('materia.guardar');
 
 route::get('/materias/{unidadId}', 'ListaMateriasController@mostrarMaterias');
 route::get('/materias/{unidadId}/editar', 'ListaMateriasController@editarListaMaterias');
@@ -112,8 +112,8 @@ Route::patch('/aprobarParteMensualRol', 'ParteMensualController@aprobarPartePorR
 Route::patch('/enviarDPA', 'ParteMensualController@enviarDPA')->name('enviarPartesDPA');
 
 Route::get('/cargo/{materia}', 'MateriaController@mostrarInformacion')->name('cargo.informacion');
-Route::delete('/cargo/{cargo}', 'MateriaController@eliminarCargo')->name('cargo.eliminar');
-Route::patch('/cargo/{cargo}', 'MateriaController@guardarCargo')->name('cargo.guardar');
+Route::delete('/cargo/{materia}', 'MateriaController@eliminarMateria');
+Route::post('/cargo/guardar', 'MateriaController@guardarMateria')->name('cargo.guardar');
 
 
 Route::get('/cargos/{unidad}', 'ListaMateriasController@mostrarCargosDeLaboratorio');
@@ -147,6 +147,7 @@ Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 
 Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
+Route::patch('/notificaciones/{id}', 'NotificationController@leer')->name('notificaciones.leer');
 
 Route::get('/test', function () {
     //dd(App\Rol::all()->first()->permisos->first()->nombre);
@@ -176,10 +177,9 @@ Route::get('/llenar2', function () {
     if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
     for($i = 0; $i < 10; $i++){
         $noti = new App\Notificaciones;
-        $noti->id = $i;
         $noti->user_id = 5;
         $noti->text = 'Notificacion ' . $i;
         $noti->save();
     }
-    return back()->with('success', 'usuarios llenados :3');
+    return redirect('/')->with('success', 'usuarios llenados :3');
 });
