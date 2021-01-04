@@ -73,10 +73,26 @@ class Usuario extends Model
     }
 
     public function perteneceAFacultad($facultad_id) {
+        if (UsuarioTieneRol::where('usuario_codSis', $this->codSis)->where('rol_id', 8)->exists()) return true;
         return Http\Controllers\PersonalAcademicoController::perteneceAFacultad($this->codSis, $facultad_id);
     }
 
     public function perteneceAUnidad($unidad_id) {
+        if (UsuarioTieneRol::where('usuario_codSis', $this->codSis)->where('rol_id', 8)->exists()) return true;
         return Http\Controllers\PersonalAcademicoController::perteneceAUnidad($this->codSis, $unidad_id);
+    }
+
+    public function mismoDepartamento(Usuario $otroUsuario) {
+        $rolesOtro = UsuarioTieneRol::where('usuario_codSis', $otroUsuario->codSis);
+        $rolesMios = UsuarioTieneRol::where('usuario_codSis', $this->codSis);
+        foreach ($rolesOtro as $rolOtro ) {
+            foreach ($rolesMios as $rolMio ) {
+                if ($rolOtro->departamento_id == $rolMio->departamento_id) 
+                    return true;
+                if (Unidad::find($rolOtro->departamento_id)->facultad_id == $rolMio->facultad_id)
+                    return true;
+            }
+        }
+        return false;
     }
 }

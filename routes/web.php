@@ -146,11 +146,12 @@ Route::get('/forgot-password', 'Auth\ForgotPasswordController@index')->name('for
 Route::get('/recover/{token}', 'Auth\ForgotPasswordController@authUser')->name('recover');
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 
+Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
+
 Route::get('/test', function () {
     //dd(App\Rol::all()->first()->permisos->first()->nombre);
-    dd(App\Usuario::where('codSis', 3)->get()->first()->roles);
+    dd(App\Grupo::all()->first()->unidad);
 });
-Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
 
 Route::get('/llenar', function () {
     if (App\User::count() > 0) return back()->with('info', 'ya hay usuarios en laravel :v');
