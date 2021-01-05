@@ -8,14 +8,14 @@
         @auth
             <div class="d-inline-flex float-right nav navbar-nav navbar-right mb-2">
                 <div class="">
-                    <a class="navbar-brand text-white text-right border btn boton" href={{ route('notificaciones') }}>Notificaciones
+                    <a class="navbar-brand text-white text-right border btn boton btn-warning" href={{ route('notificaciones') }}>Notificaciones
                         <span class="badge badge-pill badge-dark
                             {{ Auth::user()->usuario->notificacionesNoLeidas()->count() ? '' : 'd-none'}}">
                                 {{-- {{ $count }} --}}
                                 {{ Auth::user()->usuario->notificacionesNoLeidas()->count() }}
                         </span>
                     </a>
-                    <a class="navbar-brand text-white text-right border btn boton">{{ auth()->user()->name }}</a>
+                    <a class="navbar-brand text-white text-right border btn boton btn-warning">{{ auth()->user()->name }}</a>
                 </div>
             </div>
         @endauth

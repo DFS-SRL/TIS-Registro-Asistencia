@@ -22,7 +22,7 @@
                     @forelse ($departamentos as $departamento)
                     <tr id="materia{{ $departamento->id }}">
                         <td class="col-9">
-                            <a href="/departamentos/{{ $departamento->id }}">{{ $departamento->nombre }}</a>
+                            <a href="/departamento/{{ $departamento->id }}">{{ $departamento->nombre }}</a>
                         </td>
                         <td class="col"></td>
                         <td class="col-3"><input 
