@@ -81,7 +81,8 @@ class InformesController extends Controller
                 throw $error;
             }
         }
-        if (ParteMensual::where('fecha_ini', '=', $fechaInicio)
+        if (
+            ParteMensual::where('fecha_ini', '=', $fechaInicio)
             ->where('fecha_fin', '=', $fechaFin)
             ->where('unidad_id', '=', request()['unidad_id'])
             ->count() == 1
