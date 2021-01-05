@@ -77,11 +77,18 @@ class Usuario extends Model
         return false;
     }
 
+    public function permisosDeRoles() {
+        $permisos = new Collection;
+        foreach ($this->roles as $rol) {
+            $permisos = $permisos->merge($rol->permisos);
+        }
+        return $permisos;
+    }
+
     public function todosLosPermisos() {
         $permisos = new Collection;
         $roles = $this->roles;
         foreach ($roles as $rol ) {
-            return $rol->permisos;
             $permisos = $permisos->merge($rol->permisos);
         }
         $permisos = $permisos->merge($this->permisosPropios);
