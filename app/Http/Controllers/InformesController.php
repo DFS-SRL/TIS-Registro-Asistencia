@@ -81,10 +81,11 @@ class InformesController extends Controller
                 throw $error;
             }
         }
-        if (ParteMensual::where('fecha_ini', '=', $fechaInicio)
+        if (
+            ParteMensual::where('fecha_ini', '=', $fechaInicio)
             ->where('fecha_fin', '=', $fechaFin)
             ->where('unidad_id', '=', request()['unidad_id'])
-            ->count() == 0
+            ->count() == 1
         )
             throw ValidationException::withMessages([
                 'nivel3' => ['Las asistencias ya fueron enviadas a decanatura.']
