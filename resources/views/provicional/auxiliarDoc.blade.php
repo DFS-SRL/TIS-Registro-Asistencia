@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Docente')
+@section('title', 'Aux. Docencia')
 
 @section('css')
     <link rel="stylesheet" href="/css/informes/semanales.css">
