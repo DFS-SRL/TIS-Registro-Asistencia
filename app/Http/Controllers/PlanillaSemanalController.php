@@ -156,7 +156,7 @@ class PlanillaSemanalController extends Controller{
     // registrar asistencias de la semana
     public function registrarAsistenciasSemana(RegistrarAsistenciaSemanalRequest $request)
     {
-        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planila semanal');
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla semanal');
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
