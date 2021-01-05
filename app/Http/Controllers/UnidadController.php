@@ -9,6 +9,7 @@ use App\Asistencia;
 use App\ParteMensual;
 use App\User;
 use App\Helpers\FechasPartesMensualesHelper;
+use App\UsuarioPerteneceUnidad;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\UsuarioTieneRol;
@@ -78,6 +79,11 @@ class UnidadController extends Controller
                                 ->where("facultad_id",$unidad->facultad_id)
                                 ->first();
         UsuarioTieneRol::insert(["usuario_codSis"=>$unidad->jefe_codSis,"rol_id"=>4,"departamento_id"=>$unidad->id ]);
+        UsuarioPerteneceUnidad::insert([
+            "usuario_codSis" => $unidad->jefe_codSis,
+            "unidad_id" => $unidad->id,
+            "jefe_dept" => 'true'
+        ]);
         return back()->with('success', 'Departamento guardado');
     }
 }
