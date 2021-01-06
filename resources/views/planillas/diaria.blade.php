@@ -3,7 +3,7 @@
 @section('title', 'Auxiliar Laboratorio')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-8">
                 <h2 class="textoBlanco">PLANILLA DIARIA DE ASISTENCIA</h2>

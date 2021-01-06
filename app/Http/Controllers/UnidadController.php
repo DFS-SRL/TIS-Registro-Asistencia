@@ -9,10 +9,16 @@ use App\Asistencia;
 use App\ParteMensual;
 use App\User;
 use App\Helpers\FechasPartesMensualesHelper;
+use App\HorarioClase;
+use App\Usuario;
 use App\UsuarioPerteneceUnidad;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\UsuarioTieneRol;
+use FontLib\TrueType\Collection;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class UnidadController extends Controller
 {
@@ -56,8 +62,68 @@ class UnidadController extends Controller
                                         ->orderBy('fecha_ini','desc')->limit(5)->get();
 
         $ultimosPartes = FechasPartesMensualesHelper::añadirMesPartes($ultimosPartes);
-        return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes]);
+
+
+
+
+        $horarios = HorarioClase::where('Horario_clase.unidad_id', '=', $unidad->id)
+                            ->get()->groupBy('dia');
+        
+        // fecha por dias de la semana
+        $fechaPorDia = getFechasDeSemanaEnFecha("today");
+
+        $personal = [];
+
+        // buscar horarios que no fueron registrados
+        foreach ($horarios as $horariosEnDia) {
+            foreach ($horariosEnDia as $falta) {
+                $asistencia = Asistencia::where('horario_clase_id', '=', $falta->id)
+                ->where('fecha', '=', $fechaPorDia[compararDias($falta->dia, "LUNES")])
+                ->get();
+                $codSis = $falta->asignado_codSis;
+                if ($asistencia->isEmpty() && $codSis !== null) {
+                    // array_push($personal, $falta);
+                    // array_push($personal, collect(['codSis' => $codSis, 'horario' => $falta, 'asistencia' => $asistencia]));
+                    array_push($personal, $codSis);
+                }
+            }
+        }
+
+        $count = array_count_values($personal);
+        
+        $faltas = [];
+
+        foreach($count as $c){
+            array_unshift($faltas, $c);
+        }
+    
+        $count = array_unique($personal);
+
+        $personal = [];
+        foreach($count as $c){
+            array_push($personal, collect([
+                'usuario' => Usuario::where('codSis', '=', $c)->get()[0],
+                'faltas' => array_pop($faltas),
+                // 'total' => HorarioClase::
+                // select(DB::raw('count(*)'))
+                // ->where('unidad_id', '=', $unidad->id)
+                // ->where('asignado_codSis', '=', $c)
+                // ->groupBy('asignado_codSis')
+                // ->get()
+
+            ]));
+        }
+
+        return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes, 'personal' => paginate($personal, 3)]);
     }
+
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        // $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        // $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
     public function editarListaDepartamentos(Facultad $facultad){
         $departamentos = Unidad::where('facultad_id','=',$facultad->id)->where('activo',true)->orderBy('nombre');
         return view('informacion.editar.editarListaDepartamentos',
