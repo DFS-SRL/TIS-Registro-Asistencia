@@ -115,6 +115,7 @@ Route::get('/informes/semanales/personal/{usuario}', 'InformesController@formula
 
 
 Route::get('/departamento/{unidad}', 'UnidadController@informacionDepartamento')->name('departamento');
+Route::post('/departamento/notificar', 'UnidadController@notificar')->name('departamento.notificar');
 Route::post('/departamento/guardar', 'UnidadController@guardarDepartamento')->name('facultad.guardar');
 Route::delete('/departamento/{unidad}', 'UnidadController@eliminarDepartamento');
 Route::get('/partes/mensuales/{unidad}', 'UnidadController@obtenerParte')->name('partes.mensuales');

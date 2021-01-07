@@ -74,6 +74,7 @@
                                 <tr>
                                     <th class="border-dark col-6" scope="col">Nombre</th>
                                     <th class="border-dark col-6" scope="col">Ítems/Grupos no llenados</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,6 +85,16 @@
                                         </td>
                                         <td class="border-dark">
                                             {{ $p['faltas'] }}
+                                        </td>
+                                        <td class="border-dark">
+                                            <form action="/departamento/notificar" method="POST">
+                                                @csrf
+                                                <button class="btn btn-warning boton textoBlanco">Notificar</button>
+
+                                                <input type="text" class="d-none" name="unidad" value={{ $unidad['id'] }}>
+                                                <input type="text" class="d-none" name="personal" value={{ $p['usuario']->codSis }}>
+                                                <input type="text" class="d-none" name="jefe" value={{ auth()->user()->usuario->codSis }}>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

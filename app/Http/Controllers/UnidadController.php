@@ -10,6 +10,9 @@ use App\ParteMensual;
 use App\User;
 use App\Helpers\FechasPartesMensualesHelper;
 use App\HorarioClase;
+use App\Mail\NotifiacionPlanillaDiaria;
+use App\Mail\NotificacionPlanillaSemanal;
+use App\Notificaciones;
 use App\Usuario;
 use App\UsuarioPerteneceUnidad;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -18,7 +21,9 @@ use App\UsuarioTieneRol;
 use FontLib\TrueType\Collection;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UnidadController extends Controller
 {
@@ -115,6 +120,38 @@ class UnidadController extends Controller
         }
 
         return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes, 'personal' => paginate($personal, 3)]);
+    }
+
+    public function notificar(Request $request){
+        // $unidad = Unidad::find($request->unidad);
+        $personal = Usuario::find($request->personal);
+        // $jefe = Usuario::find($request->jefe);
+
+        $docente = PersonalAcademicoController::esDocente($request->personal, $request->unidad);
+        $auxDoc  = PersonalAcademicoController::esAuxDoc($request->personal, $request->unidad);
+        $auxLabo = PersonalAcademicoController::esAuxLab($request->personal, $request->unidad);
+
+        $type = $auxDoc ? "auxdoc" : "docente";
+
+        if($docente || $auxDoc){
+            Mail::to($personal->correo_electronico)->send(new NotificacionPlanillaSemanal($personal, $type));
+            Notificaciones::create([
+                'user_id' => $personal->codSis,
+                'text' => 'Llena tus planillas semanales ' . ($auxDoc ? 'de auxiliatura de docencia.' : 'de docencia.'),
+                'link' => route('planillas.semanal.' . $type, $personal->codSis)
+            ]);
+        }
+        
+        if($auxLabo){
+            Mail::to($personal->correo_electronico)->send(new NotifiacionPlanillaDiaria($personal));
+            Notificaciones::create([
+                'user_id' => $personal->codSis,
+                'text' => 'Llena tus planillas semanales de auxiliatura de laboratorio.',
+                'link' => route('planillas.diaria.obtener', $personal->codSis)
+            ]);
+        }
+
+        return back()->withInfo('Se ha enviado una notificación al personal ' . $personal->nombre);
     }
 
     public function paginate($items, $perPage = 5, $page = null, $options = [])
