@@ -15,13 +15,13 @@ use App\UsuarioTieneRol;
 class AsistenciaController extends Controller
 {
     use AuthenticatesUsers;
-    
+
     protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('auth');
-    }	
+    }
 
     // actualiza en la base de datos la asistencia otorgada
     public function actualizar(Asistencia $asistencia, ActualizarAsistenciaRequest $request)
@@ -33,7 +33,7 @@ class AsistenciaController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         if ($asistencia->horarioClase->rol_id == 2 && $datosNuevos['asistencia'] == 'true')
             $datosNuevos = Validator::make($datosNuevos, [
                 'actividad_realizada' => 'required',
@@ -82,7 +82,7 @@ class AsistenciaController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         if ($asistencia->nivel != 2)
             throw ValidationException::withMessages([
                 'nivel' => ['No se puede otorgar permiso']
@@ -91,5 +91,21 @@ class AsistenciaController extends Controller
             'nivel' => 1
         ]);
         return back()->with('success', 'Permiso de edicion otorgado');
+    }
+
+    // invalida la asistencia
+    public function invalidar(Asistencia $asistencia)
+    {
+        if ($asistencia->documento_adicional != null)
+            Storage::delete('/documentosAdicionales/' . $asistencia->documento_adicional);
+        $asistencia->update([
+            'actividad_realizada' => null,
+            'indicador_verificable' => null,
+            'observaciones' => null,
+            'asistencia' => false,
+            'permiso' => null,
+            'documento_adicional' => null
+        ]);
+        return back()->with('success', 'Asistencia invalidada.');
     }
 }

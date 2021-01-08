@@ -42,39 +42,45 @@ class User extends Authenticatable
 
     protected $table = 'public.users';
 
-    public function activate(){
+    public function activate()
+    {
         $this->update([
             'active' => true,
             'email_verified_at' => Carbon::now()
-            ]);
+        ]);
 
         Auth::login($this);
 
         $this->token->delete();
-
     }
 
-    public function token(){
+    public function token()
+    {
         return $this->hasOne(ActivationToken::class);
     }
 
-    public function forgotPasswordToken(){
+    public function forgotPasswordToken()
+    {
         return $this->hasOne(ForgotPasswordToken::class);
     }
 
-    public function usuario() {
+    public function usuario()
+    {
         return $this->belongsTo('App\Usuario');
     }
 
-    public static function esJefeDepartamento($unidad_id){
-        return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);        
+    public static function esJefeDepartamento($unidad_id)
+    {
+        return PersonalAcademicoController::esJefeDepartamento(auth()->user()->usuario->codSis, $unidad_id);
     }
-    public static function aproboParte($idParte){
-        return PersonalAcademicoController::personalAproboParte(auth()->user()->usuario->codSis, $idParte);     
+    public static function aproboParte($idParte)
+    {
+        return PersonalAcademicoController::personalAproboParte(auth()->user()->usuario->codSis, $idParte);
     }
-    private static function esDelRol($rol){
+    private static function esDelRol($rol)
+    {
         $user = auth()->user()->usuario;
-        
+
         $codigoSis = $user->codSis;
 
         // obteniendo horarios asignados al auxiliar actual
@@ -83,19 +89,23 @@ class User extends Authenticatable
         return !empty($horarios);
     }
 
-    public static function esAuxDoc(){
+    public static function esAuxDoc()
+    {
         return self::esDelRol(2);
     }
 
-    public static function esDocente(){
+    public static function esDocente()
+    {
         return self::esDelRol(3);
     }
 
-    public static function tieneAlMenosUnRol($roles) {
+    public static function tieneAlMenosUnRol($roles)
+    {
         return UsuarioTieneRol::alMenosUnRol(auth()->user()->usuario_codSis, $roles);
     }
 
-    private static function getHorarios($codigoSis, $rol){
+    private static function getHorarios($codigoSis, $rol)
+    {
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
             ->where('activo', '=', 'true')
             ->where('rol_id', '=', $rol)
@@ -111,29 +121,42 @@ class User extends Authenticatable
     }
 
     // Devuelve el id del departamento del que el usuario es jefe, si es que es jefe de departamento
-    public function deparatmentoEncargado() {
+    public function deparatmentoEncargado()
+    {
         $codSis = $this->usuario_codSis;
         $unidad = Unidad::where('jefe_codSis', $codSis)->get();
         return $unidad->first();
     }
 
-    public static function inicioSesion($user){
+    // Devuelve el id de la facultad de la que el usuario es encargado, si es que es encargado facultativo
+    public function facultadEncargado()
+    {
+        $codSis = $this->usuario_codSis;
+        $facultad = Facultad::where('encargado_codSis', $codSis)->get();
+        return $facultad->first();
+    }
+
+    public static function inicioSesion($user)
+    {
         $autenticado = auth()->user()->usuario;
         return $user->codSis === $autenticado->codSis;
     }
-    public static function esEncargadoFac($facultad_id){
+    public static function esEncargadoFac($facultad_id)
+    {
         $user = auth()->user()->usuario;
         $codigoSis = $user->codSis;
-        return PersonalAcademicoController::esEncargadoFac($codigoSis,$facultad_id);
+        return PersonalAcademicoController::esEncargadoFac($codigoSis, $facultad_id);
     }
-    public static function esDirAcademico($facultad_id){
+    public static function esDirAcademico($facultad_id)
+    {
         $user = auth()->user()->usuario;
         $codigoSis = $user->codSis;
-        return PersonalAcademicoController::esDirAcademico($codigoSis,$facultad_id);
+        return PersonalAcademicoController::esDirAcademico($codigoSis, $facultad_id);
     }
-    public static function esDecano($facultad_id){
+    public static function esDecano($facultad_id)
+    {
         $user = auth()->user()->usuario;
         $codigoSis = $user->codSis;
-        return PersonalAcademicoController::esDecano($codigoSis,$facultad_id);
+        return PersonalAcademicoController::esDecano($codigoSis, $facultad_id);
     }
 }

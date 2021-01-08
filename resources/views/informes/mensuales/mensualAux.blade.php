@@ -68,6 +68,9 @@
                             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                             <th class="textoBlanco border border-dark">ASISTENCIA</th>
                             <th class="textoBlanco border border-dark">PERMISO</th>
+                            @if(auth()->user()->facultadEncargado() != null && auth()->user()->facultadEncargado()->id == $unidad->facultad->id)
+                                <th class="textoBlanco border border-dark">VALIDAR</th>
+                            @endIf
                         </tr>
                         @foreach ($asistencias as $asistencia)
                             <tr>
@@ -111,6 +114,14 @@
                                 @else
                                     <td class = "border border-dark"></td>
                                 @endif
+                                <td class = "border border-dark">
+                                    @if($asistencia->asistencia)
+                                        <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
+                                        <form id="invalidar{{ $asistencia->id }}" method="POST" action="{{ route('asistencia.invalidar', $asistencia) }}" class="d-none">
+                                            @csrf @method('PATCH')
+                                        </form>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </table>
@@ -141,6 +152,9 @@
                             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                             <th class="textoBlanco border border-dark">ASISTENCIA</th>
                             <th class="textoBlanco border border-dark">PERMISO</th>
+                            @if(auth()->user()->facultadEncargado() != null && auth()->user()->facultadEncargado()->id == $unidad->facultad->id)
+                                <th class="textoBlanco border border-dark">VALIDAR</th>
+                            @endIf
                         </tr>
                         @foreach ($asistenciasDoc as $asistencia)
                             <tr>
@@ -179,6 +193,11 @@
                                 @else
                                     <td class = "border border-dark"></td>
                                 @endif
+                                <td class = "border border-dark">
+                                    @if($asistencia->asistencia)
+                                        <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </table>
@@ -210,6 +229,9 @@
                             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                             <th class="textoBlanco border border-dark">ASISTENCIA</th>
                             <th class="textoBlanco border border-dark">PERMISO</th>
+                            @if(auth()->user()->facultadEncargado() != null && auth()->user()->facultadEncargado()->id == $unidad->facultad->id)
+                                <th class="textoBlanco border border-dark">VALIDAR</th>
+                            @endIf
                         </tr>
                         @foreach ($asistenciasLabo as $asistencia)
                             <tr>
@@ -248,6 +270,11 @@
                                 @else
                                     <td class = "border border-dark"></td>
                                 @endif
+                                <td class = "border border-dark">
+                                    @if($asistencia->asistencia)
+                                        <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </table>
@@ -268,6 +295,7 @@
 
 @section('script-footer')
     <script src="/js/main.js"></script>
+    <script src="/js/informes/mensual.js"></script>
     <script>
         // var a = @json($asistencias);
         // console.log(a);

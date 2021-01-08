@@ -25,12 +25,12 @@ Route::get('/parteMensual/docentes/{unidad}/{fecha}/descargarPDF', 'ParteMensual
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}', 'ParteMensualController@obtenerParteAuxiliares');
 Route::get('/parteMensual/auxiliares/{unidad}/{fecha}/descargarPDF', 'ParteMensualController@descargarPDFAuxiliares');
 
-Route::get('/facultades','FacultadController@listaFacultades')->name('facultades');
-Route::get('/facultades/editar','FacultadController@editarListaFacultades')->name('facultades.editar');
+Route::get('/facultades', 'FacultadController@listaFacultades')->name('facultades');
+Route::get('/facultades/editar', 'FacultadController@editarListaFacultades')->name('facultades.editar');
 Route::post('/facultades/guardar', 'FacultadController@guardarFacultad')->name('facultad.guardar');
 Route::delete('/facultades/{facultad}', 'FacultadController@eliminarFacultad');
-Route::get('/facultades/{facultad}','FacultadController@listaDepartamentos');
-Route::get('/facultades/{facultad}/partesMensuales/{fecha}','ParteMensualController@partesMesFacultad');
+Route::get('/facultades/{facultad}', 'FacultadController@listaDepartamentos');
+Route::get('/facultades/{facultad}/partesMensuales/{fecha}', 'ParteMensualController@partesMesFacultad');
 Route::get('/facultades/{facultad}/editar', 'UnidadController@editarListaDepartamentos');
 
 Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDia')
@@ -100,6 +100,7 @@ Route::delete('/horarioClase/{horario}', 'HorarioClaseController@eliminar')->nam
 
 Route::patch('/asistencia/{asistencia}', 'AsistenciaController@actualizar')->name('asistencia.actualizar');
 Route::patch('/asistencia/{asistencia}/permiso', 'AsistenciaController@permisoEdicion')->name('asistencia.permiso');
+Route::patch('/asistencia/{asistencia}/invalidar', 'AsistenciaController@invalidar')->name('asistencia.invalidar');
 
 Route::get('/materia/{materia}', 'MateriaController@mostrarInformacion')->name('materia.informacion');
 Route::post('/materia/guardar', 'MateriaController@guardarMateria')->name('materia.guardar');
@@ -191,7 +192,7 @@ Route::get('/llenar', function () {
 
 Route::get('/llenar2', function () {
     //if (App\Notificaciones::count() > 0) return back()->with('info', 'ya hay notificaciones en laravel :v');
-    for($i = 0; $i < 10; $i++){
+    for ($i = 0; $i < 10; $i++) {
         $noti = new App\Notificaciones;
         $noti->user_id = 5;
         $noti->text = 'Notificacion ' . $i;
