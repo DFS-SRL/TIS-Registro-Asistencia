@@ -119,7 +119,7 @@ class UnidadController extends Controller
             ]));
         }
 
-        return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes, 'personal' => paginate($personal, 3)]);
+        return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes, 'personal' => paginate($personal, 10)]);
     }
 
     public function notificar(Request $request){
