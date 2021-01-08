@@ -66,7 +66,7 @@
 
                 <div class="col-12">
                     <div class="mb-2 mt-5">
-                        <strong class="textoBlanco">PERSONAL QUE NO ENVIÓ SUS ASISTENCIAS</strong>
+                        <strong class="textoBlanco">PERSONAL QUE NO ENVIÓ SUS ASISTENCIAS EN ESTA SEMANA</strong>
                     </div>
                     @if (!$personal->isEmpty())
                         <table class="table table-bordered">

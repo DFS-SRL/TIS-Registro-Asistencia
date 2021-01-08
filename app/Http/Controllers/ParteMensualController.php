@@ -23,7 +23,7 @@ use Illuminate\Validation\ValidationException;
 class ParteMensualController extends Controller
 {
     use AuthenticatesUsers;
-    
+
     protected $redirectTo = '/';
 
     public function __construct()
@@ -32,7 +32,8 @@ class ParteMensualController extends Controller
     }
 
     //Generar parte auxiliares
-    private function generarParteAuxiliares(Unidad $unidad,$fecha){
+    private function generarParteAuxiliares(Unidad $unidad, $fecha)
+    {
         // obtener fechas inicio y fin del mes
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
@@ -68,17 +69,18 @@ class ParteMensualController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
-                return view('provicional.noAutorizado');
+            return view('provicional.noAutorizado');
         }
-        $parteAuxiliares = $this->generarParteAuxiliares($unidad,$fecha);
+        $parteAuxiliares = $this->generarParteAuxiliares($unidad, $fecha);
 
         // devolver la vista de parte mensual de auxiliares
-        return view('parteMensual.auxiliares',$parteAuxiliares);
+        return view('parteMensual.auxiliares', $parteAuxiliares);
     }
     //Generar parte docentes
-    private function generarParteDocentes(Unidad $unidad, $fecha){
+    private function generarParteDocentes(Unidad $unidad, $fecha)
+    {
         // obtener fechas inicio y fin del mes        
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFin);
 
@@ -107,14 +109,14 @@ class ParteMensualController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
-                return view('provicional.noAutorizado');
+            return view('provicional.noAutorizado');
         }
-        $parteDocentes = $this->generarParteDocentes($unidad,$fecha);
+        $parteDocentes = $this->generarParteDocentes($unidad, $fecha);
 
         // devolver la vista de parte mensual de auxiliares
-        return view('parteMensual.docentes',$parteDocentes );
+        return view('parteMensual.docentes', $parteDocentes);
     }
 
 
@@ -124,7 +126,7 @@ class ParteMensualController extends Controller
         $parte = [];
         $periodo = $rol == 1 ? 60 : 45;
         foreach ($usuarios as $key => $usuario) {
-            $cargaNominal = $this->nominalMes($usuario, $rol, $periodo);
+            $cargaNominal = $this->nominalMes($usuario, $rol, $periodo, $unidad);
             if ($cargaNominal > 0) {
                 $asistencias = AsistenciaHelper::obtenerAsistenciasUsuarioRol($unidad, $rol, 3, $fechaInicio, $fechaFin, $usuario);
                 $reporte = [
@@ -197,12 +199,13 @@ class ParteMensualController extends Controller
     }
 
     // devuelve la carga horaria nominal semana * 4 de un usuario con el respectivo rol
-    private function nominalMes(Usuario $usuario, $rol, $periodo)
+    private function nominalMes(Usuario $usuario, $rol, $periodo, $unidad)
     {
         $cargaNominal = 0;
         $horarios = HorarioClase::where('activo', '=', true)
             ->where('asignado_codSis', '=', $usuario->codSis)
             ->where('rol_id', '=', $rol)
+            ->where('unidad_id', '=', $unidad->id)
             ->get();
         foreach ($horarios as $key => $horario) {
             $inicio = $horario->hora_inicio;
@@ -213,107 +216,109 @@ class ParteMensualController extends Controller
         return 4 * $cargaNominal;
     }
     //Obtener PDF de parte mensual Docentes
-    public function descargarPDFDocentes(Unidad $unidad, $fecha )
+    public function descargarPDFDocentes(Unidad $unidad, $fecha)
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
         $respuesta = $this->generarParteDocentes($unidad, $fecha);
-        return PDF::loadView('parteMensual.docentesPDF',$respuesta)
-                    ->setPaper('letter', 'landscape')
-                    ->stream('Parte Docentes-'.$unidad->nombre.'.pdf');
+        return PDF::loadView('parteMensual.docentesPDF', $respuesta)
+            ->setPaper('letter', 'landscape')
+            ->stream('Parte Docentes-' . $unidad->nombre . '.pdf');
     }
     //Obtener PDF de parte mensual Auxiliares
-    public function descargarPDFAuxiliares(Unidad $unidad, $fecha )
+    public function descargarPDFAuxiliares(Unidad $unidad, $fecha)
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('ver partes mensuales')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         $respuesta = $this->generarParteAuxiliares($unidad, $fecha);
-        return PDF::loadView('parteMensual.auxiliaresPDF',$respuesta)
-                    ->setPaper('letter', 'landscape')
-                    ->stream('Parte Auxiliares-'.$unidad->nombre.'.pdf');
+        return PDF::loadView('parteMensual.auxiliaresPDF', $respuesta)
+            ->setPaper('letter', 'landscape')
+            ->stream('Parte Auxiliares-' . $unidad->nombre . '.pdf');
     }
     //Aprueba el parte de acuerdo al rol
-    public function aprobarPartePorRol(Request $request){
+    public function aprobarPartePorRol(Request $request)
+    {
         $acceso = Auth::user()->usuario->tienePermisoNombre('aprobar partes mensuales');
         if (!$acceso) {
             return view('provicional.noAutorizado');
         }
-        
+
         $idParte = $request->parte_id;
         $rol = $request->rol;
-        $parte = ParteMensual::where("id","=",$idParte)->first();
-            switch ($rol) {
-                case 4:
-                    $parte = ParteMensual::where("id","=",$idParte)->update(['jefe_dept'=>true]);
-                    break;
-                case 5:
-                    $parte = ParteMensual::where("id","=",$idParte)->update(['encargado_fac'=>true]);
-                    break;
-                case 6:
-                    $parte = ParteMensual::where("id","=",$idParte)->update(['decano'=>true]);
-                    break;
-                case 7:
-                    $parte = ParteMensual::where("id","=",$idParte)->update(['dir_academico'=>true]);
-                    break;
-            }
+        $parte = ParteMensual::where("id", "=", $idParte)->first();
+        switch ($rol) {
+            case 4:
+                $parte = ParteMensual::where("id", "=", $idParte)->update(['jefe_dept' => true]);
+                break;
+            case 5:
+                $parte = ParteMensual::where("id", "=", $idParte)->update(['encargado_fac' => true]);
+                break;
+            case 6:
+                $parte = ParteMensual::where("id", "=", $idParte)->update(['decano' => true]);
+                break;
+            case 7:
+                $parte = ParteMensual::where("id", "=", $idParte)->update(['dir_academico' => true]);
+                break;
+        }
         return back()->with('success', 'Aprobacion exitosa');
     }
     //Enviar los ultimos partes a DPA
-    public function enviarDPA(Request $request){
+    public function enviarDPA(Request $request)
+    {
         $acceso = Auth::user()->usuario->tienePermisoNombre('enviar partes mensuales a dpa');
         if (!$acceso) {
-            return view ('provicional.noAutorizado');
+            return view('provicional.noAutorizado');
         }
-        
-        $depts = Unidad::where('facultad_id','=',$request->facultad_id)->get();
+
+        $depts = Unidad::where('facultad_id', '=', $request->facultad_id)->get();
         foreach ($depts as $key => $dept) {
-            $partes = ParteMensual::where('unidad_id','=',$dept->id)
-                                  ->where('fecha_ini','=',$request->fechaIni)
-                                  ->update(['aprobado'=>true]);
+            $partes = ParteMensual::where('unidad_id', '=', $dept->id)
+                ->where('fecha_ini', '=', $request->fechaIni)
+                ->update(['aprobado' => true]);
         }
         return back()->with('success', 'Partes mensuales enviados a DPA correctamente.');
     }
-    public function partesMesFacultad(Facultad $facultad, $fecha){
-        $fecha = explode("-",$fecha);
-        $mes =$fecha[1].'-'.$fecha[0];
+    public function partesMesFacultad(Facultad $facultad, $fecha)
+    {
+        $fecha = explode("-", $fecha);
+        $mes = $fecha[1] . '-' . $fecha[0];
         $fecha[1] = FechasPartesMensualesHelper::getMesNum($fecha[1]);
-        $fecha = $fecha[0]."-".$fecha[1] . "-16";
-        $partesMensuales = ParteMensual::where("fecha_ini",'=',$fecha);
-        $departamentos = Unidad::where('Unidad.facultad_id','=',$facultad->id)
-                        ->orderBy('Unidad.nombre')
-                        ->leftJoinSub($partesMensuales,'partesMensuales',function($join){
-                            $join->on('Unidad.id', '=', 'partesMensuales.unidad_id');
-                        })
-                        ->select('Unidad.id','partesMensuales.id as parteID','Unidad.nombre','partesMensuales.aprobado','partesMensuales.fecha_ini','partesMensuales.fecha_fin','partesMensuales.encargado_fac','partesMensuales.dir_academico','partesMensuales.decano','partesMensuales.jefe_dept')
-                        ->get();
+        $fecha = $fecha[0] . "-" . $fecha[1] . "-16";
+        $partesMensuales = ParteMensual::where("fecha_ini", '=', $fecha);
+        $departamentos = Unidad::where('Unidad.facultad_id', '=', $facultad->id)
+            ->orderBy('Unidad.nombre')
+            ->leftJoinSub($partesMensuales, 'partesMensuales', function ($join) {
+                $join->on('Unidad.id', '=', 'partesMensuales.unidad_id');
+            })
+            ->select('Unidad.id', 'partesMensuales.id as parteID', 'Unidad.nombre', 'partesMensuales.aprobado', 'partesMensuales.fecha_ini', 'partesMensuales.fecha_fin', 'partesMensuales.encargado_fac', 'partesMensuales.dir_academico', 'partesMensuales.decano', 'partesMensuales.jefe_dept')
+            ->get();
 
-        
-        $rolesPermitidos = [4,5,6,7];
+
+        $rolesPermitidos = [4, 5, 6, 7];
         $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
-            
+
         //Falta restringir acceso por facultades (los miembros de otra facultad distinta a la ingresada solo ven los
         //                                        partes aprobados)
         $usuarioPerteneceFacultad = PersonalAcademicoController::perteneceAFacultad(Auth::user()->usuario->codSis, $facultad->id);
-        if ($rolAceptado&&$usuarioPerteneceFacultad) {   
-            return view('parteMensual.partesMesFacultad',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
-        }else{
-            $rolesPermitidos = [1,2,3,4,5,6,7,8];
-            $rolAceptado = UsuarioTieneRol::alMenosUnRol(ADuth::user()->usuario->codSis, $rolesPermitidos);    
+        if ($rolAceptado && $usuarioPerteneceFacultad) {
+            return view('parteMensual.partesMesFacultad', ['mes' => $mes, 'facultad' => $facultad, 'departamentos' => $departamentos]);
+        } else {
+            $rolesPermitidos = [1, 2, 3, 4, 5, 6, 7, 8];
+            $rolAceptado = UsuarioTieneRol::alMenosUnRol(ADuth::user()->usuario->codSis, $rolesPermitidos);
             if ($rolAceptado) {
-                return view('parteMensual.partesMesFacultadDPA',['mes'=>$mes,'facultad'=>$facultad,'departamentos'=>$departamentos]);
-            }else{
+                return view('parteMensual.partesMesFacultadDPA', ['mes' => $mes, 'facultad' => $facultad, 'departamentos' => $departamentos]);
+            } else {
                 return view('provicional.noAutorizado');
             }
         }
-        
     }
 }

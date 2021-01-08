@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Unidad;
 use App\Usuario;
+use Carbon\Carbon;
 use App\Asistencia;
-use App\UsuarioTieneRol;
+use App\HorarioClase;
 use App\ParteMensual;
+use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
-use App\HorarioClase;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 
 class InformesController extends Controller
 {
@@ -85,13 +86,14 @@ class InformesController extends Controller
             ParteMensual::where('fecha_ini', '=', $fechaInicio)
             ->where('fecha_fin', '=', $fechaFin)
             ->where('unidad_id', '=', request()['unidad_id'])
-            ->count() == 1
+            ->count() > 0
         )
             throw ValidationException::withMessages([
                 'nivel3' => ['Las asistencias ya fueron enviadas a decanatura.']
             ]);
         $this->registrarParteMensual(request()['unidad_id'], $fechaInicio, $fechaFin);
         $this->subirNivel($asistencias);
+        $this->llenarFaltas($fechaInicio, $fechaFin, request()['unidad_id']);
         return back()->with('success', 'Enviado correctamente :)');
     }
 
@@ -113,21 +115,67 @@ class InformesController extends Controller
         foreach ($asistencias as $key => $asistencia) {
             if ($asistencia->nivel == 3) {
                 $error = ValidationException::withMessages([
-                    'nivel3' => ['los informes ya fueron enviados a facultativo']
+                    'nivel3' => ['las asistencias ya fueron enviados a facultativo']
                 ]);
                 throw $error;
             }
         }
+        if (
+            ParteMensual::where('fecha_ini', '=', $fechaInicio)
+            ->where('fecha_fin', '=', $fechaFin)
+            ->where('unidad_id', '=', request()['unidad_id'])
+            ->count() > 0
+        )
+            throw ValidationException::withMessages([
+                'nivel3' => ['Las asistencias ya fueron enviadas a decanatura.']
+            ]);
+        $this->registrarParteMensual(request()['unidad_id'], $fechaInicio, $fechaFin);
         $this->subirNivel($asistencias);
+        $this->llenarFaltas($fechaInicio, $fechaFin, request()['unidad_id']);
         return back()->with('success', 'Enviado correctamente :)');
     }
 
+    // Subir las asistencias a nivel 3
     private function subirNivel($asistencias)
     {
         foreach ($asistencias as $key => $asistencia) {
             $asistencia->update([
                 'nivel' => 3,
             ]);
+        }
+    }
+
+    // Crea faltas si es que no se registro asistencia
+    private function llenarFaltas($fechaInicio, $fechaFin, $unidad_id)
+    {
+        $ini = tiempoFecha($fechaInicio);
+        $fin = tiempoFecha($fechaFin);
+        while ($fin->gte($ini)) {
+            if ($ini->format('l') != 'Sunday') {
+                $fecha = $ini->toDateString();
+                $horarios = HorarioClase::where('dia', '=', traducirDia($ini->format('l')))
+                    ->where('Horario_clase.unidad_id', '=', $unidad_id)
+                    ->whereNOtNUll('asignado_codSis')
+                    ->get();
+                foreach ($horarios as $key => $horario) {
+                    if (
+                        Asistencia::where('horario_clase_id', '=', $horario->id)
+                        ->where('fecha', '=', $fecha)
+                        ->count() == 0
+                    )
+                        Asistencia::create([
+                            'unidad_id' => $unidad_id,
+                            'materia_id' => $horario->materia_id,
+                            'grupo_id' => $horario->grupo_id,
+                            'usuario_codSis' => $horario->asignado_codSis,
+                            'horario_clase_id' => $horario->id,
+                            'fecha' => $fecha,
+                            'asistencia' => "false",
+                            'nivel' => '3'
+                        ]);
+                }
+            }
+            $ini->addDay();
         }
     }
 

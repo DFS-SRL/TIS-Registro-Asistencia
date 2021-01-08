@@ -177,6 +177,7 @@ function paginate($items, $perPage = 10, $page = null, $options = [])
     );
 }
 
+// aumenta un mes a string de fecha en formato Y-m-d
 function aumentarMes($fecha)
 {
     $fecha = Carbon::createFromFormat('Y-m-d H:i:s',  $fecha . ' 12:00:00');
