@@ -9,6 +9,15 @@
     @if ($notificaciones->isEmpty())
             <h4 class='textoBlanco'>No ha recibido ninguna notificacion de momento</h4>
         @else
+
+            @if (!auth()->user()->usuario->notificacionesNoLeidas()->get()->isEmpty())
+                <form action="{{ route('notificaciones.marcarLeidas', auth()->user()->usuario) }}" class="mb-2" method="post">
+                    @method('PATCH')
+                    @csrf
+                    <button class="btn btn-primary">Marcar como leidas</button>
+                </form>
+            @endif
+
         <ul class="list-group">
                 @foreach ($notificaciones as $key => $noti)
                     <li class="list-group-item 

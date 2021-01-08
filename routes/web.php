@@ -161,6 +161,7 @@ Route::post('/forgot-password', 'Auth\ForgotPasswordController@sendEmail');
 
 Route::get('/notificaciones', 'NotificationController@index')->name('notificaciones');
 Route::patch('/notificaciones/{id}', 'NotificationController@leer')->name('notificaciones.leer');
+Route::patch('/notificaciones/marcarLeidas/{usuario}', 'NotificationController@marcarLeidasTodas')->name('notificaciones.marcarLeidas');
 
 Route::get('/administracion/permisos/usuarios', 'AdministracionPermisosController@listaDeUsuarios');
 Route::get('/administracion/permisos/asignar/{usuario}', 'AdministracionPermisosController@vistaDePermisos')->name('asignarPermisos');
