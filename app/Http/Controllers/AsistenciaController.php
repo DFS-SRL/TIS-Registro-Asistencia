@@ -96,6 +96,11 @@ class AsistenciaController extends Controller
     // invalida la asistencia
     public function invalidar(Asistencia $asistencia)
     {
+        // Verificamos que el usuario tiene los roles permitidos
+        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('editar asistencia');
+        if (!$accesoOtorgado) {
+            return view('provicional.noAutorizado');
+        }
         if ($asistencia->documento_adicional != null)
             Storage::delete('/documentosAdicionales/' . $asistencia->documento_adicional);
         $asistencia->update([

@@ -128,14 +128,6 @@ class User extends Authenticatable
         return $unidad->first();
     }
 
-    // Devuelve el id de la facultad de la que el usuario es encargado, si es que es encargado facultativo
-    public function facultadEncargado()
-    {
-        $codSis = $this->usuario_codSis;
-        $facultad = Facultad::where('encargado_codSis', $codSis)->get();
-        return $facultad->first();
-    }
-
     public static function inicioSesion($user)
     {
         $autenticado = auth()->user()->usuario;
