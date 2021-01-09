@@ -62,51 +62,51 @@
                         <h3 class="textoBlanco">AÚN NO HAY PARTES MENSUALES DISPONIBLES</h3>
                     @endif
                     </div>
-                @endif
-
-                <div class="col-12">
-                    <div class="mb-2 mt-5">
-                        <strong class="textoBlanco">PERSONAL QUE NO ENVIÓ SUS ASISTENCIAS EN ESTA SEMANA</strong>
-                    </div>
-                    @if (!$personal->isEmpty())
-                        <table class="table table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th class="border-dark col-6" scope="col">Nombre</th>
-                                    <th class="border-dark col-6" scope="col">Ítems/Grupos no llenados</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($personal as $p)
-                                    <tr>
-                                        <td class="border-dark">
-                                            {{ $p['usuario']->nombre }}
-                                        </td>
-                                        <td class="border-dark">
-                                            {{ $p['faltas'] }}
-                                        </td>
-                                        <td class="border-dark">
-                                            <form action="/departamento/notificar" method="POST">
-                                                @csrf
-                                                <button class="btn btn-warning boton textoBlanco">Notificar</button>
-
-                                                <input type="text" class="d-none" name="unidad" value={{ $unidad['id'] }}>
-                                                <input type="text" class="d-none" name="personal" value={{ $p['usuario']->codSis }}>
-                                                <input type="text" class="d-none" name="jefe" value={{ auth()->user()->usuario->codSis }}>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="mt-2 d-flex justify-content-center">
-                            {{ $personal->links() }}
+    
+                    <div class="col-12">
+                        <div class="mb-2 mt-5">
+                            <strong class="textoBlanco">PERSONAL QUE NO ENVIÓ SUS ASISTENCIAS EN ESTA SEMANA</strong>
                         </div>
-                    @else
-                        <h3 class="textoBlanco">TODO EL PERSONAL ENVÍO SUS ASISTENCIAS!!</h3>
-                    @endif
-                </div>
+                        @if (!$personal->isEmpty())
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="border-dark col-6" scope="col">Nombre</th>
+                                        <th class="border-dark col-6" scope="col">Ítems/Grupos no llenados</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($personal as $p)
+                                        <tr>
+                                            <td class="border-dark">
+                                                {{ $p['usuario']->nombre }}
+                                            </td>
+                                            <td class="border-dark">
+                                                {{ $p['faltas'] }}
+                                            </td>
+                                            <td class="border-dark">
+                                                <form action="/departamento/notificar" method="POST">
+                                                    @csrf
+                                                    <button class="btn btn-warning boton textoBlanco">Notificar</button>
+    
+                                                    <input type="text" class="d-none" name="unidad" value={{ $unidad['id'] }}>
+                                                    <input type="text" class="d-none" name="personal" value={{ $p['usuario']->codSis }}>
+                                                    <input type="text" class="d-none" name="jefe" value={{ auth()->user()->usuario->codSis }}>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="mt-2 d-flex justify-content-center">
+                                {{ $personal->links() }}
+                            </div>
+                        @else
+                            <h3 class="textoBlanco">TODO EL PERSONAL ENVÍO SUS ASISTENCIAS!!</h3>
+                        @endif
+                    </div>
+                @endif
         </div>
         
     </div>
