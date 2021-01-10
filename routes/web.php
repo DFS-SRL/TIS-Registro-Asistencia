@@ -37,6 +37,8 @@ Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDi
     ->name('planillas.diaria.obtener');
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
 
+Route::post('planilla/guardar', 'PlanillaController@guardar')->name('planilla.guardar');
+
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
 Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalLabo');
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');

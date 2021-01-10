@@ -26,7 +26,7 @@
                     <th class="textoBlanco border border-dark" scope="col">ASISTENCIA</th>
                     <th class="textoBlanco border border-dark" scope="col">PERMISO</th>
                 </tr>
-                <form method="POST" action="{{ route('planillas.diaria') }}" onsubmit="return valMinAct()" enctype="multipart/form-data">
+                <form method="POST" id="form-planilla" action="{{ route('planillas.diaria') }}" onsubmit="return valMinAct()" enctype="multipart/form-data">
                     @csrf
                     @foreach ($horarios as $key => $horario)
                         <tr>
@@ -84,6 +84,7 @@
             </table>
             <button class="btn boton float-right" id="subir">SUBIR</button>
             </form>
+            <button class="btn boton float-right mr-4" id="guardar-planilla" onclick="guardarPlanilla()">GUARDAR</button>
         @else
             <br>
             <br>
@@ -111,5 +112,15 @@
             document.getElementById("nombre_archivo"+asistenciaId).innerText=file;
         }
 
+        function guardarPlanilla()
+        {
+            if (confirm("¿Estás seguro de guardar la planilla semanal?, los documentos comprobantes no serán guardados."))
+            {
+                form = document.getElementById("form-planilla");
+                form.onsubmit = "";
+                form.action = "{{ route('planilla.guardar') }}";
+                form.submit();
+            }
+        }
     </script>
 @endsection

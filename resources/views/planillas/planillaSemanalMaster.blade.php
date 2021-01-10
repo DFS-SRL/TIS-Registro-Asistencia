@@ -17,7 +17,7 @@
             <h4 class = "textoBlanco">@yield('tipoUsuario') {{ $usuario->nombre() }}</h4>
             <h4 class = "textoBlanco">CODIGO SIS: {{ $usuario->codSis }}</h4>
             @if(!$horarios->isEmpty())
-                <form  method="POST"  @yield('action') @yield('onsubmit') enctype="multipart/form-data">
+                <form  method="POST" id="form-planilla" @yield('action') @yield('onsubmit') enctype="multipart/form-data">
                     @foreach ($horarios as $key1 => $unidad)
                         <br>
                         <h4 class = "textoBlanco">{{$unidad[0]->unidad->facultad->nombre}} / {{$unidad[0]->unidad->nombre}}</h4>
@@ -107,7 +107,8 @@
             
                 @endif
                 <button class="btn boton float-right" id="registrar" style="display:none;">REGISTRAR</button>  
-            </form>      
+            </form>  
+            <button class="btn boton float-right mr-4" id="guardar-planilla" onclick="guardarPlanilla()">GUARDAR</button>    
         </div>
     </div>
 @endsection
@@ -123,6 +124,17 @@
         function setLabelFile(asistenciaId){
             file = document.getElementById("documento-form"+asistenciaId).value.split('\\')[2]
             document.getElementById("nombre_archivo"+asistenciaId).innerText=file;
+        }
+        
+        function guardarPlanilla()
+        {
+            if (confirm("¿Estás seguro de guardar la planilla semanal?, los documentos comprobantes no serán guardados."))
+            {
+                form = document.getElementById("form-planilla");
+                form.onsubmit = "";
+                form.action = "{{ route('planilla.guardar') }}";
+                form.submit();
+            }
         }
     </script>
 @endsection
