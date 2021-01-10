@@ -119,6 +119,10 @@ class UnidadController extends Controller
             ]));
         }
 
+        usort($personal, function($a, $b){
+            return strcmp($a['usuario']->nombre, $b['usuario']->nombre);
+        });
+
         return view('informacion.departamentoFac', ['unidad' => $unidad, 'ultimosPartes'=>$ultimosPartes, 'personal' => paginate($personal, 10)]);
     }
 

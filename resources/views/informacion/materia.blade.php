@@ -31,5 +31,8 @@
                     <h3 class="textoBlanco">Este materia no tiene grupos asignados</h3>
                 @endforelse
             </ul>
+            <div class="float-right mt-3">
+                <button class="btn boton float-right" id="regresar" onclick="window.location.href='../materias/{{ $materia->unidad->id }}'">REGRESAR</button>
+            </div>
         </div>
     @endsection
