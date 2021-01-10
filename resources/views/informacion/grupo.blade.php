@@ -79,6 +79,10 @@
                             <h4 class="textoBlanco">Auxiliar no asignado</h4>
                         @endif
                     @endif
+
+                    <div class="float-right">
+                        <button class="btn boton float-right" id="regresar" onclick="window.location.href='../materia/{{ $grupo->materia->id }}'">REGRESAR</button>
+                    </div>
                 </div>
             </div>
         </div>

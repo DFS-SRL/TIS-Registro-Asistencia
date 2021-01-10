@@ -398,7 +398,7 @@ class PersonalAcademicoController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('registrar personal academico')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+                        & Auth::user()->usuario->perteneceAUnidad($idUnidad);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
