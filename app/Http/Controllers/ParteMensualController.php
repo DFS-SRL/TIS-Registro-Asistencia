@@ -313,7 +313,7 @@ class ParteMensualController extends Controller
             return view('parteMensual.partesMesFacultad', ['mes' => $mes, 'facultad' => $facultad, 'departamentos' => $departamentos]);
         } else {
             $rolesPermitidos = [1, 2, 3, 4, 5, 6, 7, 8];
-            $rolAceptado = UsuarioTieneRol::alMenosUnRol(ADuth::user()->usuario->codSis, $rolesPermitidos);
+            $rolAceptado = UsuarioTieneRol::alMenosUnRol(Auth::user()->usuario->codSis, $rolesPermitidos);
             if ($rolAceptado) {
                 return view('parteMensual.partesMesFacultadDPA', ['mes' => $mes, 'facultad' => $facultad, 'departamentos' => $departamentos]);
             } else {

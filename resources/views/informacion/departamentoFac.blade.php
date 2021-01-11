@@ -52,7 +52,7 @@
                                             <input type="hidden" name = 'parte_id' value = '{{$parte->id}}'>
                                             <input type="hidden" name = 'rol' value = '4'>
                                         </form>
-                                        <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn textoNegro" type="button" value="APROBAR PARTES"></td>
+                                        <td class="border border-dark"><input onclick="document.getElementById('aprobarParteRol').submit();" class="boton btn btn-block textoNegro" type="button" value="APROBAR PARTES"></td>
                                     @endif
                                 </tr>
                                 @endforeach
