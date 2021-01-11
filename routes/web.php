@@ -37,6 +37,8 @@ Route::get('/planillas/diaria/{user}', 'PlanillaLaboController@obtenerPlanillaDi
     ->name('planillas.diaria.obtener');
 Route::post('/planillas/diaria', 'PlanillaLaboController@registrarAsistencia')->name('planillas.diaria');
 
+Route::post('planilla/guardar', 'PlanillaController@guardar')->name('planilla.guardar');
+
 // http://localhost:8000/informe/labo/1/2020-10-17 asi es el formato
 Route::get('/informes/semanal/laboratorio/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalLabo');
 Route::get('/informes/semanal/aux-docencia/{unidad}/{fecha}', 'InformesController@obtenerInformeSemanalAuxDoc');
@@ -48,9 +50,6 @@ Route::get('/informes/mensual/{unidad}/{fecha}/docente/{usuario}', 'InformesCont
     ->name('informes.mensual.docente');
 Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesController@obtenerInformeMensualAuxiliar')
     ->name('informes.mensual.auxiliar');
-
-Route::get('/informes/semanal/{unidad}/{fecha}/auxiliar/{usuario}/{jefe}', 'InformesController@obtenerPlanillaExcepcionAuxiliares')
-    ->name('informes.semanales.excepcionAuxiliares');
 
 Route::get('/planillas/semanal/excepcion/auxiliar/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionAuxiliar')
     ->name('planilla.excepcion.auxiliar');
