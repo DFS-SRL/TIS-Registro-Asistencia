@@ -62,7 +62,8 @@ function valIndVer() {
 }
 
 /* habilita y deshabilita los textarea y el combobox de la planilla semanal de docente dependiendo del switch del formulario*/
-function habilitarDeshabilitar(codigo) {//aumentar condicion para cuando inicia con un valor por defecto
+function habilitarDeshabilitar(codigo) {
+    //aumentar condicion para cuando inicia con un valor por defecto
     elementos = document.getElementsByClassName(codigo);
     select = document.getElementById("select" + codigo);
     documento = document.getElementById("documento_adicional" + codigo);
@@ -108,17 +109,16 @@ function combo(index, codigo) {
                 elemento.value = "";
             } else elemento.removeAttribute("disabled");
         }
-        if(elemento.id === "nombre_archivo" + codigo) {
+        if (elemento.id === "nombre_archivo" + codigo) {
             console.log(elemento.innerHTML);
             if (index != 0 && elemento.innerHTML == "") {
                 elemento.innerHTML = "No se eligi&oacute archivo";
-            }else if (index == 0 ) {
+            } else if (index == 0) {
                 elemento.innerHTML = "";
-            } 
+            }
         }
     }
 }
-
 
 /*deshabilita el boton de horarios si existen horarios */
 function habilitarBotonRegistrar(horarios) {
@@ -211,4 +211,8 @@ function confirmSubmit(fuerza) {
                 "{{ route('informes.subirFuerza') }}";
         return true;
     } else return false;
+}
+
+function consolo() {
+    console.log("Hola, ¿Cómo estás?, no estes triste por favor :)");
 }

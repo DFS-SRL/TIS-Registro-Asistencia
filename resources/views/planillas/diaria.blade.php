@@ -53,11 +53,12 @@
                             </td>
                             <td class="border border-dark">
                                 <div class="input-group form-group">
-                                    <select value="" id="select{{ $horario->id }}" 
+                                    <select 
+                                        value="" id="select{{ $horario->id }}" 
                                         name="asistencias[{{ $horario->id }}][permiso]" disabled
-                                        onchange="combo(this.selectedIndex, {{ $horario->id }});" onfocus="this.selectedIndex = -1;"
+                                        onchange="combo(this.selectedIndex, {{ $horario->id }});" 
                                     >
-                                        <option onselect="console.log('sin perma')" value="">Sin Permiso</option>
+                                        <option value="">Sin Permiso</option>
                                         <option onclick="window.alert('licensa')" value="LICENCIA">Licencia</option>
                                         <option onclick="window.alert('bashs')" value="BAJA_MEDICA">Baja medica</option>
                                         <option onclick="window.alert('comisionado gordon')" value="DECLARATORIA_EN_COMISION">Declaratoria en comision</option>
@@ -102,6 +103,7 @@
 
 @section('script-footer')
     <script src="/js/main.js"></script>
+    <script src="/js/planilla/planilla.js"></script>
     <script >
         function asistenciaEventButton(asistenciaId){
             document.getElementById("documento-form" + asistenciaId).removeAttribute("disabled");
@@ -114,7 +116,7 @@
 
         var rutaPlanilla = "{{ route('planilla.guardar') }}";
         @foreach($planillas as $key => $planilla)
-            cargarPlanilla(@json($planilla));
+            cargarPlanilla(@json($planilla), false);
         @endforeach
     </script>
 @endsection

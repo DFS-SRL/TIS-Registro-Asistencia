@@ -76,7 +76,7 @@
                                                 <select 
                                                     value="" id="select{{ $horario->id }}" 
                                                     name="asistencias[{{ $horario->id }}][permiso]" disabled
-                                                    onchange="combo(this.selectedIndex, {{ $horario->id }});" onfocus="this.selectedIndex = -1;"
+                                                    onchange="combo(this.selectedIndex, {{ $horario->id }});"
                                                 >
                                                     <option value="">Sin Permiso</option>
                                                     <option value="LICENCIA">Licencia</option>
@@ -142,7 +142,7 @@
         
         var rutaPlanilla = "{{ route('planilla.guardar') }}";
         @foreach($planillas as $key => $planilla)
-            cargarPlanilla(@json($planilla));
+            cargarPlanilla(@json($planilla), true);
         @endforeach
     </script>
 @endsection

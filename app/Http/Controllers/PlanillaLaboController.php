@@ -121,6 +121,7 @@ class PlanillaLaboController extends Controller
                 $asistencia['documento_adicional'] = $nombreAGuardar;
             }
 
+            // eliminar planillas guardadas
             $planilla = Planilla::find($asistencia['horario_clase_id']);
             if ($planilla != null)
                 $planilla->delete();

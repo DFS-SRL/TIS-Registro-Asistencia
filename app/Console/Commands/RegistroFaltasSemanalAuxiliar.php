@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\HorarioClase;
+use App\Planilla;
 use App\Asistencia;
+use App\HorarioClase;
+use Illuminate\Console\Command;
 
 class RegistroFaltasSemanalAuxiliar extends Command
 {
@@ -41,17 +42,17 @@ class RegistroFaltasSemanalAuxiliar extends Command
     {
         // obtener horarios con rol 2 (auxiliar de docencia)
         $horarios = HorarioClase::where('Horario_clase.rol_id', '=', 2)
-                            ->get()->groupBy('dia');
-        
+            ->get()->groupBy('dia');
+
         // fecha por dias de la semana
-        $fechaPorDia = getFechasDeSemanaEnFecha("today");      
+        $fechaPorDia = getFechasDeSemanaEnFecha("today");
 
         // buscar horarios que no fueron registrados
         foreach ($horarios as $horariosEnDia) {
             foreach ($horariosEnDia as $falta) {
                 $asistencia = Asistencia::where('horario_clase_id', '=', $falta->id)
-                ->where('fecha', '=', $fechaPorDia[compararDias($falta->dia, "LUNES")])
-                ->get();
+                    ->where('fecha', '=', $fechaPorDia[compararDias($falta->dia, "LUNES")])
+                    ->get();
                 if ($asistencia->isEmpty()) {
                     Asistencia::create([
                         'horario_clase_id' => $falta->id,
@@ -64,6 +65,11 @@ class RegistroFaltasSemanalAuxiliar extends Command
                         'asistencia' => false
                     ]);
                 }
+
+                // eliminar planillas guardadas
+                $planilla = Planilla::find($asistencia['horario_clase_id']);
+                if ($planilla != null)
+                    $planilla->delete();
             }
         }
     }
