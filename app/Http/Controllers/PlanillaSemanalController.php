@@ -2,39 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Unidad;
 use App\Usuario;
+use App\Planilla;
 use App\Asistencia;
 use App\HorarioClase;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use App\Http\Requests\RegistrarAsistenciaDocenteRequest;
-use App\Http\Requests\RegistrarAsistenciaSemanalRequest;
-use App\User;
 use App\UsuarioTieneRol;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\RegistrarAsistenciaDocenteRequest;
+use App\Http\Requests\RegistrarAsistenciaSemanalRequest;
 
 
-class PlanillaSemanalController extends Controller{
+class PlanillaSemanalController extends Controller
+{
 
     use AuthenticatesUsers;
-    
+
     protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     // para obtener la planilla semanal de auxiliar de docencia
     public function obtenerPlanillaSemanalAuxDoc(Usuario $user)
     {
         $acceso = Auth::user()->usuario->tienePermisoNombre('llenar planilla semanal')
-                & (Auth::user()->usuario->codSis == $user->codSis);
-        if ($acceso){
+            & (Auth::user()->usuario->codSis == $user->codSis);
+        if ($acceso) {
             return $this->obtenerPlanillaSemanal($user, 2);
         }
         return view('/provicional/noAutorizado');
@@ -44,8 +46,8 @@ class PlanillaSemanalController extends Controller{
     public function obtenerPlanillaSemanalDocente(Usuario $user)
     {
         $acceso = Auth::user()->usuario->tienePermisoNombre('llenar planilla semanal')
-                & (Auth::user()->usuario->codSis == $user->codSis);
-        if ($acceso){
+            & (Auth::user()->usuario->codSis == $user->codSis);
+        if ($acceso) {
             return $this->obtenerPlanillaSemanal($user, 3);
         }
         return view('/provicional/noAutorizado');
@@ -60,12 +62,18 @@ class PlanillaSemanalController extends Controller{
         $horarios =  HorarioClase::where('asignado_codSis', '=', $codigoSis)
             ->where('activo', '=', 'true')
             ->where('rol_id', '=', $rol)
-            ->orderBy(
-                'dia',
-                'ASC'
-            )
+            ->orderBy('dia', 'ASC')
             ->orderBy('hora_inicio', 'ASC')
             ->get();
+
+        // obteniendo planillas guardadas
+        $planillas =  Planilla::join('Horario_clase', 'id', '=', 'horario_clase_id')
+            ->where('asignado_codSis', '=', $codigoSis)
+            ->where('activo', '=', 'true')
+            ->where('rol_id', '=', $rol)
+            ->select('Planilla.*')
+            ->get();
+
         // ver si no se lleno la planilla de esta semana
         $registradas = $this->asistenciasRegistradas($user, [$rol]);
         $llenado = $registradas->count() == $horarios->count() && $horarios->count() > 0;
@@ -86,6 +94,7 @@ class PlanillaSemanalController extends Controller{
             'fechaFinal' => $fechasDeSemana["SABADO"],
             'fechasDeSemana' => $fechasDeSemana,
             'horarios' => $horarios,
+            'planillas' => $planillas,
             'usuario' => $user,
             'llenado' => $llenado
         ]);
@@ -96,11 +105,11 @@ class PlanillaSemanalController extends Controller{
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla de excepcion')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         return $this->obtenerPlanillaExcepcion($unidad, $usuario, [3]);
     }
 
@@ -109,11 +118,11 @@ class PlanillaSemanalController extends Controller{
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla de excepcion')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         return $this->obtenerPlanillaExcepcion($unidad, $usuario, [1, 2]);
     }
 
@@ -160,7 +169,7 @@ class PlanillaSemanalController extends Controller{
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         // validar
         $asistencias = array_values($request->validated()['asistencias']);
 
@@ -206,6 +215,10 @@ class PlanillaSemanalController extends Controller{
                 $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
                 $asistencia['documento_adicional'] = $nombreAGuardar;
             }
+
+            $planilla = Planilla::find($asistencia['horario_clase_id']);
+            if ($planilla != null)
+                $planilla->delete();
 
             Asistencia::create($asistencia);
         }

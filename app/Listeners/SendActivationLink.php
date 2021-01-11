@@ -28,6 +28,6 @@ class SendActivationLink
      */
     public function handle(Registered $event)
     {
-        Mail::to($event->user->usuario->correo_electronico)->send(new ActivarCuenta($event->user));
+        // Mail::to($event->user->usuario->correo_electronico)->send(new ActivarCuenta($event->user));
     }
 }

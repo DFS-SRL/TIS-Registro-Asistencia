@@ -52,7 +52,7 @@
                     @empty
                         <h3 class="textoBlanco">Este unidad no tiene materias asignadas</h3>
                     @endforelse
-                    <div class="mt-3">
+                    <div class="mt-3 d-flex justify-content-center">
                         {{ $materias->links() }}
                     </div>
                 </ul>

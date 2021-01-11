@@ -40,7 +40,7 @@
                         <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                         <th class="textoBlanco border border-dark">ASISTENCIA</th>
                         <th class="textoBlanco border border-dark">PERMISO</th>
-                        @if(auth()->user()->id == $unidad->facultad->encargado_codSis)
+                        @if(auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                             <th class="textoBlanco border border-dark">OPCIONES</th>
                         @endIf
                     </tr>
@@ -86,9 +86,9 @@
                             @else
                                 <td class = "border border-dark"></td>
                             @endif
-                            @if (auth()->user()->id == $unidad->facultad->encargado_codSis)
+                            @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                 <td class = "border border-dark">
-                                    @if($asistencia->asistencia)
+                                    @if($asistencia->asistencia || $asistencia->permiso != null || $asistencia->permiso != '')
                                         <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
                                         <form id="invalidar{{ $asistencia->id }}" method="POST" action="{{ route('asistencia.invalidar', $asistencia) }}" class="d-none">
                                             @csrf @method('PATCH')

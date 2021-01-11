@@ -130,6 +130,9 @@ class HorarioClaseController extends Controller
         $horario->update([
             'activo' => false
         ]);
+
+        $this->asignarPersonal($horarioNuevo);
+
         HorarioClase::create($horarioNuevo);
         return back()->with('success', 'Clase actualizada');
     }

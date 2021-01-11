@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +50,8 @@ class Handler extends ExceptionHandler
     {
         if($exception instanceof \Illuminate\Auth\AuthenticationException){
             request()->session()->flash('error', 'Necesitas iniciar sesión para acceder a esta página.');
+        }else if ($exception instanceof TokenMismatchException) {
+            return redirect('/login')->withInfo('Tu sesión ha caducado, vuelve a ingresar tus datos por favor.');
         }
         return parent::render($request, $exception);
     }

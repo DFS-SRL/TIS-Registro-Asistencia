@@ -4,42 +4,52 @@ namespace App\Http\Controllers;
 
 use App\Unidad;
 use App\Usuario;
+use App\Planilla;
 use App\Asistencia;
 use App\HorarioClase;
+use App\UsuarioTieneRol;
 use Illuminate\Http\Request;
 use App\helpers\AsistenciaHelper;
-use Illuminate\Validation\ValidationException;
-use App\Http\Requests\RegistrarAsistenciaLaboRequest;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use App\UsuarioTieneRol;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Requests\RegistrarAsistenciaLaboRequest;
 
 class PlanillaLaboController extends Controller
 {
     use AuthenticatesUsers;
-    
+
     protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('auth');
-    }		
+    }
 
     public function obtenerPlanillaDia(Usuario $user)
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla diaria')
-                        & (Auth::user()->usuario->codSis == $user->codSis);
+            & (Auth::user()->usuario->codSis == $user->codSis);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         // obteniendo horarios asignados en el dia actual
         $horarios =  HorarioClase::where('asignado_codSis', '=', $user->codSis)
             ->where('activo', '=', 'true')
             ->where('rol_id', '=', 1)
             ->where('dia', '=', getDia())
             ->orderBy('hora_inicio', 'ASC')
+            ->get();
+
+        // obteniendo planillas guardadas
+        $planillas =  Planilla::join('Horario_clase', 'id', '=', 'horario_clase_id')
+            ->where('asignado_codSis', '=', $user->codSis)
+            ->where('activo', '=', 'true')
+            ->where('rol_id', '=', 1)
+            ->where('dia', '=', getDia())
+            ->select('Planilla.*')
             ->get();
 
         // ver si no se lleno la planilla de esta semana
@@ -57,6 +67,7 @@ class PlanillaLaboController extends Controller
             'usuario' => $user,
             'fecha' => getFecha(),
             'horarios' => $horarios,
+            'planillas' => $planillas,
             'llenado' => $llenado
         ]);
     }
@@ -68,7 +79,7 @@ class PlanillaLaboController extends Controller
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
-        
+
         // validar
         $asistencias = array_values($request->validated()['asistencias']);
 
@@ -101,7 +112,6 @@ class PlanillaLaboController extends Controller
             $asistencia['grupo_id'] = $horario->grupo_id;
             $asistencia['unidad_id'] = $horario->unidad_id;
 
-
             if (array_key_exists('documento_adicional', $asistencia)) {
                 $doc = $asistencia['documento_adicional'];
                 $docNombre = pathInfo($doc->getClientOriginalName(), PATHINFO_FILENAME);
@@ -110,6 +120,10 @@ class PlanillaLaboController extends Controller
                 $path = $doc->storeAs('documentosAdicionales', $nombreAGuardar);
                 $asistencia['documento_adicional'] = $nombreAGuardar;
             }
+
+            $planilla = Planilla::find($asistencia['horario_clase_id']);
+            if ($planilla != null)
+                $planilla->delete();
 
             Asistencia::create($asistencia);
         }

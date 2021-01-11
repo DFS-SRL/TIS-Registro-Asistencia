@@ -362,6 +362,9 @@ class PersonalAcademicoController extends Controller
         $apellidoPaterno = "";
         $apellidoMaterno = "";
         $correo = "";
+
+        // return $personal;
+
         if (count($personal) != 0) {
             $nombreSeparado = explode(" ", $personal[0]->nombre);
             $nombres = str_replace("_", " ", $nombreSeparado[2]);
@@ -398,21 +401,21 @@ class PersonalAcademicoController extends Controller
     {
         // Verificamos que el usuario tiene los roles permitidos
         $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('registrar personal academico')
-                        & Auth::user()->usuario->perteneceAUnidad($unidad->id);
+                        & Auth::user()->usuario->perteneceAUnidad($idUnidad);
         if (!$accesoOtorgado) {
             return view('provicional.noAutorizado');
         }
 
         if (request('registrado') == "false") {
-            $nombre = str_replace("_", " ", request('apellidoPaterno')) . " ";
-            $nombre = $nombre . str_replace("_", " ", request('apellidoMaterno')) . " ";
-            $nombre = $nombre . str_replace("_", " ", request('nombres'));
+            $nombre = str_replace(" ", "_", request('apellidoPaterno')) . " ";
+            $nombre = $nombre . str_replace(" ", "_", request('apellidoMaterno')) . " ";
+            $nombre = $nombre . str_replace(" ", "_", request('nombres'));
             $usuario = [];
             $user = new User;
             $usuario['codSis'] = request('codsis');
             $user->usuario_codSis = request('codsis');
             $usuario['nombre'] = $nombre;
-            $user->name = $nombre;
+            $user->name = str_replace("_", " ", $nombre);
             $usuario['contrasenia'] = Str::random(8);
             $user->password = bcrypt($usuario['contrasenia']);
             $usuario['correo_electronico'] = request('correo');
