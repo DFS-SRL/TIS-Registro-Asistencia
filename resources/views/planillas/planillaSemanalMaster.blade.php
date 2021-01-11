@@ -119,9 +119,9 @@
                     </h4>
             
                 @endif
-                <button class="btn boton float-right" id="registrar" style="display:none;">REGISTRAR</button>  
+                <button class="btn boton float-right" id="registrar" style="display:none;">ENVIAR</button>  
             </form>  
-            <button class="btn boton float-right mr-4" id="guardar-planilla" onclick="guardarPlanilla()">GUARDAR</button>    
+            <button class="btn boton float-right mr-4" id="guardar-planilla" style="display:none" onclick="guardarPlanilla()">GUARDAR</button>    
         </div>
     </div>
 @endsection
