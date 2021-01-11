@@ -299,7 +299,7 @@ class GrupoController extends Controller
             ->where('rol_id', '=', $rol_id)
             ->where('activo', '=', 'true')
             ->get();
-        foreach ($horarios as $key => $horario) {
+        foreach ($horarios as $horario) {
             $horario->update([
                 'asignado_codSis' => $codSis
             ]);

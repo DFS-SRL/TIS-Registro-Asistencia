@@ -71,8 +71,10 @@ class UnidadController extends Controller
 
 
 
-        $horarios = HorarioClase::where('Horario_clase.unidad_id', '=', $unidad->id)
-                            ->get()->groupBy('dia');
+        $horarios = HorarioClase::
+            where('Horario_clase.unidad_id', '=', $unidad->id)
+            ->where('activo', '=', true)
+            ->get()->groupBy('dia');
         
         // fecha por dias de la semana
         $fechaPorDia = getFechasDeSemanaEnFecha("today");

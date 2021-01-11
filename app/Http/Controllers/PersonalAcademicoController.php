@@ -155,6 +155,7 @@ class PersonalAcademicoController extends Controller
             ->where('Materia.es_materia', $esMateria)
             ->where('Grupo.activo', '=', 'true')
             ->where('Materia.activo', '=', 'true')
+            ->where('Horario_clase.activo', '=', 'true')
             ->distinct()
             ->select('Horario_clase.grupo_id', 'Materia.nombre AS nombre_materia', 'Materia.id AS materia_id', 'Grupo.nombre AS nombre_grupo')->get();
     }
