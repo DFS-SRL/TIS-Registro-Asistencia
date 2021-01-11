@@ -38,8 +38,16 @@ class InformesController extends Controller
             return view('provicional.noAutorizado');
         }
 
+        calcularFechasMes(date("Y-m-d"), $t, $fechaInicio, $fechaFin);
+
         return view('informes.index', [
-            'unidad' => $unidad
+            'unidad' => $unidad,
+            'parte' => ParteMensual::where('fecha_ini', '=', $fechaInicio)
+                ->where('fecha_fin', '=', $fechaFin)
+                ->where('unidad_id', '=', $unidad->id)
+                ->exists(),
+            'fechaInicio' => $fechaInicio,
+            'fechaFin' => $fechaFin
         ]);
     }
 
