@@ -7,10 +7,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <h4 class="textoBlanco">{{ $cargo->unidad->facultad->nombre }}</h4>
-                    <h1 class="textoBlanco">{{ $cargo->unidad->nombre }}</h1>
+                    <h4 class="textoBlanco">
+                         <a class="textoBlanco" href="/facultades/{{ $cargo->unidad->facultad->id }}">
+                            {{ $cargo->unidad->facultad->nombre }}</a>
+                    </h4>
+                    <h1 class="textoBlanco"><a class="textoBlanco" href="/departamento/{{ $cargo->unidad->id }}">{{ $cargo->unidad->nombre }}</a></h1>
                     <br>
-                    <h5 class="textoBlanco">{{ $cargo->nombre }}</h5>
+                    <h5 class="textoBlanco"><a class="textoBlanco" href="/cargo/{{ $cargo->id }}">{{ $cargo->nombre }}</a></h5>
                 </div>
                 <div class="col-4">
                     <h4 class="textoBlanco">Codigo de cargo de laboratorio: {{$cargo->id}}</h4>

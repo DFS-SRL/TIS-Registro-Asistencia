@@ -12,11 +12,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <h2 class="textoBlanco" >{{ $grupo->unidad->facultad->nombre }}</h4>
-                        <h2 class="textoBlanco">{{ $grupo->unidad->nombre }}</h1>
-                            <h4 class="textoBlanco">{{ $grupo->materia->nombre }}</h4>
-                            <br>
-                            <h4 class="textoBlanco">{{ $grupo->nombre }}</h4>
+                    <h2 class="textoBlanco">
+                        <a class="textoBlanco" href="/facultades/{{ $grupo->unidad->facultad->id }}">
+                           {{ $grupo->unidad->facultad->nombre }}</a>
+                   </h2>
+                   <h2 class="textoBlanco"><a class="textoBlanco" href="/departamento/{{ $grupo->unidad->id }}">{{ $grupo->unidad->nombre }}</a></h2>
+                    <h4 class="textoBlanco"><a class="textoBlanco" href="/materia/{{ $grupo->materia->id }}">{{ $grupo->materia->nombre }}</a></h4>
+                    <br>
+                    <h4 class="textoBlanco"><a class="textoBlanco" href="/grupo/{{ $grupo->id }}">{{ $grupo->nombre }}</a></h4>
+                
                 </div>
             </div>
             <table class="table">
