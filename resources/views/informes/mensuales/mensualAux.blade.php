@@ -68,7 +68,7 @@
                             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                             <th class="textoBlanco border border-dark">ASISTENCIA</th>
                             <th class="textoBlanco border border-dark">PERMISO</th>
-                            @if(auth()->user()->id == $unidad->facultad->encargado_codSis)
+                            @if(auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                 <th class="textoBlanco border border-dark">OPCIONES</th>
                             @endIf
                         </tr>
@@ -114,7 +114,7 @@
                                 @else
                                     <td class = "border border-dark"></td>
                                 @endif
-                                @if (auth()->user()->id == $unidad->facultad->encargado_codSis)
+                                @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                     <td class = "border border-dark">
                                         @if($asistencia->asistencia)
                                             <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
@@ -154,7 +154,7 @@
                             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                             <th class="textoBlanco border border-dark">ASISTENCIA</th>
                             <th class="textoBlanco border border-dark">PERMISO</th>
-                            @if(auth()->user()->id == $unidad->facultad->encargado_codSis)
+                            @if(auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                 <th class="textoBlanco border border-dark">OPCIONES</th>
                             @endIf
                         </tr>
@@ -195,7 +195,7 @@
                                 @else
                                     <td class = "border border-dark"></td>
                                 @endif
-                                @if (auth()->user()->id == $unidad->facultad->encargado_codSis)
+                                @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                     <td class = "border border-dark">
                                         @if($asistencia->asistencia)
                                             <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
@@ -233,7 +233,7 @@
                             <th class="textoBlanco border border-dark">OBSERVACIONES</th>
                             <th class="textoBlanco border border-dark">ASISTENCIA</th>
                             <th class="textoBlanco border border-dark">PERMISO</th>
-                            @if(auth()->user()->id == $unidad->facultad->encargado_codSis)
+                            @if(auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                 <th class="textoBlanco border border-dark">OPCIONES</th>
                             @endIf
                         </tr>
@@ -274,7 +274,7 @@
                                 @else
                                     <td class = "border border-dark"></td>
                                 @endif
-                                @if (auth()->user()->id == $unidad->facultad->encargado_codSis)
+                                @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                     <td class = "border border-dark">
                                         @if($asistencia->asistencia)
                                             <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
