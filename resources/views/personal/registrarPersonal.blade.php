@@ -3,6 +3,9 @@
 
 @section('content')
     <div class="container">
+        <div class="float-rigth">
+            <button class="btn boton float-right" id="regresar" onclick="redireccionar()">REGRESAR</button>
+        </div>
         <h3 class="textoBlanco">Facultad: {{ $unidad->facultad->nombre }}</h3>
         <h3 class="textoBlanco">Departamento: {{ $unidad->nombre }}</h3>
         <br>
@@ -231,5 +234,10 @@
     </div>
     @section('script-footer')
         <script type="text/javascript" src="/js/informacion/registrarPersonalAcademico.js"></script>
+        <script>
+            function redireccionar(){
+                window.location.href = "{!! route('personalAcademico.registrar', $unidad->id) !!}";
+            }
+        </script>
     @endsection
 @endsection
