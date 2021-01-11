@@ -375,30 +375,4 @@ class InformesController extends Controller
             'asistenciasDoc' => $asistenciasDoc
         ]);
     }
-
-    public function obtenerPlanillaExcepcionAuxiliares(Unidad $unidad, $fecha, Usuario $usuario, Usuario $jefe)
-    {
-        //Verificamos que se tengan los permisos necesarios
-        $accesoOtorgado = Auth::user()->usuario->tienePermisoNombre('llenar planilla de excepcion')
-            & Auth::user()->usuario->perteneceAUnidad($unidad->id);
-        if (!$accesoOtorgado) {
-            return view('provicional.noAutorizado');
-        }
-
-        // obteniendo las fechas de la semana
-        $fechas = getFechasDeSemanaEnFecha($fecha);
-
-        $rol = 1;
-
-        // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechas[0], $fechas[5])->get();
-
-        //devolver la vista de informe semanal de laboratorio
-        return view('informes.semanales.excepcionAuxiliar', [
-            'asistencias' => $asistencias,
-            'fechaInicio' => formatoFecha($fechas[0]),
-            'fechaFinal' => formatoFecha($fechas[5]),
-            'unidad' => $unidad
-        ]);
-    }
 }

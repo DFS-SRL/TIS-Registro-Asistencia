@@ -51,9 +51,6 @@ Route::get('/informes/mensual/{unidad}/{fecha}/docente/{usuario}', 'InformesCont
 Route::get('/informes/mensual/{unidad}/{fecha}/auxiliar/{usuario}', 'InformesController@obtenerInformeMensualAuxiliar')
     ->name('informes.mensual.auxiliar');
 
-Route::get('/informes/semanal/{unidad}/{fecha}/auxiliar/{usuario}/{jefe}', 'InformesController@obtenerPlanillaExcepcionAuxiliares')
-    ->name('informes.semanales.excepcionAuxiliares');
-
 Route::get('/planillas/semanal/excepcion/auxiliar/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionAuxiliar')
     ->name('planilla.excepcion.auxiliar');
 Route::get('/planillas/semanal/excepcion/docente/{unidad}/{usuario}', 'PlanillaSemanalController@obtenerPlanillaExcepcionDocente')

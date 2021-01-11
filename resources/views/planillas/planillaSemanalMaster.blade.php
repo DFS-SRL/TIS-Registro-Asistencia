@@ -41,29 +41,42 @@
                                         <td class="border border-dark">{{ $horario->grupo->nombre }}</td>
                                         <td class="border border-dark">{{ $horario->materia->nombre }}</td>
                                         <td class="border border-dark">
-                                            <textarea name="asistencias[{{ $key1.$key2 }}][actividad_realizada]" class ="{{$key1}}{{$key2}} actividad" 
-                                            maxlength="150" id="actividad{{$key1.$key2 }}" onkeypress="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')" onkeyup="valLim(150, 'actividad{{$key1.$key2}}', 'msgAct{{$key1.$key2}}')"  ></textarea>                             
-                                            <label class ="text-danger" id="msgAct{{$key1.$key2 }}" for="actividad{{$key1.$key2 }}"></label>
+                                            <textarea 
+                                                name="asistencias[{{ $horario->id }}][actividad_realizada]" class ="{{ $horario->id }} actividad" 
+                                                maxlength="150" id="actividad{{ $horario->id }}" 
+                                                onkeypress="valLim(150, 'actividad{{ $horario->id }}', 'msgAct{{ $horario->id }}')" 
+                                                onkeyup="valLim(150, 'actividad{{ $horario->id }}', 'msgAct{{ $horario->id }}')"></textarea>                             
+                                            <label class ="text-danger" id="msgAct{{ $horario->id }}" for="actividad{{ $horario->id }}"></label>
                                         </td>
                                         <td class="border border-dark">
-                                            <textarea name="asistencias[{{ $key1.$key2 }}][indicador_verificable]" class = "{{$key1}}{{$key2}}  verificable" id="verificable{{$key1.$key2 }}"></textarea>
-                                            <label class ="text-danger" id="msgVer{{$key1.$key2 }}" for="verificable{{$key1.$key2 }}"></label>
+                                            <textarea 
+                                                name="asistencias[{{ $horario->id }}][indicador_verificable]" class = "{{ $horario->id }}  verificable" 
+                                                id="verificable{{ $horario->id }}"></textarea>
+                                            <label class ="text-danger" id="msgVer{{$horario->id }}" for="verificable{{ $horario->id }}"></label>
                                         </td>
                                         <td class="border border-dark">
-                                            <textarea name="asistencias[{{ $key1.$key2 }}][observaciones]" class = "{{$key1}}{{$key2}} observacion" maxlength="200" id="observacion{{$key1.$key2 }}" onkeypress="valLim(200, 'observacion{{$key1.$key2}}', 'msgObs{{$key1.$key2}}')" onkeyup="valLim(200, 'observacion{{$key1.$key2}}', 'msgObs{{$key1.$key2}}')" ></textarea>                            
-                                            <label class ="text-danger" id="msgObs{{$key1.$key2 }}" for="observaciones"></label>
+                                            <textarea 
+                                                name="asistencias[{{ $horario->id }}][observaciones]" class = "{{ $horario->id }} observacion" 
+                                                maxlength="200" id="observacion{{ $horario->id }}" 
+                                                onkeypress="valLim(200, 'observacion{{ $horario->id }}', 'msgObs{{ $horario->id }}')" 
+                                                onkeyup="valLim(200, 'observacion{{ $horario->id }}', 'msgObs{{ $horario->id }}')"></textarea>                            
+                                            <label class ="text-danger" id="msgObs{{ $horario->id }}" for="observaciones"></label>
                                         </td>
                                         <td class="border border-dark">
                                             <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="asistencia{{$key1}}{{$key2}}" onclick='habilitarDeshabilitar({{$key1.$key2}})' autocomplete="off" checked/>
-                                                <label class="custom-control-label" for="asistencia{{$key1}}{{$key2}}"></label>
+                                                <input 
+                                                    type="checkbox" class="custom-control-input" id="asistencia{{ $horario->id }}" 
+                                                    onclick='habilitarDeshabilitar({{$horario->id}})' autocomplete="off" checked
+                                                >
+                                                <label class="custom-control-label" for="asistencia{{ $horario->id }}"></label>
                                             </div>
                                         </td>
                                         <td class="border border-dark">
                                             <div class="input-group form-group">
-                                                <select value="" id="select{{ $key1.$key2 }}" 
-                                                    name="asistencias[{{ $key1.$key2 }}][permiso]" disabled
-                                                    onchange="combo(this.selectedIndex, {{ $key1.$key2 }});" onfocus="this.selectedIndex = -1;"
+                                                <select 
+                                                    value="" id="select{{ $horario->id }}" 
+                                                    name="asistencias[{{ $horario->id }}][permiso]" disabled
+                                                    onchange="combo(this.selectedIndex, {{ $horario->id }});" onfocus="this.selectedIndex = -1;"
                                                 >
                                                     <option value="">Sin Permiso</option>
                                                     <option value="LICENCIA">Licencia</option>
@@ -73,20 +86,20 @@
                                             </div>
                                             {{-- <br class="borrar"> --}}
                                             <div class="input-group form-group">
-                                                <button type="button" class="{{$key1.$key2 }} borrar btn btn-block boton justify-content-center" id="documento_adicional{{$key1.$key2 }}"  style="font-size:0.7em;" onclick="asistenciaEventButton({{$key1.$key2 }});" disabled>COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
+                                                <button type="button" class="{{$horario->id }} borrar btn btn-block boton justify-content-center" id="documento_adicional{{$horario->id }}"  style="font-size:0.7em;" onclick="asistenciaEventButton({{$horario->id }});" disabled>COMPROBANTE  <svg width="1.1em" height="1.1em" viewBox="0 0 18 18" class="bi bi-upload" fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
                                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                                     <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                                                     </svg>
                                                 </button ><br>
-                                                <label class="{{$key1.$key2}} borrar" id="nombre_archivo{{$key1.$key2 }}"  for="documento_adicional{{$key1.$key2 }}"></label>
+                                                <label class="{{$horario->id}} borrar" id="nombre_archivo{{$horario->id }}"  for="documento_adicional{{$horario->id }}"></label>
                                             
-                                                <input class="{{$key1.$key2 }} mt-4" type="file" id="documento-form{{$key1.$key2 }}" name="asistencias[{{$key1.$key2  }}][documento_adicional]"style="display:none" 
-                                                onchange="setLabelFile({{$key1.$key2 }})">
+                                                <input class="{{$horario->id }} mt-4" type="file" id="documento-form{{$horario->id }}" name="asistencias[{{$horario->id  }}][documento_adicional]"style="display:none" 
+                                                onchange="setLabelFile({{$horario->id }})">
                                             </div>
-                                       </td>
-                                        <input type="hidden" name="asistencias[{{ $key1.$key2 }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
-                                        <input id='asistenciaFalse{{$key1.$key2}}' type='hidden' name="asistencias[{{ $key1.$key2 }}][asistencia]" value="true">
-                                        <input type="hidden" name="asistencias[{{ $key1.$key2 }}][horario_clase_id]" value="{{ $horario->id }}">
+                                        </td>
+                                        <input type="hidden" name="asistencias[{{ $horario->id }}][fecha]" value="{{ $fechasDeSemana[$horario->dia] }}">                        
+                                        <input id='asistenciaFalse{{$horario->id}}' type='hidden' name="asistencias[{{ $horario->id }}][asistencia]" value="true">
+                                        <input type="hidden" name="asistencias[{{ $horario->id }}][horario_clase_id]" value="{{ $horario->id }}">
                                     </tr>
                                 @endforeach
                             </table>
@@ -115,6 +128,7 @@
 
 @section('script-footer')
     <script src="/js/main.js"></script>
+    <script src="/js/planilla/planilla.js"></script>
     <script>
         $(window).on('load', habilitarBotonRegistrar({{sizeof($horarios)}}));
         function asistenciaEventButton(asistenciaId){
@@ -126,15 +140,9 @@
             document.getElementById("nombre_archivo"+asistenciaId).innerText=file;
         }
         
-        function guardarPlanilla()
-        {
-            if (confirm("¿Estás seguro de guardar la planilla semanal?, los documentos comprobantes no serán guardados."))
-            {
-                form = document.getElementById("form-planilla");
-                form.onsubmit = "";
-                form.action = "{{ route('planilla.guardar') }}";
-                form.submit();
-            }
-        }
+        var rutaPlanilla = "{{ route('planilla.guardar') }}";
+        @foreach($planillas as $key => $planilla)
+            cargarPlanilla(@json($planilla));
+        @endforeach
     </script>
 @endsection
