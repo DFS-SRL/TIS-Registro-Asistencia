@@ -11,8 +11,8 @@
         <div class="mx-3 my-4">
             <div class="row">
                 <div class="col-10 ">
-                    <h4 class="textoBlanco">UNIVERSIDAD MAYOR DE SAN SIMON</h4>
-                <h1 class="textoBlanco">DEPARTAMENTO DE PLANIFICACION ACADEMICA</h1>
+                    <h1 class="textoBlanco">UNIVERSIDAD MAYOR DE SAN SIMON</h1>
+                <h4 class="textoBlanco">LISTA DE FACULTADES</h4>
                 </div>
                 <div class="col-2">
                     <a href="{{ route('facultades.editar') }}">

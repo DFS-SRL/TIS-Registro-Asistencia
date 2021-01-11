@@ -11,8 +11,12 @@
         <div class="mx-3 my-4">
             <div class="row">
                 <div class="col-md-4">
-                    <h4 class="textoBlanco">{{ $unidad->facultad->nombre }}</h4>
-                    <h1 class="textoBlanco">{{ $unidad->nombre }}</h1>
+                    <h4 class="textoBlanco">
+                        <a class="textoBlanco" href="/facultades/{{ $unidad->facultad->id }}">
+                           {{ $unidad->facultad->nombre }}</a>
+                   </h4>
+                   <h1 class="textoBlanco"><a class="textoBlanco" href="/departamento/{{ $unidad->id }}">{{ $unidad->nombre }}</a></h1>
+                   
                 </div>
                 <div class="col-md-5">
                 <br>

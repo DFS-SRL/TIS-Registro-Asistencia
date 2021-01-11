@@ -116,7 +116,7 @@
                                 @endif
                                 @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                     <td class = "border border-dark">
-                                        @if($asistencia->asistencia)
+                                        @if($asistencia->asistencia || $asistencia->permiso != null || $asistencia->permiso != '')
                                             <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
                                             <form id="invalidar{{ $asistencia->id }}" method="POST" action="{{ route('asistencia.invalidar', $asistencia) }}" class="d-none">
                                                 @csrf @method('PATCH')
@@ -197,7 +197,7 @@
                                 @endif
                                 @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                     <td class = "border border-dark">
-                                        @if($asistencia->asistencia)
+                                        @if($asistencia->asistencia || $asistencia->permiso != null || $asistencia->permiso != '')
                                             <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
                                         @endif
                                     </td>    
@@ -276,7 +276,7 @@
                                 @endif
                                 @if (auth()->user()->usuario->codSis == $unidad->facultad->encargado_codSis)
                                     <td class = "border border-dark">
-                                        @if($asistencia->asistencia)
+                                        @if($asistencia->asistencia || $asistencia->permiso != null || $asistencia->permiso != '')
                                             <button class="btn boton" onclick="confirmarInvalidarAsistencia({{ $asistencia->id }});">INVALIDAR</button>
                                         @endif
                                     </td>    

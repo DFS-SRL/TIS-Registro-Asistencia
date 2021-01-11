@@ -10,7 +10,7 @@
 @section('content')
     <div class="container">
         <div class="mx-3 my-4">
-                <h3 class="textoBlanco">FACULTAD: {{ $facultad->nombre }}</h3>
+                <h3 class="textoBlanco">FACULTAD: <a class="textoBlanco" href="/facultades/{{ $facultad->id }}">{{ $facultad->nombre }}</a></h3>
                 <h3 class="textoBlanco">DECANO: {{ $facultad->decano->nombre() }} </h3>
                 <h3 class="textoBlanco">DIRECTOR ACADEMICO: {{$facultad->directorAcademico->nombre()}}  </h3>  
                 <h3 class="textoBlanco">ENCARGADO FACULTATIVO: {{$facultad->encargado->nombre()}}  </h3>  
