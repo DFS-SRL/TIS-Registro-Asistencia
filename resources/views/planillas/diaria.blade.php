@@ -83,7 +83,7 @@
                         <input type="hidden" name="asistencias[{{ $horario->id }}][horario_clase_id]" value="{{ $horario->id }}">
                     @endforeach
             </table>
-            <button class="btn boton float-right" id="subir">SUBIR</button>
+            <button class="btn boton float-right" id="subir">ENVIAR</button>
             </form>
             <button class="btn boton float-right mr-4" id="guardar-planilla" onclick="guardarPlanilla()">GUARDAR</button>
         @else

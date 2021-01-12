@@ -125,6 +125,7 @@ function habilitarBotonRegistrar(horarios) {
     // console.log(horarios);
     if (horarios > 0) {
         document.getElementById("registrar").style.display = "block";
+        document.getElementById("guardar-planilla").style.display = "block";
         // console.log("es vacio");
     }
 }

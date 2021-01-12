@@ -21,23 +21,27 @@
             <div class="textoBlanco justify-content-center esquina-redondeada" style="background:#7C7365;">
                 <a class="boton btn textoNegro" href="{{ route('informes.semanales', $unidad) }}">INFORMES SEMANALES</a>
                 <hr>
-                <div class="col-8 row justify-content-between">
-                    <h4>Enviar asistencias del mes anterior a decanatura</h4>
-                    <form method="POST" id="formulario" action="{{ route('informes.subir') }}">
-                        @csrf
-                        <input type="hidden" name="unidad_id" value="{{ $unidad->id }}">
-                        <input type="hidden" name="fecha" value="{{ date('Y-m-d') }}">
-                        @if ($errors->any())
-                            @foreach ($errors->getMessages() as $key => $error)
-                                @if ($key == 'nivel1')
-                                    <INPUT class="boton btn textoNegro" TYPE='submit' value='ENVIAR DE TODOS MODOS' name='delete'
-                                        onClick='return confirmSubmit(true)'>
-                                @endif
-                            @endforeach
-                        @else
-                            <INPUT class="boton btn textoNegro" TYPE='submit' value='ENVIAR' name='delete' onClick='return confirmSubmit(false)'>
-                        @endif
-                    </form>
+                <div class="col-10 row justify-content-between">
+                    @if ($parte)
+                        <h5>Ya se enviaron las asistencias a decanatura del: {{ $fechaInicio }} al: {{ $fechaFin }}</h5>
+                    @else
+                        <h5>Enviar asistencias del mes anterior a decanatura del: {{ $fechaInicio }} al: {{ $fechaFin }}</h5>
+                        <form method="POST" id="formulario" action="{{ route('informes.subir') }}">
+                            @csrf
+                            <input type="hidden" name="unidad_id" value="{{ $unidad->id }}">
+                            <input type="hidden" name="fecha" value="{{ date('Y-m-d') }}">
+                            @if ($errors->any())
+                                @foreach ($errors->getMessages() as $key => $error)
+                                    @if ($key == 'nivel1')
+                                        <INPUT class="boton btn textoNegro" TYPE='submit' value='ENVIAR DE TODOS MODOS' name='delete'
+                                            onClick='return confirmSubmit(true)'>
+                                    @endif
+                                @endforeach
+                            @else
+                                <INPUT class="boton btn textoNegro" TYPE='submit' value='ENVIAR' name='delete' onClick='return confirmSubmit(false)'>
+                            @endif
+                        </form>
+                    @endif
                 </div>
             </div>
     </div>
