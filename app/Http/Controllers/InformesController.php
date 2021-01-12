@@ -329,7 +329,7 @@ class InformesController extends Controller
         calcularFechasMes($fecha, $t, $fechaInicio, $fechaFinal);
 
         // obteniendo asistencias correspondientes a fechas
-        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)->get();
+        $asistencias = AsistenciaHelper::obtenerAsistenciasUnidadUsuario($unidad, $usuario, $fechaInicio, $fechaFinal)->paginate(20);
 
         // devolver la vista del docente 
         return view('informes.mensuales.mensualDoc', [

@@ -1,3 +1,5 @@
+@inject('ps', 'App\Http\Controllers\PersonalAcademicoController')
+
 @extends('layouts.master')
 
 @section('title', 'Informacion Dept')
@@ -28,9 +30,8 @@
                     @if(Auth::user()->usuario->tienePermisoNombre('ver informes semanales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/informes/{{$unidad->id}}'">INFORMES SEMANALES</button>
                     @endif
-                    
                 </div>
-                @if (Auth::user()->usuario->tienePermisoNombre('ver partes mensuales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
+                @if (Auth::user()->usuario->perteneceAUnidad($unidad->id) && Auth::user()->tieneAlMenosUnRol([3]))
                     @if (!$ultimosPartes->isEmpty())
                         <div class="mb-2 mt-5">
                             <strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong>
@@ -70,25 +71,27 @@
                         @if (!$personal->isEmpty())
                             <table class="table table-bordered">
                                 <thead class="thead-dark">
-                                    <tr>
+                                    <tr class="d-flex">
                                         <th class="border-dark col-6" scope="col">Nombre</th>
-                                        <th class="border-dark col-6" scope="col">Ítems/Grupos no llenados</th>
-                                        <th></th>
+                                        <th class="border-dark col-4" scope="col">Faltas (semana actual)</th>
+                                        <th class="border-dark col-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($personal as $p)
-                                        <tr>
-                                            <td class="border-dark">
-                                                {{ $p['usuario']->nombre }}
+                                        <tr class="d-flex">
+                                            <td class="border-dark col-6">
+                                                <a href="/personalAcademico/{{ $unidad['id'] }}{{ $ps->esDocente($p['usuario']->codSis, $unidad['id']) ? '/docente/' : '/auxiliar/' }}{{ $p['usuario']->codSis }}">
+                                                    {{ $p['usuario']->nombre() }}
+                                                </a>
                                             </td>
-                                            <td class="border-dark">
+                                            <td class="border-dark col-4">
                                                 {{ $p['faltas'] }}
                                             </td>
-                                            <td class="border-dark">
+                                            <td class="border-dark col-2">
                                                 <form action="/departamento/notificar" method="POST">
                                                     @csrf
-                                                    <button class="btn btn-warning boton textoBlanco">Notificar</button>
+                                                    <button class="btn btn-warning boton textoBlanco btn-block">Notificar</button>
     
                                                     <input type="text" class="d-none" name="unidad" value={{ $unidad['id'] }}>
                                                     <input type="text" class="d-none" name="personal" value={{ $p['usuario']->codSis }}>
