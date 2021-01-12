@@ -55,6 +55,7 @@ class AsistenciaHelper
             ->join('Horario_clase', 'horario_clase_id', '=', 'Horario_clase.id')
             ->join('Usuario', 'usuario_codSis', '=', 'codSis')
             ->where('codSis', '=', $usuario->codSis)
+            ->where('Horario_clase.activo', '=', true)
             ->join('Materia', 'Asistencia.materia_id', '=', 'Materia.id')
             ->join('Grupo', 'Asistencia.grupo_id', '=', 'Grupo.id')
             ->orderBy('Materia.nombre', 'ASC')

@@ -100,7 +100,9 @@
                         </tr>
                     @endforeach
                 </table>
-    
+                <div class="mt-2 d-flex justify-content-center">
+                    {{ $asistencias->links() }}
+                </div>
             @else
                 <br>
                 <br>

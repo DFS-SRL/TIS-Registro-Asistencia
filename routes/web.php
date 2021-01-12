@@ -178,7 +178,7 @@ Route::get('/llenar', function () {
     $users = [];
     foreach ($usuarios as $usuario) {
         $user = new App\User;
-        $user->name = $usuario->nombre;
+        $user->name = $usuario->nombre();
         $user->email = $usuario->correo_electronico;
         $user->password = bcrypt($usuario->contrasenia);
         $user->active = true;
