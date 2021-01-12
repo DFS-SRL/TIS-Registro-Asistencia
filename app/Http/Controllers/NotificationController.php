@@ -30,7 +30,7 @@ class NotificationController extends Controller
     public function leer(Notificaciones $id){
         $id->marcarComoLeida();
 
-        return back()->withInfo('Notificacion marcada como leída.');
+        return back()->with('success', 'Notificacion marcada como leída.');
     }
 
     public function marcarLeidasTodas (Usuario $usuario){
@@ -42,6 +42,6 @@ class NotificationController extends Controller
             $n->marcarComoLeida();
         }
 
-        return back()->withInfo('Todas las notificaciones marcadas como leidas.');
+        return back()->with('success', 'Todas las notificaciones marcadas como leidas.');
     }
 }

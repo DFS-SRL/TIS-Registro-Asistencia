@@ -157,7 +157,7 @@ class UnidadController extends Controller
             ]);
         }
 
-        return back()->withInfo('Se ha enviado una notificación al personal ' . $personal->nombre);
+        return back()->with('success', 'Se ha enviado una notificación al personal ' . $personal->nombre);
     }
 
     public function paginate($items, $perPage = 5, $page = null, $options = [])
