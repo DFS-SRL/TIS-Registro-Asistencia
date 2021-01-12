@@ -30,9 +30,8 @@
                     @if(Auth::user()->usuario->tienePermisoNombre('ver informes semanales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
                     <button class="boton btn btn-success textoNegro" onclick="window.location.href='/informes/{{$unidad->id}}'">INFORMES SEMANALES</button>
                     @endif
-                    
                 </div>
-                @if (Auth::user()->usuario->tienePermisoNombre('ver partes mensuales') && Auth::user()->usuario->perteneceAUnidad($unidad->id))
+                @if (Auth::user()->usuario->perteneceAUnidad($unidad->id) && Auth::user()->tieneAlMenosUnRol([3]))
                     @if (!$ultimosPartes->isEmpty())
                         <div class="mb-2 mt-5">
                             <strong class="textoBlanco">ULTIMOS PARTES MENSUALES</strong>
